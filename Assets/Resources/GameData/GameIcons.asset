@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80db4a1bec95e87409f5979e10de2f87, type: 3}
+  m_Name: GameIcons
+  m_EditorClassIdentifier: 
+  currencyIcons:
+  - icon: {fileID: 182769452, guid: 1e664ad4b8b58494e9fda97e65626356, type: 3}
+    currencyType: 0
+  - icon: {fileID: 1380920164, guid: 56f8032e3bb219d46b0ebd0825949aaf, type: 3}
+    currencyType: 1
+  - icon: {fileID: 1380920164, guid: 56f8032e3bb219d46b0ebd0825949aaf, type: 3}
+    currencyType: 2
+  - icon: {fileID: 1968522355, guid: bafcaad046461d547a9f834f14cd2148, type: 3}
+    currencyType: 4
+  shopItemTypeIcons:
+  - icon: {fileID: 182769452, guid: 1e664ad4b8b58494e9fda97e65626356, type: 3}
+    shopItemType: 0
+  - icon: {fileID: 182769452, guid: 1e664ad4b8b58494e9fda97e65626356, type: 3}
+    shopItemType: 3
+  - icon: {fileID: 1380920164, guid: 56f8032e3bb219d46b0ebd0825949aaf, type: 3}
+    shopItemType: 4
+  - icon: {fileID: 99169608, guid: b843c7624671229478a123ef7ec6525a, type: 3}
+    shopItemType: 5
+  - icon: {fileID: 778751964, guid: b843c7624671229478a123ef7ec6525a, type: 3}
+    shopItemType: 6
+  - icon: {fileID: -1365105137, guid: b843c7624671229478a123ef7ec6525a, type: 3}
+    shopItemType: 7
+  - icon: {fileID: 1240186340, guid: b843c7624671229478a123ef7ec6525a, type: 3}
+    shopItemType: 8
+  characterClassIcons:
+  - icon: {fileID: -835880337, guid: 56f8032e3bb219d46b0ebd0825949aaf, type: 3}
+    characterClass: 1
+  - icon: {fileID: -856264794, guid: 56f8032e3bb219d46b0ebd0825949aaf, type: 3}
+    characterClass: 2
+  - icon: {fileID: -990626207, guid: 56f8032e3bb219d46b0ebd0825949aaf, type: 3}
+    characterClass: 3
+  - icon: {fileID: 1827510252, guid: 56f8032e3bb219d46b0ebd0825949aaf, type: 3}
+    characterClass: 4
+  - icon: {fileID: -1336034504, guid: 56f8032e3bb219d46b0ebd0825949aaf, type: 3}
+    characterClass: 5
+  rarityIcons:
+  - icon: {fileID: 174416821, guid: 6edd3eaf695f162478b1e035f64284f9, type: 3}
+    rarity: 1
+  - icon: {fileID: -1277702185, guid: 6edd3eaf695f162478b1e035f64284f9, type: 3}
+    rarity: 2
+  - icon: {fileID: -689192969, guid: 6edd3eaf695f162478b1e035f64284f9, type: 3}
+    rarity: 3
+  - icon: {fileID: 1854781899, guid: 6edd3eaf695f162478b1e035f64284f9, type: 3}
+    rarity: 4
+  attackTypeIcons:
+  - icon: {fileID: -1434182628, guid: 27554c6834026a04eaf90040ec400a1b, type: 3}
+    attackType: 1
+  - icon: {fileID: -941490475, guid: 27554c6834026a04eaf90040ec400a1b, type: 3}
+    attackType: 2
+  - icon: {fileID: -1190185628, guid: 27554c6834026a04eaf90040ec400a1b, type: 3}
+    attackType: 3
