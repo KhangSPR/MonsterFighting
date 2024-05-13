@@ -29,7 +29,7 @@ public class GameData
     //public bool isToggled;
     //public string dropdownSelection;
     //public int buttonSelection;
-
+    public Settings settings;
     // constructor, starting values
     public GameData()
     {

@@ -13,17 +13,18 @@ namespace UIGameDataManager
     [RequireComponent(typeof(GameDataManager))]
     public class SaveManager : MonoBehaviour
     {
-        GameDataManager m_GameDataManager;
+
         [SerializeField] string m_SaveFilename = "savegame.dat";
         [Tooltip("Show Debug messages.")]
         [SerializeField] bool m_DebugValues;
 
-        public static event Action<GameData> GameDataLoaded;
+        public static event Action<GameData> OnGameDataLoaded;
 
-        void Awake()
+        void Start()
         {
-            m_GameDataManager = GetComponent<GameDataManager>();
+            LoadGame();
         }
+
         void OnApplicationQuit()
         {
             SaveGame();
@@ -54,18 +55,18 @@ namespace UIGameDataManager
         {
             // load saved data from FileDataHandler
 
-            if (m_GameDataManager.GameData == null)
+            if (GameDataManager.Instance.GameData == null)
             {
                 if (m_DebugValues)
                 {
                     Debug.Log("GAME DATA MANAGER LoadGame: Initializing game data.");
                 }
 
-                m_GameDataManager.GameData = NewGame();
+                GameDataManager.Instance.GameData = NewGame();
             }
             else if (FileManager.LoadFromFile(m_SaveFilename, out var jsonString))
             {
-                m_GameDataManager.GameData.LoadJson(jsonString);
+                GameDataManager.Instance.GameData.LoadJson(jsonString);
 
                 if (m_DebugValues)
                 {
@@ -74,15 +75,15 @@ namespace UIGameDataManager
             }
 
             // notify other game objects 
-            if (m_GameDataManager.GameData != null)
+            if (GameDataManager.Instance.GameData != null)
             {
-                GameDataLoaded?.Invoke(m_GameDataManager.GameData);
+                OnGameDataLoaded?.Invoke(GameDataManager.Instance.GameData);
             }
         }
 
         public void SaveGame()
         {
-            string jsonFile = m_GameDataManager.GameData.ToJson();
+            string jsonFile = GameDataManager.Instance.GameData.ToJson();
 
             // save to disk with FileDataHandler
             if (FileManager.WriteToFile(m_SaveFilename, jsonFile) && m_DebugValues)
@@ -92,7 +93,7 @@ namespace UIGameDataManager
         }
         void OnSettingsUpdated(GameData gameData)
         {
-            m_GameDataManager.GameData = gameData;
+            GameDataManager.Instance.GameData = gameData;
             SaveGame();
         }
 

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Setting Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: Setting
+  m_TableCollectionNameGuidString: 4378c4b4b09599943821a0ba0f027588
+  m_Entries:
+  - m_Id: 15884361728
+    m_Key: 'title
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 184038203392
+    m_Key: display.resolution
+    m_Metadata:
+      m_Items: []
+  - m_Id: 350036172800
+    m_Key: display.fullscreen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 440494727168
+    m_Key: audio.music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 690273918976
+    m_Key: audio.sfx
+    m_Metadata:
+      m_Items: []
+  - m_Id: 774629761024
+    m_Key: audio.mute
+    m_Metadata:
+      m_Items: []
+  - m_Id: 826471358464
+    m_Key: language.lang
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1124266942464
+    m_Key: language.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1319121723392
+    m_Key: audio.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1476890468352
+    m_Key: display.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1564673056768
+    m_Key: warning
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 1735351633546838040
+  references:
+    version: 2
+    RefIds:
+    - rid: 1735351633546838040
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1714923603668

@@ -18,10 +18,13 @@ namespace UIGameDataManager
         public static event Action<bool> LevelUpButtonEnabled;
         public static event Action<bool> StarUpButtonEnabled;
 
+
+
         [SerializeField] GameData m_GameData;
         public GameData GameData { set => m_GameData = value; get => m_GameData; }
 
         SaveManager m_SaveManager;
+        public SaveManager SaveManager => m_SaveManager;
 
         private static GameDataManager instance;
         public static GameDataManager Instance => instance;
