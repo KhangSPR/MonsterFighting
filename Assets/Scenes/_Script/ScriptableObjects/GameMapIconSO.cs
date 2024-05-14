@@ -15,13 +15,15 @@ namespace UIGameDataMap
     {
         public List<ReWardIcon> rewardIcons;
 
-        public Sprite GetReWardIcon(ResourceType resourceType)
+        public Sprite GetReWardIcon(Item item)
         {
-            if (rewardIcons == null || rewardIcons.Count == 0)
+
+            return item.Image;
+            /*if (rewardIcons == null || rewardIcons.Count == 0)
                 return null;
 
             ReWardIcon match = rewardIcons.Find(x => x.resourceType == resourceType);
-            return match.icon;
+            return match.icon;*/
         }
     }
 

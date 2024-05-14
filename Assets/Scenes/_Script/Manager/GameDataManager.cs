@@ -2,6 +2,7 @@
 using System;
 using UnityEditor;
 using TMPro;
+using UIGameDataMap;
 
 namespace UIGameDataManager
 {
@@ -25,6 +26,7 @@ namespace UIGameDataManager
 
         private static GameDataManager instance;
         public static GameDataManager Instance => instance;
+        public MapSO currentMapSO;
 
         void Awake()
         {
@@ -119,7 +121,7 @@ namespace UIGameDataManager
         public uint ItemADD;
         void AddItem()
         {
-            m_GameData.enemyStone += 500;
+            m_GameData.enemyStone += 10;
             m_GameData.enemyBoss += ItemADD;
             m_GameData.gold += 500;
 

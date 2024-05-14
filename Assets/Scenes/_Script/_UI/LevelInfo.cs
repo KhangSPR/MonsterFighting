@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UIGameDataManager;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -16,14 +17,14 @@ namespace UIGameDataMap
         [SerializeField] Transform HolderPortals;
         [SerializeField] GameObject objPortalTooltip;
         [SerializeField] Window_Portals window_Portals;
-     
+
         [Header("Item")]
         [SerializeField] Transform HolderItem;
         [SerializeField] GameObject ObjItem;
 
         [Header("MapSO")]
         [SerializeField] MapSO mapSO;
-        public MapSO MapSO { get { return mapSO; }  }
+        public MapSO MapSO { get { return mapSO; } }
 
         public void SetLevelData(MapSO mapSO)
         {
@@ -35,7 +36,9 @@ namespace UIGameDataMap
         private void SetMapSo(MapSO MapSO)
         {
             mapSO = MapSO;
+            GameDataManager.Instance.currentMapSO = mapSO;
         }
+
         private void LoadProtals(MapSO mapSO)
         {
             foreach (Transform child in HolderPortals)
@@ -65,17 +68,19 @@ namespace UIGameDataMap
         }
         private void LoadItems(MapSO mapSO)
         {
+            Debug.Log($"Holder Item Child Count :<b>{HolderItem.childCount}</b>");
             foreach (Transform child in HolderItem)
             {
                 Destroy(child.gameObject);
             }
-
             foreach (Resources resource in mapSO.Reward)
             {
+                Debug.Log($"mapSO :{resource}");
                 GameObject itemObject = Instantiate(ObjItem, HolderItem);
 
                 //Set Resources
-                itemObject.transform.Find("Img").GetComponent<Image>().sprite = gameMapIconSO.GetReWardIcon(resource.resourceType);
+                itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;//gameMapIconSO.GetReWardIcon(resource.item);
+                Debug.Log("Reward Icon", resource.item.Image);
                 itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
 
             }

@@ -9,7 +9,7 @@ namespace UIGameDataMap
     [Serializable]
     public class Resources
     {
-        public ResourceType resourceType;
+        public Item item;
         public int Count;
 
     }
