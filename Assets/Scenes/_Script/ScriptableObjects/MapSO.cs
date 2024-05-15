@@ -86,6 +86,9 @@ namespace UIGameDataMap
         public Portals[] portals;
         public Resources[] Reward;
 
+        public bool isOneTimeRewardGot = false;
+        public Resources[] OneTimeReward;
+
         public Color GetColorForRarity(Rarity rarity)
         {
             switch (rarity)

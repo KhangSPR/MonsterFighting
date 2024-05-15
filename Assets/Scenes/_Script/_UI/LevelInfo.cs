@@ -20,6 +20,7 @@ namespace UIGameDataMap
 
         [Header("Item")]
         [SerializeField] Transform HolderItem;
+        [SerializeField] Transform HolderItemOneTime;
         [SerializeField] GameObject ObjItem;
 
         [Header("MapSO")]
@@ -73,6 +74,10 @@ namespace UIGameDataMap
             {
                 Destroy(child.gameObject);
             }
+            foreach (Transform child in HolderItemOneTime)
+            {
+                Destroy(child.gameObject);
+            }
             foreach (Resources resource in mapSO.Reward)
             {
                 Debug.Log($"mapSO :{resource}");
@@ -83,6 +88,13 @@ namespace UIGameDataMap
                 Debug.Log("Reward Icon", resource.item.Image);
                 itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
 
+            }
+            foreach (Resources resource in mapSO.OneTimeReward)
+            {
+                Debug.Log("Item : " + resource);
+                GameObject itemObject = Instantiate(ObjItem, HolderItemOneTime);
+                itemObject.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGot? resource.item.Image: resource.item.ImageBnW;
+                itemObject.transform.Find("Count").GetComponent<Text>().text = resource.Count.ToString();
             }
         }
         public void OnButtonClickUIChosseMap()

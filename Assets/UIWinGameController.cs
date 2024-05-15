@@ -1,9 +1,10 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 
 using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class UIWinGameController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class UIWinGameController : MonoBehaviour
     [SerializeField] MapSO mapSO;
     [Header("UI")]
     [SerializeField] Transform RewardHolder;
+    [SerializeField] Transform RewardHolderFirstTime;
     [SerializeField] Transform Status;
     [SerializeField] Transform Sword1;
     [SerializeField] Transform Sword2;
@@ -22,6 +24,7 @@ public class UIWinGameController : MonoBehaviour
     [SerializeField] Transform TitleGameFinish;
     [SerializeField] Transform Replay;
     [SerializeField] Transform NextGame;
+    [SerializeField] Transform FirstTimeReward_Text;
     private void Awake()
     {
         mapSO = GameDataManager.Instance.currentMapSO;
@@ -40,6 +43,8 @@ public class UIWinGameController : MonoBehaviour
         TitleGameFinish.gameObject.SetActive(false);
         Replay.gameObject.SetActive(false);
         NextGame.gameObject.SetActive(false);
+        RewardHolderFirstTime.gameObject.SetActive(false);
+        FirstTimeReward_Text.gameObject.SetActive(false);
     }
     [ContextMenu("DoAnimation")]
     private void DoAnimation()
@@ -58,7 +63,7 @@ public class UIWinGameController : MonoBehaviour
                 {
                     Sword2.DOMove(Sword2.transform.position + Sword2.up * 2.3f, 0.1f).SetEase(Ease.Linear).OnComplete(() =>
                     {
-                        Status.DOMove(Status.transform.position + Status.up * 2.6f, 0.3f).SetEase(Ease.Linear).SetDelay(0.2f).OnStart(() => 
+                        Status.DOMove(Status.transform.position + Status.up * 3.3f, 0.3f).SetEase(Ease.Linear).SetDelay(0.2f).OnStart(() => 
                         { 
                             Sword1.DOScale(Vector3.one, 0.3f).SetEase(Ease.Linear);
                             Sword2.DOScale(Vector3.one, 0.3f).SetEase(Ease.Linear);
@@ -70,8 +75,13 @@ public class UIWinGameController : MonoBehaviour
                                 {
                                     item.DOScale(Vector3.zero, 0f);
                                 }
+                                foreach (Transform item in RewardHolderFirstTime)
+                                {
+                                    item.DOScale(Vector3.zero, 0f);
+                                }
                                 RewardHolder.localScale = new Vector3(0, 1,1);
-                                RewardHolder.DOScale(Vector3.one, 1.3f).OnComplete(() =>
+                                RewardHolderFirstTime.localScale = new Vector3(0, 1, 1);
+                                RewardHolder.DOScale(Vector3.one, 1.3f).SetDelay(0.2f).OnComplete(() =>
                                 {
                                     Sequence sq = DOTween.Sequence();
                                     foreach(Transform item in RewardHolder)
@@ -83,10 +93,27 @@ public class UIWinGameController : MonoBehaviour
                                     }
                                     sq.OnComplete(() =>
                                     {
-                                        MapUI.gameObject.SetActive(true);
-                                        ChooseCard.gameObject.SetActive(true);
-                                        NextGame.gameObject.SetActive(true);
-                                        Replay.gameObject.SetActive(true);
+                                        FirstTimeReward_Text.gameObject.SetActive(true);
+                                        RewardHolderFirstTime.gameObject.SetActive(true);
+                                        RewardHolderFirstTime.DOScale(Vector3.one, 1.3f).SetDelay(0.2f).OnComplete(() =>
+                                        {
+                                            Sequence sq = DOTween.Sequence();
+                                            foreach (Transform firstTimeItem in RewardHolderFirstTime)
+                                            {
+                                                sq.Append(firstTimeItem.DOScale(Vector3.one * 1.2f, 0.4f).SetEase(Ease.Linear).OnComplete(() =>
+                                                {
+                                                    firstTimeItem.DOScale(Vector3.one, 0.1f).SetEase(Ease.Linear);
+                                                })).OnComplete(() =>
+                                                {
+                                                    SetRewardOneTimme();
+                                                    MapUI.gameObject.SetActive(true);
+                                                    ChooseCard.gameObject.SetActive(true);
+                                                    NextGame.gameObject.SetActive(true);
+                                                    Replay.gameObject.SetActive(true);
+                                                });
+                                            }
+                                        });
+                                        
                                     });
                                 });
                             });
@@ -96,7 +123,11 @@ public class UIWinGameController : MonoBehaviour
             });
         });
     }
-
+    void SetRewardOneTimme()
+    {
+        GameDataManager.Instance.currentMapSO.isOneTimeRewardGot = true;
+        Debug.Log("Dòng lệnh này sẽ dùng để Add vào Inventory");
+    }
     void SpawnRewardItem()
     {
         Debug.Log(mapSO.Reward.Length);
@@ -106,7 +137,7 @@ public class UIWinGameController : MonoBehaviour
             Debug.Log(item.item);
             Debug.Log(item.item.Image);
             Debug.Log(item.Count);
-            GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
+            GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;// sau này cần sửa đoạn code này
 
 
             GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
@@ -114,5 +145,13 @@ public class UIWinGameController : MonoBehaviour
             rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
 
         }
+        
+        foreach (var itemFirstTime in mapSO.OneTimeReward)
+        {
+            GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolderFirstTime).gameObject;
+            rewardItem.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGot? itemFirstTime.item.Image: itemFirstTime.item.ImageBnW;
+            rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{itemFirstTime.Count}";
+        }
+        
     }
 }
