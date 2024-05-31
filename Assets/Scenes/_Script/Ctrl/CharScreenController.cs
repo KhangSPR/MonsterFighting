@@ -30,8 +30,8 @@ namespace UIGameDataManager
         public List<CharacterData> M_Characters { get { return m_Characters; } set { m_Characters = value; } }
         public CharacterData CurrentCharacter { get => M_Characters[m_CurrentIndex]; }
 
-        CardStatsTower m_Stats;
-        public CardStatsTower Stats { get { return m_Stats; } set { m_Stats = value;  } }
+        CardStatCharacters m_Stats;
+        public CardStatCharacters Stats { get { return m_Stats; } set { m_Stats = value;  } }
 
         [SerializeField] int m_CurrentIndex;
         int m_ActiveGearSlot;
@@ -115,7 +115,7 @@ namespace UIGameDataManager
             }
 
             // Hiển thị lại đối tượng
-            //InitializeCharPreview();
+            InitializeCharPreview();
         }
 
         // preview GameObject for each character
@@ -133,7 +133,7 @@ namespace UIGameDataManager
                 if (charData.PreviewInstance == null)
                 {
                     // Nếu chưa, tạo mới và gán vào PreviewInstance
-                    //charData.PreviewInstance = Instantiate(charData.CharacterBaseData.characterVisualsPrefab);
+                    charData.PreviewInstance = Instantiate(charData.CharacterBaseData.characterVisualsPrefab, m_previewTransform.position, Quaternion.identity);
                     charData.PreviewInstance.transform.SetParent(m_previewTransform);
                     charData.PreviewInstance.SetActive(false);
                 }
@@ -284,7 +284,7 @@ namespace UIGameDataManager
             CharacterShown?.Invoke(CurrentCharacter);
             //UpdateLevelMeter();
         }
-        void OnCharStatsWindowUpdated(CardStatsTower charStatsWindow)
+        void OnCharStatsWindowUpdated(CardStatCharacters charStatsWindow)
         {
             // Cập nhật Stats từ CharStatsWindow
             m_Stats = charStatsWindow;

@@ -21,7 +21,7 @@ public class EquipmentSO : ScriptableObject
 {
     public string equipmentName;
     public EquipmentType equipmentType;
-    public Rarity rarity;
+    public RarityCard rarity;
     public int points;
     public Sprite sprite;
 }

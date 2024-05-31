@@ -4,9 +4,7 @@ namespace UIGameDataManager
     public enum StatKeys
     {
         Attack,
-        CriticalHit,
         Life,
-        Defense,
         AttackSpeed,
         SpecialAttack
     }

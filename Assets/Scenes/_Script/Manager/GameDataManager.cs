@@ -103,8 +103,6 @@ namespace UIGameDataManager
         {
             m_SaveManager?.LoadGame();
 
-            RemoveItem();
-
             AddItem(); //Call Before UpdateFunds
 
             UpdateFunds();
@@ -122,9 +120,12 @@ namespace UIGameDataManager
         public uint ItemADD;
         void AddItem()
         {
-            m_GameData.enemyStone += 500;
+            RemoveItem();
+
+            m_GameData.enemyStone += ItemADD;
             m_GameData.enemyBoss += ItemADD;
-            m_GameData.gold += 500;
+            m_GameData.gold += ItemADD;
+            m_GameData.xpLv1 += ItemADD;
 
         }
         /// <summary>
@@ -172,6 +173,8 @@ namespace UIGameDataManager
         {
             if (m_GameData == null || character == null)
                 return false;
+
+            Debug.Log("CanLevelUp: " + m_GameData.xpLv1 + "//"+ character.GetXPForNextLevel());
 
             return (character.GetXPForNextLevel() <= m_GameData.xpLv1);
         }
@@ -250,6 +253,8 @@ namespace UIGameDataManager
         {
 
             LevelUpButtonEnabled?.Invoke(CanLevelUp(charData));
+
+            Debug.Log("OnCharacterShown" + CanLevelUp(charData));
 
         }
         void OnCharacterShowStar(CharacterData charData)
@@ -533,11 +538,9 @@ namespace UIGameDataManager
                         characterCard.bio,
                         characterCard.skill1,
                         characterCard.skill2,
-                        characterCard.skill3,
-                        characterCard.cardRare,
-                        characterCard.cardAttack,
-                        characterCard.cardClass,
-                        //characterCard.characterVisualsPrefab,
+                        characterCard.rarityCard,
+                        characterCard.attackTypeCard,
+                        characterCard.characterVisualsPrefab,
                         characterCard.cardStat
                     );
                     return characterCard;

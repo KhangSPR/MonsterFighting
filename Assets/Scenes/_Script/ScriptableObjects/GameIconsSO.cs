@@ -20,17 +20,10 @@ namespace UIGameDataManager
         public ShopItemType shopItemType;
     }
     [Serializable]
-    public struct CharacterClassIcon
-    {
-        public Sprite icon;
-        public CharacterClass characterClass;
-    }
-
-    [Serializable]
     public struct RarityIcon
     {
         public Sprite icon;
-        public Rarity rarity;
+        public RarityCard rarity;
     }
 
     [Serializable]
@@ -40,16 +33,45 @@ namespace UIGameDataManager
         public AttackType attackType;
     }
 
+    //[Serializable]
+    //public struct FrameIcon
+    //{
+    //    public Sprite icon;
+    //    public FrameType frameType;
+    //}
+    [Serializable]
+    public struct StarIcon
+    {
+        public Sprite icon;
+        public RarityCard rarityType;
+    }
 
-    // returns an icon matching a ShopItem,CurrencyIcon, CharacterClass, Rarity, or AttackType
+    // returns an icon matching 
     [CreateAssetMenu(fileName = "Assets/Resources/GameData/Icons", menuName = "UIToolkitDemo/Icons", order = 10)]
     public class GameIconsSO : ScriptableObject
     {
         public List<CurrencyIcon> currencyIcons;
         public List<ShopItemTypeIcon> shopItemTypeIcons;
-        public List<CharacterClassIcon> characterClassIcons;
         public List<RarityIcon> rarityIcons;
         public List<AttackTypeIcon> attackTypeIcons;
+        //public List<FrameIcon> frameIcons;
+        public List<StarIcon> starIcons;
+        //public Sprite GetFrameIcon(FrameType currencyType)
+        //{
+        //    if (frameIcons == null || frameIcons.Count == 0)
+        //        return null;
+
+        //    FrameIcon match = frameIcons.Find(x => x.frameType == currencyType);
+        //    return match.icon;
+        //}
+        public Sprite GetStarIcon(RarityCard currencyType)
+        {
+            if (starIcons == null || starIcons.Count == 0)
+                return null;
+
+            StarIcon match = starIcons.Find(x => x.rarityType == currencyType);
+            return match.icon;
+        }
 
         public Sprite GetCurrencyIcon(CurrencyType currencyType)
         {
@@ -69,21 +91,12 @@ namespace UIGameDataManager
             return match.icon;
         }
         // get Character icon
-        public Sprite GetRarityIcon(Rarity rarity)
+        public Sprite GetRarityIcon(RarityCard rarity)
         {
             if (rarityIcons == null || rarityIcons.Count == 0)
                 return null;
 
             RarityIcon match = rarityIcons.Find(x => x.rarity == rarity);
-            return match.icon;
-        }
-        // get rarity icon
-        public Sprite GetCharacterClassIcon(CharacterClass charClass)
-        {
-            if (characterClassIcons == null || characterClassIcons.Count == 0)
-                return null;
-
-            CharacterClassIcon match = characterClassIcons.Find(x => x.characterClass == charClass);
             return match.icon;
         }
         // get attackTypeIcon
@@ -97,5 +110,22 @@ namespace UIGameDataManager
         }
 
     }
+    #region Comment
+    //[Serializable]
+    //public struct CharacterClassIcon
+    //{
+    //    public Sprite icon;
+    //    public CharacterClass characterClass;
+    //}
+    //public List<CharacterClassIcon> characterClassIcons;
+    // get rarity icon
+    //public Sprite GetCharacterClassIcon(CharacterClass charClass)
+    //{
+    //    if (characterClassIcons == null || characterClassIcons.Count == 0)
+    //        return null;
 
+    //    CharacterClassIcon match = characterClassIcons.Find(x => x.characterClass == charClass);
+    //    return match.icon;
+    //}
+    #endregion
 }

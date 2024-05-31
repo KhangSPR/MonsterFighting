@@ -112,7 +112,7 @@ public class CardManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach (CardCharacter card in cardManagerALL.CardsTower)
+        foreach (CardCharacter card in cardManagerALL.listCardCharacter)
         {
             //for (int i = 0; i < 10; i++)
             //{
@@ -127,7 +127,7 @@ public class CardManager : MonoBehaviour
             TakeCardSelectPlay(cardSelectTowerScript);
 
             //Settings
-            cardObject.transform.Find("Frame").GetComponent<Image>().sprite = card.frame;
+            //cardObject.transform.Find("Frame").GetComponent<Image>().sprite = card.frame;
             cardObject.transform.Find("Background").GetComponent<Image>().sprite = card.background;
             //cardObject.transform.Find("Top/Avatar").GetComponent<Image>().sprite = card.avatar;
 

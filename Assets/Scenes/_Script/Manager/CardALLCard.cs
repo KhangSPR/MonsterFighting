@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CardManagerALLCard", menuName = "Custom/CardManagerALLCard", order = 1)]
 public class CardALLCard : ScriptableObject
 {
-    public List<CardCharacter> CardsTower = new List<CardCharacter>();
+    public List<CardCharacter> listCardCharacter = new List<CardCharacter>();
     public List<CardMachine> CardsMachine = new List<CardMachine>();
 
     private void OnEnable()
@@ -26,10 +26,10 @@ public class CardALLCard : ScriptableObject
 
 
         // Gán danh sách các Card đã load vào biến allCards
-        CardsTower = new List<CardCharacter>(loadedCards);
+        listCardCharacter = new List<CardCharacter>(loadedCards);
 
         // Hiển thị thông báo log (có thể loại bỏ sau khi kiểm tra)
-        Debug.Log("Loaded " + CardsTower.Count + " Card ScriptableObjects from " + resPath);
+        Debug.Log("Loaded " + listCardCharacter.Count + " Card ScriptableObjects from " + resPath);
 
 
     }
@@ -45,13 +45,13 @@ public class CardALLCard : ScriptableObject
         CardsMachine = new List<CardMachine>(loadedCards);
 
         // Hiển thị thông báo log (có thể loại bỏ sau khi kiểm tra)
-        Debug.Log("Loaded " + CardsTower.Count + " Card ScriptableObjects from " + resPath);
+        Debug.Log("Loaded " + listCardCharacter.Count + " Card ScriptableObjects from " + resPath);
 
 
     }
     public void LoadDataCard()
     {
-        CardsTower = SortCardCharacterByCost(CardsTower);
+        listCardCharacter = SortCardCharacterByCost(listCardCharacter);
         CardsMachine = SortCardMachineByCost(CardsMachine);
     }
     List<CardCharacter> SortCardCharacterByCost(List<CardCharacter> originalList)
@@ -67,9 +67,13 @@ public class CardALLCard : ScriptableObject
     //{
     //    return originalList.OrderBy(x => x.price).ToList();
     //}
-    public List<CardCharacter> GetTowerCards()
+    public List<CardCharacter> GetCharacterCards()
     {
-        return CardsTower;
+        return listCardCharacter;
+    }
+    public List<CardCharacter> GetCharacterAttackType(AttackType attackType)
+    {
+        return listCardCharacter.Where(x => x.GetAttackType() == attackType).ToList();
     }
     public List<CardMachine> GetMachineCards()
     {

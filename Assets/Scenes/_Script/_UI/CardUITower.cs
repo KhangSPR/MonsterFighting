@@ -1,21 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UIGameDataManager;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class CardUITower : MonoBehaviour
 {
     [Header("Frame")]
     [SerializeField] Image frame;
-
-    [Header("Transform")]
-    [SerializeField] Transform Top;
-    [SerializeField] Transform Center;
-    [SerializeField] Transform Bottom;
+    [SerializeField] Image background;
+    [SerializeField] TMP_Text nameCard;
 
     [Header("Star")]
     [SerializeField] GameObject StarPrefabs;
@@ -33,26 +26,28 @@ public class CardUITower : MonoBehaviour
         // Thêm hàm OnButtonClick() vào sự kiện click của Button
         button.onClick.AddListener(OnButtonClick);
     }
-    public void SetCardInfo(GameObject cardObject, CardCharacter card)
+    public void SetCardInfo(GameObject cardObject, CardCharacter card, GameIconsSO gameIconsSO)
     {
         //Frame
         frame.sprite = card.frame;
-        //Top
-        Top.Find("BackGround").GetComponent<Image>().sprite = card.background;
-        //Top.Find("Avatar").GetComponent<Image>().sprite = card.avatar;
-        //Top.Find("Rare").GetComponent<Image>().sprite = card.rareTop;
+        background.sprite = card.background;
+        nameCard.text = card.name;
 
-        //Center
-        //Center.Find("BackGround").GetComponent<Image>().sprite = card.rareCenter;
-        Center.Find("Text").GetComponent<TMP_Text>().text = card.nameCard;
+        InstantiateStart(card, gameIconsSO);
+    }
+    void InstantiateStart(CardCharacter card, GameIconsSO gameIconsSO)
+    {
+        foreach(Transform star in StarHolder)
+        {
+            Destroy(star.gameObject);
+        }
 
-        //Bottom
-        Bottom.Find("TextInfo").GetComponent<TMP_Text>().text = card.bioTitle;
-
-        // Check Star
         for (int i = 0; i < card.Star; i++)
         {
-            Instantiate(StarPrefabs, StarHolder);
+            
+            GameObject newObject = Instantiate(StarPrefabs, StarHolder);
+
+            newObject.GetComponent<Image>().sprite = gameIconsSO.GetStarIcon(card.rarityCard);
         }
     }
     protected void OnButtonClick()

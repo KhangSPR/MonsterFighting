@@ -15,11 +15,11 @@ MonoBehaviour:
   nameCard: Warrior
   cardRefresh: 2
   price: 1
-  frame: {fileID: 21300000, guid: 849036ce0de5d5443a29e4702bdb76c4, type: 3}
+  frame: {fileID: 517221227, guid: ed8cb102148bfea4ab0d6d0cd6322dd3, type: 3}
   background: {fileID: 21300000, guid: 2460815ef33e2834687e653e97709a11, type: 3}
   avatar: {fileID: 1517290819, guid: faaab5dd724e46a42892d37a1c44ab8e, type: 3}
-  Level: 1
-  Star: 0
+  Level: 2
+  Star: 1
   basePointsAttack: 3
   basePointsLife: 55
   basePointsAttackSpeed: 2
@@ -32,9 +32,8 @@ MonoBehaviour:
     close combat tactics.'
   skill1: {fileID: 11400000, guid: c3dbffbda5cf4164580ec9609ed55cee, type: 2}
   skill2: {fileID: 11400000, guid: c88ce1d2a12a65740a24bcf09be4c02a, type: 2}
-  skill3: {fileID: 11400000, guid: 2109f6b01cb704540b3519667fd14fe8, type: 2}
-  cardRare: 1
-  cardAttack: 1
-  cardClass: 2
-  characterVisualsPrefab: {fileID: 0}
-  cardStat: {fileID: 0}
+  rarityCard: 0
+  attackTypeCard: 1
+  characterVisualsPrefab: {fileID: 6440287560860956895, guid: f158c4e1360a8164ca43b732d38e33bc,
+    type: 3}
+  cardStat: {fileID: 11400000, guid: 10323901084e6854bbbc9a1e0c7bc83e, type: 2}

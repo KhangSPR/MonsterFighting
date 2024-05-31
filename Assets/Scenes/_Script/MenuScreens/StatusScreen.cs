@@ -2,6 +2,7 @@
 //using UnityEngine.UIElements;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 namespace UIGameDataManager
 {
@@ -16,7 +17,7 @@ namespace UIGameDataManager
         public static event Action updateStat;
         public static event Action updateStatMaxlv;
         //public static event Action updateViewStarUp;
-        public static event Action<CardStatsTower> CharStatsWindowUpdated;
+        public static event Action<CardStatCharacters> CharStatsWindowUpdated;
 
 
         [Header("Exit Panel")]
@@ -24,23 +25,25 @@ namespace UIGameDataManager
 
         [Header("LVup")]
         [SerializeField] Button m_LevelUpButton;
-        [SerializeField] Text m_PotionsForNextLevel;
-        [SerializeField] Text m_PotionCount;
-        [SerializeField] Text m_LevelTextButton;
+        [SerializeField] TMP_Text m_Potions;
+        [SerializeField] TMP_Text m_PotionsNextLV;
+        [SerializeField] TMP_Text m_LevelTextButton;
         [SerializeField] Image m_LevelImgButton;
         [SerializeField] GameObject m_LevelUpButtonVFX;
-
         [Header("StarUp")]
         [SerializeField] Button m_StarUpButton;
-        [SerializeField] Text m_GemsForNextLevel;
-        [SerializeField] Text m_GemCount;
-        [SerializeField] Text m_StarTextButton;
+        [SerializeField] TMP_Text m_Gems;
+        [SerializeField] TMP_Text m_GemsNextStar;
+        [SerializeField] TMP_Text m_StarTextButton;
         [SerializeField] Image m_StarImgButton;
         [SerializeField] GameObject m_StarUpButtonVFX;
 
-
-        [SerializeField] CardStatsTower m_CharStatsWindow;
-        [Header("Scripts/SOBJ")]
+        [Space]
+        [Space]
+        [Space]
+        [Space]
+        [Header("Component")]
+        [SerializeField] CardStatCharacters m_CharStatsWindow;
         [SerializeField] GameIconsSO m_GameIconsData;
 
         [Header("OBJ")]
@@ -221,26 +224,26 @@ namespace UIGameDataManager
         }
         void OnPotionUpdated(GameData gameData)
         {
-            if (m_PotionCount == null)
+            if (m_Potions == null)
                 return;
 
             if (gameData == null)
                 return;
-
-            m_PotionCount.text = gameData.xpLv1.ToString();
+            //LV XP1, XP2, XP3
+            m_Potions.text = gameData.xpLv1.ToString();
 
             UpdatePotionCountLabel();
         }
         void OnGemUpdate(GameData gameData)
         {
-            if (m_GemCount == null)
+            if (m_Gems == null)
                 return;
 
             if (gameData == null)
                 return;
             Debug.Log("OnGemUpdate" + gameData.enemyBoss);
 
-            m_GemCount.text = gameData.enemyBoss.ToString();
+            m_Gems.text = gameData.enemyBoss.ToString();
 
             UpdateGemCountLable();
         }
@@ -253,19 +256,25 @@ namespace UIGameDataManager
                 return;
 
             }
+            if(characterToShow.PreviewInstance == null)
+            {
+                Debug.Log("No PreviewInstance");
+
+                return;
+            }
             bool ObjMaxLv = characterToShow.ObjMaxLv();
 
             //if (m_PowerLabel != null)
             //    m_PowerLabel.text = characterToShow.GetCurrentPower().ToString();
             if (!ObjMaxLv)
             {
-                if (m_PotionsForNextLevel != null)
+                if (m_PotionsNextLV != null)
                 {
                     Debug.Log("Da Next XP for level ");
 
                     Debug.Log(characterToShow.GetXPForNextLevel().ToString() + " XP");
 
-                    m_PotionsForNextLevel.text = "/" + characterToShow.GetXPForNextLevel().ToString();
+                    m_PotionsNextLV.text = "/" + characterToShow.GetXPForNextLevel().ToString();
 
 
                     updateStat?.Invoke();
@@ -279,14 +288,14 @@ namespace UIGameDataManager
             }
             else if (ObjMaxLv)
             {
-                if (m_GemsForNextLevel != null)
+                if (m_GemsNextStar != null)
                 {
                     Debug.Log("Da goi ");
-                    
+
 
                     //Debug.Log(characterToShow.GetXPForNextStar().ToString() + " GEM");
 
-                    m_GemsForNextLevel.text = "/" + characterToShow.GetXPForNextStar().ToString();
+                    m_GemsNextStar.text = "/" + characterToShow.GetXPForNextStar().ToString();
 
 
 
@@ -322,9 +331,10 @@ namespace UIGameDataManager
             if (state)
             {
                 // Activate classes for the active state
-                m_LevelImgButton.color = new Color(1f, 1f, 1f, 1f);
+                m_LevelImgButton.color = new Color(36 / 255f, 204 / 255f, 0f, 241 / 255f);
                 m_LevelTextButton.color = new Color(1f, 1f, 1f, 1f);
 
+                Debug.Log("OnLevelUpButtonEnabled: " + state);
 
                 Debug.Log("Da Bat Mau Level");
             }
@@ -340,6 +350,7 @@ namespace UIGameDataManager
         void OnStarUpButtonEnabled(bool state)
         {
             Debug.Log("ObjStar.activeSelf: " + ObjStarup.activeSelf);
+
 
 
 
@@ -409,29 +420,29 @@ namespace UIGameDataManager
 
         void UpdateGemCountLable()
         {
-            if (m_GemsForNextLevel == null)
+            if (m_Gems == null)
                 return;
-            string gemsForNextLevelString = m_GemsForNextLevel.text.TrimStart('/');
+            string gemsForNextLevelString = m_Gems.text.TrimStart('/');
 
             if (gemsForNextLevelString != string.Empty)
             {
                 int gemsForNextLevel = Int32.Parse(gemsForNextLevelString);
-                int gemsCount = Int32.Parse(m_GemCount.text);
-                m_GemCount.color = (gemsForNextLevel > gemsCount) ? new Color(0.88f, .36f, 0f) : new Color(30f / 255f, 255f / 255f, 25f / 255f); // Your desired green color
+                int gemsCount = Int32.Parse(m_Gems.text);
+                m_Gems.color = (gemsForNextLevel > gemsCount) ? new Color(0.88f, .36f, 0f) : new Color(30f / 255f, 255f / 255f, 25f / 255f); // Your desired green color
             }
         }
         void UpdatePotionCountLabel()
         {
-            if (m_PotionsForNextLevel == null)
+            if (m_Potions == null)
                 return;
 
-            string potionsForNextLevelString = m_PotionsForNextLevel.text.TrimStart('/');
+            string potionsForNextLevelString = m_Potions.text.TrimStart('/');
 
             if (potionsForNextLevelString != string.Empty)
             {
                 int potionsForNextLevel = Int32.Parse(potionsForNextLevelString);
-                int potionsCount = Int32.Parse(m_PotionCount.text);
-                m_PotionCount.color = (potionsForNextLevel > potionsCount) ? new Color(0.88f, .36f, 0f) : new Color(30f / 255f, 255f / 255f, 25f / 255f); // Your desired green color
+                int potionsCount = Int32.Parse(m_Potions.text);
+                m_Potions.color = (potionsForNextLevel > potionsCount) ? new Color(0.88f, .36f, 0f) : new Color(30f / 255f, 255f / 255f, 25f / 255f); // Your desired green color
             }
         }
     }

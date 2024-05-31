@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,11 +8,12 @@ namespace UIGameDataManager
 {
     public class StatReader : MonoBehaviour
     {
-        [SerializeField] private CardStatsTower cardStatsTower;
+        [SerializeField] private CardStatCharacters cardStatsTower;
         public StatKeys statKey;
 
-        public Text statText;
-        public Text differenceText;
+
+        public TMP_Text statText;
+        public TMP_Text differenceText;
 
         private float currentValue;
         private int currentLevel;
