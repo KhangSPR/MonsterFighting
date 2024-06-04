@@ -49,7 +49,7 @@ public class AnimationImpact : SaiMonoBehaviour
         {
             if (other.transform.parent.CompareTag("Enemy"))
             {
-                playerCtrl.DamageSender.Send(other.transform.parent);
+                playerCtrl.DamageSender.Send(other.transform.parent,playerCtrl.DamageSender);
 
                 Debug.Log("damageSent");
 

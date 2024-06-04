@@ -45,8 +45,7 @@ public abstract class BulletShooter : AbstractCtrl
         }
 
         Transform newBullet = BulletSpawner.Instance.Spawn(GetBulletType(), gunPoint.position, rotation);
-
-        Debug.Log(newBullet);
+        Debug.Log(newBullet,newBullet);
 
         //if (newBullet == null) return;
         newBullet.gameObject.SetActive(true);

@@ -58,7 +58,17 @@ public abstract class BulletImpact : BulletAbstract
                 // apply damage to the enemy
                 if (other.transform.parent.CompareTag("Enemy"))
                 {
-                    bulletCtrl.DamageSender.Send(other.transform);
+                    bulletCtrl.DamageSender.Send(other.transform,bulletCtrl.DamageSender);
+                    //this.CreateImpactFX(other);
+                }
+            }
+            else if (bulletCtrl.name.Contains("Bullet_"))
+            {
+                // If the shooter is a player, and the other object's tag is "Enemy",
+                // apply damage to the enemy
+                if (other.transform.parent.CompareTag("Enemy"))
+                {
+                    bulletCtrl.DamageSender.Send(other.transform, bulletCtrl.DamageSender);
                     //this.CreateImpactFX(other);
                 }
             }

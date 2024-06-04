@@ -107,20 +107,61 @@ public class UILoseGameController : MonoBehaviour
 
     void SpawnRewardItem()
     {
-        Debug.Log(mapSO.Reward.Length);
-        foreach (var item in mapSO.Reward)
-        {
-            Debug.Log(item);
-            Debug.Log(item.item);
-            Debug.Log(item.item.Image);
-            Debug.Log(item.Count);
-            GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
+        switch (mapSO.difficult) {
+            case Difficult.Easy: {
+                    Debug.Log(mapSO.RewardEasy.Length);
+                    foreach (var item in mapSO.RewardHard)
+                    {
+                        Debug.Log(item);
+                        Debug.Log(item.item);
+                        Debug.Log(item.item.Image);
+                        Debug.Log(item.Count);
+                        GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
 
 
-            GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
-            rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
-            rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+                        GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
+                        rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
+                        rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
 
+                    }
+                }
+                break;
+            case Difficult.Normal: {
+                    Debug.Log(mapSO.RewardNormal.Length);
+                    foreach (var item in mapSO.RewardNormal)
+                    {
+                        Debug.Log(item);
+                        Debug.Log(item.item);
+                        Debug.Log(item.item.Image);
+                        Debug.Log(item.Count);
+                        GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
+
+
+                        GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
+                        rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
+                        rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+
+                    }
+                }
+                break;
+                case Difficult.Hard: {
+                    Debug.Log(mapSO.RewardHard.Length);
+                    foreach (var item in mapSO.RewardHard)
+                    {
+                        Debug.Log(item);
+                        Debug.Log(item.item);
+                        Debug.Log(item.item.Image);
+                        Debug.Log(item.Count);
+                        GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
+
+
+                        GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
+                        rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
+                        rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+
+                    }
+                }
+                break;
         }
     }
 }

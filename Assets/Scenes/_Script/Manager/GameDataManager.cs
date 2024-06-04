@@ -27,7 +27,7 @@ namespace UIGameDataManager
         private static GameDataManager instance;
         public static GameDataManager Instance => instance;
         public MapSO currentMapSO;
-
+        public bool FirstTimeGetFullStars;
         void Awake()
         {
             if (GameDataManager.instance != null) Debug.LogError("Onlly 1 GameDataManager Warning");
@@ -36,7 +36,6 @@ namespace UIGameDataManager
             m_SaveManager = GetComponent<SaveManager>();
 
         }
-
         #region Test Reset Funds
         /*        bool m_IsGameDataInitialized;*/ //Not
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using UIGameDataManager;
+using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -85,6 +86,23 @@ public class GameManager : SaiMonoBehaviour
         shop.choosen_item.ability.Active(gameObject);
 
         SetHpInGame();
+    }
+
+    public void CheckStars()
+    {
+        var mapSO = GameDataManager.Instance.currentMapSO;
+        var oldStarsCount = mapSO.GetStarsCount(mapSO.difficult);
+        var condition = mapSO.GetStarsCondition(mapSO.difficult);
+        KeepHpCondition keepHpCondition = condition as KeepHpCondition;
+        if (keepHpCondition != null)
+        {
+            Debug.Log("keepHpCondition :"+keepHpCondition.threshold3);
+            keepHpCondition.currentHpValue = current_hp;
+            var newStarsCount = keepHpCondition.CheckThreshold();
+            if (oldStarsCount < newStarsCount) mapSO.SetStarsCount(mapSO.difficult, (int)newStarsCount);
+            mapSO.GetStarsCondition(mapSO.difficult).CheckFirstTimeFullStars(mapSO.GetStarsCount(mapSO.difficult) >= 3);
+        }
+
     }
     protected override void Awake()
     {
@@ -235,6 +253,7 @@ public class GameManager : SaiMonoBehaviour
     //Game Result--------------------------------------------------------------------------------
     private void GameWin()
     {
+        CheckStars();
         var dropItemHolder = EnemyDropSpawner.Instance.holder;
 
         gameDataManager = FindAnyObjectByType<GameDataManager>();

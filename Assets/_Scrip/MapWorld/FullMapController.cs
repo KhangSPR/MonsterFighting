@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +12,8 @@ public class FullMapController : MonoBehaviour
     public List<GameObject> map_icons;
     public List<GameObject> maps; 
     public int mapOpeningIndex;
-
+    public GameObject DifficultHolder;
+    public LevelUIManager LevelUIManager;
     public void ToggleOpen()
     {
         isMapOpening = !isMapOpening;
@@ -28,9 +30,36 @@ public class FullMapController : MonoBehaviour
                 HideArea(image);
             }
         }
-        
     }
-
+    List<LevelButton> listBtn;
+    
+    private void OnEnable()
+    {
+        FirstTimeFullStarsUI();
+        DifficultHolder.SetActive(GameDataManager.Instance.FirstTimeGetFullStars);
+        DifficultHolderController();
+    }
+    public void FirstTimeFullStarsUI()
+    {
+        if (LevelUIManager.mapbtnGameObjects == null || LevelUIManager.mapbtnGameObjects.Count == 0) { Debug.Log("map btn object null"); Invoke(nameof(FirstTimeFullStarsUI), 0.1f); return; }
+        var listBtn = LevelUIManager.Instance.mapbtnGameObjects;
+        print("list btn count:" + listBtn.Count);
+        foreach (var btn in listBtn)
+        {
+            var MapDataSO = btn.GetComponent<LevelButton>().GetMapDataSO();
+            if (MapDataSO != null)
+            {
+                Debug.Log("Map Data SO is not null");
+                if (MapDataSO.starsEasy == 3) GameDataManager.Instance.FirstTimeGetFullStars = true;
+                DifficultHolder.SetActive(GameDataManager.Instance.FirstTimeGetFullStars);
+            }
+        }
+    }
+    public void DifficultHolderController()
+    {
+        DifficultHolder.transform.GetChild(1).gameObject.SetActive(GameDataManager.Instance.currentMapSO.starsEasy == 3);
+        DifficultHolder.transform.GetChild(2).gameObject.SetActive(GameDataManager.Instance.currentMapSO.starsNormal == 3);
+    }
     public void SetMapOpeningIndex(GameObject mapInput)
     {
         foreach(GameObject map in maps)
@@ -43,15 +72,6 @@ public class FullMapController : MonoBehaviour
         }
     }
 
-    public void NextMap()
-    {
-        
-    }
-
-    public void PreviousMap()
-    {
-        
-    }
 
     public void OpenMap(int index)
     {

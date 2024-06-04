@@ -1,10 +1,8 @@
 ﻿using DG.Tweening;
-
 using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class UIWinGameController : MonoBehaviour
 {
@@ -31,6 +29,16 @@ public class UIWinGameController : MonoBehaviour
         UIGameStart();
         DoAnimation();
         SpawnRewardItem();
+        CheckStarsCondition();
+    }
+    void CheckStarsCondition()
+    {
+        var oldStarsCount = mapSO.GetStarsCount(mapSO.difficult);
+        var starResult = mapSO.GetStarsCondition(mapSO.difficult).CheckThreshold();
+
+        if (oldStarsCount < starResult) mapSO.SetStarsCount(mapSO.difficult, (int)starResult) ;
+        mapSO.GetStarsCondition(mapSO.difficult).CheckFirstTimeFullStars((int)starResult >= 3);
+        Debug.Log("Star :" + starResult);
     }
     void UIGameStart()
     {
@@ -125,33 +133,94 @@ public class UIWinGameController : MonoBehaviour
     }
     void SetRewardOneTimme()
     {
-        GameDataManager.Instance.currentMapSO.isOneTimeRewardGot = true;
+        switch(mapSO.difficult){
+            case Difficult.Easy:
+                GameDataManager.Instance.currentMapSO.isOneTimeRewardGotEasy = true; break;
+                case Difficult.Normal: GameDataManager.Instance.currentMapSO.isOneTimeRewardGotHard = true; break;
+                case Difficult.Hard : GameDataManager.Instance.currentMapSO.isOneTimeRewardGotEasy = true; break;
+        }
         Debug.Log("Dòng lệnh này sẽ dùng để Add vào Inventory");
     }
     void SpawnRewardItem()
     {
-        Debug.Log(mapSO.Reward.Length);
-        foreach(var item in mapSO.Reward)
+        switch (mapSO.difficult)
         {
-            Debug.Log(item);
-            Debug.Log(item.item);
-            Debug.Log(item.item.Image);
-            Debug.Log(item.Count);
-            GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;// sau này cần sửa đoạn code này
+            case Difficult.Easy:
+                {
+                    Debug.Log(mapSO.RewardEasy.Length);
+                    foreach (var item in mapSO.RewardEasy)
+                    {
+                        Debug.Log(item);
+                        Debug.Log(item.item);
+                        Debug.Log(item.item.Image);
+                        Debug.Log(item.Count);
+                        GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;// sau này cần sửa đoạn code này
 
 
-            GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
-            rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
-            rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+                        GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
+                        rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
+                        rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
 
+                    }
+
+                    foreach (var itemFirstTime in mapSO.OneTimeRewardEasy)
+                    {
+                        GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolderFirstTime).gameObject;
+                        rewardItem.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGotEasy ? itemFirstTime.item.Image : itemFirstTime.item.ImageBnW;
+                        rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{itemFirstTime.Count}";
+                    }
+                    break;
+                }
+            case Difficult.Normal: {
+                    Debug.Log(mapSO.RewardNormal.Length);
+                    foreach (var item in mapSO.RewardNormal)
+                    {
+                        Debug.Log(item);
+                        Debug.Log(item.item);
+                        Debug.Log(item.item.Image);
+                        Debug.Log(item.Count);
+                        GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;// sau này cần sửa đoạn code này
+
+
+                        GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
+                        rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
+                        rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+
+                    }
+
+                    foreach (var itemFirstTime in mapSO.OneTimeRewardNormal)
+                    {
+                        GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolderFirstTime).gameObject;
+                        rewardItem.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGotNormal ? itemFirstTime.item.Image : itemFirstTime.item.ImageBnW;
+                        rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{itemFirstTime.Count}";
+                    }
+                } break;
+            case Difficult.Hard: {
+                    Debug.Log(mapSO.RewardHard.Length);
+                    foreach (var item in mapSO.RewardHard)
+                    {
+                        Debug.Log(item);
+                        Debug.Log(item.item);
+                        Debug.Log(item.item.Image);
+                        Debug.Log(item.Count);
+                        GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;// sau này cần sửa đoạn code này
+
+
+                        GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
+                        rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
+                        rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+
+                    }
+
+                    foreach (var itemFirstTime in mapSO.OneTimeRewardHard)
+                    {
+                        GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolderFirstTime).gameObject;
+                        rewardItem.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGotHard ? itemFirstTime.item.Image : itemFirstTime.item.ImageBnW;
+                        rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{itemFirstTime.Count}";
+                    }
+                } break;
         }
         
-        foreach (var itemFirstTime in mapSO.OneTimeReward)
-        {
-            GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolderFirstTime).gameObject;
-            rewardItem.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGot? itemFirstTime.item.Image: itemFirstTime.item.ImageBnW;
-            rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{itemFirstTime.Count}";
-        }
         
     }
 }

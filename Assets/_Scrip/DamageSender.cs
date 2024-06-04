@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class DamageSender : SaiMonoBehaviour
 {
@@ -12,12 +13,37 @@ public class DamageSender : SaiMonoBehaviour
         this.Send(damageReceiver);
         //this.createImpactFX();
     }
+    public virtual void Send(Transform obj, DamageSender damageSender)
+    {
+        DamageReceiver damageReceiver = obj.GetComponentInChildren<DamageReceiver>();
+        if (damageReceiver == null) return;
+        this.Send(damageReceiver, damageSender);
+        //this.createImpactFX();
+    }
 
     public virtual void Send(DamageReceiver damageReceiver)
     {
         damageReceiver.deDuct(this.dame);
 
         Debug.Log("Send" + this.dame);
+    }
+
+    public virtual void Send(DamageReceiver damageReceiver,DamageSender damageSender)
+    {
+        var tag = damageSender.transform.parent.tag;
+        var name = damageSender.transform.parent.name;
+        Debug.Log(" tag:"+ tag+" ,name :" +name,damageSender.gameObject);
+        if(tag == "Player" || name.Contains("Bullet_"))
+        {
+            damageReceiver.deDuct(this.dame,true);
+        }
+        else
+        {
+            damageReceiver.deDuct(this.dame);
+        }
+        
+
+        Debug.Log("Send " + this.dame);
     }
 
     //public void SendDamageOverTime(Transform obj, bool isColliding)

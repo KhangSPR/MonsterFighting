@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UIGameDataManager;
 using UnityEngine;
 namespace UIGameDataMap
 {
@@ -13,6 +14,10 @@ namespace UIGameDataMap
 
         //[SerializeField] MapSO mapSO;
         //public MapSO MapSO { get { return mapSO; } set { mapSO = value; } }
-
+        public void OnEnable()
+        {
+            // Reset all value
+            GameDataManager.Instance.currentMapSO.GetStarsCondition(GameDataManager.Instance.currentMapSO.difficult).SetDefaultValue();
+        }
     }
 }

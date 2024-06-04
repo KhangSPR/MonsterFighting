@@ -51,12 +51,12 @@ public class LevelUIManager : MonoBehaviour
         LevelUIManager.instance = this;
 
     }
-    public MapSO GetMapSO(int id, MapType mapType, Difficult difficult)
+    public MapSO GetMapSO(int id, MapType mapType)
     {
         foreach (MapSO mapSO in MapManager.Instance.MapSOArray)
         {
             // Kiểm tra các thuộc tính của MapSO để tìm MapSO phù hợp
-            if (mapSO.id == id && mapSO.mapType == mapType && mapSO.difficult == difficult)
+            if (mapSO.id == id && mapSO.mapType == mapType)
             {
                 return mapSO; // Trả về MapSO nếu tìm thấy
             }

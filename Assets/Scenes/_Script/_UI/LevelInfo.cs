@@ -40,8 +40,9 @@ namespace UIGameDataMap
             GameDataManager.Instance.currentMapSO = mapSO;
         }
 
-        private void LoadProtals(MapSO mapSO)
+        public void LoadProtals(MapSO mapSO)
         {
+            UIGameDataMap.Portals[] portals = mapSO.GetPortals(mapSO.difficult);
             foreach (Transform child in HolderPortals)
             {
                 Destroy(child.gameObject);
@@ -49,7 +50,7 @@ namespace UIGameDataMap
 
             int index = 0; // Khai báo biến index ở đây để giữ giá trị của nó sau mỗi lần lặp
 
-            foreach (Portals portal in mapSO.portals)
+            foreach (Portals portal in portals)
             {
 
                 GameObject portalObject = Instantiate(objPortalTooltip, HolderPortals);
@@ -67,7 +68,7 @@ namespace UIGameDataMap
             }
 
         }
-        private void LoadItems(MapSO mapSO)
+        public void LoadItems(MapSO mapSO)
         {
             Debug.Log($"Holder Item Child Count :<b>{HolderItem.childCount}</b>");
             foreach (Transform child in HolderItem)
@@ -78,23 +79,71 @@ namespace UIGameDataMap
             {
                 Destroy(child.gameObject);
             }
-            foreach (Resources resource in mapSO.Reward)
+            switch (mapSO.difficult)
             {
-                Debug.Log($"mapSO :{resource}");
-                GameObject itemObject = Instantiate(ObjItem, HolderItem);
+                case Difficult.Easy: {
+                        foreach (Resources resource in mapSO.RewardEasy)
+                        {
+                            //Debug.Log($"mapSO :{resource}");
+                            GameObject itemObject = Instantiate(ObjItem, HolderItem);
 
-                //Set Resources
-                itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;//gameMapIconSO.GetReWardIcon(resource.item);
-                Debug.Log("Reward Icon", resource.item.Image);
-                itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
+                            //Set Resources
+                            itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;//gameMapIconSO.GetReWardIcon(resource.item);
+                            Debug.Log("Reward Icon", resource.item.Image);
+                            itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
 
-            }
-            foreach (Resources resource in mapSO.OneTimeReward)
-            {
-                Debug.Log("Item : " + resource);
-                GameObject itemObject = Instantiate(ObjItem, HolderItemOneTime);
-                itemObject.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGot? resource.item.Image: resource.item.ImageBnW;
-                itemObject.transform.Find("Count").GetComponent<Text>().text = resource.Count.ToString();
+                        }
+                        foreach (Resources resource in mapSO.OneTimeRewardEasy)
+                        {
+                            //Debug.Log("Item : " + resource);
+                            GameObject itemObject = Instantiate(ObjItem, HolderItemOneTime);
+                            itemObject.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGotEasy ? resource.item.Image : resource.item.ImageBnW;
+                            itemObject.transform.Find("Count").GetComponent<Text>().text = resource.Count.ToString();
+                        }
+                    }
+                    break;
+                    case Difficult.Normal: {
+                        foreach (Resources resource in mapSO.RewardNormal)
+                        {
+                            Debug.Log($"mapSO :{resource}");
+                            GameObject itemObject = Instantiate(ObjItem, HolderItem);
+
+                            //Set Resources
+                            itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;//gameMapIconSO.GetReWardIcon(resource.item);
+                            Debug.Log("Reward Icon", resource.item.Image);
+                            itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
+
+                        }
+                        foreach (Resources resource in mapSO.OneTimeRewardNormal)
+                        {
+                            Debug.Log("Item : " + resource);
+                            GameObject itemObject = Instantiate(ObjItem, HolderItemOneTime);
+                            itemObject.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGotNormal ? resource.item.Image : resource.item.ImageBnW;
+                            itemObject.transform.Find("Count").GetComponent<Text>().text = resource.Count.ToString();
+                        }
+                    }
+                    break;
+                    case Difficult.Hard: {
+                        foreach (Resources resource in mapSO.RewardHard)
+                        {
+                            Debug.Log($"mapSO :{resource}");
+                            GameObject itemObject = Instantiate(ObjItem, HolderItem);
+
+                            //Set Resources
+                            itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;//gameMapIconSO.GetReWardIcon(resource.item);
+                            Debug.Log("Reward Icon", resource.item.Image);
+                            itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
+
+                        }
+                        foreach (Resources resource in mapSO.OneTimeRewardHard)
+                        {
+                            Debug.Log("Item : " + resource);
+                            GameObject itemObject = Instantiate(ObjItem, HolderItemOneTime);
+                            itemObject.transform.Find("Img").GetComponent<Image>().sprite = !mapSO.isOneTimeRewardGotHard ? resource.item.Image : resource.item.ImageBnW;
+                            itemObject.transform.Find("Count").GetComponent<Text>().text = resource.Count.ToString();
+                        }
+                    }
+                    break;
             }
         }
         public void OnButtonClickUIChosseMap()

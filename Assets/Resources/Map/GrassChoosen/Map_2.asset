@@ -17,39 +17,51 @@ MonoBehaviour:
   mapZone: I
   mapType: 4
   difficult: 0
-  portals:
-  - rarityPortal: 0
+  starsEasy: 0
+  starsConditionEasy: {fileID: 11400000, guid: 4b79a1c4a4f585d40b9048f87b9ada4f, type: 2}
+  RewardEasy:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
     Count: 1
-    DelaySpawnFirtEnemy: 5
-    spawnTimeInSeconds:
-    - 5
-    hasBoss: 0
-    enemyTypes:
-    - rarity: 0
-      name: Goblin Green
-      countEnemy: 1
-      timerMin: 4
-      timerMax: 8
-      skillType:
-      - id: 0
-        skill: None
-      Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
-  - rarityPortal: 1
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
     Count: 1
-    DelaySpawnFirtEnemy: 5
-    spawnTimeInSeconds:
-    - 13
-    hasBoss: 0
-    enemyTypes:
-    - rarity: 1
-      name: Skeleton Magic
-      countEnemy: 1
-      timerMin: 4
-      timerMax: 8
-      skillType:
-      - id: 0
-        skill: None
-      Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
-  Reward:
+  isOneTimeRewardGotEasy: 0
+  OneTimeRewardEasy:
   - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
     Count: 10
+  portalsEasy:
+  - rarityPortal: 0
+    Count: 0
+    DelaySpawnFirtEnemy: 0
+    spawnTimeInSeconds: []
+    hasBoss: 0
+    enemyTypes: []
+  starsNormal: 0
+  RewardNormal:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 1
+  isOneTimeRewardGotNormal: 0
+  OneTimeRewardNormal:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 20
+  portalsNormal:
+  - rarityPortal: 0
+    Count: 0
+    DelaySpawnFirtEnemy: 0
+    spawnTimeInSeconds: []
+    hasBoss: 0
+    enemyTypes: []
+  starsHard: 0
+  RewardHard:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 5
+  isOneTimeRewardGotHard: 0
+  OneTimeRewardHard:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 30
+  portalsHard:
+  - rarityPortal: 0
+    Count: 0
+    DelaySpawnFirtEnemy: 0
+    spawnTimeInSeconds: []
+    hasBoss: 0
+    enemyTypes: []

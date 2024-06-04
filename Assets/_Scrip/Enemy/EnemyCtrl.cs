@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UIGameDataManager;
 using UnityEngine;
 
 public class EnemyCtrl : ObjectCtrl
@@ -25,6 +26,7 @@ public class EnemyCtrl : ObjectCtrl
     {
         cellPosition = cellPos;
     }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();

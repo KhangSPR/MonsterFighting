@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using UIGameDataManager;
+using UIGameDataMap;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -17,7 +19,9 @@ public class UIManager : MonoBehaviour
         }
         UIManager.instance = this;
         //LoadAreas();
+       
     }
+
     public void ActiveGameUI()
     {
         MainUI.SetActive(true);
@@ -27,5 +31,6 @@ public class UIManager : MonoBehaviour
     {
         MainUI.SetActive(false);
         UICamera.SetActive(false);
+        //DifficultHolder.SetActive(false);
     }
 }

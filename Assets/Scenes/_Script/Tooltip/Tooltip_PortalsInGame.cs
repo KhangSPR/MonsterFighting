@@ -77,10 +77,11 @@ public class Tooltip_PortalsInGame : MonoBehaviour
 
     private void ShowTooltip(MapSO mapSO, int portalsIndex)
     {
+        UIGameDataMap.Portals[] portalsLst = mapSO.GetPortals(mapSO.difficult);
         gameObject.SetActive(true);
         transform.SetAsLastSibling();
 
-        Portals portals = mapSO.portals[portalsIndex];
+        Portals portals = portalsLst[portalsIndex];
 
 
         power.text = portals.rarityPortal.ToString();

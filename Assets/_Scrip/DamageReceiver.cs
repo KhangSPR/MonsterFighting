@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UIGameDataManager;
 using UnityEngine;
 
 public abstract class DamageReceiver : SaiMonoBehaviour
@@ -39,12 +40,19 @@ public abstract class DamageReceiver : SaiMonoBehaviour
     }
     public virtual void deDuct(int Deduct)
     {
+        deDuct(Deduct, false);
+    }
+
+    public virtual void deDuct(int Deduct,bool damageByPlayer) // có phải player gây damage không ? , sau này sẽ thay đổi tên biến và kiểu dữ liệu này 
+    {
         if (this.isDead == true) return;
         this.isHP -= Deduct;
         if (this.isMaxHP < 0)
             this.isHP = 0;
-        this.checkDead();
+
+        this.checkDead(damageByPlayer);
     }
+
     public virtual bool LoseHealth(int Deduct)
     {
         //health = health - amount
@@ -64,9 +72,23 @@ public abstract class DamageReceiver : SaiMonoBehaviour
     }
     protected virtual void checkDead()
     {
+        checkDead(false);
+    }
+    protected virtual void checkDead(bool damageByPlayer)
+    {
         if (!this.IsDead()) return;
         this.isDead = true;
         this.onDead();
+        if (damageByPlayer)
+        {
+            Debug.Log($"Enemy {this.transform.name} Dead");
+            if (GameDataManager.Instance.currentMapSO.GetStarsCondition(GameDataManager.Instance.currentMapSO.difficult).GetType() == typeof(KillEnemyCondition))
+            {
+                Debug.Log($"Active Kill Enemy Condition");
+                KillEnemyCondition killEnemyCondition = GameDataManager.Instance.currentMapSO.GetStarsCondition(GameDataManager.Instance.currentMapSO.difficult) as KillEnemyCondition;
+                killEnemyCondition.enemyKill++;
+            }
+        }
     }
     public abstract void onDead();
 }

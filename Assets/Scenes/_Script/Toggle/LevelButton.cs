@@ -16,7 +16,7 @@ namespace UIGameDataMap
         [SerializeField] private GameObject unlockObj;     //ref to lock and unlock gameobject
         [SerializeField] private GameObject activeLevelIndicator;
         [SerializeField] private GameObject ObjectAttack;
-
+        [SerializeField] private GameObject DifficultHolderUI;
 
         [Header("Level Settings")]
         [SerializeField] private Text ZoneIndexText;               // ref to text which indicates the level number
@@ -24,7 +24,10 @@ namespace UIGameDataMap
         /*[SerializeField] private Image[] starsArray;  */              //ref to all the stars of button
                                                                         //ref to hold button component
         //public static event Action OnClickEnvent;
-
+        public MapSO GetMapSO()
+        {
+            return mapDataSO;
+        }
         private int levelIndex;                                     //int which hold the level Index this perticular button specify
 
         private void Start()
@@ -32,6 +35,10 @@ namespace UIGameDataMap
             SetLevelButton(GetAreaName());
             btn.onClick.AddListener(() => OnClick());               //add listener to the button
 
+        }
+        public MapSO GetMapDataSO()
+        {
+            return mapDataSO;
         }
         int GetLevelIndex()
         {
@@ -58,6 +65,7 @@ namespace UIGameDataMap
         public void SetLevelButton(string areaName)
         {
             int index = GetLevelIndex();
+            Debug.Log("index level:" + index);
             AreaInfomationSO aiso = LevelSystemManager.Instance.aiso;
             //Debug.Log(aiso);
             var levelInformation = aiso.areasData.First(data => data.areaName == areaName);
@@ -69,7 +77,8 @@ namespace UIGameDataMap
                 //Set LevelInfo
                 levelInfo = LevelUIManager.Instance.LevelInfo;
                 //Set button
-                mapDataSO = LevelUIManager.Instance.GetMapSO(index, GetTyMap(areaName), GetDifficult(1));
+                mapDataSO = LevelUIManager.Instance.GetMapSO(index, GetTyMap(areaName));
+                
                 ZoneIndexText.text = mapDataSO.mapZone;
                 //SetAuto Click
                 if (LevelUIManager.Instance.CurrentLevelButton == this)
@@ -149,6 +158,13 @@ namespace UIGameDataMap
             }
             levelInfo.SetLevelData(mapDataSO);
             levelInfo.OnButtonClickUIChosseMap();
+            Debug.Log("Diffcult HOlder = "+ transform.parent.parent.parent.parent.parent.parent.Find("DifficultHolder"));
+            DifficultHolderUI = transform.parent.parent.parent.parent.parent.parent.Find("DifficultHolder").gameObject;
+            if (DifficultHolderUI.activeSelf)
+            {
+                DifficultHolderUI.transform.GetChild(1).gameObject.SetActive(mapDataSO.starsEasy == 3);
+                DifficultHolderUI.transform.GetChild(2).gameObject.SetActive(mapDataSO.starsNormal == 3);
+            }
             //Onclick 1 
             //OnClickEnvent.Invoke();
 
