@@ -40,6 +40,7 @@ public class LevelUIManager : MonoBehaviour
 
     private void Start()
     {
+        //Debug.Log("MapManager.Instance.MapSOCurrent:" + MapManager.Instance.MapSOCurrent);
         portalHouseBtn.SetPortals(MapManager.Instance.MapSOCurrent);
     }
     private void Awake()
@@ -53,15 +54,17 @@ public class LevelUIManager : MonoBehaviour
     }
     public MapSO GetMapSO(int id, MapType mapType)
     {
+        Debug.Log($"Get Map SO with id = {id} , mapType = {mapType}");
         foreach (MapSO mapSO in MapManager.Instance.MapSOArray)
         {
             // Kiểm tra các thuộc tính của MapSO để tìm MapSO phù hợp
             if (mapSO.id == id && mapSO.mapType == mapType)
             {
+                Debug.Log("Map SO Found:"+mapSO);
                 return mapSO; // Trả về MapSO nếu tìm thấy
             }
         }
-
+        Debug.Log("Map SO Not Found");
         return null; // Trả về null nếu không tìm thấy MapSO phù hợp
     }
 

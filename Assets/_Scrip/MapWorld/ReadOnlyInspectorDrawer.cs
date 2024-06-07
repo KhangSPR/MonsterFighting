@@ -1,7 +1,9 @@
 
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
-
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(ReadOnlyInspectorAttribute))]
 public class ReadOnlyInspectorDrawer : PropertyDrawer
 {
@@ -13,3 +15,4 @@ public class ReadOnlyInspectorDrawer : PropertyDrawer
 
     }
 }
+#endif

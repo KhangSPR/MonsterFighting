@@ -16,8 +16,8 @@ MonoBehaviour:
   boss: 0
   mapZone: I
   mapType: 4
-  difficult: 1
-  starsEasy: 3
+  difficult: 0
+  starsEasy: 0
   starsConditionEasy: {fileID: 11400000, guid: d24ac9494c27cf34e93c9cb221b7a862, type: 2}
   RewardEasy:
   - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
@@ -44,7 +44,7 @@ MonoBehaviour:
       timerMax: 0
       skillType: []
       Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
-  starsNormal: 3
+  starsNormal: 0
   starsConditionNormal: {fileID: 11400000, guid: 263d0d7b0d7d01f46baafab7e7c45a7c,
     type: 2}
   RewardNormal:

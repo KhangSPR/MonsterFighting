@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 075d4679b78067f45a885375b0c5acb3, type: 3}
+  m_Name: Map_14
+  m_EditorClassIdentifier: 
+  id: 13
+  boss: 0
+  mapZone: I
+  mapType: 4
+  difficult: 0
+  starsEasy: 0
+  starsConditionEasy: {fileID: 11400000, guid: d24ac9494c27cf34e93c9cb221b7a862, type: 2}
+  RewardEasy:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 1
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 1
+  isOneTimeRewardGotEasy: 1
+  OneTimeRewardEasy:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 10
+  portalsEasy:
+  - rarityPortal: 0
+    Count: 2
+    DelaySpawnFirtEnemy: 0
+    spawnTimeInSeconds:
+    - 0
+    - 0
+    hasBoss: 0
+    enemyTypes:
+    - rarity: 0
+      name: Goblin Green
+      countEnemy: 2
+      timerMin: 0
+      timerMax: 0
+      skillType: []
+      Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+  starsNormal: 0
+  starsConditionNormal: {fileID: 11400000, guid: 263d0d7b0d7d01f46baafab7e7c45a7c,
+    type: 2}
+  RewardNormal:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 2
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 2
+  isOneTimeRewardGotNormal: 0
+  OneTimeRewardNormal:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 15
+  portalsNormal:
+  - rarityPortal: 0
+    Count: 2
+    DelaySpawnFirtEnemy: 0
+    spawnTimeInSeconds:
+    - 0
+    - 0
+    hasBoss: 0
+    enemyTypes:
+    - rarity: 0
+      name: Goblin Green
+      countEnemy: 3
+      timerMin: 0
+      timerMax: 0
+      skillType: []
+      Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+  starsHard: 0
+  starsConditionHard: {fileID: 11400000, guid: 895faa3195528004a8c21dbed4ab84b4, type: 2}
+  RewardHard:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 5
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 5
+  isOneTimeRewardGotHard: 1
+  OneTimeRewardHard:
+  - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
+    Count: 30
+  portalsHard:
+  - rarityPortal: 0
+    Count: 2
+    DelaySpawnFirtEnemy: 1
+    spawnTimeInSeconds:
+    - 0
+    - 0
+    hasBoss: 1
+    enemyTypes:
+    - rarity: 0
+      name: Goblin Green
+      countEnemy: 4
+      timerMin: 1
+      timerMax: 10
+      skillType: []
+      Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+  starsDifficult: 1

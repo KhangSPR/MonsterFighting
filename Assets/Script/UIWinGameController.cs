@@ -1,4 +1,6 @@
 ﻿using DG.Tweening;
+using System;
+using System.Linq;
 using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
@@ -30,7 +32,43 @@ public class UIWinGameController : MonoBehaviour
         DoAnimation();
         SpawnRewardItem();
         CheckStarsCondition();
+        UnlockedNewLevel();
     }
+
+    private void UnlockedNewLevel()
+    {
+        var aiso = LevelSystemManager.Instance.aiso;
+        var currentMapSO = GameDataManager.Instance.currentMapSO;
+        var currentId = -1;
+        var currentAreaName = "";
+        var currentAreaIndex = -1;
+        foreach (var area in aiso.areasData)
+        {
+            foreach (var level in area.levelsData)
+            {
+                if (currentMapSO.id == level.levelIndex && LevelButton.GetTyMap(level.levelName) == currentMapSO.mapType)
+                {
+                    currentId = currentMapSO.id; currentAreaName = area.areaName;
+                    for (int i = 0; i < aiso.areasData.Count; i++)
+                    {
+                        if (aiso.areasData[i].areaName == currentAreaName) currentAreaIndex = i;
+                    }
+                }
+            }
+        }
+        if(currentId == aiso.areasData[currentAreaIndex].levelsData.Count - 1 && currentAreaIndex <= aiso.areasData.Count-1)
+        {
+
+            aiso.areasData[currentAreaIndex+1].levelsData[0].isUnlocked = true;
+        } else if(currentId < aiso.areasData[currentAreaIndex].levelsData.Count - 1)
+        {
+            aiso.areasData[currentAreaIndex].levelsData[currentId+1].isUnlocked = true;
+        }
+
+        Debug.Log($"UnlockedNewLevel:currentMapSO:{currentMapSO}");
+        Debug.Log($"UnlockedNewLevel:currentId:{currentId}, currentAreaName: {currentAreaName}, currentAreaIndex : {currentAreaIndex}");
+    }
+
     void CheckStarsCondition()
     {
         var oldStarsCount = mapSO.GetStarsCount(mapSO.difficult);

@@ -47,6 +47,7 @@ namespace UIGameDataMap
         }
         string GetAreaName()
         {
+            Debug.Log("Area Name : " + transform.parent.parent.name,transform);
             return transform.parent.parent.name;
         }
         void SetUnlockedUI()
@@ -69,7 +70,7 @@ namespace UIGameDataMap
             AreaInfomationSO aiso = LevelSystemManager.Instance.aiso;
             //Debug.Log(aiso);
             var levelInformation = aiso.areasData.First(data => data.areaName == areaName);
-
+            Debug.Log("levelInformation:" + levelInformation.areaName);
             //Debug.Log("SetLevelButton " + levelInformation);
             if (levelInformation.levelsData[index].isUnlocked)
             {
@@ -78,7 +79,7 @@ namespace UIGameDataMap
                 levelInfo = LevelUIManager.Instance.LevelInfo;
                 //Set button
                 mapDataSO = LevelUIManager.Instance.GetMapSO(index, GetTyMap(areaName));
-                
+                Debug.Log("mapDataSO:"+mapDataSO);
                 ZoneIndexText.text = mapDataSO.mapZone;
                 //SetAuto Click
                 if (LevelUIManager.Instance.CurrentLevelButton == this)
@@ -111,7 +112,7 @@ namespace UIGameDataMap
                 unlockObj.SetActive(false);                         //deactivate unlockObj
             }*/
         }
-        public MapType GetTyMap(string namemap)
+        public static MapType GetTyMap(string namemap)
         {
             switch (namemap)
             {

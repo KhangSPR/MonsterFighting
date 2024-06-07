@@ -33,7 +33,7 @@ namespace UIGameDataMap
         }
 
         [SerializeField]
-        int m_CurrentIndex;
+        int m_CurrentIndex =-1;
         public int CurrentIndex => m_CurrentIndex;
         const string mapSOFolder = "Map/";
 
@@ -111,7 +111,7 @@ namespace UIGameDataMap
                     }
                 }
             }
-            return 0; // Default to zero if all levels are unlocked
+            return firstLockedLevelIndex; // Default to zero if all levels are unlocked
         }
         #endregion
     }

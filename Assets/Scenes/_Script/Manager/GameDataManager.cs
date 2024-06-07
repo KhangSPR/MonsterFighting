@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System;
+#if UNITY_EDITOR
 using UnityEditor;
-using TMPro;
+#endif 
 using UIGameDataMap;
 
 namespace UIGameDataManager
@@ -28,12 +29,14 @@ namespace UIGameDataManager
         public static GameDataManager Instance => instance;
         public MapSO currentMapSO;
         public bool FirstTimeGetFullStars;
+        public Inventory inventory;
         void Awake()
         {
             if (GameDataManager.instance != null) Debug.LogError("Onlly 1 GameDataManager Warning");
             GameDataManager.instance = this;
 
             m_SaveManager = GetComponent<SaveManager>();
+            
 
         }
         #region Test Reset Funds
@@ -486,8 +489,10 @@ namespace UIGameDataManager
         void SaveShopItemState(ShopItemCardSO shopItem)
         {
             // Lưu trạng thái của shopItem vào ScriptableObject
-            UnityEditor.EditorUtility.SetDirty(shopItem);
-            UnityEditor.AssetDatabase.SaveAssets();
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(shopItem);
+            AssetDatabase.SaveAssets();
+#endif
         }
         void AddCardComponentToFolder(ShopItemCardSO shopItemCardSO)
         {
@@ -502,9 +507,11 @@ namespace UIGameDataManager
             string newAssetPath = newFolderPath + "/" + shopItemCardSO.cardComponent.nameCard + ".asset";
 
             // Move the new ScriptableObject into the new folder
+#if UNITY_EDITOR
             AssetDatabase.CreateAsset(CreateInstanceCardComponent(cardType, shopItemCardSO), newAssetPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+#endif 
         }
 
         CardComponent CreateInstanceCardComponent(string cardType, ShopItemCardSO shopItemCardSO)

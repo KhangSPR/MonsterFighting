@@ -57,8 +57,13 @@ public class FullMapController : MonoBehaviour
     }
     public void DifficultHolderController()
     {
-        DifficultHolder.transform.GetChild(1).gameObject.SetActive(GameDataManager.Instance.currentMapSO.starsEasy == 3);
-        DifficultHolder.transform.GetChild(2).gameObject.SetActive(GameDataManager.Instance.currentMapSO.starsNormal == 3);
+        var currentMapSO = GameDataManager.Instance.currentMapSO;
+        if (currentMapSO != null)
+        {
+            DifficultHolder.transform.GetChild(1).gameObject.SetActive(currentMapSO.starsEasy == 3);
+            DifficultHolder.transform.GetChild(2).gameObject.SetActive(currentMapSO.starsNormal == 3);
+        }
+        
     }
     public void SetMapOpeningIndex(GameObject mapInput)
     {

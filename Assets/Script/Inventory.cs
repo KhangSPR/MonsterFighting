@@ -1,30 +1,43 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using static UnityEditor.Progress;
+using System.Linq;
 
+[System.Serializable]
 public class Inventory
 {
     public static Inventory instance;
     public static Inventory Instance => instance;
-    public static Dictionary<Item,int> id_count_item = new Dictionary<Item, int>();
+    public List<InventorySlot> ItemSlots = new ();
     public void AddOrChangeQuantity(Item item , int quantity)
     {
-        if (id_count_item.ContainsKey(item))
+        var ItemSlot = ItemSlots.FirstOrDefault(itemSlot => itemSlot.item == item);
+        if(ItemSlot!= null)
         {
-            id_count_item[item] += quantity;
-        }else
-        id_count_item.Add(item, quantity);
+            ItemSlot.count += quantity;
+        } else
+        {
+            ItemSlots.Add(new InventorySlot(item, quantity));
+        }
     }
 
     public void RemoveOrChangeQuantity(Item item, int quantity)
     {
-        if (id_count_item.ContainsKey(item))
+        var ItemSlot = ItemSlots.FirstOrDefault(itemSlot => itemSlot.item == item);
+        if (ItemSlot != null)
         {
-            id_count_item[item] -= quantity;
-            if (id_count_item[item] <= 0) id_count_item[item] = 0;
+            ItemSlot.count -= quantity;
+            if (ItemSlot.count <= 0) ItemSlots.Remove(ItemSlot);
         }
-        else
-            id_count_item.Add(item, quantity);
+    }
+}
+[System.Serializable]
+public class InventorySlot
+{
+    public Item item;
+    public int count;
+
+    public InventorySlot(Item item , int count)
+    {
+        this.item = item;
+        this.count = count;
     }
 }
