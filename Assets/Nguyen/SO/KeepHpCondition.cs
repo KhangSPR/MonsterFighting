@@ -7,6 +7,11 @@ public class KeepHpCondition : StarsCondition
 {
     
     public int currentHpValue;
+    public override void SetDefaultValue()
+    {
+        //currentHpValue = (int)threshold3;
+        currentThreshold = (int)threshold3;
+    }
     public override float CheckThreshold()
     {
         float result = -1;

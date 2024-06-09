@@ -25,6 +25,9 @@ public class UIWinGameController : MonoBehaviour
     [SerializeField] Transform Replay;
     [SerializeField] Transform NextGame;
     [SerializeField] Transform FirstTimeReward_Text;
+    [SerializeField] Transform MissionPanel;
+    [SerializeField] Transform StarsUI;
+    [SerializeField] Transform MissionInfomationUI;
     private void Awake()
     {
         mapSO = GameDataManager.Instance.currentMapSO;
@@ -33,8 +36,12 @@ public class UIWinGameController : MonoBehaviour
         SpawnRewardItem();
         CheckStarsCondition();
         UnlockedNewLevel();
+        CloseMissionPanel();
     }
-
+    public void CloseMissionPanel()
+    {
+        MissionPanel.gameObject.SetActive(false);
+    }
     private void UnlockedNewLevel()
     {
         var aiso = LevelSystemManager.Instance.aiso;
@@ -115,6 +122,8 @@ public class UIWinGameController : MonoBehaviour
                             Sword2.DOScale(Vector3.one, 0.3f).SetEase(Ease.Linear);
                             Shield.DOScale(Vector3.one, 0.3f).SetEase(Ease.Linear).OnComplete(() =>
                             {
+                                StarsUI.gameObject.SetActive(true);
+                                MissionInfomationUI.gameObject.SetActive(true);
                                 TitleGameFinish.gameObject.SetActive(true);
                                 RewardHolder.gameObject.SetActive(true);
                                 foreach(Transform item in RewardHolder)

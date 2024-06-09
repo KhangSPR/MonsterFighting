@@ -8,7 +8,8 @@ public class StarsCondition : ScriptableObject
     public float threshold1;
     public float threshold2;
     public float threshold3;
-
+    public string conditionDescription;
+    public float currentThreshold;
     public virtual void SetDefaultValue()
     {
 
@@ -27,4 +28,5 @@ public class StarsCondition : ScriptableObject
 
 
     }
+
 }

@@ -87,7 +87,18 @@ public class GameManager : SaiMonoBehaviour
 
         SetHpInGame();
     }
-
+    protected override void Update()
+    {
+        base.Update();
+        var mapSO = GameDataManager.Instance.currentMapSO;
+        var condition = mapSO.GetStarsCondition(mapSO.difficult);
+        KeepHpCondition keepHpCondition = condition as KeepHpCondition;
+        if (keepHpCondition != null)
+        {
+            keepHpCondition.currentHpValue = current_hp;
+            keepHpCondition.currentThreshold = keepHpCondition.currentHpValue;
+        }
+    }
     public void CheckStars()
     {
         var mapSO = GameDataManager.Instance.currentMapSO;
@@ -98,6 +109,7 @@ public class GameManager : SaiMonoBehaviour
         {
             Debug.Log("keepHpCondition :"+keepHpCondition.threshold3);
             keepHpCondition.currentHpValue = current_hp;
+            keepHpCondition.currentThreshold = keepHpCondition.currentHpValue;
             var newStarsCount = keepHpCondition.CheckThreshold();
             if (oldStarsCount < newStarsCount) mapSO.SetStarsCount(mapSO.difficult, (int)newStarsCount);
             mapSO.GetStarsCondition(mapSO.difficult).CheckFirstTimeFullStars(mapSO.GetStarsCount(mapSO.difficult) >= 3);

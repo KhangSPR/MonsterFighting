@@ -87,6 +87,7 @@ public abstract class DamageReceiver : SaiMonoBehaviour
                 Debug.Log($"Active Kill Enemy Condition");
                 KillEnemyCondition killEnemyCondition = GameDataManager.Instance.currentMapSO.GetStarsCondition(GameDataManager.Instance.currentMapSO.difficult) as KillEnemyCondition;
                 killEnemyCondition.enemyKill++;
+                killEnemyCondition.currentThreshold = killEnemyCondition.enemyKill;
             }
         }
     }

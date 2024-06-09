@@ -9,6 +9,7 @@ public class KillEnemyCondition : StarsCondition
     public override void SetDefaultValue()
     {
         enemyKill = 0;
+        currentThreshold = enemyKill;
     }
 
     public override float CheckThreshold()

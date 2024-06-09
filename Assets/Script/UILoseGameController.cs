@@ -1,5 +1,5 @@
 ﻿using DG.Tweening;
-
+using System;
 using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
@@ -25,6 +25,7 @@ public class UILoseGameController : MonoBehaviour
     [SerializeField] Transform ChooseCard;
     [SerializeField] Transform TitleGameFinish;
     [SerializeField] Transform Replay;
+    [SerializeField] Transform MissionPanel;
     //[SerializeField] Transform NextGame;
     private void Awake()
     {
@@ -32,7 +33,14 @@ public class UILoseGameController : MonoBehaviour
         UIGameStart();
         DoAnimation();
         SpawnRewardItem();
+        CloseMissionPanel();
     }
+
+    private void CloseMissionPanel()
+    {
+        MissionPanel.gameObject.SetActive(false);
+    }
+
     void UIGameStart()
     {
         RewardHolder.gameObject.SetActive(false);
