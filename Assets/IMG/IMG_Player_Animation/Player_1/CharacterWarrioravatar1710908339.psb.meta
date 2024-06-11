@@ -92,7 +92,154 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
     spritePosition: {x: 0, y: 0}
-  mosaicSpriteImportData: []
+  mosaicSpriteImportData:
+  - name: Scarf
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 176
+      y: 667
+      width: 133
+      height: 89
+    spriteID: b0cf5b0e56e8eae42b2c071df32f1f26
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 176, y: 667}
+    spritePosition: {x: 430, y: 556}
+  - name: ArmRight
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 511
+      y: 4
+      width: 388
+      height: 365
+    spriteID: 06cb3d1b6a7a57441b4e42fe87562819
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 511, y: 4}
+    spritePosition: {x: 365, y: 284}
+  - name: Head
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 499
+      height: 655
+    spriteID: cb02291ee50870045b58dadf7f1d5b40
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 360, y: 247}
+  - name: Body
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 511
+      y: 377
+      width: 207
+      height: 391
+    spriteID: 4b9778b977764e645b39d4d47cb2067f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 511, y: 377}
+    spritePosition: {x: 419, y: 278}
+  - name: FootRight
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 907
+      y: 4
+      width: 101
+      height: 213
+    spriteID: c16d47c661be44b469e01aa615cd5c97
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 907, y: 4}
+    spritePosition: {x: 419, y: 140}
+  - name: FootLeft
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 511
+      y: 776
+      width: 123
+      height: 210
+    spriteID: 70692fcc269ca5742b906f9af4e682bc
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 511, y: 776}
+    spritePosition: {x: 534, y: 136}
+  - name: ArmLeft
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 667
+      width: 164
+      height: 251
+    spriteID: 53755a990c3a23443a80d2b3fc9dbffe
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 667}
+    spritePosition: {x: 493, y: 346}
   rigSpriteImportData:
   - name: Scarf
     originalName: 
@@ -2307,7 +2454,7 @@ ScriptedImporter:
     spriteBone:
     - name: Right Lower Leg Bone
       guid: a99b7db0ca2615d4cb05b09d705bbfb1
-      position: {x: 112.521706, y: 0.000015470678, z: 0}
+      position: {x: 112.52174, y: 0.0000775417, z: 0}
       rotation: {x: 0, y: 0, z: 0.05281716, w: 0.99860424}
       length: 86.66201
       parentId: 1
@@ -2318,7 +2465,7 @@ ScriptedImporter:
       guid: 5de5b20d615ab0c4fa647a4e03500e8c
       position: {x: 57.49756, y: 199.58844, z: 0}
       rotation: {x: 0, y: 0, z: 0.71685845, w: -0.69721884}
-      length: 112.5217
+      length: 112.521706
       parentId: -1
       color:
         serializedVersion: 2
@@ -3972,15 +4119,15 @@ ScriptedImporter:
     - name: Right Upper Leg Bone
       guid: 5de5b20d615ab0c4fa647a4e03500e8c
       position: {x: 104.18235, y: 53.804634, z: 0}
-      rotation: {x: 0, y: -0, z: 0.9997186, w: 0.02372181}
-      length: 112.5217
+      rotation: {x: 0, y: -0, z: 0.9997186, w: 0.023721812}
+      length: 112.521706
       parentId: 0
       color:
         serializedVersion: 2
         rgba: 4294901760
     - name: Right Lower Leg Bone
       guid: a99b7db0ca2615d4cb05b09d705bbfb1
-      position: {x: 112.5217, y: 0.000009422471, z: 0}
+      position: {x: 112.521736, y: 0.000039505987, z: 0}
       rotation: {x: 0, y: 0, z: 0.052817143, w: 0.99860424}
       length: 86.66202
       parentId: 4
@@ -4089,7 +4236,7 @@ ScriptedImporter:
       order: 0
     dimension: {x: 0, y: 0}
     characterGroups: []
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0.4433725, y: 0.4586288}
     boneReadOnly: 0
   sharedRigSpriteImportData: []
   sharedRigCharacterData:
@@ -4138,8 +4285,8 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   mosaicLayers: 1
   characterMode: 1
-  documentPivot: {x: 0.5, y: 0}
-  documentAlignment: 7
+  documentPivot: {x: 0.4433725, y: 0.4586288}
+  documentAlignment: 9
   importHiddenLayers: 0
   layerMappingOption: 2
   generatePhysicsShape: 0
@@ -4152,7 +4299,77 @@ ScriptedImporter:
     categories: []
   spritePackingTag: 
   resliceFromLayer: 0
-  mosaicPSDLayers: []
+  mosaicPSDLayers:
+  - name: Scarf
+    spriteName: Scarf
+    isGroup: 0
+    parentIndex: -1
+    spriteID: b0cf5b0e56e8eae42b2c071df32f1f26
+    layerID: 0
+    mosaicPosition: {x: 176, y: 667}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: ArmRight
+    spriteName: ArmRight
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 06cb3d1b6a7a57441b4e42fe87562819
+    layerID: 1061495062
+    mosaicPosition: {x: 511, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Head
+    spriteName: Head
+    isGroup: 0
+    parentIndex: -1
+    spriteID: cb02291ee50870045b58dadf7f1d5b40
+    layerID: -158744160
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Body
+    spriteName: Body
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 4b9778b977764e645b39d4d47cb2067f
+    layerID: -911352830
+    mosaicPosition: {x: 511, y: 377}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: FootRight
+    spriteName: FootRight
+    isGroup: 0
+    parentIndex: -1
+    spriteID: c16d47c661be44b469e01aa615cd5c97
+    layerID: -757358840
+    mosaicPosition: {x: 907, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: FootLeft
+    spriteName: FootLeft
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 70692fcc269ca5742b906f9af4e682bc
+    layerID: 432118833
+    mosaicPosition: {x: 511, y: 776}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: ArmLeft
+    spriteName: ArmLeft
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 53755a990c3a23443a80d2b3fc9dbffe
+    layerID: 1648567241
+    mosaicPosition: {x: 4, y: 667}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
   rigPSDLayers:
   - name: Scarf
     spriteName: Scarf

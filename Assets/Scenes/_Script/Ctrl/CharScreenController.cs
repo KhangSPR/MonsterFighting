@@ -11,11 +11,9 @@ namespace UIGameDataManager
     {
 
         public static event Action<CharacterData> CharacterShown;
-        public static event Action<CharacterData> LevelPotionUsed;
-        public static event Action<CharacterData> StarGemUsed;
 
         [Tooltip("Characters to choose from.")]
-        List<CharacterData> m_Characters;
+        [SerializeField] List<CharacterData> m_Characters;
 
         //[Tooltip("Parent transform for all character previews.")]
         [SerializeField] Transform m_previewTransform;
@@ -30,8 +28,8 @@ namespace UIGameDataManager
         public List<CharacterData> M_Characters { get { return m_Characters; } set { m_Characters = value; } }
         public CharacterData CurrentCharacter { get => M_Characters[m_CurrentIndex]; }
 
-        CardStatCharacters m_Stats;
-        public CardStatCharacters Stats { get { return m_Stats; } set { m_Stats = value;  } }
+        CardStatsSkill m_Stats;
+        public CardStatsSkill Stats { get { return m_Stats; } set { m_Stats = value;  } }
 
         [SerializeField] int m_CurrentIndex;
         int m_ActiveGearSlot;
@@ -39,14 +37,7 @@ namespace UIGameDataManager
         {
             StatusScreen.ScreenEnabled += OnCharScreenStarted;
             StatusScreen.ScreenDisabled += OnCharScreenEnded;
-            StatusScreen.LevelUpClicked += OnLevelUpClicked;
-            StatusScreen.GemUpClicked += OnStarUpClicked;
 
-            CharacterData.LevelIncremented += OnLevelIncremented;
-            CharacterData.StarIncremented += OnStarIncremented;
-
-            GameDataManager.CharacterLeveledUp += OnCharacterLeveledUp;
-            GameDataManager.CharacterGemedUp += OnCharacterGemedUp;
 
             StatusScreen.CharStatsWindowUpdated += OnCharStatsWindowUpdated;
 
@@ -58,22 +49,13 @@ namespace UIGameDataManager
         {
             StatusScreen.ScreenEnabled -= OnCharScreenStarted;
             StatusScreen.ScreenDisabled -= OnCharScreenEnded;
-            StatusScreen.LevelUpClicked -= OnLevelUpClicked;
-            StatusScreen.GemUpClicked -= OnStarUpClicked;
 
-            CharacterData.LevelIncremented -= OnLevelIncremented;
-            CharacterData.StarIncremented -= OnStarIncremented;
-
-            GameDataManager.CharacterLeveledUp -= OnCharacterLeveledUp;
-            GameDataManager.CharacterGemedUp -= OnCharacterGemedUp;
 
             StatusScreen.CharStatsWindowUpdated -= OnCharStatsWindowUpdated;
         }
         void Start()
         {
             //InitializeCharPreview();
-
-
         }
         public void SetCurrentIndex(int index)
         {
@@ -131,12 +113,13 @@ namespace UIGameDataManager
 
                 // Kiểm tra xem PreviewInstance đã được tạo chưa
                 if (charData.PreviewInstance == null)
-                {
-                    // Nếu chưa, tạo mới và gán vào PreviewInstance
+                {                
+                    // Khởi tạo instance mới và gán vào PreviewInstance
                     charData.PreviewInstance = Instantiate(charData.CharacterBaseData.characterVisualsPrefab, m_previewTransform.position, Quaternion.identity);
                     charData.PreviewInstance.transform.SetParent(m_previewTransform);
                     charData.PreviewInstance.SetActive(false);
                 }
+
             }
 
             //Initialized?.Invoke();
@@ -198,93 +181,7 @@ namespace UIGameDataManager
         {
             ShowCharacterPreview(false);
         }
-        // click the level up button
-        void OnLevelUpClicked()
-        {
-            // notify GameDataManager that we want to spend LevelUpPotion
-            Debug.Log("OnLevelUpClicked(): Da click");
-
-            LevelPotionUsed?.Invoke(CurrentCharacter);
-        }
-        void OnStarUpClicked()
-        {
-            // notify GameDataManager that we want to spend LevelUpPotion
-            StarGemUsed?.Invoke(CurrentCharacter);
-
-            Debug.Log("OnStarUpClicked(): Da click");
-        }
-        // success or failure when leveling up a character 
-        void OnCharacterLeveledUp(bool didLevel)
-        {
-            //Enable Max Lv
-
-            if (didLevel)
-            {
-
-                //increment the Player Level
-                CurrentCharacter.IncrementLevel();
-
-                //CardStatsTower
-                m_Stats.LevelUpStats();
-
-                // playback the FX sequence
-                m_LevelUpPlayable?.Play();
-
-                //StarUpOnEnableView?.Invoke(false);
-
-                //CurrentCharacter.EnableMaxLv(); //1
-            }
-        }
-        void OnCharacterGemedUp(bool didLevel)
-        {
-            if (didLevel)
-            {
-                //increment the Player Level
-                CurrentCharacter.IncrementStar();
-
-                //CardStatsTower
-                //m_Stats.LevelUpStats();
-
-                Debug.Log("Star Up");
-
-                // playback the FX sequence
-                m_LevelUpPlayable?.Play();
-
-
-                m_Stats.SetGameDataStarUp();
-
-                CurrentCharacter.ResetLv();
-
-                CharacterShown?.Invoke(CurrentCharacter); //no
-
-
-            }
-        }
-        // update the character stats UI
-        void OnLevelIncremented(CharacterData charData)
-        {
-            if (charData == CurrentCharacter)
-            {
-                CharacterShown?.Invoke(CurrentCharacter);
-            }
-        }
-        void OnStarIncremented(CharacterData charData)
-        {
-            if (charData == CurrentCharacter)
-            {
-                CharacterShown?.Invoke(CurrentCharacter);
-            }
-        }
-        void OnResetPlayerLevel()
-        {
-            foreach (CharacterData charData in m_Characters)
-            {
-                charData.CurrentLevel = 1;
-            }
-            CharacterShown?.Invoke(CurrentCharacter);
-            //UpdateLevelMeter();
-        }
-        void OnCharStatsWindowUpdated(CardStatCharacters charStatsWindow)
+        void OnCharStatsWindowUpdated(CardStatsSkill charStatsWindow)
         {
             // Cập nhật Stats từ CharStatsWindow
             m_Stats = charStatsWindow;

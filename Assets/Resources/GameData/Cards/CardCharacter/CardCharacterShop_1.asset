@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: CardCharacterShop_1
   m_EditorClassIdentifier: 
   nameCard: Magic Ice
+  cardRefresh: 0
   price: 2
   frame: {fileID: 21300000, guid: 849036ce0de5d5443a29e4702bdb76c4, type: 3}
   background: {fileID: 21300000, guid: e9e4c2d18d1a9f04b9684d07f87c822b, type: 3}
   avatar: {fileID: 21300000, guid: e9e4c2d18d1a9f04b9684d07f87c822b, type: 3}
-  Level: 1
-  Star: 1
   basePointsAttack: 1
   basePointsLife: 1
   basePointsAttackSpeed: 1
@@ -27,9 +26,7 @@ MonoBehaviour:
   bio: 
   skill1: {fileID: 0}
   skill2: {fileID: 0}
-  skill3: {fileID: 0}
-  cardRare: 0
-  cardAttack: 0
-  cardClass: 0
+  rarityCard: 0
+  attackTypeCard: 0
   characterVisualsPrefab: {fileID: 0}
   cardStat: {fileID: 0}

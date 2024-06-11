@@ -56,6 +56,11 @@ namespace UIGameDataManager
             OnTowerButtonClickedTower(0);
 
         }
+        /*protected override void OnEnable()
+        {
+            base.OnEnable();
+            OnTowerButtonClickedTower(0);
+        }*/
         private void OnApplicationQuit()
         {
             // Reset the CardManager when the game is about to quit
@@ -98,13 +103,14 @@ namespace UIGameDataManager
         }
         private void DisplayCardsOnPanelTower(List<CardCharacter> cards)
         {
-
+            if (charScreen == null) return;
+            if (charScreen.M_Characters == null) return;
             // Xóa tất cả các đối tượng con của PanelCard trước khi thêm mới
             foreach (Transform child in PanelCard)
             {
                 CardCount = 0;
 
-                charScreen.M_Characters.Clear();
+                charScreen.M_Characters.Clear();//
 
                 Destroy(child.gameObject);
 
@@ -130,12 +136,11 @@ namespace UIGameDataManager
                 if (TowerData != null)
                 {
                     TowerData.SetCharacterBaseData(card);
-                    //TowerData.PreviewInstance = card.characterVisualsPrefab;
                 }
 
                 if (cardUI != null)
                 {
-                    cardUI.SetCardInfo(cardObject, card, m_GameIconsData);
+                    cardUI.SetCardInfo(card);
                     cardUI.idCard = CardCount;
                 }
 

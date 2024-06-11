@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using TMPro;
 
 namespace UIGameDataManager
@@ -8,15 +10,8 @@ namespace UIGameDataManager
     [RequireComponent(typeof(SaveManager))]
     public class GameDataManager : MonoBehaviour
     {
-        public static event Action<GameData> PotionsUpdated;
-        public static event Action<GameData> GemsUpdated;
         public static event Action<GameData> FundsUpdated;
         public static event Action<GameData> StonesUpdated;
-
-        public static event Action<bool> CharacterLeveledUp;
-        public static event Action<bool> CharacterGemedUp;
-        public static event Action<bool> LevelUpButtonEnabled;
-        public static event Action<bool> StarUpButtonEnabled;
 
 
 
@@ -67,47 +62,28 @@ namespace UIGameDataManager
             //UpdateEnemyGemsUI();
             GameManager.UpdateResources += UpdateResources;
 
-            CharScreenController.LevelPotionUsed += OnLevelPotionUsed;
-            CharScreenController.StarGemUsed += OnStarGemUsed;
-
-
-            StatusScreen.updateStat += UpdatePotions;
-            StatusScreen.updateStatMaxlv += UpdateGems;
 
             ShopController.ShopItemPurchasing += OnPurchaseItem;
             ShopController.ShopItemCardPurchasing += OnPurchaseItemCard;
 
-
-            CharScreenController.CharacterShown += OnCharacterShown;
-            CharScreenController.CharacterShown += OnCharacterShowStar;
         }
 
         void OnDisable()
         {
             GameManager.UpdateResources -= UpdateResources;
 
-            CharScreenController.LevelPotionUsed -= OnLevelPotionUsed;
-            CharScreenController.StarGemUsed -= OnStarGemUsed;
-
-            StatusScreen.updateStat -= UpdatePotions;
-            StatusScreen.updateStatMaxlv -= UpdateGems;
-
             ShopController.ShopItemPurchasing -= OnPurchaseItem;
             ShopController.ShopItemCardPurchasing += OnPurchaseItemCard;
-
-            CharScreenController.CharacterShown -= OnCharacterShown;
-            CharScreenController.CharacterShown -= OnCharacterShowStar;
         }
-
         void Start()
         {
             m_SaveManager?.LoadGame();
 
-            AddItem(); //Call Before UpdateFunds
+            RemoveItem();
+
+            AddItem(); // Call Before UpdateFunds
 
             UpdateFunds();
-
-
         }
         void RemoveItem()
         {
@@ -118,21 +94,21 @@ namespace UIGameDataManager
         }
         [Header("Test Add Item")]
         public uint ItemADD;
+
         void AddItem()
         {
-            RemoveItem();
-
             m_GameData.enemyStone += ItemADD;
             m_GameData.enemyBoss += ItemADD;
             m_GameData.gold += ItemADD;
-            m_GameData.xpLv1 += ItemADD;
+            m_GameData.xpLv1 += 500;
 
+            m_SaveManager?.SaveGame();
         }
         /// <summary>
         /// 
         /// </summary>
         // transaction methods 
-        
+
         void UpdateFunds()
         {
             if (m_GameData != null)
@@ -149,122 +125,7 @@ namespace UIGameDataManager
                 Debug.Log("Update Funds");
             }
         }
-        void UpdateGems()
-        {
-            if (m_GameData != null)
-            {
-                GemsUpdated?.Invoke(m_GameData);
-
-                //Update OptionBar
-                UpdateFunds();
-            }
-
-            Debug.Log("GameData: " + m_GameData.enemyBoss);
-        }
-        void UpdatePotions()
-        {
-            if (m_GameData != null)
-                PotionsUpdated?.Invoke(m_GameData);
-            Debug.Log("GameData: " + m_GameData.xpLv1);
-        }
-
-        // do we have enough potions to level up?
-        public bool CanLevelUp(CharacterData character)
-        {
-            if (m_GameData == null || character == null)
-                return false;
-
-            Debug.Log("CanLevelUp: " + m_GameData.xpLv1 + "//"+ character.GetXPForNextLevel());
-
-            return (character.GetXPForNextLevel() <= m_GameData.xpLv1);
-        }
-        public bool CanStarUp(CharacterData character)
-        {
-            Debug.Log("Can lv up");
-
-            if (m_GameData == null || character == null)
-                return false;
-
-            return (character.GetXPForNextStar() <= m_GameData.enemyBoss);
-        }
-
-        void PayLevelUpPotions(uint numberPotions)
-        {
-            if (m_GameData != null)
-            {
-                m_GameData.xpLv1 -= numberPotions;
-                PotionsUpdated?.Invoke(m_GameData);
-            }
-        }
-        void PayStarUpGems(uint numberGems)
-        {
-            if (m_GameData != null)
-            {
-                m_GameData.enemyBoss -= numberGems;
-                GemsUpdated?.Invoke(m_GameData);
-            }
-        }
-        // attempt to level up the character using a potion
-        void OnLevelPotionUsed(CharacterData charData)
-        {
-            if (charData == null)
-                return;
-
-            bool isLeveled = false;
-            if (CanLevelUp(charData))
-            {
-                PayLevelUpPotions(charData.GetXPForNextLevel());
-                isLeveled = true;
-                //AudioManager.PlayVictorySound();
-            }
-            else
-            {
-                //AudioManager.PlayDefaultWarningSound();
-                Debug.Log("Khong du binh EXP");
-            }
-            // notify other objects if level up succeeded or failed
-            CharacterLeveledUp?.Invoke(isLeveled);
-        }
-        // attempt to level up the character using a Gems
-        void OnStarGemUsed(CharacterData charData)
-        {
-            if (charData == null)
-                return;
-
-            bool isLeveled = false;
-            if (CanStarUp(charData))
-            {
-                PayStarUpGems(charData.GetXPForNextStar());
-                isLeveled = true;
-                //AudioManager.PlayVictorySound();
-
-                Debug.Log("OnStarGemUsed : " + charData.GetXPForNextStar());
-            }
-            else
-            {
-                //AudioManager.PlayDefaultWarningSound();
-                Debug.Log("Khong du Gems  ");
-            }
-            // notify other objects if level up succeeded or failed
-            CharacterGemedUp?.Invoke(isLeveled);
-        }
-        //possibly indicating whether the level-up button should be enabled or disabled.
-        void OnCharacterShown(CharacterData charData)
-        {
-
-            LevelUpButtonEnabled?.Invoke(CanLevelUp(charData));
-
-            Debug.Log("OnCharacterShown" + CanLevelUp(charData));
-
-        }
-        void OnCharacterShowStar(CharacterData charData)
-        {
-
-            StarUpButtonEnabled?.Invoke(CanStarUp(charData));
-
-
-
-        }
+   
         bool HasSufficientFunds(ShopItemSO shopItem)
         {
             if (shopItem == null)
@@ -414,18 +275,15 @@ namespace UIGameDataManager
 
                 case ShopItemType.XpLv2:
                     m_GameData.xpLv2 += contentValue;
-                    UpdatePotions();
                     UpdateFunds();
                     break;
 
                 case ShopItemType.XpLv3:
                     m_GameData.xpLv3 += contentValue;
-                    UpdatePotions();
                     UpdateFunds();
                     break;
                 case ShopItemType.XpLv4:
                     m_GameData.xpLv4 += contentValue;
-                    UpdatePotions();
                     UpdateFunds();
                     break;
             }
@@ -493,8 +351,10 @@ namespace UIGameDataManager
         void SaveShopItemState(ShopItemCardSO shopItem)
         {
             // Lưu trạng thái của shopItem vào ScriptableObject
-            UnityEditor.EditorUtility.SetDirty(shopItem);
-            UnityEditor.AssetDatabase.SaveAssets();
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(shopItem);
+            AssetDatabase.SaveAssets();
+#endif
         }
         void AddCardComponentToFolder(ShopItemCardSO shopItemCardSO)
         {
@@ -509,9 +369,11 @@ namespace UIGameDataManager
             string newAssetPath = newFolderPath + "/" + shopItemCardSO.cardComponent.nameCard + ".asset";
 
             // Move the new ScriptableObject into the new folder
+#if UNITY_EDITOR
             AssetDatabase.CreateAsset(CreateInstanceCardComponent(cardType, shopItemCardSO), newAssetPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+#endif
         }
 
         CardComponent CreateInstanceCardComponent(string cardType, ShopItemCardSO shopItemCardSO)
@@ -528,8 +390,6 @@ namespace UIGameDataManager
                         shopItemCardSO.cardComponent.frame,
                         shopItemCardSO.cardComponent.background,
                         shopItemCardSO.cardComponent.avatar,
-                        characterCard.Level,
-                        characterCard.Star,
                         characterCard.basePointsAttack,
                         characterCard.basePointsLife,
                         characterCard.basePointsAttackSpeed,
@@ -540,8 +400,7 @@ namespace UIGameDataManager
                         characterCard.skill2,
                         characterCard.rarityCard,
                         characterCard.attackTypeCard,
-                        characterCard.characterVisualsPrefab,
-                        characterCard.cardStat
+                        characterCard.characterVisualsPrefab
                     );
                     return characterCard;
                 case "CardMachine":

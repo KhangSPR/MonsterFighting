@@ -7,7 +7,7 @@ public class Ability : ScriptableObject
 {
     [Header("private variable")]
     [SerializeField, ReadOnlyInspector]
-    protected int money_PlusDefault = 5;  //5 Money Default
+    protected int money_PlusDefault = 25;  //5 Money Default
     [SerializeField, ReadOnlyInspector]
     protected int hp_PlusDefault = 50; //2 Hp Default
     [SerializeField, ReadOnlyInspector]

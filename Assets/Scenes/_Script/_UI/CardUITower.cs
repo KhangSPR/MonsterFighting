@@ -10,9 +10,6 @@ public class CardUITower : MonoBehaviour
     [SerializeField] Image background;
     [SerializeField] TMP_Text nameCard;
 
-    [Header("Star")]
-    [SerializeField] GameObject StarPrefabs;
-    [SerializeField] Transform StarHolder;
 
     public int idCard;
     private void Start()
@@ -26,29 +23,13 @@ public class CardUITower : MonoBehaviour
         // Thêm hàm OnButtonClick() vào sự kiện click của Button
         button.onClick.AddListener(OnButtonClick);
     }
-    public void SetCardInfo(GameObject cardObject, CardCharacter card, GameIconsSO gameIconsSO)
+    public void SetCardInfo(CardCharacter card)
     {
         //Frame
         frame.sprite = card.frame;
         background.sprite = card.background;
         nameCard.text = card.name;
 
-        InstantiateStart(card, gameIconsSO);
-    }
-    void InstantiateStart(CardCharacter card, GameIconsSO gameIconsSO)
-    {
-        foreach(Transform star in StarHolder)
-        {
-            Destroy(star.gameObject);
-        }
-
-        for (int i = 0; i < card.Star; i++)
-        {
-            
-            GameObject newObject = Instantiate(StarPrefabs, StarHolder);
-
-            newObject.GetComponent<Image>().sprite = gameIconsSO.GetStarIcon(card.rarityCard);
-        }
     }
     protected void OnButtonClick()
     {
