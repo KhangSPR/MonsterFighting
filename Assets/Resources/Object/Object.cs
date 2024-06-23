@@ -9,6 +9,7 @@ public class Object : ScriptableObject
     public string ObjName = "Object";
     public ObjectType objectType;
     public int hpMax;
+    public int manaMax;
     public int damage;
     [Header("Card")]
     public float speed = 1.5f;

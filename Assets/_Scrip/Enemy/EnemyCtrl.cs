@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UIGameDataManager;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyCtrl : ObjectCtrl
 {
@@ -18,6 +19,7 @@ public class EnemyCtrl : ObjectCtrl
 
     [SerializeField] protected EnemyTag enemyTag;
     public EnemyTag EnemyTag => enemyTag;
+    public bool isBoss;
     protected override string GetObjectTypeString()
     {
         return ObjectType.Enemy.ToString();
@@ -34,6 +36,7 @@ public class EnemyCtrl : ObjectCtrl
         this.loadEnemyAttack();
         this.loadEnemyModel();
         this.loadObjMovement();
+        this.LoadEnemyUI();
     }
     protected virtual void loadObjMovement()
     {
@@ -59,5 +62,28 @@ public class EnemyCtrl : ObjectCtrl
         this.enemyShooter = transform.GetComponentInChildren<EnemyShooter>();
         Debug.Log(gameObject.name + ": loadPCanAttackEnemy" + gameObject);
     }
-
+    public Transform Canvas;
+    [SerializeField] private Slider healthBar;
+    private Slider manaBar;
+    public void LoadEnemyUI()
+    {
+        
+        healthBar = Canvas.GetChild(0).GetComponent<Slider>();
+        manaBar = Canvas.GetChild(1).GetComponent<Slider>();
+        healthBar.minValue = 0;
+        healthBar.maxValue = this.Receiver.IsMaxHP;
+        UpdateHealhbar(this.Receiver.IsMaxHP);
+    }
+    public void EnableCanvas(bool enable)
+    {
+        if (!isBoss) return;
+        Canvas.gameObject.SetActive(true);
+    }
+    public void UpdateHealhbar(float health)
+    {
+        Debug.Log("Update Health Bar", healthBar.transform);
+        healthBar.value = health;
+        Debug.Log("healthBar.value : " + healthBar.value);
+        manaBar.value = manaBar.maxValue;
+    }
 }

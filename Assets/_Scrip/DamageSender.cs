@@ -23,7 +23,7 @@ public class DamageSender : SaiMonoBehaviour
 
     public virtual void Send(DamageReceiver damageReceiver)
     {
-        damageReceiver.deDuct(this.dame);
+        damageReceiver.deDuctHP(this.dame);
 
         Debug.Log("Send" + this.dame);
     }
@@ -35,11 +35,11 @@ public class DamageSender : SaiMonoBehaviour
         Debug.Log(" tag:"+ tag+" ,name :" +name,damageSender.gameObject);
         if(tag == "Player" || name.Contains("Bullet_"))
         {
-            damageReceiver.deDuct(this.dame,true);
+            damageReceiver.deDuctHP(this.dame,true);
         }
         else
         {
-            damageReceiver.deDuct(this.dame);
+            damageReceiver.deDuctHP(this.dame);
         }
         
 

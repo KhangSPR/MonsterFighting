@@ -7,12 +7,17 @@ using UnityEngine;
 public abstract class DamageReceiver : SaiMonoBehaviour
 {
     [Header("Damage Receiver")]
-    [SerializeField] protected int isHP = 1;
+    [SerializeField] public int isHP = 1;
     [SerializeField] protected int isMaxHP = 3;
+    [SerializeField] public int isMana = 1;
+    [SerializeField] protected int isMaxMana = 3;
     public bool isDead = false;
 
     public int IsHP => isHP;
     public int IsMaxHP => isMaxHP;
+
+    public int IsMana => isMana;
+    public int IsMaxMana => isMaxMana;
     protected override void OnEnable() // Goi 1 lan moi khi reset
     {
         this.ReBorn();
@@ -25,6 +30,7 @@ public abstract class DamageReceiver : SaiMonoBehaviour
     public virtual void ReBorn()
     {
         this.isHP = this.isMaxHP;
+        this.isMana = this.isMaxMana;
         this.isDead = false;
     }
     public virtual void ReBornHPCastleEvent()
@@ -32,21 +38,37 @@ public abstract class DamageReceiver : SaiMonoBehaviour
         this.isHP = this.isMaxHP;
         this.isDead = false;
     }
-    protected virtual void Add(int ADD)
+    public virtual void deDuctHP(int Deduct)
     {
-        if (this.isDead == true) return;
-        this.isHP += ADD;
-        if (this.isHP > this.isMaxHP) this.isHP = this.isMaxHP;
+        deDuctHP(Deduct, false);
     }
-    public virtual void deDuct(int Deduct)
+    public void deDuctMana(int deduct)
     {
-        deDuct(Deduct, false);
-    }
+        if (this.transform.parent.GetComponent<PlayerCtrl>() == null) return;
+        this.transform.parent.GetComponent<PlayerCtrl>().EnableCanvas(true);
+        this.transform.parent.GetComponent<PlayerCtrl>().UpdateHealhbar(this.isHP);
 
-    public virtual void deDuct(int Deduct,bool damageByPlayer) // có phải player gây damage không ? , sau này sẽ thay đổi tên biến và kiểu dữ liệu này 
+        this.isMana -= deduct;
+    }
+    public virtual void deDuctHP(int Deduct,bool damageByPlayer) // có phải player gây damage không ? , sau này sẽ thay đổi tên biến và kiểu dữ liệu này 
     {
+        Debug.Log("Deduct By Player",this.transform);
+        if (damageByPlayer)
+        {
+            
+            if (this.transform.parent.GetComponent<EnemyCtrl>() == null) return;
+            this.transform.parent.GetComponent<EnemyCtrl>().EnableCanvas(true);
+            this.transform.parent.GetComponent<EnemyCtrl>().UpdateHealhbar(this.isHP);
+        }else
+        {
+            if (this.transform.parent.GetComponent<PlayerCtrl>() == null) return;
+            this.transform.parent.GetComponent<PlayerCtrl>().EnableCanvas(true);
+            this.transform.parent.GetComponent<PlayerCtrl>().UpdateHealhbar(this.isHP);
+        }
+        
         if (this.isDead == true) return;
         this.isHP -= Deduct;
+
         if (this.isMaxHP < 0)
             this.isHP = 0;
 

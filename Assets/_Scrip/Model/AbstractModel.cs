@@ -107,6 +107,10 @@ public abstract class AbstractModel : AbstractCtrl
     {
         this.animator.SetBool(animationName, state);
     }
+    public void PlayAnimation(string animationName, int state)
+    {
+        this.animator.SetInteger(animationName, state);
+    }
     protected abstract void AnimationLoading();
     protected abstract void AttackType();
     protected void Move()

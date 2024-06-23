@@ -63,12 +63,12 @@ public class DamageReceiverdByType : DamageReceiver
         int damagePerTick = Mathf.FloorToInt(minTimeToDamage) + 1;
 
         // Trừ dame
-        deDuct(damagePerTick);
+        deDuctHP(damagePerTick);
         while (IsTWitch)
         {
             yield return wait;
             // Trừ dame
-            deDuct(damagePerTick);
+            deDuctHP(damagePerTick);
         }
     }
     private IEnumerator CountDownAndStopTWitch(float time)
@@ -96,12 +96,12 @@ public class DamageReceiverdByType : DamageReceiver
         int damagePerTick = Mathf.FloorToInt(minTimeToDamage) + 1;
 
         // Trừ dame
-        deDuct(damagePerTick);
+        deDuctHP(damagePerTick);
         while (IsBurning)
         {
             yield return wait;
             // Trừ dame
-            deDuct(damagePerTick);
+            deDuctHP(damagePerTick);
         }
     }
     private IEnumerator CountDownAndStopBurning(float time)

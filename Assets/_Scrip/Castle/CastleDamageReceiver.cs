@@ -46,10 +46,10 @@ public class CastleDamageReceiver : DamageReceiver
             base.ReBornHPCastleEvent();
         }
     }
-    public override void deDuct(int Deduct)
+    public override void deDuctHP(int Deduct)
     {
         GameManager.Instance.Castle_On_Damage(Deduct);
-        base.deDuct(Deduct);
+        base.deDuctHP(Deduct);
     }
     #region FX On Dead -----------------------------------------------------------------------------------------
 
