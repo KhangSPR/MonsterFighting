@@ -11,12 +11,12 @@ namespace UIGameDataManager
 
         public StatsTowerContainer(CardCharacter CardTower)
         {
-            basePointsAttack = new Stat(StatKeys.Attack, CardTower.basePointsAttack);
+            basePointsAttack = new Stat(StatKeys.Attack, CardTower.CharacterStats.Attack);
             //basePointsCriticalHit = new Stat(StatKeys.CriticalHit, CardTower.basePointsCriticalHit);
-            basePointsLife = new Stat(StatKeys.Life, CardTower.basePointsLife);
+            basePointsLife = new Stat(StatKeys.Life, CardTower.CharacterStats.Life);
             //basePointsDefense = new Stat(StatKeys.Defense, CardTower.basePointsDefense);
-            basePointsAttackSpeed = new Stat(StatKeys.AttackSpeed, CardTower.basePointsAttackSpeed);
-            basePointsSpecialAttack = new Stat(StatKeys.SpecialAttack, CardTower.basePointsSpecialAttack);
+            basePointsAttackSpeed = new Stat(StatKeys.AttackSpeed, CardTower.CharacterStats.AttackSpeed);
+            basePointsSpecialAttack = new Stat(StatKeys.SpecialAttack, CardTower.CharacterStats.SpecialAttack);
         }
 
         //public Stat getStat(StatKeys statKey)

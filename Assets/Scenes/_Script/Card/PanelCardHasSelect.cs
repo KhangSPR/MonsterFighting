@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AdaptivePerformance;
-
 public class PanelCardHasSelect : SaiMonoBehaviour
 {
     public List<CardHasSelect> CardHasSelects = new List<CardHasSelect>();
@@ -29,6 +27,12 @@ public class PanelCardHasSelect : SaiMonoBehaviour
         {
             if (cardHasSelect.CardTower == null)
             {
+                //Check Slot Card
+                if(CardManager.Instance.CardALLCard.listCardCharacter.Count < CardHasSelects.Count)
+                {
+                    CardManager.Instance.ButtonCard.ButtonUI.SetConditionToClick(true);
+                    return;
+                }
                 CardManager.Instance.ButtonCard.ButtonUI.SetConditionToClick(false);
                 Debug.Log("false");
                 return;

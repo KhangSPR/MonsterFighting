@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   delay: 100
+  enemyCtrl: {fileID: 0}
 --- !u!1 &4542317305596236412
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,8 +134,8 @@ MonoBehaviour:
   spawner: {fileID: 0}
   damageSender: {fileID: 0}
   despawn: {fileID: 5465549448500234781}
-  spawnPoints: {fileID: 0}
-  detectPlayer: {fileID: 5553588262627313705}
+  abstractModel: {fileID: 0}
+  cardTower: {fileID: 0}
   playerAttack: {fileID: 7885228461532948264}
   playerShooter: {fileID: 8512596706712995562}
 --- !u!1 &5703613371158059534
@@ -278,6 +279,7 @@ MonoBehaviour:
   enemyCtrl: {fileID: 0}
   playerCtrl: {fileID: 8967928072490955585}
   guardCtrl: {fileID: 0}
+  deFenSeCtrl: {fileID: 0}
   isShooting: 0
   transformParent: {fileID: 7578342339585886048}
 --- !u!1 &7529434706884447313
@@ -294,6 +296,7 @@ GameObject:
   - component: {fileID: 1525805708737067270}
   - component: {fileID: 4277295254976362888}
   - component: {fileID: 2560919672400865953}
+  - component: {fileID: 3769577137082151534}
   m_Layer: 0
   m_Name: Modle
   m_TagString: BulletDefaut
@@ -336,7 +339,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -365,7 +368,7 @@ SpriteRenderer:
   m_Size: {x: 1.7004153, y: 1.44}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &8903660406657391776
@@ -466,12 +469,60 @@ MonoBehaviour:
   enemyCtrl: {fileID: 0}
   playerCtrl: {fileID: 8967928072490955585}
   guardCtrl: {fileID: 0}
+  deFenSeCtrl: {fileID: 0}
   circleCollider: {fileID: 1525805708737067270}
+  boxCollider: {fileID: 0}
   _rigidbody: {fileID: 4277295254976362888}
   canAttack: 0
-  moveSpeed: 1.7
-  animator: {fileID: 8903660406657391776}
   currentState: 0
+  animator: {fileID: 8903660406657391776}
+  attackType: 0
+  animationImpact: {fileID: 0}
+--- !u!61 &3769577137082151534
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7529434706884447313}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.0001, y: 0.0001}
+  m_EdgeRadius: 0
 --- !u!1 &7947498248346753326
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,7 +570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCtrl: {fileID: 8967928072490955585}
   canAttack: 0
-  CanAtacck: []
+  CanAttack: []
 --- !u!61 &7575718666974129459
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -693,11 +744,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isHP: 15
   isMaxHP: 15
+  isDead: 0
   exitTimeTwitch: 2
   exitTimeBurn: 2
   DamagePerSecondFire: 2
   DamagePerSecondtwitch: 2
-  isDead: 0
   _IsTWitch: 0
   _IsBurning: 0
   shootAbleObjectCtrl: {fileID: 8967928072490955585}

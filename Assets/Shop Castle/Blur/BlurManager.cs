@@ -8,6 +8,8 @@ public class BlurManager : MonoBehaviour
     public void GetblurMaterial()
     {
         blurMaterial.mainTexture = imageTexure.sprite.texture;
+
+        Debug.Log("Blur");
     }
     private void OnApplicationQuit()
     {

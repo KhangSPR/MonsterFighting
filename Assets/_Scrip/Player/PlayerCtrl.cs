@@ -1,46 +1,89 @@
-using System.Collections;
+﻿using UnityEngine;
 using UIGameDataManager;
-using Unity.VisualScripting;
-using UnityEngine;
 
 public class PlayerCtrl : ObjectCtrl
 {
     [Header("Player Ctrl")]
-    [SerializeField] protected CardCharacter cardTower;
-    public CardCharacter CardTower { get => cardTower; }
+    [SerializeField] protected CardCharacter cardCharacter;
+    public CardCharacter CardCharacter => cardCharacter;
     [SerializeField] protected PlayerAttack playerAttack;
     public PlayerAttack PlayerAttack => playerAttack;
-    public PlayerShooter PlayerShooter => playerShooter;
     [SerializeField] protected PlayerShooter playerShooter;
+    public PlayerShooter PlayerShooter => playerShooter;
     private Vector3Int cellPosition;
-    protected override void LoadComponents()
+    StatsFake characterStatsFake;
+    public StatsFake CharacterStatsFake => characterStatsFake;
+    private void InitCharacterStats()
     {
-        base.LoadComponents();
-        this.loadPlayerAttack();
-        this.LoadPlayerShooter();
+        if (cardCharacter != null)
+        {
+            // Kiểm tra nếu characterStatsFake đã được khởi tạo
+            if (characterStatsFake == null)
+            {
+                characterStatsFake = gameObject.AddComponent<StatsFake>();
+                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.SpecialAttack);
+            }
+            else
+            {
+                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.SpecialAttack);
+            }
+
+            // Áp dụng thêm các chỉ số từ GuildSOManager (nếu cần)
+            if (GameManager.Instance.GuildSOManager.GuildJoined != null)
+            {
+                GameManager.Instance.GuildSOManager.GuildJoined.abilitySO.ApplyMoreStats(gameObject);
+            }
+        }
     }
-    public void SetCardTower(CardCharacter CardTower)
+
+    public void ApplyTemporaryStats(StatsFake tempStats)
     {
-        cardTower = CardTower;
+        if (characterStatsFake != null)
+        {
+            // Áp dụng chỉ số tạm thời từ tempStats vào characterStatsFake
+            characterStatsFake.Attack = tempStats.Attack;
+            characterStatsFake.Life = tempStats.Life;
+            characterStatsFake.AttackSpeed = tempStats.AttackSpeed;
+            characterStatsFake.SpecialAttack = tempStats.SpecialAttack;
+
+            // Áp dụng các chỉ số vào GameObject nếu cần thiết
+        }
     }
+
+    public void SetCardTower(CardCharacter cardTower)
+    {
+        cardCharacter = cardTower;
+        InitCharacterStats();
+    }
+
     protected override string GetObjectTypeString()
     {
         return ObjectType.Player.ToString();
     }
+
     public virtual void Init(Vector3Int cellPos)
     {
         cellPosition = cellPos;
     }
-    protected virtual void loadPlayerAttack()
+
+    protected override void LoadComponents()
     {
-        if (this.playerAttack != null) return;
-        this.playerAttack = transform.GetComponentInChildren<PlayerAttack>();
+        base.LoadComponents();
+        LoadPlayerAttack();
+        LoadPlayerShooter();
+    }
+
+    protected virtual void LoadPlayerAttack()
+    {
+        if (playerAttack != null) return;
+        playerAttack = transform.GetComponentInChildren<PlayerAttack>();
         Debug.Log(gameObject.name + ": loadPlayerAttack" + gameObject);
     }
+
     protected virtual void LoadPlayerShooter()
     {
-        if (this.playerShooter != null) return;
-        this.playerShooter = transform.GetComponentInChildren<PlayerShooter>();
+        if (playerShooter != null) return;
+        playerShooter = transform.GetComponentInChildren<PlayerShooter>();
         Debug.Log(gameObject.name + ": loadCanAttackPlayer" + gameObject);
     }
 }

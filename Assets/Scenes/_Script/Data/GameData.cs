@@ -8,13 +8,10 @@ using System;
 [System.Serializable]
 public class GameData
 {
-    public uint gold = 500;
+    public uint badGe = 5;
     public uint enemyBoss = 50;
     public uint enemyStone = 50;
-    public uint xpLv1 = 50;
-    public uint xpLv2 = 25;
-    public uint xpLv3 = 10;
-    public uint xpLv4 = 1;
+    public uint ruby = 1499;
     //public uint healthPotions = 6;
     //public uint levelUpPotions = 80;
 
@@ -34,13 +31,10 @@ public class GameData
     public GameData()
     {
         // player stats/data
-        this.gold = 200;
+        this.badGe = 5;
         this.enemyBoss = 50;
         this.enemyStone = 50;
-        this.xpLv1  = 50;
-        this.xpLv2 = 25;
-        this.xpLv3 = 10;
-        this.xpLv4 = 1;
+        this.ruby = 1499;
         //this.healthPotions = 6;
         //this.levelUpPotions = 80;
 

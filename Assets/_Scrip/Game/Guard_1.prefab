@@ -97,6 +97,7 @@ MonoBehaviour:
   enemyCtrl: {fileID: 0}
   playerCtrl: {fileID: 0}
   guardCtrl: {fileID: 7582366551804071393}
+  deFenSeCtrl: {fileID: 0}
   isShooting: 0
   transformParent: {fileID: 7247575804959407716}
 --- !u!1 &2242554095126530483
@@ -151,7 +152,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -229,8 +230,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPosition: {x: 0, y: 0, z: 0}
   speedRot: 1.2
-  enemy: {fileID: 0}
-  targetTag: Enemy
+  target: {fileID: 0}
+  listTag: 0
   maxSearchDistance: 15
 --- !u!1 &7127066798499685098
 GameObject:
@@ -318,7 +319,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

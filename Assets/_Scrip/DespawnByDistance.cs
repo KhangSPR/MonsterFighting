@@ -23,7 +23,7 @@ public class DespawnByDistance : Despawn
     protected override bool canDespawn()
     {
         this.Distance = Vector3.Distance(transform.position, maincam.transform.position);
-        if (this.Distance > this.Dislimit) return true;
-        return false;
+        if (this.Distance > this.Dislimit) return canDespawnFlag = true;
+        return canDespawnFlag = false;
     }
 }

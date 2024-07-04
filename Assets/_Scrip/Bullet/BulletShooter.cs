@@ -65,7 +65,9 @@ public abstract class BulletShooter : AbstractCtrl
             {
                 bulletCtrl.ObjLookAtTargetSetter.target = this.enemyCtrl.EnemyAttack.GetTransFromFirstAttack();
             }
-            bulletCtrl.DamageSender.dame = 2/*playerCtrl.ShootAbleObjectSO.damage*/;
+            bulletCtrl.DamageSender.Damage = enemyCtrl.EnemySO.basePointsAttack;
+            bulletCtrl.ObjectCtrl = enemyCtrl;
+
         }
         else if (transformParent.tag == "Player")
         {
@@ -74,11 +76,12 @@ public abstract class BulletShooter : AbstractCtrl
                 bulletCtrl.ObjLookAtTargetSetter.target = this.PlayerCtrl.PlayerAttack.GetTransFromFirstAttack();
 
             }
-            bulletCtrl.DamageSender.dame = 2/*playerCtrl.ShootAbleObjectSO.damage*/;
+            bulletCtrl.DamageSender.Damage = playerCtrl.CharacterStatsFake.Attack;
+            bulletCtrl.ObjectCtrl = playerCtrl;
         }
         else if (transformParent.tag == "Tower")
         {
-            bulletCtrl.DamageSender.dame = 2/*playerCtrl.ShootAbleObjectSO.damage*/;
+            bulletCtrl.DamageSender.Damage = 2/*playerCtrl.ShootAbleObjectSO.damage*/;
         }
         bulletCtrl.SetDirection(shootingDirection);
         bulletCtrl.SetShotter(transform.parent);
@@ -117,7 +120,7 @@ public abstract class BulletShooter : AbstractCtrl
             }
             if (transformParent.tag == "Enemy")
             {
-                bulletCtrl.DamageSender.dame = enemyCtrl.ShootAbleObjectSO.damage;
+                bulletCtrl.DamageSender.Damage = 2;
             }
             else
             {

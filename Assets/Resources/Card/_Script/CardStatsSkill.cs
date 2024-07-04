@@ -196,7 +196,7 @@ public class CardStatsSkill : MonoBehaviour
 
 
 
-            if (skillSO[i] != null && skillSO[i].skillUnlock == SkillUnlock.Unlock)
+            if (skillSO[i] != null && skillSO[i].skillUnlock == true)
             {
                 newSkill.transform.Find("Lock").gameObject.SetActive(false);
                 newSkill.transform.GetComponent<Image>().sprite = skillSO[i].sprite;
@@ -313,7 +313,7 @@ public class CardStatsSkill : MonoBehaviour
 
     private void SetSkillData(SkillSO skill)
     {
-        if(skill.skillUnlock == SkillUnlock.Lock)
+        if(!skill.skillUnlock)
         {
             m_EyeHide.gameObject.SetActive(true);
 

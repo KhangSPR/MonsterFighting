@@ -16,15 +16,20 @@ public class BulletCtrl : SaiMonoBehaviour
     [SerializeField] protected Transform shooter;
     public Transform Shooter => shooter;
 
-    [SerializeField] protected Object shootAbleObjectSO;
-    public Object ShootAbleObjectSO => shootAbleObjectSO;
+    [SerializeField] protected BulletSO bulletSO;
+    public BulletSO BulletSO { get => bulletSO; }
+    [SerializeField] protected ObjectCtrl objectCtrl;
+    public ObjectCtrl ObjectCtrl
+    {
+        get { return objectCtrl; }
+        set { objectCtrl = value; }
+    }
 
     protected override void LoadComponents()
     {
         base.LoadComponents();
         this.loadDamageSender();
         this.loadBulletDespawn();
-        this.loadShootAbleObjectSO();
     }
     protected virtual void loadDamageSender()
     {
@@ -41,13 +46,6 @@ public class BulletCtrl : SaiMonoBehaviour
     public virtual void SetShotter(Transform shooter)
     {
         this.shooter = shooter;
-    }
-    protected virtual void loadShootAbleObjectSO() // ScriptableObject
-    {
-        if (this.shootAbleObjectSO != null) return;
-        string resPath = "ShootAbleObject/" + this.GetObjectTypeString() + "/" + transform.name;
-        this.shootAbleObjectSO = Resources.Load<Object>(resPath); //Ph?i t?o Folder là Resources
-        Debug.LogWarning(transform.name + ": LoadShootAbleObjectSO" + resPath, gameObject);
     }
     protected  string GetObjectTypeString()
     {

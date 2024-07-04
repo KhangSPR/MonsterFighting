@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class BulletDameSender : DamageSender
 {
-    [SerializeField] protected BulletCtrl bulletCtrl;
-    protected override void LoadComponents()
-    {
-        base.LoadComponents();
-        this.loadBulletCtrl();
-    }
-    protected virtual void loadBulletCtrl()
-    {
-        if (this.bulletCtrl != null) return;
-        this.bulletCtrl = transform.parent.GetComponent<BulletCtrl>();
-        Debug.Log(gameObject.name + ": loadDamageSender" + gameObject);
-    }
     public override void Send(DamageReceiver receiver)
     {
         base.Send(receiver);
@@ -32,7 +20,7 @@ public class BulletDameSender : DamageSender
         string fxName = this.GetTextDamageFX();
         Transform fxObj = FXSpawner.Instance.Spawn(fxName, hitPos, Quaternion.identity);
         TextDamage textDamage = fxObj.GetComponent<TextDamage>();
-        textDamage.SetDamage(this.dame);
+        textDamage.SetDamage(this.Damage);
         fxObj.gameObject.SetActive(true);
     }
 
@@ -42,6 +30,6 @@ public class BulletDameSender : DamageSender
     }
     public virtual void desTroyOBJ()
     {
-        this.bulletCtrl.BulletDespawn.deSpawnObjParent();
+        this.bulletCtrl.BulletDespawn.ResetCanDespawnFlag();
     }
 }

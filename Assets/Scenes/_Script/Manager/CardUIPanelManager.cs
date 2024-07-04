@@ -33,9 +33,9 @@ namespace UIGameDataManager
         private Dictionary<int, AttackType> AttacktypesTower = new Dictionary<int, AttackType>()
         {
             { 0, AttackType.ALL },
-            { 1, AttackType.Melee },
-            { 2, AttackType.Ranged },
-            { 3, AttackType.Witch }
+            { 1, AttackType.Warrior },
+            { 2, AttackType.Archer },
+            { 3, AttackType.Wizard }
         };
 
 

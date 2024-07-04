@@ -27,7 +27,7 @@ public class ListCardCharacterData : SaiMonoBehaviour
             newCardObject.transform.Find("Name").GetComponent<TMP_Text>().text = cardCharacterData.nameCard;
 
             // Set Prefab Instance
-            newCardObject.GetComponent<CardBtn>().CardPrefabSet = PlayerSpawner.Instance.GetGameobjectPrefabByName(cardCharacterData.nameCard);
+            //newCardObject.GetComponent<CardBtn>().CardPrefabSet = PlayerSpawner.Instance.GetGameobjectPrefabByName(cardCharacterData.nameCard);
             newCardObject.GetComponent<CardBtn>().CardCharacter = cardCharacterData;
             newCardObject.GetComponent<CardBtn>().Sprite = cardCharacterData.avatar;
             newCardObject.GetComponent<CardBtn>().Price = cardCharacterData.price;

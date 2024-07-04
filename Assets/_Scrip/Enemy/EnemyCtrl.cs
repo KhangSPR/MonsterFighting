@@ -17,6 +17,8 @@ public class EnemyCtrl : ObjectCtrl
 
     [SerializeField] protected EnemyTag enemyTag;
     public EnemyTag EnemyTag => enemyTag;
+    [SerializeField] protected EnemySO enemySO;
+    public EnemySO EnemySO => enemySO;
     protected override string GetObjectTypeString()
     {
         return ObjectType.Enemy.ToString();

@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectDamageReceiver : DamageReceiverdByType
 {
     [Header("Object")]
-    [SerializeField] protected ObjectCtrl shootAbleObjectCtrl;
+    [SerializeField] protected ObjectCtrl ObjectCtrl;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -13,13 +13,13 @@ public class ObjectDamageReceiver : DamageReceiverdByType
     }
     protected virtual void loadObjctrl()
     {
-        if (this.shootAbleObjectCtrl != null) return;
-        this.shootAbleObjectCtrl = transform.parent.GetComponent<ObjectCtrl>();
+        if (this.ObjectCtrl != null) return;
+        this.ObjectCtrl = transform.parent.GetComponent<ObjectCtrl>();
         Debug.Log(gameObject.name + ": loadjunkctrl" + gameObject);
     }
     public override void onDead()
     {
-        this.shootAbleObjectCtrl.Despawn.deSpawnObjParent();
+        this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
     }
     public override bool IsDead()
     {
@@ -27,7 +27,8 @@ public class ObjectDamageReceiver : DamageReceiverdByType
     }
     public override void ReBorn()
     {
-        this.isMaxHP = this.shootAbleObjectCtrl.ShootAbleObjectSO.hpMax;
+        this.isMaxHP = playerCtrl?.CardCharacter.CharacterStats.Life ?? enemyCtrl?.EnemySO.basePointsLife ?? this.isMaxHP;
+
         base.ReBorn();
     }
     #region FX On Dead -----------------------------------------------------------------------------------------

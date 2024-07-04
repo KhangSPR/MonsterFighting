@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e85e46d03a7f6cb419cd541287fd430f, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ea1a29aed6a305469a422ea36e08d53, type: 3}
   m_Name: Skeleton Magic
   m_EditorClassIdentifier: 
-  ObjName: Skeleton Magic
-  objectType: 2
-  hpMax: 1
-  damage: 3
-  speed: 1
-  attackRange: 0
-  speedFly: 0
+  basePointsAttack: 18
+  basePointsLife: 48
+  basePointsAttackSpeed: 3
+  basePointsSpecialAttack: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class AbstractCtrl : SaiMonoBehaviour
 {
-    [Header("Abtract Ctrl")]
+    [Header("Abstract Ctrl")]
     [SerializeField] protected EnemyCtrl enemyCtrl;
     public EnemyCtrl EnemyCtrl { get => enemyCtrl; }
     [SerializeField] protected PlayerCtrl playerCtrl;
@@ -13,36 +13,23 @@ public abstract class AbstractCtrl : SaiMonoBehaviour
     public GuardCtrl GuardCtrl { get => guardCtrl; }
     [SerializeField] protected DeFenSeCtrl deFenSeCtrl;
     public DeFenSeCtrl DeFenSeCtrl { get => deFenSeCtrl; }
+    [SerializeField] protected BulletCtrl bulletCtrl;
+    public BulletCtrl BulletCtrl { get => bulletCtrl; }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        this.LoadEnemyCtrl();
-        this.LoadPlayerCtrl();
-        this.LoadGuardCtrl();
-        this.LoadDeFenSeCtrl();
+        LoadComponent(ref enemyCtrl);
+        LoadComponent(ref playerCtrl);
+        LoadComponent(ref guardCtrl);
+        LoadComponent(ref deFenSeCtrl);
+        LoadComponent(ref  bulletCtrl);
     }
-    protected virtual void LoadPlayerCtrl()
+
+    protected void LoadComponent<T>(ref T component) where T : Component
     {
-        if (this.playerCtrl != null) return;
-        this.playerCtrl = transform.parent.GetComponent<PlayerCtrl>();
-        Debug.Log(transform.name + ": LoadPlayerCtrl", gameObject);
-    }
-    protected virtual void LoadGuardCtrl()
-    {
-        if (this.guardCtrl != null) return;
-        this.guardCtrl = transform.parent.GetComponent<GuardCtrl>();
-        Debug.Log(transform.name + ": LoadGuardCtrl", gameObject);
-    }
-    protected virtual void LoadEnemyCtrl()
-    {
-        if (this.enemyCtrl != null) return;
-        this.enemyCtrl = transform.parent.GetComponent<EnemyCtrl>();
-        Debug.Log(transform.name + ": LoadEnemyCtrl", gameObject);
-    }
-    protected virtual void LoadDeFenSeCtrl()
-    {
-        if (this.deFenSeCtrl != null) return;
-        this.deFenSeCtrl = transform.parent.GetComponent<DeFenSeCtrl>();
-        Debug.Log(transform.name + ": LoadDeFenSeCtrl", gameObject);
+        if (component != null) return;
+        component = transform.parent.GetComponent<T>();
+        Debug.Log($"{transform.name}: Load {typeof(T).Name}", gameObject);
     }
 }

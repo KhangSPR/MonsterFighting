@@ -8,8 +8,6 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
     [Header("Object Ctrl")]
     [SerializeField] protected Transform modle;
     public Transform Modle { get => modle; }
-    [SerializeField] protected Object shootAbleObjectSO;
-    public Object ShootAbleObjectSO => shootAbleObjectSO;
     [SerializeField] protected ObjectDamageReceiver Receiver;
     public ObjectDamageReceiver ObjectDamageReceiver => Receiver;
     [SerializeField] protected Spawner spawner; 
@@ -24,7 +22,7 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        this.loadShootAbleObjectSO();
+        //this.loadShootAbleObjectSO();
         this.loadModle();
         this.loadReceiver();
         this.LoadSpawner();
@@ -68,12 +66,12 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         this.modle = transform.Find("Modle");
         Debug.Log(gameObject.name + ": loadModle" + gameObject);
     }
-    protected virtual void loadShootAbleObjectSO() // ScriptableObject
-    {
-        if (this.shootAbleObjectSO != null) return;
-        string resPath = "Object/" + this.GetObjectTypeString() + "/" + transform.name;
-        this.shootAbleObjectSO = Resources.Load<Object>(resPath); //Ph?i t?o Folder là Resources
-        Debug.LogWarning(transform.name + ": LoadShootAbleObjectSO" + resPath, gameObject);
-    }
+    //protected virtual void loadShootAbleObjectSO() // ScriptableObject
+    //{
+    //    if (this.objStats != null) return;
+    //    string resPath = "Object/" + this.GetObjectTypeString() + "/" + transform.name;
+    //    this.objStats = Resources.Load<ObjectStats>(resPath); //Ph?i t?o Folder là Resources
+    //    Debug.LogWarning(transform.name + ": LoadShootAbleObjectSO" + resPath, gameObject);
+    //}
     protected abstract string GetObjectTypeString();
 }

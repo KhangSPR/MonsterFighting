@@ -44,10 +44,10 @@ public class CardTowerHolder : SaiMonoBehaviour
         // Example: GetComponent<SpriteRenderer>().sprite = cardTower.icon;
         // Find the child object named "Dame"
         Transform dameTransform = transform.Find("Dame");
-        dameTransform.GetComponent<Text>().text = "Dame: " + cardTower.basePointsAttack.ToString();
+        dameTransform.GetComponent<Text>().text = "Dame: " + cardTower.CharacterStats.Attack.ToString();
 
         Transform attackSpeedTransform = transform.Find("AttackSpeed");
-        attackSpeedTransform.GetComponent<Text>().text = "AttackSpeed: " + cardTower.basePointsAttackSpeed.ToString();
+        attackSpeedTransform.GetComponent<Text>().text = "AttackSpeed: " + cardTower.CharacterStats.AttackSpeed.ToString();
 
         Transform SkillTransform = transform.Find("Skill");
         //SkillTransform.GetComponent<Text>().text = "Skill: " + cardTower.skill.ToString();

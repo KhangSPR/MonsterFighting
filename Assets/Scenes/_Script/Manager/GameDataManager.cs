@@ -87,20 +87,19 @@ namespace UIGameDataManager
         }
         void RemoveItem()
         {
-            m_GameData.xpLv1 = 0;
             m_GameData.enemyBoss = 0;
-            m_GameData.gold = 0;
+            m_GameData.badGe = 0;
             m_GameData.enemyStone = 0;
+            
         }
         [Header("Test Add Item")]
         public uint ItemADD;
 
         void AddItem()
         {
-            m_GameData.enemyStone += ItemADD;
-            m_GameData.enemyBoss += ItemADD;
-            m_GameData.gold += ItemADD;
-            m_GameData.xpLv1 += 500;
+            m_GameData.enemyStone += 99;
+            m_GameData.enemyBoss += 5;
+            m_GameData.badGe += 35;
 
             m_SaveManager?.SaveGame();
         }
@@ -109,7 +108,7 @@ namespace UIGameDataManager
         /// </summary>
         // transaction methods 
 
-        void UpdateFunds()
+        public void UpdateFunds()
         {
             if (m_GameData != null)
             {
@@ -138,7 +137,7 @@ namespace UIGameDataManager
             switch (currencyType)
             {
                 case CurrencyType.Gold:
-                    return m_GameData.gold >= discountedPrice;
+                    return m_GameData.badGe >= discountedPrice;
 
                 case CurrencyType.EnemyStone:
                     return m_GameData.enemyStone >= discountedPrice;
@@ -162,7 +161,7 @@ namespace UIGameDataManager
             switch (currencyType)
             {
                 case CurrencyType.Gold:
-                    m_GameData.gold -= (uint)discountedPrice;
+                    m_GameData.badGe -= (uint)discountedPrice;
                     break;
 
                 case CurrencyType.EnemyStone:
@@ -186,7 +185,7 @@ namespace UIGameDataManager
             switch (currencyType)
             {
                 case CurrencyType.Gold:
-                    return m_GameData.gold >= discountedPrice;
+                    return m_GameData.badGe >= discountedPrice;
 
                 case CurrencyType.EnemyStone:
                     return m_GameData.enemyStone >= discountedPrice;
@@ -210,7 +209,7 @@ namespace UIGameDataManager
             switch (currencyType)
             {
                 case CurrencyType.Gold:
-                    m_GameData.gold -= (uint)discountedPrice;
+                    m_GameData.badGe -= (uint)discountedPrice;
                     break;
 
                 case CurrencyType.EnemyStone:
@@ -264,26 +263,7 @@ namespace UIGameDataManager
             switch (contentType)
             {
                 case ShopItemType.Gold:
-                    m_GameData.gold += contentValue;
-                    UpdateFunds();
-                    break;
-
-                case ShopItemType.XpLv1:
-                    m_GameData.xpLv1 += contentValue;
-                    UpdateFunds();
-                    break;
-
-                case ShopItemType.XpLv2:
-                    m_GameData.xpLv2 += contentValue;
-                    UpdateFunds();
-                    break;
-
-                case ShopItemType.XpLv3:
-                    m_GameData.xpLv3 += contentValue;
-                    UpdateFunds();
-                    break;
-                case ShopItemType.XpLv4:
-                    m_GameData.xpLv4 += contentValue;
+                    m_GameData.badGe += contentValue;
                     UpdateFunds();
                     break;
             }
@@ -390,10 +370,7 @@ namespace UIGameDataManager
                         shopItemCardSO.cardComponent.frame,
                         shopItemCardSO.cardComponent.background,
                         shopItemCardSO.cardComponent.avatar,
-                        characterCard.basePointsAttack,
-                        characterCard.basePointsLife,
-                        characterCard.basePointsAttackSpeed,
-                        characterCard.basePointsSpecialAttack,
+                        characterCard.CharacterStats,
                         characterCard.bioTitle,
                         characterCard.bio,
                         characterCard.skill1,

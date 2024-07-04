@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class DamageReceiver : SaiMonoBehaviour
+public abstract class DamageReceiver : AbstractCtrl
 {
     [Header("Damage Receiver")]
     [SerializeField] protected int isHP = 1;

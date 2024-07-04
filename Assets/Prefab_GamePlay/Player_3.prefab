@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   delay: 100
+  enemyCtrl: {fileID: 0}
 --- !u!1 &2212463477710193512
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,11 +175,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isHP: 20
   isMaxHP: 20
+  isDead: 0
   exitTimeTwitch: 2
   exitTimeBurn: 2
   DamagePerSecondFire: 2
   DamagePerSecondtwitch: 2
-  isDead: 0
   _IsTWitch: 0
   _IsBurning: 0
   shootAbleObjectCtrl: {fileID: 3593479570450003037}
@@ -331,8 +332,8 @@ MonoBehaviour:
   spawner: {fileID: 0}
   damageSender: {fileID: 0}
   despawn: {fileID: 6281665616985791170}
-  spawnPoints: {fileID: 0}
-  detectPlayer: {fileID: 4688416578921997822}
+  abstractModel: {fileID: 0}
+  cardTower: {fileID: 0}
   playerAttack: {fileID: 3839101324017461588}
   playerShooter: {fileID: 4971015612020848738}
 --- !u!1 &4521063339984598787
@@ -382,7 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCtrl: {fileID: 3593479570450003037}
   canAttack: 0
-  CanAtacck: []
+  CanAttack: []
 --- !u!61 &8588527290061407478
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -442,6 +443,7 @@ GameObject:
   - component: {fileID: 1411908637771624914}
   - component: {fileID: 1574340058112083718}
   - component: {fileID: 6656459886204695744}
+  - component: {fileID: 8191355729059222812}
   m_Layer: 0
   m_Name: Modle
   m_TagString: BulletPX
@@ -484,7 +486,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -513,7 +515,7 @@ SpriteRenderer:
   m_Size: {x: 0.45, y: 0.51}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3592089491557278615
@@ -614,12 +616,60 @@ MonoBehaviour:
   enemyCtrl: {fileID: 0}
   playerCtrl: {fileID: 3593479570450003037}
   guardCtrl: {fileID: 0}
+  deFenSeCtrl: {fileID: 0}
   circleCollider: {fileID: 1411908637771624914}
+  boxCollider: {fileID: 0}
   _rigidbody: {fileID: 1574340058112083718}
   canAttack: 0
-  moveSpeed: 1.7
-  animator: {fileID: 3592089491557278615}
   currentState: 0
+  animator: {fileID: 3592089491557278615}
+  attackType: 0
+  animationImpact: {fileID: 0}
+--- !u!61 &8191355729059222812
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7054920903457248658}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.0001, y: 0.0001}
+  m_EdgeRadius: 0
 --- !u!1 &8629728561131369346
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,5 +717,6 @@ MonoBehaviour:
   enemyCtrl: {fileID: 0}
   playerCtrl: {fileID: 3593479570450003037}
   guardCtrl: {fileID: 0}
+  deFenSeCtrl: {fileID: 0}
   isShooting: 0
   transformParent: {fileID: 6655379901516314737}

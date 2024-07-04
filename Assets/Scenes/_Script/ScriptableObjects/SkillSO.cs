@@ -4,11 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum SkillUnlock
-{
-    Unlock = 0,
-    Lock = 1,
-}
 
 
 // each character has up to three special attack skills
@@ -22,7 +17,9 @@ public class SkillSO : ScriptableObject
     // icon for character screen
     public Sprite sprite;
 
-    public SkillUnlock skillUnlock;
+    public bool skillUnlock;
+
+    public float manaRequirement;
 
     public string GetTierText(int m_ActiveIndex)
     {

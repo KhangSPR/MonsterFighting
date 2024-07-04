@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FxDespawn : DespawnByTime
 {
-    public override void deSpawnObjParent()
+    protected override void deSpawnObjParent()
     {
         FXSpawner.Instance.Despawn(transform.parent);
     }

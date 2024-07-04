@@ -32,7 +32,7 @@ public class PurchaseButtonUI : MonoBehaviour
     }
     public void Purchase()
     {
-        uint money_data = GameObject.Find("GameDataManager").GetComponent<GameDataManager>().GameData.gold;
+        uint money_data = GameObject.Find("GameDataManager").GetComponent<GameDataManager>().GameData.badGe;
         Debug.Log(money_data);
         
         {
@@ -49,7 +49,7 @@ public class PurchaseButtonUI : MonoBehaviour
                     {
                         index = shopUI.shop.csi.IndexOf(csi);
                         choosingCastle.is_owned = true;
-                        GameObject.Find("GameDataManager").GetComponent<GameDataManager>().GameData.gold -= purchase_money;
+                        GameObject.Find("GameDataManager").GetComponent<GameDataManager>().GameData.badGe -= purchase_money;
                         transform.parent.parent.GetComponent<CastleShopUIController>().LoadCastlesInformations(index);
                         OpenSuccessUI();
                         Debug.Log("Purchase Success");

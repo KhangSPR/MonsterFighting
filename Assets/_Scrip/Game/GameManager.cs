@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UIGameDataManager;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,8 +49,8 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Space]
     [Space]
-    [Header("Castle Play")]
-    public Castle_Shop shop;
+    [Header("Guild Play")]
+    public GuildSOManager GuildSOManager;
 
 
     //UI HP
@@ -79,10 +80,9 @@ public class GameManager : SaiMonoBehaviour
     protected override void Start()
     {
         base.Start();
-        Debug.Log(shop);
-        Debug.Log(shop.choosen_item);
-        Debug.Log(shop.choosen_item.ability);
-        shop.choosen_item.ability.Active(gameObject);
+        if (GuildSOManager == null) return;
+
+        GuildSOManager.GuildAbilitySO.ApplyDefaultStats(gameObject);
 
         SetHpInGame();
     }
@@ -97,10 +97,9 @@ public class GameManager : SaiMonoBehaviour
         // Xử lý tại đây khi game bị tắt
         HandleEscape();
     }
+    #region Guild Defaut
 
-    #region Castle HP
-
-    //CASTLE HP------------------------------------------------------------------------------
+    //Guild ------------------------------------------------------------------------------
     // max hp value and UI
     public void SetHpInGame()
     {
@@ -112,7 +111,6 @@ public class GameManager : SaiMonoBehaviour
 
         CastleSetHpMax?.Invoke();
     }
-
     public void UpdateCurrentHpUI()
     {
         slider_maxhp.value = current_hp;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CostManager : SaiMonoBehaviour
 {
     const float k_LerpTime = 0.6f;
+    const float autoIncreaseDuration = 10f; // Thời gian tự động tăng vàng trong giây
 
     private static CostManager instance;
     public static CostManager Instance => instance;
@@ -17,13 +18,20 @@ public class CostManager : SaiMonoBehaviour
     [SerializeField] private int currency;
     [SerializeField] private int stoneEnemyCurrency;
     [SerializeField] private int stoneBossCurrency;
+
+    [SerializeField] private int autoIncreaseAmount = 0; // Số vàng tăng mỗi giây
+    private Coroutine autoIncreaseCoroutine;
+    public void SetAutoIncreaseAmount(int amount)
+    {
+        autoIncreaseAmount = amount;
+    }
     public int Currency
     {
         get { return currency; }
         set
         {
 
-            //StartCoroutine(LerpRoutine(currencyTxt, (uint)currency, (uint)value, k_LerpTime));
+            StartCoroutine(LerpRoutine(currencyTxt, (uint)currency, (uint)value, k_LerpTime));
             currencyTxt.text = value.ToString();
             currency = value;
 
@@ -36,7 +44,7 @@ public class CostManager : SaiMonoBehaviour
         set
         {
 
-            //StartCoroutine(LerpRoutine(stoneEnemyCurrencyTxt, (uint)stoneEnemyCurrency, (uint)value, k_LerpTime));
+            StartCoroutine(LerpRoutine(stoneEnemyCurrencyTxt, (uint)stoneEnemyCurrency, (uint)value, k_LerpTime));
             stoneEnemyCurrencyTxt.text = value.ToString();
             stoneEnemyCurrency = value;
 
@@ -55,12 +63,37 @@ public class CostManager : SaiMonoBehaviour
 
         }
     }
-
     protected override void Awake()
     {
         base.Awake();
+        //if (GameManager.instance != null) Debug.LogError("Onlly 1 GameManager Warning");
         CostManager.instance = this;
     }
+    protected override void Start()
+    {
+        base.Start();
+        StartAutoIncreaseCurrency();
+    }
+
+    // Coroutine để tự động tăng vàng liên tục
+    private IEnumerator AutoIncreaseCurrencyRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(autoIncreaseDuration);
+            Currency += autoIncreaseAmount;
+        }
+    }
+
+    // Phương thức công khai để bắt đầu quá trình tự động tăng vàng
+    public void StartAutoIncreaseCurrency()
+    {
+        if (autoIncreaseCoroutine == null)
+        {
+            autoIncreaseCoroutine = StartCoroutine(AutoIncreaseCurrencyRoutine());
+        }
+    }
+
     // animated Label counter
     IEnumerator LerpRoutine(TMP_Text label, uint startValue, uint endValue, float duration)
     {

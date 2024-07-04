@@ -1,10 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class DamageSender : SaiMonoBehaviour
+public class DamageSender : AbstractCtrl
 {
     //public float damageInterval = 3f;
-    public int dame;
+    [SerializeField]
+    int damage;
+    public int Damage { get { return damage; } set { damage = value; } }
+    protected override void Start()
+    {
+        base.Start();
+        
+        
+        this.damage = playerCtrl?.CharacterStatsFake.Attack ?? enemyCtrl?.EnemySO.basePointsAttack ??  this.damage;
+
+    }
     public virtual void Send(Transform obj)
     {
         DamageReceiver damageReceiver = obj.GetComponentInChildren<DamageReceiver>();
@@ -15,11 +25,11 @@ public class DamageSender : SaiMonoBehaviour
 
     public virtual void Send(DamageReceiver damageReceiver)
     {
-        damageReceiver.deDuct(this.dame);
+        damageReceiver.deDuct(this.damage);
 
-        Debug.Log("Send" + this.dame);
+        Debug.Log("Send" + this.damage);
     }
-
+    #region Comment
     //public void SendDamageOverTime(Transform obj, bool isColliding)
     //{
     //    DamageReceiver damageReceiver = obj.GetComponentInChildren<DamageReceiver>();
@@ -73,5 +83,5 @@ public class DamageSender : SaiMonoBehaviour
 //{
 //    return FXSpawner.ImpactOne;
 //}
-
+#endregion
 

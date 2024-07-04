@@ -28,7 +28,7 @@ public class BulletFly : ParentFly
         BulletCtrl bulletCtrl = GetBulletCtrl();
         if (bulletCtrl != null)
         {
-            this.moveSpeed = bulletCtrl.ShootAbleObjectSO.speedFly;
+            //this.moveSpeed = bulletCtrl.ShootAbleObjectSO.speedFly;
         }
     }
     public override BulletCtrl GetBulletCtrl()

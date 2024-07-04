@@ -18,10 +18,7 @@ MonoBehaviour:
   frame: {fileID: 517221227, guid: ed8cb102148bfea4ab0d6d0cd6322dd3, type: 3}
   background: {fileID: 21300000, guid: 2460815ef33e2834687e653e97709a11, type: 3}
   avatar: {fileID: 1517290819, guid: faaab5dd724e46a42892d37a1c44ab8e, type: 3}
-  basePointsAttack: 3
-  basePointsLife: 55
-  basePointsAttackSpeed: 2
-  basePointsSpecialAttack: 2
+  _characterStats: {fileID: 11400000, guid: dc068254f4268ed489cc4d071c7ae4a6, type: 2}
   bioTitle: Strength and bravery
   bio: 
   skill1: {fileID: 11400000, guid: c3dbffbda5cf4164580ec9609ed55cee, type: 2}
@@ -30,4 +27,3 @@ MonoBehaviour:
   attackTypeCard: 1
   characterVisualsPrefab: {fileID: 6440287560860956895, guid: f158c4e1360a8164ca43b732d38e33bc,
     type: 3}
-  cardStat: {fileID: 11400000, guid: 10323901084e6854bbbc9a1e0c7bc83e, type: 2}

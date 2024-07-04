@@ -5,6 +5,12 @@ public class ParentFly : BulletAbstract
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected Vector3 bulletDirection = Vector3.right;
     [SerializeField] protected Transform ParentObject;
+    protected override void Start()
+    {
+        base.Start();
+
+        this.moveSpeed = bulletExplodeCtrl?.BulletSO.basePointsSpeedFly ?? bulletRegularCtrl?.BulletSO.basePointsSpeedFly ??  this.moveSpeed;
+    }
 
     public override BulletCtrl GetBulletCtrl()
     {

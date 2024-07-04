@@ -157,6 +157,7 @@ MonoBehaviour:
   boxCollider2D: {fileID: 9022939133585353345}
   playerCtrl: {fileID: 0}
   enemyCtrl: {fileID: 0}
+  damageSent: 0
 --- !u!1 &973476999591950585
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +458,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1352,6 +1353,8 @@ MonoBehaviour:
   canAttack: 0
   currentState: 0
   animator: {fileID: 8923071689465643722}
+  attackType: 0
+  animationImpact: {fileID: 0}
 --- !u!4 &7966081669797786989 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5761645819838501873, guid: 5395b56241b9c434fa934155c5b898ba,

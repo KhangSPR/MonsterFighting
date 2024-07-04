@@ -7,9 +7,9 @@ namespace UIGameDataManager
     public enum AttackType
     {
         ALL,
-        Melee,       // Close-range physical attacks
-        Ranged,      // Attacks from a distance
-        Witch,       // Magical attacks
+        Warrior,       // Close-range physical attacks
+        Archer,      // Attacks from a distance
+        Wizard,       // Magical attacks
         //Stealth,     // Sneaky and stealthy attacks
 
         // Add more types as needed
@@ -33,10 +33,10 @@ namespace UIGameDataManager
     [CreateAssetMenu(fileName = "New Card", menuName = "Card/Create New Card Tower")]
     public class CardCharacter : CardComponent
     {
-        public int basePointsAttack;
-        public int basePointsLife;
-        public float basePointsAttackSpeed;
-        public float basePointsSpecialAttack;
+        [SerializeField] private Stats _characterStats;
+
+        // Properties
+        public Stats CharacterStats => _characterStats;
 
         public string bioTitle;
         [TextArea] public string bio;
@@ -48,16 +48,12 @@ namespace UIGameDataManager
         public AttackType attackTypeCard;
         public GameObject characterVisualsPrefab;
 
-        public CardCharacter(string Name, float CardRefresh, int Price, Sprite Frame, Sprite Background, Sprite Avatar, int BasePointsAttack, int BasePointsLife,
-                             float BasePointsAttackSpeed, float BasePointsSpecialAttack,
+        public CardCharacter(string Name, float CardRefresh, int Price, Sprite Frame, Sprite Background, Sprite Avatar, Stats stats,
                              string BioTitle, string Bio, SkillSO Skill1, SkillSO? Skill2,
                              RarityCard CardRare, AttackType CardAttack,
                              GameObject CharacterVisualsPrefab) : base(Name, CardRefresh, Price, Frame, Background, Avatar)
         {
-            basePointsAttack = BasePointsAttack;
-            basePointsLife = BasePointsLife;
-            basePointsAttackSpeed = BasePointsAttackSpeed;
-            basePointsSpecialAttack = BasePointsSpecialAttack;
+            _characterStats = stats;
             bioTitle = BioTitle;
             bio = Bio;
             rarityCard = CardRare;

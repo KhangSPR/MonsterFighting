@@ -7,14 +7,6 @@ using UnityEngine.UI;
 public class CardBtn : BaseBtn
 {
     [SerializeField]
-    protected GameObject cardPrefabSet;
-    public GameObject CardPrefabSet { get { return cardPrefabSet; } set { cardPrefabSet = value; } }
-
-    public override GameObject CardPrefabInstance
-    {
-        get { return cardPrefabSet; }
-    }
-    [SerializeField]
     protected GameObject selectButton;
     public GameObject SelectButton
     {
@@ -30,13 +22,13 @@ public class CardBtn : BaseBtn
     public override GameObject PlaceAbstract(Transform tileTransform)
     {
         // Hành vi khi đặt tháp (TowerBtn)
-        GameObject towerObj = Instantiate(CardPrefabInstance, tileTransform.position, Quaternion.identity);
+        Transform towerObj = PlayerSpawner.Instance.Spawn(CardCharacter.name, tileTransform.position, Quaternion.identity);
 
         towerObj.GetComponent<PlayerCtrl>().SetCardTower(CardCharacter);
 
-        towerObj.SetActive(true);
+        towerObj.gameObject.SetActive(true);
 
-        return towerObj;
+        return towerObj.gameObject;
     }
     protected override void Start()
     {
@@ -49,5 +41,7 @@ public class CardBtn : BaseBtn
         if (cardRefresh.isCoolingDown) return;
 
         GameManager.Instance.PickButton(this, cardRefresh);
+
+        Debug.Log("Click");
     }
 }

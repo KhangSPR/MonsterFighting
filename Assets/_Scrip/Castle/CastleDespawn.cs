@@ -8,7 +8,11 @@ public class CastleDespawn : Despawn
     public CastleCtrl CastleCtrl => castleCtrl;
     protected override bool canDespawn()
     {
-        return this.CastleCtrl.CastleDamageReceiver.isDead;
+        if(this.CastleCtrl.CastleDamageReceiver.isDead)
+        {
+            return canDespawnFlag = true;
+        }
+        return canDespawnFlag = false;
     }
     protected override void LoadComponents()
     {

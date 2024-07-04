@@ -32,7 +32,7 @@ public class CastleDamageReceiver : DamageReceiver
     }
     public override void onDead()
     {
-        this.castleCtrl.Despawn.deSpawnObjParent();
+        this.castleCtrl.Despawn.ResetCanDespawnFlag();
     }
     public override bool IsDead()
     {

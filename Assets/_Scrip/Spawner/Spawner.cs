@@ -99,7 +99,7 @@ public abstract class Spawner : SaiMonoBehaviour
         this.spawnedCount--;
     }
 
-    public Transform SpawnEnemy(Vector3 spawnPos, Quaternion rotation)
+    public Transform SpawnObject(Vector3 spawnPos, Quaternion rotation)
     {
         // Gọi hàm RandomPrefab để chọn một prefab enemy ngẫu nhiên
         Transform enemyPrefab = RandomPrefab();

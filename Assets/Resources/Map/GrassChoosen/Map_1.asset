@@ -27,13 +27,29 @@ MonoBehaviour:
     enemyTypes:
     - rarity: 0
       name: Goblin Green
-      countEnemy: 2
+      countEnemy: 1
       timerMin: 4
       timerMax: 6
       skillType:
       - id: 0
         skill: None
       Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+  - rarityPortal: 1
+    Count: 1
+    DelaySpawnFirtEnemy: 3
+    spawnTimeInSeconds:
+    - 10
+    hasBoss: 0
+    enemyTypes:
+    - rarity: 1
+      name: Skeleton Magic
+      countEnemy: 1
+      timerMin: 4
+      timerMax: 6
+      skillType:
+      - id: 0
+        skill: None
+      Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
   Reward:
   - resourceType: 0
     Count: 5

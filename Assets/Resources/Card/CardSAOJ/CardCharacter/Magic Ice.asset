@@ -18,12 +18,7 @@ MonoBehaviour:
   frame: {fileID: 2008796901, guid: ed8cb102148bfea4ab0d6d0cd6322dd3, type: 3}
   background: {fileID: 21300000, guid: e9e4c2d18d1a9f04b9684d07f87c822b, type: 3}
   avatar: {fileID: 21300000, guid: e9e4c2d18d1a9f04b9684d07f87c822b, type: 3}
-  Level: 1
-  Star: 5
-  basePointsAttack: 1
-  basePointsLife: 1
-  basePointsAttackSpeed: 1
-  basePointsSpecialAttack: 1
+  _characterStats: {fileID: 11400000, guid: af1da7a69ef42514a8044c3d0c86a8f5, type: 2}
   bioTitle: 
   bio: 
   skill1: {fileID: 0}
@@ -32,4 +27,3 @@ MonoBehaviour:
   attackTypeCard: 3
   characterVisualsPrefab: {fileID: 6440287560860956895, guid: f158c4e1360a8164ca43b732d38e33bc,
     type: 3}
-  cardStat: {fileID: 0}

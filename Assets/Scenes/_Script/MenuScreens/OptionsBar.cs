@@ -12,9 +12,14 @@ namespace UIGameDataManager
 
         const float k_LerpTime = 0.6f;
 
-        [SerializeField] TMP_Text m_GoldLabel;
-        [SerializeField] TMP_Text m_EnemyStoneUpStarLabel;
+        [SerializeField] TMP_Text m_BadgeLabel;
         [SerializeField] TMP_Text m_EnemyStoneLabel;
+        [SerializeField] TMP_Text m_EnemyStoneUpStarLabel;
+        [SerializeField] TMP_Text m_RubyLabel;
+
+        //
+        [SerializeField] TMP_Text m_BadgeGuild;
+
 
         private void OnEnable()
         {
@@ -31,12 +36,16 @@ namespace UIGameDataManager
         }
 
 
-        public void SetGold(uint gold)
+        public void SetBadge(uint gold)
         {
-            uint startValue = (uint)Int32.Parse(m_GoldLabel.text);
-            StartCoroutine(LerpRoutine(m_GoldLabel, startValue, gold, k_LerpTime));
+            uint startValue = (uint)Int32.Parse(m_BadgeLabel.text);
+            StartCoroutine(LerpRoutine(m_BadgeLabel, startValue, gold, k_LerpTime));
         }
-
+        public void SetRuby(uint gold)
+        {
+            uint startValue = (uint)Int32.Parse(m_RubyLabel.text);
+            StartCoroutine(LerpRoutine(m_RubyLabel, startValue, gold, k_LerpTime));
+        }
         public void SetStoneBoss(uint gems)
         {
             uint startValue = (uint)Int32.Parse(m_EnemyStoneUpStarLabel.text);
@@ -55,11 +64,18 @@ namespace UIGameDataManager
         }
         void OnFundsUpdated(GameData gameData)
         {
-            SetGold(gameData.gold);
+            SetBadge(gameData.badGe);
             SetStoneBoss(gameData.enemyBoss);
             SetStoneEnemy(gameData.enemyStone);
-        }
+            SetRuby(gameData.ruby);
+            SetBadgeGuild(gameData.badGe);
 
+        }
+        public void SetBadgeGuild(uint badguild)
+        {
+            uint startValue = (uint)Int32.Parse(m_BadgeGuild.text);
+            StartCoroutine(LerpRoutine(m_BadgeGuild, startValue, badguild, k_LerpTime));
+        }
         // animated Label counter
         IEnumerator LerpRoutine(TMP_Text label, uint startValue, uint endValue, float duration)
         {

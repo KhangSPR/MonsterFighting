@@ -18,7 +18,7 @@ public class EnemyDeSpawn : DespawnByTime
         this.enemyCtrl = transform.parent.GetComponent<EnemyCtrl>();
         Debug.Log(gameObject.name + ": loadEnemyCtrl" + gameObject);
     }
-    public override void deSpawnObjParent()
+    protected override void deSpawnObjParent()
     {
         EnemySpawner.Instance.Despawn(transform.parent);
         Transform newDropItem = EnemyDropSpawner.Instance.Spawn(GetTag(), transform.parent.position, Quaternion.identity);
@@ -27,6 +27,10 @@ public class EnemyDeSpawn : DespawnByTime
     }
     string GetTag()
     {
+        if (enemyCtrl == null) return "ItemGem";
+
+        Debug.Log("GetTag = " + enemyCtrl.EnemyTag);
+
         return EnemyDropSpawner.Instance.GetDropItemForEnemy(enemyCtrl.EnemyTag);
     }
 }
