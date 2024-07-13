@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,9 +42,26 @@ public class AnimationImpact : SaiMonoBehaviour
         this.boxCollider2D.size = new Vector2(0.5f, 0.15f);
         Debug.Log(transform.name + ": LoadCollider", gameObject);
     }
+
+    //private void OnDisable()
+    //{
+    //    ResetDamageSent();
+
+    //}
+
+    //private void ResetDamageSent()
+    //{
+    //    damageSent = false;
+    //}
+
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("1++++");
+
         if (damageSent) return;
+
+        Debug.Log("2++++");
+
 
         if (playerCtrl != null /*&& playerCtrl.transform.CompareTag("Player")*/)
         {
@@ -51,7 +69,9 @@ public class AnimationImpact : SaiMonoBehaviour
             {
                 playerCtrl.DamageSender.Send(other.transform.parent,playerCtrl.DamageSender);
 
-                Debug.Log("damageSent");
+                
+
+                Debug.Log("damageSent Player");
 
                 //Finish DamageSent
                 damageSent = true;
@@ -69,7 +89,7 @@ public class AnimationImpact : SaiMonoBehaviour
             {
                 enemyCtrl.DamageSender.Send(other.transform.parent);
 
-                Debug.Log("damageSent");
+                Debug.Log("damageSent Enemy");
 
                 damageSent = true;
                 gameObject.SetActive(false);

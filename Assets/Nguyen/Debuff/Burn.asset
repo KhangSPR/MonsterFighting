@@ -9,14 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e85e46d03a7f6cb419cd541287fd430f, type: 3}
-  m_Name: Goblin Green
+  m_Script: {fileID: 11500000, guid: 01384a4269b1674479f1fc11616f2ff4, type: 3}
+  m_Name: Burn
   m_EditorClassIdentifier: 
-  ObjName: Goblin Green
-  objectType: 2
-  hpMax: 20
-  manaMax: 0
-  damage: 1
-  speed: 1
-  attackRange: 0
-  speedFly: 0
+  burnInterval: 0.5
+  burnTotalTime: 5
+  burnDamage: 1

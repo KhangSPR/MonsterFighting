@@ -41,6 +41,7 @@ public abstract class DamageReceiver : SaiMonoBehaviour
     public virtual void deDuctHP(int Deduct)
     {
         deDuctHP(Deduct, false);
+        CreateTextDamageFX(transform.position, Deduct);
     }
     public void deDuctMana(int deduct)
     {
@@ -53,23 +54,32 @@ public abstract class DamageReceiver : SaiMonoBehaviour
     public virtual void deDuctHP(int Deduct,bool damageByPlayer) // có phải player gây damage không ? , sau này sẽ thay đổi tên biến và kiểu dữ liệu này 
     {
         Debug.Log("Deduct By Player",this.transform);
-        if (damageByPlayer)
+        if (!damageByPlayer)
         {
-            
-            if (this.transform.parent.GetComponent<EnemyCtrl>() == null) return;
-            this.transform.parent.GetComponent<EnemyCtrl>().EnableCanvas(true);
-            this.transform.parent.GetComponent<EnemyCtrl>().UpdateHealhbar(this.isHP);
-        }else
-        {
-            if (this.transform.parent.GetComponent<PlayerCtrl>() == null) return;
-            this.transform.parent.GetComponent<PlayerCtrl>().EnableCanvas(true);
-            this.transform.parent.GetComponent<PlayerCtrl>().UpdateHealhbar(this.isHP);
+
+            if (this.transform.parent.GetComponent<EnemyCtrl>() != null)
+            {
+
+                this.transform.parent.GetComponent<EnemyCtrl>().EnableCanvas(true);
+                this.transform.parent.GetComponent<EnemyCtrl>().UpdateHealhbar(this.isHP);
+            }
         }
+        else
+        {
+            if (this.transform.parent.GetComponent<PlayerCtrl>() != null)
+            {
+                this.transform.parent.GetComponent<PlayerCtrl>().EnableCanvas(true);
+                this.transform.parent.GetComponent<PlayerCtrl>().UpdateHealhbar(this.isHP);
+            }
+        }
+        Debug.Log("ISDEAD" + isDead);
         
         if (this.isDead == true) return;
         this.isHP -= Deduct;
 
-        if (this.isMaxHP < 0)
+        Debug.Log("DEDUCT" + Deduct);
+
+        if (this.isHP < 0)
             this.isHP = 0;
 
         this.checkDead(damageByPlayer);
@@ -114,4 +124,18 @@ public abstract class DamageReceiver : SaiMonoBehaviour
         }
     }
     public abstract void onDead();
+
+    protected virtual void CreateTextDamageFX(Vector3 hitPos,int dame)
+    {
+        string fxName = this.GetTextDamageFX();
+        Transform fxObj = FXSpawner.Instance.Spawn(fxName, hitPos, Quaternion.identity);
+        TextDamage textDamage = fxObj.GetComponent<TextDamage>();
+        textDamage.SetDamage(dame);
+        fxObj.gameObject.SetActive(true);
+    }
+
+    protected virtual string GetTextDamageFX()
+    {
+        return FXSpawner.textDamage;
+    }
 }

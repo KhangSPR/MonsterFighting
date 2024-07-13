@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ObjMovement : EnemyAbstract
 {
-    [SerializeField] protected float moveSpeed;
+    [SerializeField] public float moveSpeed;
     [SerializeField] protected int directionMove;
     public void Move()
     {

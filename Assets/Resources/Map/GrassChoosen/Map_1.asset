@@ -17,7 +17,7 @@ MonoBehaviour:
   mapZone: I
   mapType: 4
   difficult: 0
-  starsEasy: 0
+  starsEasy: 2
   starsConditionEasy: {fileID: 11400000, guid: d24ac9494c27cf34e93c9cb221b7a862, type: 2}
   RewardEasy:
   - item: {fileID: 11400000, guid: 129373fbe310c93408e2970faa4f8561, type: 2}
@@ -30,16 +30,15 @@ MonoBehaviour:
     Count: 10
   portalsEasy:
   - rarityPortal: 0
-    Count: 2
+    Count: 1
     DelaySpawnFirtEnemy: 0
     spawnTimeInSeconds:
-    - 0
     - 0
     hasBoss: 0
     enemyTypes:
     - rarity: 0
       name: Goblin Green
-      countEnemy: 2
+      countEnemy: 1
       timerMin: 0
       timerMax: 0
       skillType: []

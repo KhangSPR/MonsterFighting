@@ -24,7 +24,8 @@ public class DamageSender : SaiMonoBehaviour
     public virtual void Send(DamageReceiver damageReceiver)
     {
         damageReceiver.deDuctHP(this.dame);
-
+        var animator = damageReceiver.transform.parent.GetComponentInChildren<Animator>();
+        animator.SetTrigger("Hit");
         Debug.Log("Send" + this.dame);
     }
 
@@ -41,7 +42,9 @@ public class DamageSender : SaiMonoBehaviour
         {
             damageReceiver.deDuctHP(this.dame);
         }
-        
+
+        var animator = damageReceiver.transform.parent.GetComponentInChildren<Animator>();
+        animator.SetTrigger("Hit");
 
         Debug.Log("Send " + this.dame);
     }

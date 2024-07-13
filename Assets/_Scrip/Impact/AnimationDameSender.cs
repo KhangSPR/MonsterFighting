@@ -40,7 +40,7 @@ public class AnimationDameSender : DamageSender
         Quaternion hitRot = transform.rotation;
 
         //this.CreateImpactFX(hitPos, hitRot);
-        //this.CreateTextDamageFX(hitPos);
+        this.CreateTextDamageFX(hitPos);
 
         //this.desTroyOBJ();
     }

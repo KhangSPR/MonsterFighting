@@ -45,7 +45,7 @@ public class PlayerModel : AbstractModel
 
                         isAttacking = true;
                         PlayAnimation("Attack", isAttacking);
-                        isAnimationComplete = false;
+                        //isAnimationComplete = false;
                     }
                     catch{
                         Debug.LogError("Skill này không có hoặc chưa được học");
@@ -70,16 +70,21 @@ public class PlayerModel : AbstractModel
 
         if (isAttacking && isAnimationComplete)
         {
+            Debug.Log("AttackType");
+
             this.AttackType();
             isAnimationComplete = false;
             currentDelay = delayAttack; // Set time Wait
-            currentState = State.Idle; // Next State Idle
 
             Debug.Log(isAnimationComplete);
 
         }
     }
+    public void SetStateIdle()
+    {
+        currentState = State.Idle; // Next State Idle
 
+    }
     protected override void AttackType()
     {
         switch (attackType)
@@ -91,6 +96,8 @@ public class PlayerModel : AbstractModel
                 this.playerCtrl.PlayerShooter.ShootPX();
                 break;
             case attackType.Animation:
+                Debug.Log("animationImpact");
+
                 animationImpact.damageSent = false;
                 animationImpact.gameObject.SetActive(true);
                 break;
