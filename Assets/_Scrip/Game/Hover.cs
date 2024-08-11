@@ -7,6 +7,7 @@ public class Hover : SaiMonoBehaviour
     private static Hover _instance;
     public static Hover Instance => _instance;
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -32,9 +33,9 @@ public class Hover : SaiMonoBehaviour
         {
             Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
+
         }
     }
-
     public void Activate(Sprite sprite)
     {
         spriteRenderer.sprite = sprite;

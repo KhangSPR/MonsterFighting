@@ -16,8 +16,8 @@ public class CardBtn : BaseBtn
     public CardCharacter CardCharacter;
     //Button
     [SerializeField] Button btn;
-    [SerializeField] CardRefresh cardRefresh;
-    public CardRefresh CardRefresh => cardRefresh;
+    [SerializeField] ImageRefresh cardRefresh;
+    public ImageRefresh CardRefresh => cardRefresh;
 
     public override GameObject PlaceAbstract(Transform tileTransform)
     {

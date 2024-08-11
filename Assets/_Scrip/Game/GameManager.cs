@@ -18,8 +18,8 @@ public class GameManager : SaiMonoBehaviour
     [SerializeField] BaseBtn clickBtn;
     public BaseBtn ClickBtn { get { return clickBtn; } set { clickBtn = value; } }
     [SerializeField]
-    CardRefresh cardRefresh;
-    public CardRefresh CardRefresh => cardRefresh;
+    ImageRefresh cardRefresh;
+    public ImageRefresh CardRefresh => cardRefresh;
     CardBtn cardBtn;
 
     [Space]
@@ -123,7 +123,7 @@ public class GameManager : SaiMonoBehaviour
     #endregion
 
     #region Card Button
-    public void PickButton(BaseBtn button, CardRefresh CardPickup)
+    public void PickButton(BaseBtn button, ImageRefresh CardPickup)
     {
         if (button == clickBtn)
         {

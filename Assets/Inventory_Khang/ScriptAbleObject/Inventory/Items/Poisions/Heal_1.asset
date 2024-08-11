@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79531fca50bbc24495f1e82b81615d9, type: 3}
+  m_Name: Heal_1
+  m_EditorClassIdentifier: 
+  Id: 0
+  Sprite: {fileID: -220982534, guid: a7ea406da0822cd43b5ce1968d09e850, type: 3}
+  type: 1
+  Name: Healing medicine
+  description: "- Increase character <color=green>200 Hp</color> \n"
+  poisonType: 0
+  addPoint: 100
+  gameobjectVFX: {fileID: 3931319824596738164, guid: 9cc853e4e610ce34fab98dfa39268194,
+    type: 3}

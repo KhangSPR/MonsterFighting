@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a63f7a581ad78ca44af66aa2976f3de5, type: 3}
+  m_Name: Skill_Electricity
+  m_EditorClassIdentifier: 
+  Id: 2
+  Sprite: {fileID: -54127494, guid: 0561c597bb704da4f9c9332106b883cb, type: 3}
+  type: 0
+  Name: Skill Electricity
+  description: '- Creates a lightning zone, dealing <color=#FFFD01>50 damage</color> 
+    per bolt that lasts for <color=green>15 seconds</color>'
+  timeSpawn: 0
+  skillType: 2
+  damage: 0
+  activityAction: 0
+  count: 0
+  gameobjectVFX: {fileID: 0}
