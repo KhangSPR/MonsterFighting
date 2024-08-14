@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class SelectManager : SaiMonoBehaviour
@@ -15,6 +15,8 @@ public class SelectManager : SaiMonoBehaviour
 
     [SerializeField] private SettingsMenu settingsMenu;
 
+    bool Selectitem;
+
 
     protected override void Awake()
     {
@@ -27,20 +29,34 @@ public class SelectManager : SaiMonoBehaviour
         }
         _instance = this;
     }
-
     protected override void Update()
     {
-        if (_MagicRing.activeSelf && Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0))
         {
-            TryInstantiateSkill();
-        }
-    }
+            if (!Selectitem)
+            {
+                if (!settingsMenu.IsPointerOverUIElement(settingsMenu.FrameButton))
+                {
+                    settingsMenu.ToggleOutSide();
+                }
+            }
+            else
+            {
+                if (!settingsMenu.IsPointerOverUIElement(settingsMenu.FrameButton))
+                {
+                    if (_magicRing.activeSelf)
+                    {
+                        TryInstantiateSkill();
+                    }
+                }
+            }
+        }   
 
+    }
     private void TryInstantiateSkill()
     {
         if (_item is SkillObject skillObject)
         {
-            //SkillObject SkillObject = (SkillObject)_item;
             // Lấy vị trí chuột trong không gian thế giới
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = 10f; // Độ sâu của camera, điều chỉnh theo nhu cầu
@@ -49,16 +65,30 @@ public class SelectManager : SaiMonoBehaviour
             // Điều chỉnh vị trí theo trục Y
             float fixedYPosition = 5f; // Bạn có thể thay đổi giá trị Y cố định này
             worldPosition.y = fixedYPosition;
-            //worldPosition.x = 0;
 
             // Instance gameobjectVFX tại vị trí đã điều chỉnh
             GameObject VFX = Instantiate(skillObject.gameobjectVFX, worldPosition, Quaternion.identity);
 
+            //Set Damage
+            ParticleCtrl particleCtrl = VFX.GetComponent<ParticleCtrl>();
+            if (particleCtrl != null)
+            {
+                particleCtrl.particleDamesender.Damage = skillObject.damage;
+            }
+            // Access the ParticleSystem component
+            ParticleSystem particleSystem = VFX.GetComponentInChildren<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                // Disable continuous emission
+                var emission = particleSystem.emission;
+                emission.rateOverTime = 0;
+
+                // Start a coroutine to emit particles over time and destroy the object after
+                StartCoroutine(EmitParticlesAndDestroy(particleSystem, skillObject.particleCount, skillObject.timeSpawn, VFX));
+            }
+
             VFX.SetActive(true);
             Debug.Log("Spawn VFX Skill at Y = " + fixedYPosition);
-
-
-            Destroy(VFX, skillObject.timeSpawn);
 
             settingsMenu._Time = skillObject.coolDown;
             settingsMenu.ImageRefresh.cooldownDuration = skillObject.coolDown;
@@ -66,13 +96,46 @@ public class SelectManager : SaiMonoBehaviour
         }
     }
 
+    private IEnumerator EmitParticlesAndDestroy(ParticleSystem particleSystem, int totalParticles, float duration, GameObject VFX)
+    {
+        float particlesPerSecond = totalParticles / duration;
+        float interval = 1f / particlesPerSecond;
+
+        int emittedParticles = 0;
+
+        while (emittedParticles < totalParticles)
+        {
+            particleSystem.Emit(1);
+            emittedParticles++;
+            Debug.Log("Emitted: " + emittedParticles);
+            yield return new WaitForSeconds(interval);
+        }
+
+        // Wait for the remaining time if any particles were emitted faster than expected
+        float remainingTime = duration - (emittedParticles * interval);
+        if (remainingTime > 0)
+        {
+            yield return new WaitForSeconds(remainingTime);
+        }
+
+        // Wait an additional 5 seconds before destroying the VFX object
+        yield return new WaitForSeconds(5f);
+        // Now it's safe to destroy the VFX object
+        Destroy(VFX);
+    }
+
+
     public void ActiveSkill()
     {
         _MagicRing.SetActive(true);
+        Selectitem = true;
     }
 
     public void DeactiveSkill()
     {
         _MagicRing.SetActive(false);
+
+        Selectitem = false;
     }
+
 }

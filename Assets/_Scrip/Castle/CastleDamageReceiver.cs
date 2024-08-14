@@ -23,33 +23,28 @@ public class CastleDamageReceiver : DamageReceiver
     protected override void OnEnable()
     {
         base.OnEnable();
-        GameManager.CastleSetHpMax += ReBornHPCastleEvent;
+        GameManager.CastleSetHpMax += ReBornCaslte;
     }
     protected override void OnDisable()
     {
         base.OnDisable();
-        GameManager.CastleSetHpMax -= ReBornHPCastleEvent;
+        GameManager.CastleSetHpMax -= ReBornCaslte;
     }
-    public override void onDead()
+    public override void OnDead()
     {
         this.castleCtrl.Despawn.ResetCanDespawnFlag();
     }
-    public override bool IsDead()
-    {
-        return base.IsDead();
-    }
-    public override void ReBornHPCastleEvent()
+    public void ReBornCaslte()
     {     
         if(GameManager.Instance.max_hp >0)
         {
             this.isMaxHP = GameManager.Instance.max_hp;
-            base.ReBornHPCastleEvent();
         }
     }
-    public override void deDuct(int Deduct)
+    public override void DeductHealth(int Deduct)
     {
         GameManager.Instance.Castle_On_Damage(Deduct);
-        base.deDuct(Deduct);
+        base.DeductHealth(Deduct);
     }
     #region FX On Dead -----------------------------------------------------------------------------------------
 

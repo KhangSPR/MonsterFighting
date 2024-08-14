@@ -1,6 +1,8 @@
-using DG.Tweening;
+﻿using DG.Tweening;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
@@ -33,6 +35,8 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] Image mainIcon;
     [SerializeField] Image mainIconDefault;
     [SerializeField] ImageRefresh imageRefresh;
+    [SerializeField] Image frameButton;
+    public Image FrameButton { get { return frameButton; } set { frameButton = value; } }
     public ImageRefresh ImageRefresh { get { return imageRefresh; } set { imageRefresh = value; } }
     [SerializeField] TMP_Text m_Time; // Reference to the time Text component
     float time;
@@ -46,12 +50,14 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] GameObject Prefab;
     [SerializeField] Transform Holder;
 
-    bool isExpanded = false;
+    [SerializeField] bool isExpanded = false;
+    public bool IsExpanded => isExpanded;
 
     [SerializeField] Vector2 mainButtonPosition;
     int itemsCount;
 
     public ItemType displayType;
+
 
     void Start()
     {
@@ -99,7 +105,13 @@ public class SettingsMenu : MonoBehaviour
         imageRefresh.StartCooldown();
         mainButtonImage.DOColor(collapsedColor, colorChangeDuration);
     }
+    public void ToggleOutSide()
+    {
+        isExpanded = false;
+        CollapseMenuItems();
+        mainButtonImage.DOColor(collapsedColor, colorChangeDuration);
 
+    }
     public void ToggleMenu()
     {
         if (imageRefresh.isCoolingDown) return;
@@ -156,15 +168,19 @@ public class SettingsMenu : MonoBehaviour
 
     public void OnItemSelected(SettingsMenuItem selectedItem)
     {
-        isExpanded = !isExpanded;
+        isExpanded = false;
+
+        Debug.Log("isExpanded: "+ isExpanded);
 
         mainIcon.sprite = selectedItem.icon.sprite;
 
-        if (!SelectManager.Instance._MagicRing.activeSelf)
-        {
-            Debug.Log("ActiveSelf False");
-            CollapseChangeMenuItems();
-        }
+        //if (!SelectManager.Instance._MagicRing.activeSelf)
+        //{
+        //    Debug.Log("ActiveSelf False");
+        //    CollapseChangeMenuItems();
+
+        //}
+        mainButtonImage.DOColor(expandedColor, colorChangeDuration);
 
         SelectManager.Instance.ActiveSkill();
         SelectManager.Instance.ItemObject = selectedItem.SkillComponent.ItemObject;
@@ -184,6 +200,26 @@ public class SettingsMenu : MonoBehaviour
             time = 0;
             m_Time.text = "";
         }
+    }
+    public bool IsPointerOverUIElement(Image targetImage)
+    {
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject == targetImage.gameObject)
+            {
+                return true; // Chuột đang nằm trên Image FrameButton
+            }
+        }
+
+        return false; // Chuột không nằm trên bất kỳ UI element nào hoặc không phải FrameButton
     }
 }
 

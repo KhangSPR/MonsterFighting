@@ -15,18 +15,21 @@ public abstract class AbstractCtrl : SaiMonoBehaviour
     public DeFenSeCtrl DeFenSeCtrl { get => deFenSeCtrl; }
     [SerializeField] protected BulletCtrl bulletCtrl;
     public BulletCtrl BulletCtrl { get => bulletCtrl; }
+    [SerializeField] protected ParticleCtrl particleCtrl;
+    public ParticleCtrl ParticleCtrl { get => particleCtrl; }
 
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        LoadComponent(ref enemyCtrl);
-        LoadComponent(ref playerCtrl);
-        LoadComponent(ref guardCtrl);
-        LoadComponent(ref deFenSeCtrl);
-        LoadComponent(ref  bulletCtrl);
+        LoadInParentComponent(ref enemyCtrl);
+        LoadInParentComponent(ref playerCtrl);
+        LoadInParentComponent(ref guardCtrl);
+        LoadInParentComponent(ref deFenSeCtrl);
+        LoadInParentComponent(ref  bulletCtrl);
+        LoadInParentComponent(ref particleCtrl);
     }
 
-    protected void LoadComponent<T>(ref T component) where T : Component
+    protected void LoadInParentComponent<T>(ref T component) where T : Component
     {
         if (component != null) return;
         component = transform.parent.GetComponent<T>();

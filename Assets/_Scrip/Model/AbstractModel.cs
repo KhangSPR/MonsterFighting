@@ -24,6 +24,8 @@ public abstract class AbstractModel : AbstractCtrl
     [SerializeField] protected Animator animator;
     [SerializeField] protected attackType attackType;
     [SerializeField] protected AnimationImpact animationImpact;
+    [SerializeField] protected DameFlash dameFlash;
+    public DameFlash DameFlash => dameFlash;
 
 
     protected bool isAttacking = false;
@@ -38,6 +40,7 @@ public abstract class AbstractModel : AbstractCtrl
         this.LoadRigibody();
         this.LoadAnimator();
         this.LoadAnimationImpact();
+        this.LoadDameFlash();
     }
     protected virtual void LoadBoxCollider2D()
     {
@@ -58,6 +61,12 @@ public abstract class AbstractModel : AbstractCtrl
         if (animator != null) return;
         animator = transform.GetComponent<Animator>();
         Debug.Log(transform.name + ": LoadLoadAnimator", gameObject);
+    }
+    public void LoadDameFlash()
+    {
+        if (dameFlash != null) return;
+        dameFlash = transform.GetComponent<DameFlash>();
+        Debug.Log(transform.name + ": LoadDameFlash", gameObject);
     }
     protected virtual void LoadRigibody()
     {

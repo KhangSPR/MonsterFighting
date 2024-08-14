@@ -46,7 +46,7 @@ public class HPBar : SaiMonoBehaviour
         this.sliderHP.SetCurrentHP(hp);
         this.sliderHP.SetMaxHp(maxHP);
         //CheckTarget IS Dead
-        bool isDead = this.objectCtrl.ObjectDamageReceiver.isDead;
+        bool isDead = this.objectCtrl.ObjectDamageReceiver.IsDead;
         if (isDead) this.spawner.Despawn(transform);
         //SET X,Y
         if (followTarget != null && followTarget.GetTarget() != null)

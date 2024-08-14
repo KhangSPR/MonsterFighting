@@ -25,7 +25,7 @@ public class DamageSender : AbstractCtrl
 
     public virtual void Send(DamageReceiver damageReceiver)
     {
-        damageReceiver.deDuct(this.damage);
+        damageReceiver.DeductHealth(this.damage);
 
         Debug.Log("Send" + this.damage);
     }

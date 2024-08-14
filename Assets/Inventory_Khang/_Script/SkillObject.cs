@@ -6,7 +6,7 @@ public enum SkillType
 {
     Meteorite,
     Ice,
-    Electricity,
+    Lightning,
     Stone,
     Poison
 
@@ -17,9 +17,8 @@ public class SkillObject : ItemObject
 {
     public float timeSpawn;
     public int damage;
-    public int count;
+    public int particleCount;
     public int coolDown;
-    public Vector2 activityAction;
     public SkillType skillType;
     public GameObject gameobjectVFX;
     public void Awake()

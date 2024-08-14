@@ -19,10 +19,9 @@ MonoBehaviour:
   description: '- Creates a meteorite zone, dealing <color=red>100 damage</color>
     per meteorite that lasts for <color=green>15 seconds</color>'
   timeSpawn: 15
-  damage: 100
-  count: 20
-  coolDown: 60
-  activityAction: {x: 0, y: 0}
+  damage: 20
+  particleCount: 20
+  coolDown: 5
   skillType: 0
   gameobjectVFX: {fileID: 6012103894789160089, guid: ec9183537de5494468ec473d463ca55b,
     type: 3}

@@ -1,54 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿// Object damage receiver class
 using UnityEngine;
 
-public class ObjectDamageReceiver : DamageReceiverdByType
+public class ObjectDamageReceiver : DamageReceiverByType
 {
     [Header("Object")]
     [SerializeField] protected ObjectCtrl ObjectCtrl;
-    protected override void LoadComponents()
+
+    protected override void LoadValue()
     {
-        base.LoadComponents();
-        this.loadObjctrl();
+        base.LoadValue();
+        LoadObjectCtrl();
     }
-    protected virtual void loadObjctrl()
+
+    protected virtual void LoadObjectCtrl()
     {
-        if (this.ObjectCtrl != null) return;
-        this.ObjectCtrl = transform.parent.GetComponent<ObjectCtrl>();
-        Debug.Log(gameObject.name + ": loadjunkctrl" + gameObject);
+        if (ObjectCtrl != null) return;
+        ObjectCtrl = transform.parent.GetComponent<ObjectCtrl>();
+        Debug.Log(gameObject.name + ": Loaded ObjectCtrl for " + gameObject.name);
     }
-    public override void onDead()
+
+    public override void OnDead()
     {
-        this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
-    }
-    public override bool IsDead()
-    {
-        return base.IsDead();
-    }
+        if (ObjectCtrl != null)
+        {
+            ObjectCtrl.Despawn.ResetCanDespawnFlag();
+            ObjectCtrl.AbstractModel.DameFlash.StopCoroutieSlash();
+        }
+        else
+        {
+            Debug.LogError("ObjectCtrl is not assigned for " + gameObject.name);
+        }
+    }  
     public override void ReBorn()
     {
-        this.isMaxHP = playerCtrl?.CardCharacter.CharacterStats.Life ?? enemyCtrl?.EnemySO.basePointsLife ?? this.isMaxHP;
+        // Ensure the ObjectCtrl and its dependencies are loaded first
+        LoadObjectCtrl();
+
+        if (ObjectCtrl != null)
+        {
+            isMaxHP = PlayerCtrl?.CardCharacter.CharacterStats.Life
+                      ?? EnemyCtrl?.EnemySO.basePointsLife
+                      ?? isMaxHP;
+        }
 
         base.ReBorn();
     }
-    #region FX On Dead -----------------------------------------------------------------------------------------
-
-    //protected virtual void ondeaddrop()
-    //{
-    //    Vector3 pos = transform.position;
-    //    Quaternion rot = transform.rotation;
-    //    ItemDropSpawner.Instance.Drop(this.shootAbleObjectCtrl.ShootAbleObjectSO.dropList, pos, rot);
-    //}
-
-    //protected virtual void ondeadfx()
-    //{
-    //    string fxname = this.getondeadfxname();
-    //    Transform fxondead = FXSpawner.Instance.Spawn(fxname, transform.position, transform.rotation); //ham smoke bang ten
-    //    fxondead.gameObject.SetActive(true);
-    //}
-    //protected virtual string getondeadfxname()
-    //{
-    //    return FXSpawner.SmokeOne;
-    //}
-    #endregion
+    protected override void DameSlash()
+    {
+        base.DameSlash();
+        ObjectCtrl.AbstractModel.DameFlash.CallDamageFlash();
+    }
 }
