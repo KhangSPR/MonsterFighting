@@ -3,24 +3,25 @@ using UnityEngine;
 
 public class DamageSender : AbstractCtrl
 {
-    //public float damageInterval = 3f;
     [SerializeField]
     int damage;
     public int Damage { get { return damage; } set { damage = value; } }
+
+    [SerializeField] protected SkillType skillType;
+    public SkillType SkillType => skillType;  // Sửa lỗi ở đây
+
     protected override void Start()
     {
         base.Start();
-        
-        
-        this.damage = playerCtrl?.CharacterStatsFake.Attack ?? enemyCtrl?.EnemySO.basePointsAttack ??  this.damage;
 
+        this.damage = playerCtrl?.CharacterStatsFake.Attack ?? enemyCtrl?.EnemySO.basePointsAttack ?? this.damage;
     }
+
     public virtual void Send(Transform obj)
     {
         DamageReceiver damageReceiver = obj.GetComponentInChildren<DamageReceiver>();
         if (damageReceiver == null) return;
         this.Send(damageReceiver);
-        //this.createImpactFX();
     }
 
     public virtual void Send(DamageReceiver damageReceiver)

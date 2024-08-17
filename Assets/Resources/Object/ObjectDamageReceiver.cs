@@ -3,24 +3,9 @@ using UnityEngine;
 
 public class ObjectDamageReceiver : DamageReceiverByType
 {
-    [Header("Object")]
-    [SerializeField] protected ObjectCtrl ObjectCtrl;
-
-    protected override void LoadValue()
-    {
-        base.LoadValue();
-        LoadObjectCtrl();
-    }
-
-    protected virtual void LoadObjectCtrl()
-    {
-        if (ObjectCtrl != null) return;
-        ObjectCtrl = transform.parent.GetComponent<ObjectCtrl>();
-        Debug.Log(gameObject.name + ": Loaded ObjectCtrl for " + gameObject.name);
-    }
-
     public override void OnDead()
     {
+        base.OnDead();
         if (ObjectCtrl != null)
         {
             ObjectCtrl.Despawn.ResetCanDespawnFlag();
@@ -44,10 +29,5 @@ public class ObjectDamageReceiver : DamageReceiverByType
         }
 
         base.ReBorn();
-    }
-    protected override void DameSlash()
-    {
-        base.DameSlash();
-        ObjectCtrl.AbstractModel.DameFlash.CallDamageFlash();
     }
 }

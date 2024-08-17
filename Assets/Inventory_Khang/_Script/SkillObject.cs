@@ -4,9 +4,10 @@ using UnityEngine;
 
 public enum SkillType
 {
-    Meteorite,
-    Ice,
-    Lightning,
+    Default,
+    Fire,
+    Glace,
+    Electric,
     Stone,
     Poison
 
@@ -21,6 +22,7 @@ public class SkillObject : ItemObject
     public int coolDown;
     public SkillType skillType;
     public GameObject gameobjectVFX;
+    public float positionSpawn;
     public void Awake()
     {
         type = ItemType.Skill;

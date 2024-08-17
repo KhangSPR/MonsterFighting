@@ -9,4 +9,5 @@ public class EnemySO : ScriptableObject
     public int basePointsLife;
     public float basePointsAttackSpeed;
     public float basePointsSpecialAttack;
+    public float basePointsSpeedMove;
 }

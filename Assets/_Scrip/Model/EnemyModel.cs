@@ -1,18 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class EnemyModel : AbstractModel
+﻿public class EnemyModel : AbstractModel
 {
     protected override void AnimationLoading()
     {
         bool shouldAttack = false;
+
+        if (isStun)
+        {
+            currentState = State.Stun;         
+        }
 
         switch (this.currentState)
         {
             case State.Move:
                 PlayAnimation("Attack", false);
                 PlayAnimation("Moving", true);
+                PlayAnimation("Stun", false);
+                PlayAnimation("Idle", false);
+
                 isAttacking = false;
                 if (this.enemyCtrl.ObjMovement.gameObject.activeSelf)
                 {
@@ -26,6 +30,8 @@ public class EnemyModel : AbstractModel
                     PlayAnimation("Attack", true);
                     PlayAnimation("Moving", false);
                     PlayAnimation("Idle", false);
+                    PlayAnimation("Stun", false);
+
                     isAttacking = true;
                     isAnimationComplete = false;
                 }
@@ -39,7 +45,15 @@ public class EnemyModel : AbstractModel
                 PlayAnimation("Moving", false);
                 PlayAnimation("Idle", true);
                 PlayAnimation("Attack", false);
+                PlayAnimation("Stun", false);
+
                 isAttacking = false;
+                break;
+            case State.Stun:
+                PlayAnimation("Stun", true);
+                isAttacking = false;
+                
+
                 break;
         }
 
@@ -56,10 +70,8 @@ public class EnemyModel : AbstractModel
                 isAnimationComplete = false;
                 currentDelay = delayAttack; // Set time Wait
                 currentState = State.Idle; // Next State Idle
-
-                //Debug.Log(isAnimationComplete);
             }
-            else if(currentState == State.Idle && currentDelay > 0)
+            else if (currentState == State.Idle && currentDelay > 0)
             {
                 currentState = State.Idle;
             }

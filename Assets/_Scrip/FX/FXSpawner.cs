@@ -11,6 +11,7 @@ public class FXSpawner : Spawner
     public static string ImpactTwo = "Impact_2"; //Impact 2
     public static string BreackOne = "Breack_1"; //Breack 1
     public static string textDamage = "TextDamage"; //Impact 2
+    public static string stun = "Stun";
     public static FXSpawner Instance { get => instance; }
     protected override void Awake()
     {

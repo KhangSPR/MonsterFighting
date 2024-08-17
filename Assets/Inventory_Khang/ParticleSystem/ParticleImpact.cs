@@ -4,8 +4,9 @@ public class ParticleImpact : AbstractCtrl
 {
     private void OnParticleCollision(GameObject other)
     {
+        Debug.Log("Impact:");
         // Kiểm tra xem đối tượng va chạm có tag "Enemy" hay không
-        if (other.transform.parent != null && other.transform.parent.CompareTag("Enemy"))
+        if (other.transform.parent.CompareTag("Enemy"))
         {
             Debug.Log("Impact: " + particleCtrl.particleDamesender.Damage);
             particleCtrl.particleDamesender.Send(other.transform.parent);
@@ -13,7 +14,7 @@ public class ParticleImpact : AbstractCtrl
             var damagereceiver = other.transform.GetComponent<DamageReceiverByType>();
             if (damagereceiver != null)
             {
-                ImpartEffectType(particleCtrl.SkillType, damagereceiver); // Gọi hàm xử lý hiệu ứng dựa trên loại kỹ năng
+                ImpartEffectType(particleCtrl.particleDamesender.SkillType, damagereceiver); // Gọi hàm xử lý hiệu ứng dựa trên loại kỹ năng
             }
         }
     }
@@ -22,13 +23,15 @@ public class ParticleImpact : AbstractCtrl
     {
         switch (skill)
         {
-            case SkillType.Meteorite:
-                damagereceiver.StartBurning(); // Bắt đầu hiệu ứng đốt cháy với damage là 2 và thời gian 3 giây
+            case SkillType.Fire:
+                damagereceiver.StartBurning(skill);
                 break;
-            //case SkillType.Lightning:
-            //    damagereceiver.StartTwitching(); // Bắt đầu hiệu ứng co giật với damage là 2 và thời gian 2 giây
-            //    break;
-            // Có thể thêm các case khác dựa trên các loại skill khác
+            case SkillType.Glace:
+                damagereceiver.StartGlace(skill); 
+                break;
+            case SkillType.Electric:
+                damagereceiver.StartElectric(skill);
+                break;
             default:
                 Debug.LogWarning("Không hỗ trợ loại kỹ năng này: " + skill);
                 break;

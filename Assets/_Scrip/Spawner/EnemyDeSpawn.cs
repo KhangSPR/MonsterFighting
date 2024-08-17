@@ -21,6 +21,9 @@ public class EnemyDeSpawn : DespawnByTime
     protected override void deSpawnObjParent()
     {
         EnemySpawner.Instance.Despawn(transform.parent);
+
+        enemyCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+
         Transform newDropItem = EnemyDropSpawner.Instance.Spawn(GetTag(), transform.parent.position, Quaternion.identity);
 
         newDropItem.gameObject.SetActive(true);

@@ -10,7 +10,8 @@ public abstract class Despawn : SaiMonoBehaviour
     private void FixedUpdate()
     {
         this.Despawning();
-        this.canDespawn(); 
+        this.canDespawn();
+
     }
 
     protected virtual void Despawning()

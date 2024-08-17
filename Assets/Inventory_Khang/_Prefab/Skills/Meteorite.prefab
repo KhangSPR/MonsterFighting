@@ -9764,6 +9764,7 @@ MonoBehaviour:
   bulletCtrl: {fileID: 0}
   particleCtrl: {fileID: 6987292596331435300}
   damage: 0
+  skillType: 1
 --- !u!114 &4696891065644591762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19554,7 +19555,6 @@ MonoBehaviour:
   _particleSystem: {fileID: 8522148012771983179}
   _sender: {fileID: 5098936193646816332}
   _impact: {fileID: 4696891065644591762}
-  _skillType: 0
 --- !u!1 &7324023097079319630
 GameObject:
   m_ObjectHideFlags: 0

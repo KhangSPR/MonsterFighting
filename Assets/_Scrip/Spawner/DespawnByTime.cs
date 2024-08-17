@@ -5,8 +5,8 @@ using UnityEngine;
 public class DespawnByTime : Despawn
 {
     // TODO: Not Finish
-    [SerializeField] protected float timer = 0f;
-    [SerializeField] protected float delay = 5f;
+    [SerializeField] public float timer = 0f;
+    [SerializeField] public float delay = 5f;
     //protected override void OnEnable()
     //{
     //    base.OnEnable();
@@ -22,7 +22,7 @@ public class DespawnByTime : Despawn
         if (this.timer > this.delay)
         {
             this.ResetTimer();
-            return canDespawnFlag = true;
+             return canDespawnFlag = true;
         }
         return canDespawnFlag = false;
     }

@@ -20,10 +20,13 @@ public class PlayerDeSpawn : Despawn
     protected override void deSpawnObjParent()
     {
         PlayerSpawner.Instance.Despawn(transform.parent);
+
+        playerCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+
     }
 
     protected override bool canDespawn()
     {
-        return false;
+        return canDespawnFlag = false;
     }
 }

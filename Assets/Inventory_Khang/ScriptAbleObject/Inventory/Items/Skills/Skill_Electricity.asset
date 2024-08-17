@@ -18,9 +18,11 @@ MonoBehaviour:
   Name: Skill Electricity
   description: '- Creates a lightning zone, dealing <color=#FFFD01>50 damage</color> 
     per bolt that lasts for <color=green>15 seconds</color>'
-  timeSpawn: 0
-  skillType: 2
-  damage: 0
-  activityAction: 0
-  count: 0
-  gameobjectVFX: {fileID: 0}
+  timeSpawn: 20
+  damage: 25
+  particleCount: 20
+  coolDown: 5
+  skillType: 3
+  gameobjectVFX: {fileID: 6952217208568970177, guid: 372b0ce796ba64a4bb9d27da5f017f95,
+    type: 3}
+  positionSpawn: 5

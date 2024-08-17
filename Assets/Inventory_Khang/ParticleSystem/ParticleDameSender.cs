@@ -26,7 +26,7 @@ public class ParticleDameSender : DamageSender
         string fxName = this.GetTextDamageFX();
         Transform fxObj = FXSpawner.Instance.Spawn(fxName, hitPos, Quaternion.identity);
         TextDamage textDamage = fxObj.GetComponent<TextDamage>();
-        textDamage.SetDamage(this.Damage);
+        textDamage.DoAnimation(this.Damage, skillType);
         fxObj.gameObject.SetActive(true);
     }
 

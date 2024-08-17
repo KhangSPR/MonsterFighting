@@ -28,6 +28,7 @@ public class EnemySpawner : Spawner
         ObjectCtrl newObjectCtrl =  newEnemy.GetComponent<ObjectCtrl>();
         Transform newHPBar = HPBarSpawner.Instance.Spawn(HPBarSpawner.HPBar, newEnemy.position, Quaternion.identity);
 
+
         HPBar hpBar = newHPBar.GetComponent<HPBar>();
 
         hpBar.SetObjectCtrl(newObjectCtrl);

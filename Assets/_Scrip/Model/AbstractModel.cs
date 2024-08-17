@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum attackType
 {
@@ -26,12 +24,15 @@ public abstract class AbstractModel : AbstractCtrl
     [SerializeField] protected AnimationImpact animationImpact;
     [SerializeField] protected DameFlash dameFlash;
     public DameFlash DameFlash => dameFlash;
-
+    [SerializeField] protected EffectCharacter effectCharacter;
+    public EffectCharacter EffectCharacter => effectCharacter;
 
     protected bool isAttacking = false;
     protected bool isAnimationComplete = false;
-    protected float delayAttack = 3.0f; 
-    protected float currentDelay = 0f; 
+    protected float delayAttack = 3.0f;
+    protected float currentDelay = 0f;
+    protected bool isStun = false;
+    public bool IsStun { get { return isStun; } set { isStun = value; } }
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -41,7 +42,9 @@ public abstract class AbstractModel : AbstractCtrl
         this.LoadAnimator();
         this.LoadAnimationImpact();
         this.LoadDameFlash();
+        this.LoadEffectCharacter();
     }
+
     protected virtual void LoadBoxCollider2D()
     {
         if (this.boxCollider != null) return;
@@ -49,6 +52,7 @@ public abstract class AbstractModel : AbstractCtrl
         this.boxCollider.isTrigger = true;
         Debug.Log(transform.name + ": LoadBoxCollider2D", gameObject);
     }
+
     protected virtual void LoadCircleCollider2D()
     {
         if (this.circleCollider != null) return;
@@ -56,18 +60,28 @@ public abstract class AbstractModel : AbstractCtrl
         this.circleCollider.isTrigger = true;
         Debug.Log(transform.name + ": LoadCollider", gameObject);
     }
+
     public void LoadAnimator()
     {
         if (animator != null) return;
         animator = transform.GetComponent<Animator>();
-        Debug.Log(transform.name + ": LoadLoadAnimator", gameObject);
+        Debug.Log(transform.name + ": LoadAnimator", gameObject);
     }
+
     public void LoadDameFlash()
     {
         if (dameFlash != null) return;
         dameFlash = transform.GetComponent<DameFlash>();
         Debug.Log(transform.name + ": LoadDameFlash", gameObject);
     }
+
+    public void LoadEffectCharacter()
+    {
+        if (effectCharacter != null) return;
+        effectCharacter = transform.GetComponent<EffectCharacter>();
+        Debug.Log(transform.name + ": LoadEffectCharacter", gameObject);
+    }
+
     protected virtual void LoadRigibody()
     {
         if (this._rigidbody != null) return;
@@ -75,6 +89,7 @@ public abstract class AbstractModel : AbstractCtrl
         this._rigidbody.bodyType = RigidbodyType2D.Kinematic;
         Debug.Log(transform.name + ": LoadRigibody", gameObject);
     }
+
     protected virtual void LoadAnimationImpact()
     {
         if (attackType != attackType.Animation) return;
@@ -82,48 +97,56 @@ public abstract class AbstractModel : AbstractCtrl
 
         this.animationImpact = transform.Find("AnimationImpact").GetComponent<AnimationImpact>();
         Debug.Log(transform.name + ": LoadAnimationImpact", gameObject);
-
     }
+
     protected void FixedUpdate()
     {
         this.AnimationLoading();
     }
+
     protected override void Update()
     {
         base.Update();
         this.CheckDelay();
     }
+
     public void OnAttackAnimationEnd()
     {
         this.isAnimationComplete = true;
     }
+
     protected virtual void CheckDelay()
     {
         if (currentDelay > 0)
         {
-            currentDelay -= Time.deltaTime; 
+            currentDelay -= Time.deltaTime;
             if (currentDelay <= 0)
             {
                 currentDelay = 0;
             }
         }
     }
+
     public void DameSent()
     {
         animationImpact.damageSent = false;
     }
+
     public void PlayAnimation(string animationName, bool state)
     {
         this.animator.SetBool(animationName, state);
     }
+
     protected abstract void AnimationLoading();
     protected abstract void AttackType();
     protected void Move()
     {
         this.animator.Play("Move");
     }
+
     protected void Idle()
     {
         this.animator.Play("Idle");
     }
+
 }

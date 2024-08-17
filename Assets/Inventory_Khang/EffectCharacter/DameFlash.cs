@@ -9,8 +9,8 @@ public class DameFlash : MonoBehaviour
     [SerializeField] private float _flashTime = 0.25f;
     [SerializeField] private AnimationCurve _flashCurve;
 
-    private SpriteRenderer[] _spriteRenderers;
-    private Material[] _materials;
+    [SerializeField] private SpriteRenderer[] _spriteRenderers;
+    [SerializeField] private Material[] _materials;
 
     private Coroutine _damageFlashCoroutine;
     public void StopCoroutieSlash()

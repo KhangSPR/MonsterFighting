@@ -3,27 +3,15 @@ using UnityEngine;
 
 public class ParticleCtrl : SaiMonoBehaviour
 {
-    [SerializeField] private ParticleSystem _particleSystem;
-    [SerializeField] public ParticleSystem ParticleSystem => _particleSystem;
     [SerializeField] protected ParticleDameSender _sender;
     public ParticleDameSender particleDamesender => _sender;
     [SerializeField] protected ParticleImpact _impact;
     public ParticleImpact Impact => _impact;
-    [SerializeField] protected SkillType _skillType;
-    public SkillType SkillType => _skillType;
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        this.LoadParticle();
         this.LoadParticleDameSender();
         this.LoadParticleImpact();
-    }
-
-    protected virtual void LoadParticle()
-    {
-        if (_particleSystem != null) return;
-        _particleSystem = transform.GetComponentInChildren<ParticleSystem>();
-        Debug.Log(gameObject.name + ": LoadParticleCtrl" + gameObject);
     }
 
     protected virtual void LoadParticleDameSender()

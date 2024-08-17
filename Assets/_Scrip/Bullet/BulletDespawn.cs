@@ -41,16 +41,14 @@ public class BulletDespawn : DespawnByTime
         {
             PlayerCtrl playerCtrl = (PlayerCtrl)bulletCtrl.ObjectCtrl;
             if (playerCtrl.PlayerAttack.CanAttack.Count == 0) return canDespawnFlag = true;
-            else canDespawnFlag = false;
+            else return canDespawnFlag = false;
         }
         else if (bulletCtrl.ObjectCtrl != null && bulletCtrl.ObjectCtrl is EnemyCtrl)
         {
             EnemyCtrl enemyCtrl = (EnemyCtrl)bulletCtrl.ObjectCtrl;
             if (enemyCtrl.EnemyAttack.CanAtacck.Count == 0) return canDespawnFlag = true;
-            else canDespawnFlag = false;
+            else return canDespawnFlag = false;
         }
-
-
-        return false;
+        return canDespawnFlag = false;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using UIGameDataMap;
 using UnityEngine;
 
 public class SelectManager : SaiMonoBehaviour
@@ -21,12 +22,12 @@ public class SelectManager : SaiMonoBehaviour
     protected override void Awake()
     {
         base.Awake();
-        if (_instance != null)
-        {
-            Debug.LogError("Only one instance of SelectManager is allowed!");
-            Destroy(gameObject);
-            return;
-        }
+        //if (_instance != null)
+        //{
+        //    Debug.LogError("Only one instance of SelectManager is allowed!");
+        //    Destroy(gameObject);
+        //    return;
+        //}
         _instance = this;
     }
     protected override void Update()
@@ -63,7 +64,9 @@ public class SelectManager : SaiMonoBehaviour
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
             // Điều chỉnh vị trí theo trục Y
-            float fixedYPosition = 5f; // Bạn có thể thay đổi giá trị Y cố định này
+            float fixedYPosition = skillObject.positionSpawn;
+
+
             worldPosition.y = fixedYPosition;
 
             // Instance gameobjectVFX tại vị trí đã điều chỉnh

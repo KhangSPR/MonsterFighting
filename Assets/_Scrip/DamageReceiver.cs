@@ -12,9 +12,28 @@ public abstract class DamageReceiver : AbstractCtrl
     [SerializeField] protected int isMaxHP = 3;
     public int IsMaxHP => isMaxHP;
 
+    protected bool isBurning;
+    protected bool isTwitching;
+    protected bool isGlacing;
 
     protected bool isDead;
     public bool IsDead => isHP <= 0;
+    [Space]
+    [Space]
+    [Header("Object")]
+    [SerializeField] protected ObjectCtrl ObjectCtrl;
+    protected override void LoadComponents()
+    {
+        base.LoadComponents();
+        this.LoadObjectCtrl();
+    }
+
+    protected virtual void LoadObjectCtrl()
+    {
+        if (ObjectCtrl != null) return;
+        ObjectCtrl = transform.parent.GetComponent<ObjectCtrl>();
+        Debug.Log(gameObject.name + ": Loaded ObjectCtrl for " + gameObject.name);
+    }
 
     protected override void OnEnable()
     {
@@ -23,6 +42,7 @@ public abstract class DamageReceiver : AbstractCtrl
 
     protected virtual void LoadValue()
     {
+        LoadObjectCtrl();
         ReBorn();
     }
 
@@ -41,15 +61,13 @@ public abstract class DamageReceiver : AbstractCtrl
     public virtual void DeductHealth(int amount)
     {
         if (isDead) return;
-
+        if(!isBurning && !isGlacing && !isTwitching)//Add Effect...
+        {
+            HandleSlashDamage();
+        }    
         //Debug.Log(amount);
         isHP -= amount;
-        DameSlash();
         CheckIfDead();
-    }
-    protected virtual void DameSlash()
-    {
-
     }
     protected virtual void CheckIfDead()
     {
@@ -59,7 +77,11 @@ public abstract class DamageReceiver : AbstractCtrl
             OnDead();
         }
     }
-
+    public void HandleSlashDamage()
+    {
+        if(ObjectCtrl!=null)
+            ObjectCtrl.AbstractModel.DameFlash.CallDamageFlash();
+    }
     public abstract void OnDead();
 
 }
