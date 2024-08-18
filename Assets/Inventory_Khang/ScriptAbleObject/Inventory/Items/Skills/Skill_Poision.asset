@@ -17,9 +17,11 @@ MonoBehaviour:
   type: 0
   Name: Skill Poison
   description: 
-  timeSpawn: 0
-  damage: 0
-  particleCount: 0
-  coolDown: 0
+  timeSpawn: 20
+  damage: 15
+  particleCount: 25
+  coolDown: 5
   skillType: 5
-  gameobjectVFX: {fileID: 0}
+  gameobjectVFX: {fileID: 2540240949602784011, guid: bb4fd338acfb8fb49b877ac685d7ca14,
+    type: 3}
+  positionSpawn: 5

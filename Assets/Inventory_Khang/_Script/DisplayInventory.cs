@@ -54,7 +54,7 @@ public class DisplayInventory : MonoBehaviour
         itemDisplayed = new Dictionary<GameObject, InventorySlot>();
 
         // Danh sách các loại mục theo thứ tự ưu tiên
-        List<ItemType> itemTypeOrder = new List<ItemType> { ItemType.Stone, ItemType.Poison, ItemType.Skill };
+        List<ItemType> itemTypeOrder = new List<ItemType> { ItemType.Stone, ItemType.Medicine, ItemType.Skill };
 
         // Lọc và sắp xếp các mục trong inventory theo danh sách itemTypeOrder
         var sortedItems = inventory.Container.Items
@@ -146,7 +146,7 @@ public class DisplayInventory : MonoBehaviour
             case 0:
                 return ItemType.Stone;
             case 1:
-                return ItemType.Poison;
+                return ItemType.Medicine;
             case 2:
                 return ItemType.Skill;
             default:

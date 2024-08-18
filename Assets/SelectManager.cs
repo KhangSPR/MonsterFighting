@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
-using UIGameDataMap;
+﻿using System.Collections;
 using UnityEngine;
+using UIGameDataMap;
+using Unity.VisualScripting;
 
 public class SelectManager : SaiMonoBehaviour
 {
@@ -9,94 +9,132 @@ public class SelectManager : SaiMonoBehaviour
     public static SelectManager Instance => _instance;
 
     [SerializeField] private ItemObject _item;
-    public ItemObject ItemObject { get { return _item; } set { _item = value; } }
+    public ItemObject ItemObject
+    {
+        get => _item;
+        set => _item = value;
+    }
 
     [SerializeField] private GameObject _magicRing;
-    public GameObject _MagicRing => _magicRing;
+    public GameObject MagicRing => _magicRing;
 
-    [SerializeField] private SettingsMenu settingsMenu;
+    [SerializeField] private GameObject _objMedicine;
+    public GameObject ObjMedicine => _objMedicine;
 
-    bool Selectitem;
+    [SerializeField] private SettingsMenu settingsMenu = null;
+    public SettingsMenu SettingsMenu
+    {
+        get => settingsMenu;
+        set => settingsMenu = value;
+    }
 
+    private bool selectItem;
+    public bool SelectItem => selectItem;
 
     protected override void Awake()
     {
         base.Awake();
-        //if (_instance != null)
-        //{
-        //    Debug.LogError("Only one instance of SelectManager is allowed!");
-        //    Destroy(gameObject);
-        //    return;
-        //}
+
+        if (_instance != null)
+        {
+            Debug.LogError("Only one instance of SelectManager is allowed!");
+            Destroy(gameObject);
+            return;
+        }
         _instance = this;
     }
+
     protected override void Update()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            if (!Selectitem)
-            {
-                if (!settingsMenu.IsPointerOverUIElement(settingsMenu.FrameButton))
-                {
-                    settingsMenu.ToggleOutSide();
-                }
-            }
-            else
-            {
-                if (!settingsMenu.IsPointerOverUIElement(settingsMenu.FrameButton))
-                {
-                    if (_magicRing.activeSelf)
-                    {
-                        TryInstantiateSkill();
-                    }
-                }
-            }
-        }   
+        if (settingsMenu == null) return;
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!selectItem && !settingsMenu.IsPointerOverUIElement(settingsMenu.FrameButton))
+            {
+                settingsMenu.ToggleOutSide();
+            }
+            else if (selectItem && !settingsMenu.IsPointerOverUIElement(settingsMenu.FrameButton))
+            {
+                TryInstantiateSkill();
+            }
+        }
     }
+
     private void TryInstantiateSkill()
     {
         if (_item is SkillObject skillObject)
         {
-            // Lấy vị trí chuột trong không gian thế giới
             Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = 10f; // Độ sâu của camera, điều chỉnh theo nhu cầu
+            mousePosition.z = 10f; // Adjust depth as needed
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            worldPosition.y = skillObject.positionSpawn;
 
-            // Điều chỉnh vị trí theo trục Y
-            float fixedYPosition = skillObject.positionSpawn;
-
-
-            worldPosition.y = fixedYPosition;
-
-            // Instance gameobjectVFX tại vị trí đã điều chỉnh
             GameObject VFX = Instantiate(skillObject.gameobjectVFX, worldPosition, Quaternion.identity);
 
-            //Set Damage
-            ParticleCtrl particleCtrl = VFX.GetComponent<ParticleCtrl>();
-            if (particleCtrl != null)
+
+            if (VFX.TryGetComponent(out ParticleCtrl particleCtrl))
             {
                 particleCtrl.particleDamesender.Damage = skillObject.damage;
             }
-            // Access the ParticleSystem component
-            ParticleSystem particleSystem = VFX.GetComponentInChildren<ParticleSystem>();
-            if (particleSystem != null)
+
+            if (VFX.GetComponentInChildren<ParticleSystem>() is ParticleSystem particleSystem)
             {
-                // Disable continuous emission
                 var emission = particleSystem.emission;
                 emission.rateOverTime = 0;
 
-                // Start a coroutine to emit particles over time and destroy the object after
                 StartCoroutine(EmitParticlesAndDestroy(particleSystem, skillObject.particleCount, skillObject.timeSpawn, VFX));
+            }
+            Debug.Log($"Spawn VFX Skill at Y = {worldPosition.y}");
+
+            if (settingsMenu.TryGetComponent(out TimeObject timeSkill))
+            {
+                timeSkill._Time = skillObject.coolDown;
+                timeSkill.ImageRefresh.cooldownDuration = skillObject.coolDown;
+                timeSkill.ImageRefresh.StartCooldown();
             }
 
             VFX.SetActive(true);
-            Debug.Log("Spawn VFX Skill at Y = " + fixedYPosition);
-
-            settingsMenu._Time = skillObject.coolDown;
-            settingsMenu.ImageRefresh.cooldownDuration = skillObject.coolDown;
-            settingsMenu?.ToggleSelect();
         }
+        else if (_item is MedicineObject medicineObject)
+        {
+            Collider2D medicineCollider = _objMedicine.GetComponent<Collider2D>();
+
+            if (medicineCollider == null)
+            {
+                Debug.LogWarning("Collider2D không gắn trên _objMedicine.");             
+            }
+
+            // Tạo một mảng để lưu các collider bị va chạm
+            Collider2D[] colliders = new Collider2D[5]; // Có thể thay đổi kích thước tùy theo nhu cầu
+            ContactFilter2D contactFilter = new ContactFilter2D();
+            contactFilter.useTriggers = true; // Nếu bạn sử dụng các trigger colliders
+
+            // Kiểm tra va chạm
+            int hitCount = Physics2D.OverlapCollider(medicineCollider, contactFilter, colliders);
+
+            for (int i = 0; i < hitCount; i++)
+            {
+                Collider2D hitCollider = colliders[i];
+                TargetVFX targetScript = hitCollider.GetComponent<TargetVFX>();
+
+                if (targetScript != null)
+                {
+                    Debug.Log("Đã va chạm với đối tượng có script TargetVFX.");
+
+                    // Lấy vị trí của đối tượng mà _objMedicine va chạm
+                    Vector3 targetPosition = hitCollider.transform.parent.position;
+
+                    // Instantiate VFX tại vị trí của đối tượng mà _objMedicine va chạm
+                    GameObject VFX = Instantiate(medicineObject.gameobjectVFX, targetPosition, Quaternion.identity);
+
+                    VFX.SetActive(true);
+                }
+            }
+        }
+
+
+        settingsMenu?.ToggleSelect();
     }
 
     private IEnumerator EmitParticlesAndDestroy(ParticleSystem particleSystem, int totalParticles, float duration, GameObject VFX)
@@ -104,41 +142,42 @@ public class SelectManager : SaiMonoBehaviour
         float particlesPerSecond = totalParticles / duration;
         float interval = 1f / particlesPerSecond;
 
-        int emittedParticles = 0;
-
-        while (emittedParticles < totalParticles)
+        for (int emittedParticles = 0; emittedParticles < totalParticles; emittedParticles++)
         {
             particleSystem.Emit(1);
-            emittedParticles++;
             Debug.Log("Emitted: " + emittedParticles);
             yield return new WaitForSeconds(interval);
         }
 
-        // Wait for the remaining time if any particles were emitted faster than expected
-        float remainingTime = duration - (emittedParticles * interval);
-        if (remainingTime > 0)
-        {
-            yield return new WaitForSeconds(remainingTime);
-        }
-
-        // Wait an additional 5 seconds before destroying the VFX object
+        yield return new WaitForSeconds(Mathf.Max(0, duration - (totalParticles * interval)));
         yield return new WaitForSeconds(5f);
-        // Now it's safe to destroy the VFX object
+
         Destroy(VFX);
     }
-
-
     public void ActiveSkill()
     {
-        _MagicRing.SetActive(true);
-        Selectitem = true;
+        MagicRing.SetActive(true);
+        SetSelectItem(true);
     }
 
-    public void DeactiveSkill()
+    public void DeactivateSkill()
     {
-        _MagicRing.SetActive(false);
-
-        Selectitem = false;
+        MagicRing.SetActive(false);
+        SetSelectItem(false);
     }
+    public void ActiveMedicine()
+    {
+        _objMedicine.SetActive(true);
+        SetSelectItem(true);
 
+    }
+    public void DeactivateMedicine()
+    {
+        _objMedicine.SetActive(false);
+        SetSelectItem(false);
+    }
+    private void SetSelectItem(bool value)
+    {
+        selectItem = value;
+    }
 }

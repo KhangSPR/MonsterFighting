@@ -15,6 +15,8 @@ public abstract class DamageReceiver : AbstractCtrl
     protected bool isBurning;
     protected bool isTwitching;
     protected bool isGlacing;
+    protected bool isPoition;
+    protected bool isStun;
 
     protected bool isDead;
     public bool IsDead => isHP <= 0;

@@ -13,29 +13,38 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
 
     [SerializeField] protected int DamagePerSecondFire = 2;
     [SerializeField] protected int DamagePerSecondTwitch = 1;
+    [SerializeField] protected int DamagePerSecondPoition = 1;
+
 
     [SerializeField] protected float TimeDurationFire = 3;
     [SerializeField] protected float TimeDurationGlace = 4;
     [SerializeField] protected float TimeDurationTwich = 2;
+    [SerializeField] protected float TimeDurationPoition = 6;
+    [SerializeField] protected float TimeDurationStun = 2;
 
 
-    private Coroutine burnCoroutine;
-    private Coroutine glaceCoroutine;
-    private Coroutine twitchCoroutine;
+
+
+    private Coroutine burnCoroutine = null;
+    private Coroutine glaceCoroutine = null;
+    private Coroutine twitchCoroutine = null;
+    private Coroutine poitionCoroutine = null;
+    private Coroutine stunCoroutine = null;
+
 
     private Transform objFX;
     #region Machine Effect
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        HandleCollisionEnter<IBurnable>(collision, DamagePerSecondFire, StartBurning);
-        HandleCollisionEnter<IElectricable>(collision, DamagePerSecondTwitch, StartTwitching);
+        //HandleCollisionEnter<IBurnable>(collision, DamagePerSecondFire, StartBurning);
+        //HandleCollisionEnter<IElectricable>(collision, DamagePerSecondTwitch, StartTwitching);
     }
 
     protected virtual void OnTriggerExit2D(Collider2D collision)
     {
-        HandleCollisionExit<IBurnable>(collision, exitTimeBurn, StopBurning);
-        HandleCollisionExit<IElectricable>(collision, exitTimeTwitch, StopTwitching);
+        //HandleCollisionExit<IBurnable>(collision, exitTimeBurn, StopBurning);
+        //HandleCollisionExit<IElectricable>(collision, exitTimeTwitch, StopTwitching);
     }
 
     protected virtual void HandleCollisionEnter<T>(Collider2D collision, int damagePerSecond, Action<int> startEffect)
@@ -125,6 +134,24 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
 
 
         Debug.Log("StopStun");
+    }
+    public void StopStun()
+    {
+        isStun = false;
+
+        if (stunCoroutine != null) StopCoroutine(stunCoroutine);
+
+        this.enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;
+        this.enemyCtrl.AbstractModel.IsStun = false;
+
+        Debug.Log("StopStun");
+    }
+    public void StopPoition()
+    {
+        isPoition = false;
+        if (poitionCoroutine != null) StopCoroutine(poitionCoroutine);
+
+        ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
     }
     #endregion
     #region Glace Effect
@@ -235,6 +262,69 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         StopTwitching(); // Dừng hiệu ứng twitching khi hết thời gian
     }
     #endregion
+    #region Poition Effect
+    public void StartPotioning(SkillType skillType)
+    {
+        isPoition = true;
+
+
+        //Effect Character
+        Material material = EffectManager.Instance.GetMaterialByName("poison");
+        if (material != null)
+        {
+            Debug.Log("Set Fire Burn");
+            ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
+        }
+
+        if (poitionCoroutine != null) StopCoroutine(poitionCoroutine);
+        poitionCoroutine = StartCoroutine(ApplyPoitioningEffect(DamagePerSecondPoition, TimeDurationPoition, skillType));
+    }
+    private IEnumerator ApplyPoitioningEffect(int damagePerSecond, float duration, SkillType skillType)
+    {
+        WaitForSeconds wait = new WaitForSeconds(0.5f);
+        float elapsedTime = 0f;
+
+        while (isPoition && elapsedTime < duration)
+        {
+            yield return wait;
+            DeductHealth(damagePerSecond);
+            Send(damagePerSecond, skillType);
+            elapsedTime += 0.5f;
+        }
+
+        StopPoition(); // Dừng hiệu ứng burn khi hết thời gian
+    }
+    #endregion
+    #region StunEffect
+    public void StartStun()
+    {
+        isStun = true;
+
+        if (enemyCtrl != null)
+        {
+            Vector3 hitPos = transform.position;
+            hitPos.y += 0.35f;
+
+            objFX = FXSpawner.Instance.Spawn("Stun", hitPos, Quaternion.identity); // Assign to objFX
+
+            objFX.GetComponentInChildren<FxDespawn>().delay = TimeDurationStun;
+
+            objFX.gameObject.SetActive(true); // Activate the GameObject
+
+            StartCoroutine(ApplyStunEffect(TimeDurationTwich));
+
+            this.enemyCtrl.AbstractModel.IsStun = true;
+            this.enemyCtrl.ObjMovement.MoveSpeed = 0;
+        }
+    }
+
+    private IEnumerator ApplyStunEffect(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        StopStun(); // Dừng hiệu ứng twitching khi hết thời gian
+    }
+    #endregion
     #region FX Text ... 
     public void Send(int dame, SkillType skillType)
     {
@@ -293,6 +383,16 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         {
             StopTwitching();
             Debug.Log("Stop Twitching");
+        }
+        if(isPoition)
+        {
+            StopPoition();
+            Debug.Log("Stop Poitioning");
+        }
+        if(isStun)
+        {
+            StopStun();
+            Debug.Log("Stop Stun");
         }
     }
 }

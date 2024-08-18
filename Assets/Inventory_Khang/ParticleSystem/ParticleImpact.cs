@@ -32,6 +32,12 @@ public class ParticleImpact : AbstractCtrl
             case SkillType.Electric:
                 damagereceiver.StartElectric(skill);
                 break;
+            case SkillType.Poison:
+                damagereceiver.StartPotioning(skill);
+                break;
+            case SkillType.Stone:
+                damagereceiver.StartStun();
+                break;
             default:
                 Debug.LogWarning("Không hỗ trợ loại kỹ năng này: " + skill);
                 break;

@@ -11,15 +11,15 @@ public enum PoisonType
 
 }
 [CreateAssetMenu(fileName = "New Poison Object", menuName = "Inventory System/Items/Poison")]
-public class PoisonObject : ItemObject
+public class MedicineObject : ItemObject
 {
     public PoisonType poisonType;
     public int addPoint;
     public GameObject gameobjectVFX;
-
+    public int coolDown;
 
     public void Awake()
     {
-        type = ItemType.Poison;
+        type = ItemType.Medicine;
     }
 }

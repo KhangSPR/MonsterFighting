@@ -17,9 +17,11 @@ MonoBehaviour:
   type: 0
   Name: Skill Stone
   description: 
-  timeSpawn: 0
-  damage: 0
-  particleCount: 0
-  coolDown: 0
+  timeSpawn: 15
+  damage: 50
+  particleCount: 20
+  coolDown: 15
   skillType: 4
-  gameobjectVFX: {fileID: 0}
+  gameobjectVFX: {fileID: 7222674188735201096, guid: fc0acf0c12773d3439e2021263f3e1f8,
+    type: 3}
+  positionSpawn: 5

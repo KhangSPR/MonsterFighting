@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -32,15 +31,11 @@ public class SettingsMenu : MonoBehaviour
     [Space]
     [Header("MainSelect")]
     [SerializeField] Button mainButton;
-    [SerializeField] Image mainIcon;
+    [SerializeField] Image mainIcon; 
     [SerializeField] Image mainIconDefault;
-    [SerializeField] ImageRefresh imageRefresh;
     [SerializeField] Image frameButton;
     public Image FrameButton { get { return frameButton; } set { frameButton = value; } }
-    public ImageRefresh ImageRefresh { get { return imageRefresh; } set { imageRefresh = value; } }
-    [SerializeField] TMP_Text m_Time; // Reference to the time Text component
-    float time;
-    public float _Time { get { return time; } set { time = value; } }
+
 
     Image mainButtonImage;
     SettingsMenuItem[] menuItems;
@@ -51,17 +46,17 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] Transform Holder;
 
     [SerializeField] bool isExpanded = false;
-    public bool IsExpanded => isExpanded;
 
     [SerializeField] Vector2 mainButtonPosition;
     int itemsCount;
 
-    public ItemType displayType;
+    public ItemType ItemType;
 
+    [SerializeField] TimeObject timeObject;
 
     void Start()
     {
-        InventoryManager.Instance.CreateDisplayPlayByType(displayType, Holder, Prefab);
+        InventoryManager.Instance.CreateDisplayPlayByType(ItemType, Holder, Prefab);
 
         itemsCount = transform.childCount - 1;
         menuItems = new SettingsMenuItem[itemsCount];
@@ -76,13 +71,6 @@ public class SettingsMenu : MonoBehaviour
         ResetPositions();
 
     }
-    private void Update()
-    {
-        if(imageRefresh.isCoolingDown)
-        {
-            UpdateTimeText();
-        }
-    }
     void ResetPositions()
     {
         for (int i = 0; i < itemsCount; i++)
@@ -93,16 +81,23 @@ public class SettingsMenu : MonoBehaviour
 
     public void ToggleSelect()
     {
-        if (SelectManager.Instance._MagicRing.activeSelf)
+        if (SelectManager.Instance.SelectItem)
         {
             Debug.Log("ActiveSelf True");
             mainIcon.sprite = mainIconDefault.sprite;
             mainButtonImage.DOColor(collapsedColor, 0f);
             SelectManager.Instance.ItemObject = null;
-            SelectManager.Instance.DeactiveSkill();
+            if (ItemType == ItemType.Skill)
+            {
+                SelectManager.Instance.DeactivateSkill();
+            }
+            if (ItemType == ItemType.Medicine)
+            {
+                SelectManager.Instance.DeactivateMedicine();
+            }
         }
         CollapseMenuItems();
-        imageRefresh.StartCooldown();
+        timeObject.ImageRefresh.StartCooldown();
         mainButtonImage.DOColor(collapsedColor, colorChangeDuration);
     }
     public void ToggleOutSide()
@@ -114,17 +109,27 @@ public class SettingsMenu : MonoBehaviour
     }
     public void ToggleMenu()
     {
-        if (imageRefresh.isCoolingDown) return;
+        
+        SelectManager.Instance.SettingsMenu = this;
+
+        if (timeObject.ImageRefresh.isCoolingDown) return; 
 
         isExpanded = !isExpanded;
 
-        if (SelectManager.Instance._MagicRing.activeSelf)
+        if (SelectManager.Instance.SelectItem)
         {
             Debug.Log("ActiveSelf True");
             mainIcon.sprite = mainIconDefault.sprite;
             mainButtonImage.DOColor(collapsedColor, 0f);
             SelectManager.Instance.ItemObject = null;
-            SelectManager.Instance.DeactiveSkill();
+            if (ItemType == ItemType.Skill)
+            {
+                SelectManager.Instance.DeactivateSkill(); //
+            }
+            if (ItemType == ItemType.Medicine)
+            {
+                SelectManager.Instance.DeactivateMedicine(); //
+            }
         }
 
         if (isExpanded)
@@ -174,32 +179,23 @@ public class SettingsMenu : MonoBehaviour
 
         mainIcon.sprite = selectedItem.icon.sprite;
 
-        //if (!SelectManager.Instance._MagicRing.activeSelf)
-        //{
-        //    Debug.Log("ActiveSelf False");
-        //    CollapseChangeMenuItems();
-
-        //}
         mainButtonImage.DOColor(expandedColor, colorChangeDuration);
+        if(ItemType == ItemType.Skill)
+        {
+            SelectManager.Instance.ActiveSkill(); //
+        }
+        if(ItemType == ItemType.Medicine)
+        {
+            SelectManager.Instance.ActiveMedicine(); //
 
-        SelectManager.Instance.ActiveSkill();
+        }
         SelectManager.Instance.ItemObject = selectedItem.SkillComponent.ItemObject;
+
     }
 
     void OnDestroy()
     {
         mainButton.onClick.RemoveListener(ToggleMenu);
-    }
-
-    public void UpdateTimeText()
-    {
-        time -= Time.deltaTime;
-        m_Time.text = "" + (int)time;
-        if (time < 0)
-        {
-            time = 0;
-            m_Time.text = "";
-        }
     }
     public bool IsPointerOverUIElement(Image targetImage)
     {
