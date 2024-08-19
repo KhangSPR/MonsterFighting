@@ -2,6 +2,7 @@
 using UnityEngine;
 using UIGameDataMap;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class SelectManager : SaiMonoBehaviour
 {
@@ -128,7 +129,25 @@ public class SelectManager : SaiMonoBehaviour
                     // Instantiate VFX tại vị trí của đối tượng mà _objMedicine va chạm
                     GameObject VFX = Instantiate(medicineObject.gameobjectVFX, targetPosition, Quaternion.identity);
 
+
+                    if (VFX.GetComponent<ParticleSystem>() is ParticleSystem particleSystem)
+                    {
+                        var emission = particleSystem.emission;
+                        emission.rateOverTime = 0;
+
+                        StartCoroutine(DestroyAfterDelay(VFX, 1f));
+                    }
+
                     VFX.SetActive(true);
+
+                    if (settingsMenu.TryGetComponent(out TimeObject timeSkill))
+                    {
+                        timeSkill._Time = medicineObject.coolDown;
+                        timeSkill.ImageRefresh.cooldownDuration = medicineObject.coolDown;
+                        timeSkill.ImageRefresh.StartCooldown();
+                    }
+
+                    targetScript.PlayerCtrl.ObjectDamageReceiver.AddPoint(medicineObject.addPoint, medicineObject.medicineType);
                 }
             }
         }
@@ -136,7 +155,11 @@ public class SelectManager : SaiMonoBehaviour
 
         settingsMenu?.ToggleSelect();
     }
-
+    private IEnumerator DestroyAfterDelay(GameObject VFX, float delay)
+    {
+        yield return new WaitForSeconds(delay + 1f); // Thêm 1 giây chờ
+        Destroy(VFX);
+    }
     private IEnumerator EmitParticlesAndDestroy(ParticleSystem particleSystem, int totalParticles, float duration, GameObject VFX)
     {
         float particlesPerSecond = totalParticles / duration;

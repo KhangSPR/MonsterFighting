@@ -15,53 +15,78 @@ public class TextDamage : SaiMonoBehaviour
     [SerializeField] protected TextMeshProUGUI text;
     [SerializeField] private float textMoveDistance;
     [SerializeField] private float animationDuration;
-
     [SerializeField] private TextDamageAnimationType typeAnimation;
+
+    private Vector3 hitPos;
+    private float scaleStart, scaleEnd, alphaTextStart, alphaTextEnd;
 
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        this.LoadText();
+        this.text = GetComponentInChildren<TextMeshProUGUI>() ?? this.text;
+        if (this.text == null) Debug.LogWarning(transform.name + ": LoadText", gameObject);
     }
 
-    protected virtual void LoadText()
-    {
-        if (this.text != null) return;
-        this.text = GetComponentInChildren<TextMeshProUGUI>();
-        Debug.LogWarning(transform.name + ": LoadText", gameObject);
-    }
-
-    private void SetDamage(double damage)
-    {
-        string damageNumber = LargeNumber.ToString(damage);
-        this.text.text = damageNumber;
-    }
-
-    private Vector3 hitPos;
-    private float scaleStart = 1;
-    private float scaleEnd = 2;
-    private float alphaTextStart = 0;
-    private float alphaTextEnd = 1;
-
-    public void DoAnimation(double damage, SkillType typeColor)
+    public void DoAnimation(double value, object type)
     {
         this.hitPos = transform.position;
-
-        // Gán damage và thông số hoạt hình trước khi bắt đầu hoạt hình
-        SetDamage(damage);
+        SetPont(value, type);
         SetTextAnimationParameter(typeAnimation);
 
+        Color color = type is SkillType skillType ? GetTextColorByType(skillType) : GetTextColorByType2((Medicine)type);
+        AnimateText(color);
+    }
+
+    private void SetPont(double damage, object type)
+    {
+        string damageNumber = LargeNumber.ToString(damage);;
+
+        if (type is SkillType skillType)
+        {
+            this.text.text = damageNumber;
+        }
+        if (type is Medicine medicineType)
+        {
+            this.text.text = "+" + damageNumber.ToString();
+        }
+    }
+
+    private void SetTextAnimationParameter(TextDamageAnimationType type)
+    {
+        switch (type)
+        {
+            case TextDamageAnimationType.FadeInBigFirst:
+                scaleStart = 1.5f; scaleEnd = 1;
+                alphaTextStart = 0; alphaTextEnd = 1;
+                break;
+            case TextDamageAnimationType.FadeOutBigFirst:
+                scaleStart = 1.5f; scaleEnd = 1;
+                alphaTextStart = 1; alphaTextEnd = 0;
+                break;
+            case TextDamageAnimationType.FadeInSmallFirst:
+                scaleStart = 1; scaleEnd = 1.5f;
+                alphaTextStart = 0; alphaTextEnd = 1;
+                break;
+            case TextDamageAnimationType.FadeOutSmallFirst:
+                scaleStart = 1; scaleEnd = 1.5f;
+                alphaTextStart = 1; alphaTextEnd = 0;
+                break;
+        }
+    }
+
+    private void AnimateText(Color color)
+    {
         transform.DOMoveY(transform.position.y + textMoveDistance, animationDuration)
             .OnStart(() =>
             {
-                transform.position = transform.position;
-                text.color = GetTextColorByType(typeColor);
-                Debug.Log("On Start at : " + transform.position);
+                transform.position = hitPos;
+                text.color = color;
+                Debug.Log("On Start at : " + hitPos);
             })
             .OnComplete(() =>
             {
                 Debug.Log("On Complete at:" + (transform.position.y + textMoveDistance));
-                transform.position = transform.position;
+                transform.position = hitPos;
                 gameObject.SetActive(false);
             })
             .SetEase(Ease.Linear);
@@ -73,54 +98,26 @@ public class TextDamage : SaiMonoBehaviour
         text.DOFade(alphaTextEnd, animationDuration);
     }
 
-    void SetTextAnimationParameter(TextDamageAnimationType type)
-    {
-        switch (type)
-        {
-            case TextDamageAnimationType.FadeInBigFirst:
-                scaleStart = 1.5f;
-                scaleEnd = 1;
-                alphaTextStart = 0;
-                alphaTextEnd = 1;
-                break;
-
-            case TextDamageAnimationType.FadeOutBigFirst:
-                scaleStart = 1.5f;
-                scaleEnd = 1;
-                alphaTextStart = 1;
-                alphaTextEnd = 0;
-                break;
-
-            case TextDamageAnimationType.FadeInSmallFirst:
-                scaleStart = 1;
-                scaleEnd = 1.5f;
-                alphaTextStart = 0;
-                alphaTextEnd = 1;
-                break;
-
-            case TextDamageAnimationType.FadeOutSmallFirst:
-                scaleStart = 1;
-                scaleEnd = 1.5f;
-                alphaTextStart = 1;
-                alphaTextEnd = 0;
-                break;
-        }
-    }
-
     public Color GetTextColorByType(SkillType type)
     {
-        Color color = Color.white;
-        switch (type)
+        return type switch
         {
-            case SkillType.Fire: color = Color.red; break;
-            case SkillType.Glace: color = Color.cyan; break;
-            case SkillType.Stone: color = Color.gray + Color.red + Color.yellow; break;
-            case SkillType.Poison: color = Color.green; break;
-            case SkillType.Electric: color = Color.yellow; break;
-            case SkillType.Default: color = Color.white; break;
-            default: color = Color.white; break;
-        }
-        Debug.Log("Type:" + type + ",Color:" + color);
-        return color;
+            SkillType.Fire => Color.red,
+            SkillType.Glace => Color.cyan,
+            SkillType.Stone => Color.gray + Color.red + Color.yellow,
+            SkillType.Poison => Color.green,
+            SkillType.Electric => Color.yellow,
+            _ => Color.white,
+        };
+    }
+
+    public Color GetTextColorByType2(Medicine type)
+    {
+        return type switch
+        {
+            Medicine.Heal => Color.green,
+            Medicine.Power => new Color(1f, 0.65f, 0f), // #FFA500
+            _ => Color.white,
+        };
     }
 }

@@ -9,8 +9,7 @@ public enum SkillType
     Glace,
     Electric,
     Stone,
-    Poison
-
+    Poison,
 }
 [CreateAssetMenu(fileName = "New skills Object", menuName = "Inventory System/Items/Skills")]
 

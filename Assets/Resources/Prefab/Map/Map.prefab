@@ -3804,6 +3804,7 @@ MonoBehaviour:
   cardCharacter: {fileID: 0}
   playerAttack: {fileID: 464893392871626966}
   playerShooter: {fileID: 3543551066942947692}
+  targetVFX: {fileID: 0}
 --- !u!1 &709190645700066623
 GameObject:
   m_ObjectHideFlags: 0
@@ -11836,6 +11837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e717cf8143ba66b4ca10baa726ab0f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCtrl: {fileID: 4078329246837028760}
 --- !u!61 &4988771181242944068
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -26315,6 +26317,7 @@ MonoBehaviour:
   cardCharacter: {fileID: 0}
   playerAttack: {fileID: 818442277286269047}
   playerShooter: {fileID: 3078641998058046880}
+  targetVFX: {fileID: 0}
 --- !u!1 &2927316163626259857
 GameObject:
   m_ObjectHideFlags: 0
@@ -68532,8 +68535,8 @@ MonoBehaviour:
   animator: {fileID: 5716227748553388037}
   attackType: 2
   animationImpact: {fileID: 0}
-  dameFlash: {fileID: 0}
-  effectCharacter: {fileID: 0}
+  dameFlash: {fileID: 1552604901901774868}
+  effectCharacter: {fileID: 2299179621628767232}
 --- !u!114 &1552604901901774868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72661,6 +72664,7 @@ MonoBehaviour:
   cardCharacter: {fileID: 0}
   playerAttack: {fileID: 1230230957185227268}
   playerShooter: {fileID: 0}
+  targetVFX: {fileID: 1779871869780635836}
 --- !u!1 &8918865798804708222
 GameObject:
   m_ObjectHideFlags: 0

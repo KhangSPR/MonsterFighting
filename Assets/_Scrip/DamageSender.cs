@@ -16,7 +16,11 @@ public class DamageSender : AbstractCtrl
 
         this.damage = playerCtrl?.CharacterStatsFake.Attack ?? enemyCtrl?.EnemySO.basePointsAttack ?? this.damage;
     }
-
+    public virtual void AddPower(int amount)
+    {
+        if (playerCtrl.ObjectDamageReceiver.IsDead) return;
+        damage += amount;
+    }
     public virtual void Send(Transform obj)
     {
         DamageReceiver damageReceiver = obj.GetComponentInChildren<DamageReceiver>();

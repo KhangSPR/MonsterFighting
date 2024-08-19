@@ -10,6 +10,8 @@ public class PlayerCtrl : ObjectCtrl
     public PlayerAttack PlayerAttack => playerAttack;
     [SerializeField] protected PlayerShooter playerShooter;
     public PlayerShooter PlayerShooter => playerShooter;
+    [SerializeField] protected TargetVFX targetVFX;
+    public TargetVFX TargetVFX => targetVFX;
     private Vector3Int cellPosition;
     StatsFake characterStatsFake;
     public StatsFake CharacterStatsFake => characterStatsFake;
@@ -71,6 +73,7 @@ public class PlayerCtrl : ObjectCtrl
         base.LoadComponents();
         LoadPlayerAttack();
         LoadPlayerShooter();
+        loadTargetVFX();
     }
 
     protected virtual void LoadPlayerAttack()
@@ -78,6 +81,12 @@ public class PlayerCtrl : ObjectCtrl
         if (playerAttack != null) return;
         playerAttack = transform.GetComponentInChildren<PlayerAttack>();
         Debug.Log(gameObject.name + ": loadPlayerAttack" + gameObject);
+    }
+    protected virtual void loadTargetVFX()
+    {
+        if (targetVFX != null) return;
+        targetVFX = transform.GetComponentInChildren<TargetVFX>();
+        Debug.Log(gameObject.name + ": loadTargetVFX" + gameObject);
     }
 
     protected virtual void LoadPlayerShooter()

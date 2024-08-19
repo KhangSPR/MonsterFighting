@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PoisonType
+public enum Medicine
 {
     Heal,
     Power,
@@ -13,7 +13,7 @@ public enum PoisonType
 [CreateAssetMenu(fileName = "New Poison Object", menuName = "Inventory System/Items/Poison")]
 public class MedicineObject : ItemObject
 {
-    public PoisonType poisonType;
+    public Medicine medicineType;
     public int addPoint;
     public GameObject gameobjectVFX;
     public int coolDown;

@@ -57,6 +57,8 @@ public abstract class DamageReceiver : AbstractCtrl
     protected virtual void AddHealth(int amount)
     {
         if (isDead) return;
+
+        // Tăng HP, nhưng không vượt quá giá trị isMaxHP
         isHP = Mathf.Min(isHP + amount, isMaxHP);
     }
 

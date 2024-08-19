@@ -14,11 +14,17 @@ public class AnimationDameSender : DamageSender
     //{
     //    this.playerCtrl.Despawn.HidepawnObjChild();
     //}
-    public override void Send(DamageReceiver receiver)
+    public void AddPointDame(int amount)
     {
-        base.Send(receiver);
-        Vector3 hitPos = transform.position;
-        Quaternion hitRot = transform.rotation;
+        this.AddPointDame(amount);
+
+        //Do Something
+    }
+    public override void Send(Transform obj)
+    {
+        base.Send(obj);
+        Vector3 hitPos = obj.position;
+        Quaternion hitRot = obj.rotation;
 
         //this.CreateImpactFX(hitPos, hitRot);
         this.CreateTextDamageFX(hitPos);
