@@ -13,6 +13,6 @@ public class StoneObject : ItemObject
 
     public void Awake()
     {
-        type = ItemType.Stone;
+        type = InventoryType.Stone;
     }
 }

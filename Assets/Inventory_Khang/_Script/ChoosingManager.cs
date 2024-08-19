@@ -6,7 +6,7 @@ public class ChoosingManager : MonoBehaviour
 
     private GameObject currentActiveObject;
 
-    public void ActivateChoosingObject(ItemType itemType)
+    public void ActivateChoosingObject(InventoryType itemType)
     {
         // Tắt đối tượng hiện đang được bật (nếu có)
         if (currentActiveObject != null)

@@ -8,14 +8,14 @@ namespace UIGameDataMap
     public struct ReWardIcon
     {
         public Sprite icon;
-        public ResourceType resourceType;
+        public ItemType resourceType;
     }
     [CreateAssetMenu(fileName = "Assets/Resources/GameData/Icons", menuName = "UIGameDataMap/Icons", order = 10)]
     public class GameMapIconSO : ScriptableObject
     {
         public List<ReWardIcon> rewardIcons;
 
-        public Sprite GetReWardIcon(ResourceType resourceType)
+        public Sprite GetReWardIcon(ItemType resourceType)
         {
             if (rewardIcons == null || rewardIcons.Count == 0)
                 return null;

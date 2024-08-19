@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType
+public enum InventoryType
 {
     Skill,
     Medicine,
@@ -21,7 +21,7 @@ public abstract class ItemObject : ScriptableObject
 {
     public int Id;
     public Sprite Sprite;
-    public ItemType type;
+    public InventoryType type;
     public string Name;
     [TextArea(15, 20)]
     public string description;
@@ -37,7 +37,7 @@ public class Item
 {
     public string Name;
     public int Id;
-    public ItemType type;
+    public InventoryType type;
     //public ItemBuff[] buffs;
     public Item(ItemObject item)
     {

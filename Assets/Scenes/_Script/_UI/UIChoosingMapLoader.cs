@@ -4,8 +4,7 @@ namespace UIGameDataMap
 {
     public class UIChoosingMapLoader : SaiMonoBehaviour
     {
-        public MapSO mapSO;
-
+        private MapSO mapSO;
         public void onClickExit()
         {
             Application.Quit();
@@ -14,36 +13,56 @@ namespace UIGameDataMap
         public void LoadNextMap() // Apply only for Grass area
         {
             MapManager.Instance.LoadNextMap();
-            ReloadMap();
+            //MapManager.Instance.ReloadMap();
+
+            mapSO = MapManager.Instance.MapSOCurrent;
+
+            Debug.Log(mapSO);
+
+            LoadGame(mapSO);
         }
 
         public void ReloadMap()
         {
-            mapSO = MapManager.Instance.MapSOCurrent;
             MapManager.Instance.ReloadMap();
-            UIManager.Instance.DetiveGameUI();
+            //UIManager.Instance.DetiveGameUI();
 
-            MapCtrl mapCtrl = MapManager.Instance.CurrentMap.GetComponent<MapCtrl>();
-            mapCtrl.PortalSpawnerCtrl.MapSO = mapSO;
-            mapCtrl.UIInGame.ListCardTowerData.InstantiateObjectsFromData();
+            mapSO = MapManager.Instance.MapSOCurrent;
 
-            LevelUIManager.Instance.mapbtnGameObjects.Clear();
+
+            LoadGame(mapSO);
         }
 
-        public void loadMapButtonDetail()
+        public void LoadMap()
         {
+            UIManager.Instance.DetiveGameUI();
+
+
             MapManager.Instance.SetCurrentMapSO(mapSO); // Updated to use new method
             MapManager.Instance.LoadMap();
 
-            UIManager.Instance.DetiveGameUI();
+
+            LoadGame(mapSO);
+        }
+        private void LoadGame(MapSO mapSO)
+        {
 
             MapCtrl mapCtrl = MapManager.Instance.CurrentMap.GetComponent<MapCtrl>();
+
+            if (mapSO == null)
+            {
+                Debug.Log("No Haven't MapSO");
+                return;
+            }
             mapCtrl.PortalSpawnerCtrl.MapSO = mapSO;
+            mapCtrl.UIInGame.UILoseGameController.MapSO = mapSO;
+            mapCtrl.UIInGame.UIWinGameController.MapSO = mapSO;
+
+
             mapCtrl.UIInGame.ListCardTowerData.InstantiateObjectsFromData();
 
             LevelUIManager.Instance.mapbtnGameObjects.Clear();
         }
-
         public void SetMapSOFromLevelInfo(MapSO mapSO)
         {
             this.mapSO = mapSO;

@@ -48,7 +48,7 @@ public class InventoryManager : MonoBehaviour
     {
         inventory.Container.Items = new InventorySlot[40];
     }
-    public void CreateDisplayPlayByType(ItemType type, Transform Holder, GameObject prefab)
+    public void CreateDisplayPlayByType(InventoryType type, Transform Holder, GameObject prefab)
     {
         // Xóa các đối tượng con cũ trong Holder
         foreach (Transform child in Holder)

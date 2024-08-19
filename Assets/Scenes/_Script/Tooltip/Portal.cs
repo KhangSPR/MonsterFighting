@@ -16,17 +16,7 @@ public class Portal : MonoBehaviour
     {
         if (mapSO != null)
         {
-            if (transform.parent.name== "HolderPortals")
-            {
-                Tooltip_PortalsMap.AddTooltip(transform, mapSO, portalsIndex);
-                Debug.Log("0");
-            }
-            if(transform.parent.name== "HolderPortalsInGame")
-            {
-                Tooltip_PortalsInGame.AddTooltip(transform, mapSO, portalsIndex);
-                Debug.Log("1");
-            }
-
+            Tooltip_PortalsMap.AddTooltip(transform, mapSO, portalsIndex);
         }
     }
     public void SetObjPortal(Portals portal)

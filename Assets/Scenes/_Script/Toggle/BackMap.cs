@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class BackMap : MonoBehaviour
 {
-    [SerializeField] Button btnBackMap;
     [SerializeField] GameObject Map;
 
-
+    Button btn;
     private void Start()
     {
-        btnBackMap.onClick.AddListener(OnClick);
+        btn = transform.GetComponent<Button>();
+
+        btn.onClick.AddListener(OnClick);
     }
     void OnClick()
     {

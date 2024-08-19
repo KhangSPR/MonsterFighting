@@ -19,18 +19,15 @@ MonoBehaviour:
   difficult: 0
   portals:
   - rarityPortal: 0
-    Count: 4
+    Count: 1
     DelaySpawnFirtEnemy: 3
     spawnTimeInSeconds:
-    - 5
-    - 7
-    - 10
-    - 11
+    - 2
     hasBoss: 0
     enemyTypes:
     - rarity: 0
       name: Goblin Green
-      countEnemy: 5
+      countEnemy: 3
       timerMin: 4
       timerMax: 6
       skillType:
@@ -38,5 +35,5 @@ MonoBehaviour:
         skill: None
       Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
   Reward:
-  - resourceType: 0
+  - ItemReward: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
     Count: 5

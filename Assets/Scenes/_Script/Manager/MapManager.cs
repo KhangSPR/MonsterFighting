@@ -70,6 +70,10 @@ namespace UIGameDataMap
 
                 if(_mapSOCurrent != null)
                     m_CurrentIndex++;
+
+                Debug.Log("MapSO: " + _mapSOCurrent+" Index: "+ m_CurrentIndex);
+
+                ReloadMap();
             }
         }
 

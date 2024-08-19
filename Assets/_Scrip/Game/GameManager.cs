@@ -29,7 +29,6 @@ public class GameManager : SaiMonoBehaviour
     [SerializeField] private bool isGamePaused = false;
     public Transform gameFinish;
     public Transform fade;
-    public GameObject backMap;
 
     [Space]
     [Space]
@@ -256,7 +255,6 @@ public class GameManager : SaiMonoBehaviour
         UpdateResources?.Invoke();
 
         //fade.gameObject.SetActive(true);
-        backMap.SetActive(true);
     }
     private void GameLoss(int current_hp)
     {
@@ -274,8 +272,6 @@ public class GameManager : SaiMonoBehaviour
                 Destroy(item.gameObject);
             }
             Map_UI_Manager.GetComponent<Map_Ui_Manager>().UILose.gameObject.SetActive(true);
-
-            backMap.SetActive(true);
 
         }
     }

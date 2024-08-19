@@ -2708,7 +2708,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1555430776378987373}
         m_TargetAssemblyTypeName: UIGameDataMap.UIChoosingMapLoader, Assembly-CSharp
-        m_MethodName: loadMapButtonDetail
+        m_MethodName: LoadMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2738,7 +2738,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3697a6fcad781c42bd9936593a54748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSO: {fileID: 0}
 --- !u!1 &4261201166851709470
 GameObject:
   m_ObjectHideFlags: 0

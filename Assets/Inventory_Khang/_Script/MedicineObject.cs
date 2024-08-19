@@ -20,6 +20,6 @@ public class MedicineObject : ItemObject
 
     public void Awake()
     {
-        type = ItemType.Medicine;
+        type = InventoryType.Medicine;
     }
 }

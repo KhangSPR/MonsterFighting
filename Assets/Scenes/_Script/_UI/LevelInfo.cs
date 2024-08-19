@@ -75,7 +75,7 @@ namespace UIGameDataMap
                 GameObject itemObject = Instantiate(ObjItem, HolderItem);
 
                 //Set Resources
-                itemObject.transform.Find("Img").GetComponent<Image>().sprite = gameMapIconSO.GetReWardIcon(resource.resourceType);
+                itemObject.transform.Find("Img").GetComponent<Image>().sprite = gameMapIconSO.GetReWardIcon(resource.ItemReward.Type);
                 itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
 
             }

@@ -36,12 +36,12 @@ public class SelectManager : SaiMonoBehaviour
     {
         base.Awake();
 
-        if (_instance != null)
-        {
-            Debug.LogError("Only one instance of SelectManager is allowed!");
-            Destroy(gameObject);
-            return;
-        }
+        //if (_instance != null)
+        //{
+        //    Debug.LogError("Only one instance of SelectManager is allowed!");
+        //    Destroy(gameObject);
+        //    return;
+        //}
         _instance = this;
     }
 

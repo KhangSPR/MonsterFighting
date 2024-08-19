@@ -24,6 +24,6 @@ public class SkillObject : ItemObject
     public float positionSpawn;
     public void Awake()
     {
-        type = ItemType.Skill;
+        type = InventoryType.Skill;
     }
 }

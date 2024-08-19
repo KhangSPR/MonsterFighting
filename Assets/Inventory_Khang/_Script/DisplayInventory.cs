@@ -9,7 +9,7 @@ public class DisplayInventory : MonoBehaviour
 {
     public InventoryObject inventory;
     Dictionary<GameObject, InventorySlot> itemDisplayed = new Dictionary<GameObject, InventorySlot>();
-    public ItemType displayType;
+    public InventoryType displayType;
     [SerializeField] ChoosingManager choosingManager;
     [Space]
     [Space]
@@ -54,7 +54,7 @@ public class DisplayInventory : MonoBehaviour
         itemDisplayed = new Dictionary<GameObject, InventorySlot>();
 
         // Danh sách các loại mục theo thứ tự ưu tiên
-        List<ItemType> itemTypeOrder = new List<ItemType> { ItemType.Stone, ItemType.Medicine, ItemType.Skill };
+        List<InventoryType> itemTypeOrder = new List<InventoryType> { InventoryType.Stone, InventoryType.Medicine, InventoryType.Skill };
 
         // Lọc và sắp xếp các mục trong inventory theo danh sách itemTypeOrder
         var sortedItems = inventory.Container.Items
@@ -93,7 +93,7 @@ public class DisplayInventory : MonoBehaviour
         CreateDisplayByType(displayType);
     }
 
-    public void CreateDisplayByType(ItemType type)
+    public void CreateDisplayByType(InventoryType type)
     {
         foreach (Transform child in holderInventory)
         {
@@ -132,25 +132,25 @@ public class DisplayInventory : MonoBehaviour
 
     public void OnClickCreateDisplayByType(int type)
     {
-        ItemType itemType = CheckItemtype(type);
+        InventoryType itemType = CheckItemtype(type);
         CreateDisplayByType(itemType);
 
 
         choosingManager.ActivateChoosingObject(itemType);
     }
 
-    ItemType CheckItemtype(int number)
+    InventoryType CheckItemtype(int number)
     {
         switch (number)
         {
             case 0:
-                return ItemType.Stone;
+                return InventoryType.Stone;
             case 1:
-                return ItemType.Medicine;
+                return InventoryType.Medicine;
             case 2:
-                return ItemType.Skill;
+                return InventoryType.Skill;
             default:
-                return ItemType.Skill;
+                return InventoryType.Skill;
         }
     }
 }

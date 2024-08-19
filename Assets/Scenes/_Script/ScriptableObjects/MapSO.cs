@@ -9,7 +9,8 @@ namespace UIGameDataMap
     [Serializable]
     public class Resources
     {
-        public ResourceType resourceType;
+
+        public ItemReward ItemReward;
         public int Count;
 
     }
@@ -59,12 +60,12 @@ namespace UIGameDataMap
         Epic,     // Kỳ diệu
         Legendary // Huyền bí
     }
-    public enum ResourceType
-    {
-        LeveUp,
-        Gem,
-        Equipment,
-    }
+    //public enum ResourceType
+    //{
+    //    LeveUp,
+    //    Gem,
+    //    Equipment,
+    //}
     public enum MapType
     {
         Desert,

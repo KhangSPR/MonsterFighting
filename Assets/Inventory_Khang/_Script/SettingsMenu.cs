@@ -50,7 +50,7 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] Vector2 mainButtonPosition;
     int itemsCount;
 
-    public ItemType ItemType;
+    public InventoryType ItemType;
 
     [SerializeField] TimeObject timeObject;
 
@@ -87,11 +87,11 @@ public class SettingsMenu : MonoBehaviour
             mainIcon.sprite = mainIconDefault.sprite;
             mainButtonImage.DOColor(collapsedColor, 0f);
             SelectManager.Instance.ItemObject = null;
-            if (ItemType == ItemType.Skill)
+            if (ItemType == InventoryType.Skill)
             {
                 SelectManager.Instance.DeactivateSkill();
             }
-            if (ItemType == ItemType.Medicine)
+            if (ItemType == InventoryType.Medicine)
             {
                 SelectManager.Instance.DeactivateMedicine();
             }
@@ -122,11 +122,11 @@ public class SettingsMenu : MonoBehaviour
             mainIcon.sprite = mainIconDefault.sprite;
             mainButtonImage.DOColor(collapsedColor, 0f);
             SelectManager.Instance.ItemObject = null;
-            if (ItemType == ItemType.Skill)
+            if (ItemType == InventoryType.Skill)
             {
                 SelectManager.Instance.DeactivateSkill(); //
             }
-            if (ItemType == ItemType.Medicine)
+            if (ItemType == InventoryType.Medicine)
             {
                 SelectManager.Instance.DeactivateMedicine(); //
             }
@@ -180,11 +180,11 @@ public class SettingsMenu : MonoBehaviour
         mainIcon.sprite = selectedItem.icon.sprite;
 
         mainButtonImage.DOColor(expandedColor, colorChangeDuration);
-        if(ItemType == ItemType.Skill)
+        if(ItemType == InventoryType.Skill)
         {
             SelectManager.Instance.ActiveSkill(); //
         }
-        if(ItemType == ItemType.Medicine)
+        if(ItemType == InventoryType.Medicine)
         {
             SelectManager.Instance.ActiveMedicine(); //
 

@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class UIInGame : MonoBehaviour
 {
-    [SerializeField] UIMap uIMap;
-    public UIMap UIMap => uIMap;
+    [SerializeField] UILoseGameController uiloseGameController;
+    public UILoseGameController UILoseGameController => uiloseGameController;
+
+    [SerializeField] UIWinGameController uIWinGameController;
+    public UIWinGameController UIWinGameController => uIWinGameController;
 
 
     [Header("List Card Data")]
