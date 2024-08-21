@@ -75,12 +75,32 @@ public class Tooltip_PortalsMap : MonoBehaviour
 
     }
 
+    //private void ShowTooltip(MapSO mapSO, int portalsIndex)
+    //{
+    //    gameObject.SetActive(true);
+    //    transform.SetAsLastSibling();
+
+    //    //Portals portals = mapSO.portals[portalsIndex];
+
+
+    //    //power.text = portals.rarityPortal.ToString();
+    //    //power.color = mapSO.GetColorForRarityPortal(portals.rarityPortal); //Change Color
+
+
+    //    //checkHasBoss.SetActive(portals.hasBoss);
+
+    //    //LoadEnemys(mapSO, portals);
+
+
+    //    Update();
+    //}
     private void ShowTooltip(MapSO mapSO, int portalsIndex)
     {
+        Portals[] portalsLst = mapSO.GetPortals(mapSO.difficult);
         gameObject.SetActive(true);
         transform.SetAsLastSibling();
 
-        Portals portals = mapSO.portals[portalsIndex];
+        Portals portals = portalsLst[portalsIndex];
 
 
         power.text = portals.rarityPortal.ToString();

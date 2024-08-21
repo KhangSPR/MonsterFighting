@@ -1,7 +1,6 @@
 ﻿using CodeMonkey.Utils;
 using UIGameDataMap;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PortalHouseBtn : MonoBehaviour
 {
@@ -16,13 +15,14 @@ public class PortalHouseBtn : MonoBehaviour
     private void Start()
     {
         button_UI.MouseUpFunc = () => btnUI.OnClickButton();
-        
+
     }
     public void SetPortals(MapSO mapSO)
     {
+        Portals[] portals = mapSO.GetPortals(mapSO.difficult);
         Debug.Log("Set Portal");
 
-        foreach (Portals portal in mapSO.portals)
+        foreach (Portals portal in portals)
         {
             // Set Portal
             if (portal.hasBoss)

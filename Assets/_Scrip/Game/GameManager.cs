@@ -96,6 +96,22 @@ public class GameManager : SaiMonoBehaviour
         // Xử lý tại đây khi game bị tắt
         HandleEscape();
     }
+    //public void CheckStars()
+    //{
+    //    var mapSO = GameDataManager.Instance.currentMapSO;
+    //    var oldStarsCount = mapSO.GetStarsCount(mapSO.difficult);
+    //    var condition = mapSO.GetStarsCondition(mapSO.difficult);
+    //    KeepHpCondition keepHpCondition = condition as KeepHpCondition;
+    //    if (keepHpCondition != null)
+    //    {
+    //        Debug.Log("keepHpCondition :" + keepHpCondition.threshold3);
+    //        keepHpCondition.currentHpValue = current_hp;
+    //        var newStarsCount = keepHpCondition.CheckThreshold();
+    //        if (oldStarsCount < newStarsCount) mapSO.SetStarsCount(mapSO.difficult, (int)newStarsCount);
+    //        mapSO.GetStarsCondition(mapSO.difficult).CheckFirstTimeFullStars(mapSO.GetStarsCount(mapSO.difficult) >= 3);
+    //    }
+
+    //}
     #region Guild Defaut
 
     //Guild ------------------------------------------------------------------------------
@@ -232,6 +248,7 @@ public class GameManager : SaiMonoBehaviour
     //Game Result--------------------------------------------------------------------------------
     private void GameWin()
     {
+        //CheckStars();
         var dropItemHolder = EnemyDropSpawner.Instance.holder;
 
         gameDataManager = FindAnyObjectByType<GameDataManager>();

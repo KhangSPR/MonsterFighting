@@ -5,6 +5,7 @@ using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIWinGameController : MonoBehaviour
 {
     [Header("Game Data")]
@@ -95,20 +96,27 @@ public class UIWinGameController : MonoBehaviour
 
     void SpawnRewardItem()
     {
-        Debug.Log(mapSO.Reward.Length);
-        foreach(var item in mapSO.Reward)
-        {
-            Debug.Log(item);
-            Debug.Log(item.ItemReward);
-            Debug.Log(item.ItemReward.Image);
-            Debug.Log(item.Count);
-            GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
 
 
-            GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
-            rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.ItemReward.Image;
-            rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+        //if (mapSO.isReceived) return;
 
-        }
+        //Debug.Log("Spawn Item");
+
+        //Debug.Log(mapSO.Reward.Length);
+        //foreach(var item in mapSO.Reward)
+        //{
+
+        //    Debug.Log(item);
+        //    Debug.Log(item.ItemReward);
+        //    Debug.Log(item.ItemReward.Image);
+        //    Debug.Log(item.Count);
+        //    GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
+
+
+        //    GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
+        //    rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.ItemReward.Image;
+        //    rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+
+        //}
     }
 }

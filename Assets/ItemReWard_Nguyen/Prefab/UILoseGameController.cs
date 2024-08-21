@@ -112,20 +112,20 @@ public class UILoseGameController : MonoBehaviour
 
     void SpawnRewardItem()
     {
-        Debug.Log(mapSO.Reward.Length);
-        foreach (var item in mapSO.Reward)
-        {
-            Debug.Log(item);
-            Debug.Log(item.ItemReward);
-            Debug.Log(item.ItemReward.Image);
-            Debug.Log(item.Count);
-            GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
+        //Debug.Log(mapSO.Reward.Length);
+        //foreach (var item in mapSO.Reward)
+        //{
+        //    Debug.Log(item);
+        //    Debug.Log(item.ItemReward);
+        //    Debug.Log(item.ItemReward.Image);
+        //    Debug.Log(item.Count);
+        //    GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
 
 
-            GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
-            rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.ItemReward.Image;
-            rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+        //    GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
+        //    rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.ItemReward.Image;
+        //    rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
 
-        }
+        //}
     }
 }
