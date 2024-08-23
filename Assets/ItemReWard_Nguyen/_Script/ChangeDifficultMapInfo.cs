@@ -3,26 +3,40 @@ using System.Collections.Generic;
 using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChangeDifficultMapInfo : MonoBehaviour
 {
     [SerializeField] Difficult difficult;
+    public Difficult Difficult => Difficult;
     [SerializeField] MapSO mapSO;
 
-    private void Awake()
+    MapDifficulty mapDifficulty;
+
+    [SerializeField]
+    Button btn;
+    public Button Button { get { return btn; } set { btn = value; } }
+
+    public void SetMapSO(MapSO mapSO)
     {
-        
+        this.mapSO = mapSO;
     }
-    public void DoChange()
+    private void Start()
     {
-        //mapSO = GameDataManager.Instance.currentMapSO;
+        //mapSO = MapManager.Instance.MapSOCurrent;
+        //btn = transform.GetComponent<Button>();
+
+        btn.onClick.AddListener(DoChange);
+    }
+    private void DoChange()
+    {
         if (mapSO != null)
         {
-            GameObject infoMap = GameObject.Find("MapWorld");
-            Debug.Log(infoMap);
-            mapSO.difficult = difficult;
-            infoMap.transform.Find("Maps").Find("Map_Scroll").Find("InforMap").GetComponent<LevelInfo>().SetLevelData(mapSO);
+            mapDifficulty = mapSO.GetMapDifficult(difficult);
+            LevelUIManager.Instance.LevelInfo.SetLevelDataDifficulty(mapSO, mapDifficulty);
 
+            Debug.Log("Set Difficult");
+            MapManager.Instance.Difficult = mapDifficulty.difficult;
         }
     }
 }

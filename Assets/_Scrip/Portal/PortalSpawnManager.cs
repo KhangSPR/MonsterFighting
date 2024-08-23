@@ -24,7 +24,8 @@ public class PortalSpawnManager : AbilityPointAbstract
     [SerializeField] MapSO mapSO;
     public MapSO MapSO { get { return mapSO; } set { mapSO = value; } }
 
-
+    Difficult difficult;
+    public Difficult Difficult { get { return difficult; } set { difficult = value; } }
     //Envent
     public static event Action AllPortalsSpawned;
 
@@ -37,7 +38,7 @@ public class PortalSpawnManager : AbilityPointAbstract
     protected override void Start()
     {
         base.Start();
-        portalsSpawning = this.mapSO.PortalsSpawn(mapSO).ToList();
+        portalsSpawning = this.mapSO.PortalsSpawn(difficult).ToList(); // Repair
     }
     protected override void LoadComponents()
     {

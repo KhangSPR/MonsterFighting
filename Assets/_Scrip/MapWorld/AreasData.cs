@@ -22,38 +22,44 @@ public class LevelData
     public int levelIndex;
     public string levelName { get { return levelIndex.ToString(); } set { } }
     public bool isUnlocked;
-    [Range(0,3)]public int starCount;
     public LevelDifficultInformation DifficultInformation;
-    //public string RomanLevelIndex(int index)
-    //{
-    //    string[] romanSymbols = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
-    //                             "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX"};
-    //    Debug.Log(romanSymbols[index]);
-    //    return romanSymbols[index];
-    //}
+
 }
 
 [System.Serializable]
 public class LevelInfomation
 {
-    [Header("Level Infomation Here")]
-    public bool LevelInformation_Temp; // biến tạm
-                                       // Thông số quái , chỉ số máu , tướng ... code ở đây
+    [Header("Level Complete")]
+    [Range(0, 3)] public int starCount;
+    public bool isCompleted;
+
 }
 [System.Serializable]
 public class LevelDifficultInformation
 {
-    [ReadOnlyInspector]
-    public Difficult Easy = Difficult.Easy;
-    public LevelInfomation levelInfomation_easy;
-    [ReadOnlyInspector]
-    public Difficult Normal = Difficult.Normal;
-    public LevelInfomation levelInfomation_normal;
-    [ReadOnlyInspector]
-    public Difficult Hard = Difficult.Hard;
-    public LevelInfomation levelInfomation_hard;
+    // Phương thức trả về khó khăn Easy và thông tin cấp độ tương ứng
+    public (Difficult, LevelInfomation) GetEasyLevelInfo()
+    {
+        return (Difficult.Easy, levelInfomation_easy);
+    }
 
+    // Phương thức trả về khó khăn Normal và thông tin cấp độ tương ứng
+    public (Difficult, LevelInfomation) GetNormalLevelInfo()
+    {
+        return (Difficult.Normal, levelInfomation_normal);
+    }
+
+    // Phương thức trả về khó khăn Hard và thông tin cấp độ tương ứng
+    public (Difficult, LevelInfomation) GetHardLevelInfo()
+    {
+        return (Difficult.Hard, levelInfomation_hard);
+    }
+
+    public LevelInfomation levelInfomation_easy;
+    public LevelInfomation levelInfomation_normal;
+    public LevelInfomation levelInfomation_hard;
 }
+
 public enum Difficult
 {
     Easy , Normal , Hard

@@ -19,9 +19,11 @@ public class PortalHouseBtn : MonoBehaviour
     }
     public void SetPortals(MapSO mapSO)
     {
-        Portals[] portals = mapSO.GetPortals(mapSO.difficult);
-        Debug.Log("Set Portal");
+        Portals[] portals = mapSO.GetPortals(mapSO.DifficultyMap[0].difficult);
+        Debug.Log("Set Portal_-------------: "+ portals);
 
+        //Debug.Log(portals)
+        
         foreach (Portals portal in portals)
         {
             // Set Portal

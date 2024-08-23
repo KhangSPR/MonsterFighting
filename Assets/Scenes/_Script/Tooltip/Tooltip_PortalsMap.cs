@@ -94,9 +94,9 @@ public class Tooltip_PortalsMap : MonoBehaviour
 
     //    Update();
     //}
-    private void ShowTooltip(MapSO mapSO, int portalsIndex)
+    private void ShowTooltip(MapSO mapSO,MapDifficulty mapDifficulty, int portalsIndex)
     {
-        Portals[] portalsLst = mapSO.GetPortals(mapSO.difficult);
+        Portals[] portalsLst = mapSO.GetPortals(mapDifficulty.difficult);
         gameObject.SetActive(true);
         transform.SetAsLastSibling();
 
@@ -154,20 +154,20 @@ public class Tooltip_PortalsMap : MonoBehaviour
         HolderScale.localPosition = new Vector3(180f, -110f, 0f);
     }
 
-    public static void ShowTooltip_Static(MapSO mapSO, int portalsIndex)
+    public static void ShowTooltip_Static(MapSO mapSO, MapDifficulty mapDifficulty, int portalsIndex)
     {
-        instance.ShowTooltip(mapSO, portalsIndex);
+        instance.ShowTooltip(mapSO, mapDifficulty, portalsIndex);
     }
 
     public static void HideTooltip_Static()
     {
         instance.HideTooltip();
     }
-    public static void AddTooltip(Transform transform, MapSO mapSO, int portalsIndex)
+    public static void AddTooltip(Transform transform, MapSO mapSO, MapDifficulty mapDifficulty, int portalsIndex)
     {
         if (transform.GetComponent<Button_UI>() != null)
         {
-            transform.GetComponent<Button_UI>().MouseOverOnceTooltipFunc = () => Tooltip_PortalsMap.ShowTooltip_Static(mapSO, portalsIndex);
+            transform.GetComponent<Button_UI>().MouseOverOnceTooltipFunc = () => Tooltip_PortalsMap.ShowTooltip_Static(mapSO, mapDifficulty, portalsIndex);
             transform.GetComponent<Button_UI>().MouseOutOnceTooltipFunc = () => Tooltip_PortalsMap.HideTooltip_Static();
         }
     }

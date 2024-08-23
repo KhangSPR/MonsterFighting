@@ -7,7 +7,7 @@ public class LevelSystemManager : MonoBehaviour
 {
     [SerializeField] Transform FullMap;
     [Header("Sử dụng phần này")]
-    public AreaInfomationSO aiso;
+    public AreaInfomationSO DatabaseAreaSO;
     private static LevelSystemManager instance;                             //instance variable
     public static LevelSystemManager Instance { get => instance; }          //instance getter
     public void Awake()
@@ -23,7 +23,7 @@ public class LevelSystemManager : MonoBehaviour
     [ContextMenu("Reset Area Data")]
     public void ResetAreaData()
     {
-        aiso.Reset();
+        DatabaseAreaSO.Reset();
     }
     public void LoadAreas(Transform FullMap)
     {
@@ -47,7 +47,7 @@ public class LevelSystemManager : MonoBehaviour
                     levelData.levelIndex = j;
                     levelData.levelName = j + "";
                     levelData.isUnlocked = false;
-                    levelData.starCount = 0;
+                    //levelData.starCount = 0;
 
                     data.levelsData.Add(levelData);
 

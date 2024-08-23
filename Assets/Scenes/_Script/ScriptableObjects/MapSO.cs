@@ -2,32 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace UIGameDataMap
 {
     [Serializable]
-
-
-
     public class Resources
     {
         public ItemReward item;
         public int Count;
-
     }
+
     [Serializable]
     public class Portals
     {
         public RarityPortal rarityPortal;
         public int Count;
-        public float DelaySpawnFirtEnemy;
+        public float DelaySpawnFirstEnemy;
         public float[] spawnTimeInSeconds;
 
-        //On Mouse
         [Header("On Mouse")]
         public bool hasBoss;
         public EnemyType[] enemyTypes;
     }
+
     [Serializable]
     public class EnemyType
     {
@@ -41,12 +37,14 @@ namespace UIGameDataMap
         public SkillType[] skillType;
         public Sprite Sprite;
     }
+
     [Serializable]
     public class SkillType
     {
         public int id;
         public string skill;
     }
+
     public enum RarityPortal
     {
         Common,   // Phổ biến
@@ -54,6 +52,7 @@ namespace UIGameDataMap
         Epic,     // Kỳ diệu
         Legendary // Huyền bí
     }
+
     public enum Rarity
     {
         Common,   // Phổ biến
@@ -61,12 +60,14 @@ namespace UIGameDataMap
         Epic,     // Kỳ diệu
         Legendary // Huyền bí
     }
+
     public enum ResourceType
     {
-        LeveUp,
+        LevelUp,
         Gem,
         Equipment,
     }
+
     public enum MapType
     {
         Desert,
@@ -76,6 +77,20 @@ namespace UIGameDataMap
         Grass,
         Stone
     }
+
+    [Serializable]
+    public class MapDifficulty
+    {
+        [Range(0, 3)] public int stars;
+        [Space]
+        [ReadOnlyInspector]
+        public Difficult difficult;
+        public StarsCondition starsCondition;
+        public bool isReceivedReWard = false;
+        public Portals[] portals;
+        public Resources[] Reward;
+    }
+
     [CreateAssetMenu(fileName = "NewLevelMapSO", menuName = "Map/LevelMapSO")]
     public class MapSO : ScriptableObject
     {
@@ -83,143 +98,101 @@ namespace UIGameDataMap
         public bool boss;
         public string mapZone;
         public MapType mapType;
-        [Space]
-        public Difficult difficult;
-        [Space]
-        [Space]
-        [Space]
-        [Space]
-        [Header("EasyMap")]
-        [Range(0, 3)] public int starsEasy;
-        public StarsCondition starsConditionEasy;
-        public Resources[] RewardEasy;
-        public bool isOneTimeRewardGotEasy = false;
-        public Resources[] OneTimeRewardEasy;
-        public Portals[] portalsEasy;
-        [Space]
-        [Space]
-        [Space]
-        [Space]
-        [Header("NormalMap")]
-        [Range(0, 3)] public int starsNormal;
-        public StarsCondition starsConditionNormal;
-        public Resources[] RewardNormal;
-        public bool isOneTimeRewardGotNormal = false;
-        public Resources[] OneTimeRewardNormal;
-        public Portals[] portalsNormal;
-        [Space]
-        [Space]
-        [Space]
-        [Space]
-        [Header("HardMap")]
-        [Range(0, 3)] public int starsHard;
-        public StarsCondition starsConditionHard;
-        public Resources[] RewardHard;
-        public bool isOneTimeRewardGotHard = false;
-        public Resources[] OneTimeRewardHard;
-        public Portals[] portalsHard;
-        //public StarsConditionSO starsCondition;
-        [HideInInspector] public int starsDifficult;
-        public int GetStarsCount(Difficult difficult)
-        {
 
-            switch (difficult)
+        [Header("MapDifficulty")]
+        public MapDifficulty[] DifficultyMap = new MapDifficulty[3];
+
+        private void Awake()
+        {
+            InitializeDifficultyMap();
+        }
+
+        private void InitializeDifficultyMap()
+        {
+            if (DifficultyMap == null || DifficultyMap.Length != 3)
             {
-                case Difficult.Easy: return starsEasy;
-                case Difficult.Normal: return starsNormal;
-                case Difficult.Hard: return starsHard;
-                default: return starsEasy;
+                DifficultyMap = new MapDifficulty[3];
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (DifficultyMap[i] == null)
+                {
+                    DifficultyMap[i] = new MapDifficulty
+                    {
+                        difficult = (Difficult)i,
+                        stars = 0,
+                        Reward = new Resources[0],
+                        isReceivedReWard = false,
+                        portals = new Portals[0]
+                    };
+                }
             }
         }
+
+        public MapDifficulty GetMapDifficult(Difficult difficult)
+        {
+            return DifficultyMap[(int)difficult];
+        }
+
         public void SetStarsCount(Difficult difficult, int starsCount)
         {
-
-            switch (difficult)
+            DifficultyMap[(int)difficult].stars = starsCount;
+        }
+        public int SumStarsMapDifficult(MapDifficulty[] DifficultyMap)
+        {
+            int sum = 0;
+            foreach(MapDifficulty difficulty in DifficultyMap)
             {
-                case Difficult.Easy: starsEasy = starsCount; break;
-                case Difficult.Normal: starsNormal = starsCount; break;
-                case Difficult.Hard: starsHard = starsCount; break;
-                default: starsEasy = starsCount; break;
+                sum += difficulty.stars;
             }
+            return sum;
         }
         public StarsCondition GetStarsCondition(Difficult difficult)
         {
-            //StarsCondition starsCondition = new StarsCondition();
-            switch (difficult)
-            {
-                case Difficult.Easy: return starsConditionEasy;
-                case Difficult.Normal: return starsConditionNormal;
-                case Difficult.Hard: return starsConditionHard;
-                default: return starsConditionEasy;
-            }
+            return DifficultyMap[(int)difficult].starsCondition;
         }
+
         public Color GetColorForRarity(Rarity rarity)
         {
-            switch (rarity)
+            return rarity switch
             {
-                case Rarity.Common:
-                    return Color.white; // Màu trắng cho Common
-                case Rarity.Rare:
-                    return new Color(0.164f, 1f, 0.898f); // Color Code "2AFFE5"
-                case Rarity.Epic:
-                    return new Color(255f / 255f, 18f / 255f, 128f / 255f);
-                case Rarity.Legendary:
-                    return Color.yellow; // Màu vàng cho Legendary
-                default:
-                    return Color.gray; // Mặc định màu xám
-            }
+                Rarity.Common => Color.white,
+                Rarity.Rare => new Color(0.164f, 1f, 0.898f),
+                Rarity.Epic => new Color(255f / 255f, 18f / 255f, 128f / 255f),
+                Rarity.Legendary => Color.yellow,
+                _ => Color.gray
+            };
         }
+
         public int GetIndexRarity(RarityPortal rarity)
         {
-            switch (rarity)
-            {
-                case RarityPortal.Common:
-                    return 0;
-                case RarityPortal.Rare:
-                    return 1;
-                case RarityPortal.Epic:
-                    return 2;
-                case RarityPortal.Legendary:
-                    return 3;
-                default:
-                    return 0;
-            }
+            return (int)rarity;
         }
+
         public Color GetColorForRarityPortal(RarityPortal rarity)
         {
-            switch (rarity)
+            return rarity switch
             {
-                case RarityPortal.Common:
-                    return Color.white; // Màu trắng cho Common
-                case RarityPortal.Rare:
-                    return new Color(0.164f, 1f, 0.898f); // Color Code "2AFFE5"
-                case RarityPortal.Epic:
-                    return new Color(255f / 255f, 18f / 255f, 128f / 255f);
-                case RarityPortal.Legendary:
-                    return Color.yellow; // Màu vàng cho Legendary
-                default:
-                    return Color.gray; // Mặc định màu xám
-            }
+                RarityPortal.Common => Color.white,
+                RarityPortal.Rare => new Color(0.164f, 1f, 0.898f),
+                RarityPortal.Epic => new Color(255f / 255f, 18f / 255f, 128f / 255f),
+                RarityPortal.Legendary => Color.yellow,
+                _ => Color.gray
+            };
         }
+
         public Portals[] GetPortals(Difficult difficult)
         {
-            Portals[] portals = null;
-            switch (difficult)
-            {
-                case Difficult.Easy: { portals = portalsEasy; } break;
-                case Difficult.Normal: { portals = portalsNormal; } break;
-                case Difficult.Hard: { portals = portalsHard; } break;
-            }
-            return portals;
+            return DifficultyMap[(int)difficult]?.portals;
         }
 
-        public float[] TimeSpawnPortal(MapSO mapSO)
+        public float[] TimeSpawnPortal(Difficult difficult)
         {
-            Portals[] portals = GetPortals(difficult);
-            if (mapSO == null || portals.Length == 0) return null;
+            var portals = GetPortals(difficult);
+            if (portals == null || portals.Length == 0) return null;
 
-            List<float> spawnTimes = new List<float>();
-
+            var spawnTimes = new List<float>();
             foreach (var portal in portals)
             {
                 spawnTimes.AddRange(portal.spawnTimeInSeconds);
@@ -227,44 +200,39 @@ namespace UIGameDataMap
 
             return spawnTimes.ToArray();
         }
-        public Portals[] PortalsSpawn(MapSO mapSO)
+
+        public Portals[] PortalsSpawn(Difficult difficult)
         {
-            Portals[] portals = GetPortals(difficult);
-            if (mapSO == null || portals == null) return null;
+            var portals = GetPortals(difficult);
+            if (portals == null) return null;
 
-            List<Portals> PortalsSpawn = new List<Portals>();
-
+            var portalsSpawn = new List<Portals>();
             foreach (var portal in portals)
             {
                 for (int i = 0; i < portal.Count; i++)
                 {
-                    PortalsSpawn.Add(portal);
+                    portalsSpawn.Add(portal);
                 }
             }
 
-            return PortalsSpawn.ToArray();
+            return portalsSpawn.ToArray();
         }
 
-        public int SumEnemySpawnPortal(MapSO mapSO)
+        public int SumEnemySpawnPortal(Difficult difficult)
         {
-            UIGameDataMap.Portals[] portals = GetPortals(difficult);
-            if (mapSO == null || portals == null) return 0;
+            var portals = GetPortals(difficult);
+            if (portals == null) return 0;
 
-            int SumEnemy = 0;
-
-            for (int i = 0; i < portals.Length; i++)
+            int sumEnemy = 0;
+            foreach (var portal in portals)
             {
-                for (int j = 0; j < portals[i].enemyTypes.Length; j++)
+                foreach (var enemyType in portal.enemyTypes)
                 {
-                    SumEnemy += portals[i].enemyTypes[j].countEnemy * portals[i].Count;
+                    sumEnemy += enemyType.countEnemy * portal.Count;
                 }
             }
 
-            return SumEnemy;
+            return sumEnemy;
         }
-        //public Portals[] Portals(Map)
-
     }
-
-
 }

@@ -12,11 +12,15 @@ public class Portal : MonoBehaviour
     [SerializeField] int portalsIndex;
 
     public int PortalsIndex { get { return portalsIndex; } set { portalsIndex = value; } }
+
+    MapDifficulty mapDifficulty;
+    public MapDifficulty MapDifficulty { get { return mapDifficulty; } set { mapDifficulty = value; } }
+
     private void Start()
     {
         if (mapSO != null)
         {
-            Tooltip_PortalsMap.AddTooltip(transform, mapSO, portalsIndex);
+            Tooltip_PortalsMap.AddTooltip(transform, mapSO, mapDifficulty, portalsIndex);
         }
     }
     public void SetObjPortal(Portals portal)

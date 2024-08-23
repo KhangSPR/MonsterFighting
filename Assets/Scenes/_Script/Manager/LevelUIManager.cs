@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UIGameDataMap;
 using UnityEngine;
 /// <summary>
@@ -37,7 +38,13 @@ public class LevelUIManager : MonoBehaviour
         }
     }
 
-
+    [Space]
+    [Space]
+    [Space]
+    [Space]
+    [SerializeField] FullMapController fullMapController;
+    [SerializeField] ChangeDifficultMapInfos difficultHolder;
+    public ChangeDifficultMapInfos ChangeDifficultMap => difficultHolder;
     private void Start()
     {
         portalHouseBtn.SetPortals(MapManager.Instance.MapSOCurrent);
@@ -51,19 +58,40 @@ public class LevelUIManager : MonoBehaviour
         LevelUIManager.instance = this;
 
     }
-    public MapSO GetMapSO(int id, MapType mapType, Difficult difficult)
+    public MapDifficulty GetMapDifficultySO(int id, MapType mapType, Difficult difficult)
     {
         foreach (MapSO mapSO in MapManager.Instance.MapSOArray)
         {
             // Kiểm tra các thuộc tính của MapSO để tìm MapSO phù hợp
-            if (mapSO.id == id && mapSO.mapType == mapType && mapSO.difficult == difficult)
+            if (mapSO.id == id && mapSO.mapType == mapType)
             {
-                return mapSO; // Trả về MapSO nếu tìm thấy
+                // Duyệt qua các phần tử trong mảng DifficultyMap để tìm difficult
+                foreach (MapDifficulty diff in mapSO.DifficultyMap)
+                {
+                    if (diff.difficult == difficult)
+                    {
+                        return diff; // Trả về MapSO nếu tìm thấy
+                    }
+                }
             }
         }
 
         return null; // Trả về null nếu không tìm thấy MapSO phù hợp
     }
+    public MapSO GetMapSO(int id, MapType mapType)
+    {
+        foreach (MapSO mapSO in MapManager.Instance.MapSOArray)
+        {
+            // Kiểm tra các thuộc tính của MapSO để tìm MapSO phù hợp
+            if (mapSO.id == id && mapSO.mapType == mapType)
+            {
+                return mapSO;
+            }
+        }
+
+        return null; // Trả về null nếu không tìm thấy MapSO phù hợp
+    }
+
 
     public void DeloadAllLevelCreated()
     {
@@ -123,7 +151,20 @@ public class LevelUIManager : MonoBehaviour
         }
         Debug.Log("Load Level của vùng có vị trí số " + areaIndex + " có tên : " + areaName);
     }
+    public void ActiveDifficultHolder()
+    {
+        difficultHolder.gameObject.SetActive(SetDifficultHolderMapArray(fullMapController.mapOpeningIndex, MapManager.Instance.CurrentIndex));
+    }
+    private bool SetDifficultHolderMapArray(int mapIndex, int levelIndex)
+    {
+        if (LevelSystemManager.Instance.DatabaseAreaSO.areasData[mapIndex].levelsData[levelIndex].isUnlocked)
+        {
+            return true;
 
+        }
+        else
+            return false;
+    }
     #region Test 
 
 

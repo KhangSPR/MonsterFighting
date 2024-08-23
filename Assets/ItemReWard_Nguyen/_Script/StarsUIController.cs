@@ -1,55 +1,47 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UIGameDataMap;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StarsUIController : MonoBehaviour
 {
-    [SerializeField] private Sprite StarEasy_Image;
-    [SerializeField] private Sprite StarNormal_Image;
-    [SerializeField] private Sprite StarHard_Image;
+    [SerializeField] private Sprite[] starImages; // 0: Easy, 1: Normal, 2: Hard
     [SerializeField] private MapSO mapSO;
-    private void OnEnable()
+    [SerializeField] private LevelButton levelButton;
+
+    private void Start()
     {
-        InvokeRepeating(nameof(GetMapSO), 0, 0.1f);
-        
-        
+        GetMapSO();
     }
 
     private void DrawStars(int totalStars)
     {
-        Debug.Log("total stars :" + totalStars);
-        for(int i = 1; i<= totalStars; i++)
+        Debug.Log("Total stars: " + totalStars);
+        for (int i = 0; i < totalStars; i++)
         {
-            // Easy Stars
-            if (i == 1) transform.GetChild(0).GetComponent<Image>().sprite = StarEasy_Image;
-            if (i == 2) transform.GetChild(1).GetComponent<Image>().sprite = StarEasy_Image;
-            if (i == 3) transform.GetChild(2).GetComponent<Image>().sprite = StarEasy_Image;
-            // Normal Stars
-            if (i == 4) transform.GetChild(0).GetComponent<Image>().sprite = StarNormal_Image;
-            if (i == 5) transform.GetChild(1).GetComponent<Image>().sprite = StarNormal_Image;
-            if (i == 6) transform.GetChild(2).GetComponent<Image>().sprite = StarNormal_Image;
-            // Hard Stars
-            if (i == 7) transform.GetChild(0).GetComponent<Image>().sprite = StarHard_Image;
-            if (i == 8) transform.GetChild(1).GetComponent<Image>().sprite = StarHard_Image;
-            if (i == 9) transform.GetChild(2).GetComponent<Image>().sprite = StarHard_Image;
+            Image starImage = transform.GetChild(i % 3).GetComponent<Image>();
+            int difficultyIndex = i / 3;
+            if (difficultyIndex < starImages.Length)
+            {
+                starImage.sprite = starImages[difficultyIndex];
+            }
+            
         }
     }
 
     public void GetMapSO()
     {
-        this.mapSO = transform.parent.parent.GetComponent<LevelButton>().GetMapDataSO();
+        this.mapSO = levelButton.GetMapDataSO();
         if (mapSO != null)
         {
-            CancelInvoke(nameof(GetMapSO));
-            var easyStars = mapSO.starsEasy;
-            var normalStars = mapSO.starsNormal;
-            var hardStars = mapSO.starsHard;
-            var totalStars = easyStars + normalStars + hardStars;
+            int totalStars = mapSO.SumStarsMapDifficult(mapSO.DifficultyMap);
+
+            Debug.Log("SumStar: " + totalStars);
+
             DrawStars(totalStars);
         }
     }
-
 }

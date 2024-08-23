@@ -36,6 +36,13 @@ namespace UIGameDataMap
         int m_CurrentIndex;
         public int CurrentIndex => m_CurrentIndex;
         const string mapSOFolder = "Map/";
+        
+        Difficult difficult;
+        public Difficult Difficult
+        {
+            get => difficult;
+            set => difficult = value; // Only this class can set this property
+        }
 
         protected override void Start()
         {
@@ -101,7 +108,7 @@ namespace UIGameDataMap
         #region Get Level Last UnLock Area
         int GetLevelLastUnLockArea()
         {
-            List<AreasData> areas = LevelSystemManager.Instance.aiso.areasData;
+            List<AreasData> areas = LevelSystemManager.Instance.DatabaseAreaSO.areasData;
             int firstLockedLevelIndex = -1;
             foreach (AreasData area in areas)
             {

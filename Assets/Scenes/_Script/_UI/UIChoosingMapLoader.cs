@@ -55,6 +55,7 @@ namespace UIGameDataMap
                 return;
             }
             mapCtrl.PortalSpawnerCtrl.MapSO = mapSO;
+            mapCtrl.PortalSpawnerCtrl.Difficult = MapManager.Instance.Difficult;
             mapCtrl.UIInGame.UILoseGameController.MapSO = mapSO;
             mapCtrl.UIInGame.UIWinGameController.MapSO = mapSO;
 

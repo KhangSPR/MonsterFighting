@@ -13,6 +13,7 @@ public class ProgressPortals : PortalSpawnManagerAbstract
 
     MapSO mapSOProgress;
 
+
     public int EnemySpawn
     {
         get { return enemySpawn; }
@@ -28,7 +29,7 @@ public class ProgressPortals : PortalSpawnManagerAbstract
         //Set MapSO
         mapSOProgress = portalSpawnManagerCtrl.MapSO;
         //Enemy Max
-        enemyNax = mapSOProgress.SumEnemySpawnPortal(mapSOProgress);
+        enemyNax = mapSOProgress.SumEnemySpawnPortal(PortalSpawnManager.Instance.Difficult);
         //Set Max Progress
         progress.maxValue = enemyNax;
     }

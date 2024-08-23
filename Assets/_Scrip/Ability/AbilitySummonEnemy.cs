@@ -78,7 +78,7 @@ public class AbilitySummonEnemy : AbilitySummon, IPortalSpawnListener
     public void EnableObject()
     {
         //Delay First Time
-        this.delay = portal.DelaySpawnFirtEnemy;
+        this.delay = portal.DelaySpawnFirstEnemy;
         //Name and Count
         this.nameEnemyandCount = ListNameAndCountEnemy(portal);
         //Minion Max
