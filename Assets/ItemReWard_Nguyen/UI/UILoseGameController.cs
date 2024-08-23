@@ -9,12 +9,6 @@ public class UILoseGameController : MonoBehaviour
 {
     [Header("Game Data")]
     [SerializeField] Transform RewardItem_Prefab;
-    MapSO mapSO;
-    public MapSO MapSO
-    {
-        get { return mapSO; }
-        set { mapSO = value; } // Đảm bảo setter công khai
-    }
 
     [Header("UI")]
     [SerializeField] Transform RewardHolder;

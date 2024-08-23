@@ -54,13 +54,12 @@ namespace UIGameDataMap
                 Debug.Log("No Haven't MapSO");
                 return;
             }
-            mapCtrl.PortalSpawnerCtrl.MapSO = mapSO;
-            mapCtrl.PortalSpawnerCtrl.Difficult = MapManager.Instance.Difficult;
-            mapCtrl.UIInGame.UILoseGameController.MapSO = mapSO;
-            mapCtrl.UIInGame.UIWinGameController.MapSO = mapSO;
-
+            Difficult difficult = MapManager.Instance.Difficult;
+            PortalSpawnManager.Instance.Difficult = difficult;
+            PortalSpawnManager.Instance.MapSO = mapSO;
 
             mapCtrl.UIInGame.ListCardTowerData.InstantiateObjectsFromData();
+            mapCtrl.UIInGame.UIWinGameController.MapDifficulty = mapSO.GetMapDifficult(difficult);
 
             LevelUIManager.Instance.mapbtnGameObjects.Clear();
         }

@@ -16,14 +16,14 @@ namespace UIGameDataMap
         [SerializeField] Transform HolderPortals;
         [SerializeField] GameObject objPortalTooltip;
         [SerializeField] Window_Portals window_Portals;
-     
+
         [Header("Item")]
         [SerializeField] Transform HolderItem;
         [SerializeField] GameObject ObjItem;
 
         [Header("MapSO")]
         [SerializeField] MapSO mapSO;
-        public MapSO MapSO { get { return mapSO; }  }
+        public MapSO MapSO { get { return mapSO; } }
 
         [Header("DifficultMap")]
         [SerializeField] ChangeDifficultMapInfos MapInfos;
@@ -43,10 +43,10 @@ namespace UIGameDataMap
             }
             this.SetMapSo(mapSO);
 
-            this.LoadItems(mapSO);
+            this.LoadItems(mapDifficulty);
             this.LoadProtals(mapDifficulty);
             this.SetChangeDifficultMapInfos(mapSO);
-        }      
+        }
         private void SetMapSo(MapSO MapSO)
         {
             mapSO = MapSO;
@@ -80,7 +80,7 @@ namespace UIGameDataMap
             }
 
         }
-        private void LoadItems(MapSO mapSO)
+        private void LoadItems(MapDifficulty mapDifficulty)
         {
 
             foreach (Transform child in HolderItem)
@@ -88,78 +88,30 @@ namespace UIGameDataMap
                 Destroy(child.gameObject);
             }
 
-            //foreach (Resources resource in mapSO.Reward)
-            //{
+            foreach (Resources resource in mapDifficulty.Reward)
+            {
 
-            //    GameObject itemObject = Instantiate(ObjItem, HolderItem);
-            //    //if (mapSO.isReceived)
-            //    //{
-            //    //    //Set Resources
-            //    //    itemObject.transform.Find("Img").GetComponent<Image>().sprite = gameMapIconSO.GetReWardIcon(resource.ItemReward.Type);
+                GameObject itemObject = Instantiate(ObjItem, HolderItem);
+                if (mapDifficulty.isReceivedReWard)
+                {
+                    //Set Resources
+                    itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;
 
-            //    //    itemObject.transform.Find("Img").GetComponent<Image>().color = new Color(1f, 160 / 255f, 122 / 255f, 128 / 255f);
+                    itemObject.transform.Find("Img").GetComponent<Image>().color = new Color(1f, 160 / 255f, 122 / 255f, 128 / 255f);
 
 
-            //    //    itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
+                    itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
 
-            //    //    itemObject.transform.Find("Count").GetComponent<Text>().color = new Color(1f, 1f, 1f, 128 / 255f);
-            //    //}
-            //    //else
-            //    //{
-            //    //    //Set Resources
-            //    //    itemObject.transform.Find("Img").GetComponent<Image>().sprite = gameMapIconSO.GetReWardIcon(resource.ItemReward.Type);
-            //    //    itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
-            //    //}
+                    itemObject.transform.Find("Count").GetComponent<Text>().color = new Color(1f, 1f, 1f, 128 / 255f);
+                }
+                else
+                {
+                    //Set Resources
+                    itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;
+                    itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
+                }
 
-            //}
-            //switch (mapSO.difficult)
-            //{
-            //    case Difficult.Easy:
-            //        {
-            //            foreach (Resources resource in mapSO.RewardEasy)
-            //            {
-            //                //Debug.Log($"mapSO :{resource}");
-            //                GameObject itemObject = Instantiate(ObjItem, HolderItem);
-
-            //                //Set Resources
-            //                itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;//gameMapIconSO.GetReWardIcon(resource.item);
-            //                Debug.Log("Reward Icon", resource.item.Image);
-            //                itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
-
-            //            }
-            //        }
-            //        break;
-            //    case Difficult.Normal:
-            //        {
-            //            foreach (Resources resource in mapSO.RewardNormal)
-            //            {
-            //                Debug.Log($"mapSO :{resource}");
-            //                GameObject itemObject = Instantiate(ObjItem, HolderItem);
-
-            //                //Set Resources
-            //                itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;//gameMapIconSO.GetReWardIcon(resource.item);
-            //                Debug.Log("Reward Icon", resource.item.Image);
-            //                itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
-
-            //            }
-            //        }
-            //        break;
-            //    case Difficult.Hard:
-            //        {
-            //            foreach (Resources resource in mapSO.RewardHard)
-            //            {
-            //                Debug.Log($"mapSO :{resource}");
-            //                GameObject itemObject = Instantiate(ObjItem, HolderItem);
-
-            //                //Set Resources
-            //                itemObject.transform.Find("Img").GetComponent<Image>().sprite = resource.item.Image;//gameMapIconSO.GetReWardIcon(resource.item);
-            //                Debug.Log("Reward Icon", resource.item.Image);
-            //                itemObject.transform.Find("Count").GetComponent<Text>().text = "x" + resource.Count.ToString();
-
-            //            }
-            //        }
-            //        break;
-            //}
+            }
         }
         public void OnButtonClickUIChosseMap()
         {

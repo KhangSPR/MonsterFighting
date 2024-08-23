@@ -10,13 +10,7 @@ public class UIWinGameController : MonoBehaviour
 {
     [Header("Game Data")]
     [SerializeField] Transform RewardItem_Prefab;
-    MapSO mapSO;
-    public MapSO MapSO
-    {
-        get { return mapSO; }
-        set { mapSO = value; } // Đảm bảo setter công khai
-    }
-
+   
     [Header("UI")]
     [SerializeField] Transform RewardHolder;
     [SerializeField] Transform Status;
@@ -25,7 +19,10 @@ public class UIWinGameController : MonoBehaviour
     [SerializeField] Transform Shield;
     [SerializeField] Transform TitleGameFinish;
     [SerializeField] Transform HolderBtn;
-    
+
+    MapDifficulty mapDifficulty;
+    public MapDifficulty MapDifficulty { get { return mapDifficulty; } set {  mapDifficulty = value; } }
+
     private void Awake()
     {
         UIGameStart();
@@ -96,27 +93,18 @@ public class UIWinGameController : MonoBehaviour
 
     void SpawnRewardItem()
     {
+        if (mapDifficulty.isReceivedReWard) return;
 
+        Debug.Log("Spawn Item");
+        foreach (var item in mapDifficulty.Reward)
+        {
 
-        //if (mapSO.isReceived) return;
+            GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
 
-        //Debug.Log("Spawn Item");
+            GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
+            rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
+            rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
 
-        //Debug.Log(mapSO.Reward.Length);
-        //foreach(var item in mapSO.Reward)
-        //{
-
-        //    Debug.Log(item);
-        //    Debug.Log(item.ItemReward);
-        //    Debug.Log(item.ItemReward.Image);
-        //    Debug.Log(item.Count);
-        //    GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
-
-
-        //    GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
-        //    rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.ItemReward.Image;
-        //    rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
-
-        //}
+        }
     }
 }

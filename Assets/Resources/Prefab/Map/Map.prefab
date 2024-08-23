@@ -31990,7 +31990,7 @@ MonoBehaviour:
   portal:
     rarityPortal: 0
     Count: 0
-    DelaySpawnFirtEnemy: 0
+    DelaySpawnFirstEnemy: 0
     spawnTimeInSeconds: []
     hasBoss: 0
     enemyTypes: []
@@ -34286,7 +34286,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIInGame: {fileID: 622089712367988800}
-  portalSpawnerCtrl: {fileID: 1621602261262759776}
 --- !u!1 &4900548699956027650
 GameObject:
   m_ObjectHideFlags: 0
@@ -52617,7 +52616,7 @@ MonoBehaviour:
   portal:
     rarityPortal: 0
     Count: 0
-    DelaySpawnFirtEnemy: 0
+    DelaySpawnFirstEnemy: 0
     spawnTimeInSeconds: []
     hasBoss: 0
     enemyTypes: []

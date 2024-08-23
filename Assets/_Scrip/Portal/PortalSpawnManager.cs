@@ -21,11 +21,20 @@ public class PortalSpawnManager : AbilityPointAbstract
     public List<Portals> portalsSpawning;
 
     [Header("MapSO")]
-    [SerializeField] MapSO mapSO;
-    public MapSO MapSO { get { return mapSO; } set { mapSO = value; } }
+    [SerializeField] private MapSO mapSO;
+    public MapSO MapSO
+    {
+        get { return mapSO; }
+        set { mapSO = value; } // Thiết lập giá trị từ bên ngoài
+    }
 
-    Difficult difficult;
-    public Difficult Difficult { get { return difficult; } set { difficult = value; } }
+    private Difficult difficult;
+    public Difficult Difficult
+    {
+        get { return difficult; }
+        set { difficult = value; } // Thiết lập giá trị từ bên ngoài
+    }
+
     //Envent
     public static event Action AllPortalsSpawned;
 

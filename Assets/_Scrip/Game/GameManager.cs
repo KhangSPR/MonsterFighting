@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UIGameDataManager;
+using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,7 +61,6 @@ public class GameManager : SaiMonoBehaviour
     public Slider slider_maxhp;
     [Min(1)] public int max_hp;
     [ReadOnlyInspector, SerializeField] private int current_hp;
-
 
     //Envent
     public static event Action CastleSetHpMax;

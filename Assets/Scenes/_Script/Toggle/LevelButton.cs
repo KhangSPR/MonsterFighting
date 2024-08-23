@@ -1,4 +1,182 @@
-﻿//using System;
+﻿using System;
+using UnityEngine;
+using System.Linq;
+using UnityEngine.UI;
+namespace UIGameDataMap
+{
+    public class LevelButton : MonoBehaviour
+    {
+        [Header("Scripts")]
+        [SerializeField] private MapSO mapDataSO; //Script able Object
+
+        [SerializeField] private LevelInfo levelInfo; // Reference đến script LevelObject
+
+        [Header("GameObject")]
+        [SerializeField] private GameObject lockObj;
+        [SerializeField] private GameObject unlockObj;     //ref to lock and unlock gameobject
+        [SerializeField] private GameObject activeLevelIndicator;
+        [SerializeField] private GameObject ObjectAttack;
+
+        [Header("Level Settings")]
+        [SerializeField] private Text ZoneIndexText;               // ref to text which indicates the level number
+        [SerializeField] private Button btn;
+        /*[SerializeField] private Image[] starsArray;  */              //ref to all the stars of button
+        [SerializeField] ChangeDifficultMapInfos ChangeDifficultMapInfos;                                                              //ref to hold button component
+                                                                                                                                       //public static event Action OnClickEnvent;
+        public MapSO GetMapSO()
+        {
+            return mapDataSO;
+        }
+        private int levelIndex;                                     //int which hold the level Index this perticular button specify
+
+        private void Start()
+        {
+            SetLevelButton(GetAreaName());
+            btn.onClick.AddListener(() => OnClick());               //add listener to the button
+
+        }
+        public MapSO GetMapDataSO()
+        {
+            return mapDataSO;
+        }
+        int GetLevelIndex()
+        {
+            //Debug.Log(transform.GetSiblingIndex() - 1 + "transform.GetSiblingIndex() - 1");
+            return transform.GetSiblingIndex() - 1;
+        }
+        string GetAreaName()
+        {
+            return transform.parent.parent.name;
+        }
+        void SetUnlockedUI()
+        {
+            lockObj.SetActive(false);                           //deactivate lockObj
+            unlockObj.SetActive(true);                          //activate unlockObj
+            activeLevelIndicator.SetActive(false);
+        }
+        void SetLockedUI()
+        {
+            lockObj.SetActive(true);                           //deactivate lockObj
+            unlockObj.SetActive(false);                          //activate unlockObj
+            activeLevelIndicator.SetActive(true);
+        }
+
+        public void SetLevelButton(string areaName)
+        {
+            int index = GetLevelIndex();
+            Debug.Log("index level:" + index);
+            AreaInfomationSO aiso = LevelSystemManager.Instance.DatabaseAreaSO;
+            //Debug.Log(aiso);
+            var levelInformation = aiso.areasData.First(data => data.areaName == areaName);
+
+            //Debug.Log("SetLevelButton " + levelInformation);
+            if (levelInformation.levelsData[index].isUnlocked)
+            {
+                SetUnlockedUI();
+                //Set LevelInfo
+                levelInfo = LevelUIManager.Instance.LevelInfo;
+                //Set button
+                mapDataSO = LevelUIManager.Instance.GetMapSO(index, GetTyMap(areaName)); //Repair
+
+                ZoneIndexText.text = mapDataSO.mapZone;
+                ChangeDifficultMapInfos = LevelUIManager.Instance.ChangeDifficultMap;
+                //SetAuto Click
+                if (LevelUIManager.Instance.CurrentLevelButton == this)
+                {
+                    OnClick();
+
+                }
+                else
+                    Debug.Log("Khong phai LV Can Lay");
+            }
+            else
+            {
+                SetLockedUI();
+                ZoneIndexText.text = "";
+            }
+        }
+        public void OnClick()                                              //method called by button
+        {
+            /*LevelSystemManager.Instance.CurrentLevel = levelIndex;*/  //set the CurrentLevel, we subtract 1 as level data array start from 0
+            if (levelInfo == null)
+            {
+                return;
+            }
+            MapManager.Instance.Difficult = Difficult.Easy;
+
+            levelInfo.SetLevelDataDifficulty(mapDataSO, null);
+            levelInfo.OnButtonClickUIChosseMap();
+            //DifficultHolderUI = LevelUIManager.Instance.DifficultHolder;
+
+            Debug.Log("Click");
+
+
+            // Add ObjectAttack to the ObjectAttackManager
+            if (ObjectAttack != null)
+            {
+                ObjectAttackManager.Instance.AddObjectToManager(ObjectAttack);
+            }
+
+            ActiveUnlockDifficultyMap(ChangeDifficultMapInfos);
+        }
+        private void ActiveUnlockDifficultyMap(ChangeDifficultMapInfos changeDifficultMapInfos)
+        {
+            if (changeDifficultMapInfos.gameObject.activeSelf)
+            {
+                changeDifficultMapInfos.SetUnlockDifficult(mapDataSO);
+                changeDifficultMapInfos.SetHolderPVP(Difficult.Easy);
+
+                
+            }
+            else
+            {
+                Debug.LogWarning("GameObject không hoạt động hoặc là null.");
+            }
+        }
+
+        public MapType GetTyMap(string namemap)
+        {
+            switch (namemap)
+            {
+                case "GrassChoosen":
+                    return MapType.Grass;
+                case "LavaChoosen":
+                    return MapType.Lava;
+                default:
+                    return MapType.Grass;
+            }
+        }
+        public int GetLVInfo(string namemap)
+        {
+            switch (namemap)
+            {
+                case "GrassChoosen":
+                    return 0;
+                case "LavaChoosen":
+                    return 1;
+                default:
+                    return 0;
+            }
+        }
+        public Difficult GetDifficult(int difficult)
+        {
+            switch (difficult)
+            {
+                case 1:
+                    return Difficult.Easy;
+                case 2:
+                    return Difficult.Normal;
+                case 3:
+                    return Difficult.Hard;
+                default:
+                    return Difficult.Easy;
+            }
+        }
+
+    }
+}
+
+//using System;
 //using UnityEngine;
 //using System.Linq;
 //using UnityEngine.UI;
@@ -183,177 +361,3 @@
 
 //    }
 //}
-using System;
-using UnityEngine;
-using System.Linq;
-using UnityEngine.UI;
-namespace UIGameDataMap
-{
-    public class LevelButton : MonoBehaviour
-    {
-        [Header("Scripts")]
-        [SerializeField] private MapSO mapDataSO; //Script able Object
-
-        [SerializeField] private LevelInfo levelInfo; // Reference đến script LevelObject
-
-        [Header("GameObject")]
-        [SerializeField] private GameObject lockObj;
-        [SerializeField] private GameObject unlockObj;     //ref to lock and unlock gameobject
-        [SerializeField] private GameObject activeLevelIndicator;
-        [SerializeField] private GameObject ObjectAttack;
-
-        [Header("Level Settings")]
-        [SerializeField] private Text ZoneIndexText;               // ref to text which indicates the level number
-        [SerializeField] private Button btn;
-        /*[SerializeField] private Image[] starsArray;  */              //ref to all the stars of button
-        [SerializeField] ChangeDifficultMapInfos ChangeDifficultMapInfos;                                                              //ref to hold button component
-                                                                                                                                       //public static event Action OnClickEnvent;
-        public MapSO GetMapSO()
-        {
-            return mapDataSO;
-        }
-        private int levelIndex;                                     //int which hold the level Index this perticular button specify
-
-        private void Start()
-        {
-            SetLevelButton(GetAreaName());
-            btn.onClick.AddListener(() => OnClick());               //add listener to the button
-
-        }
-        public MapSO GetMapDataSO()
-        {
-            return mapDataSO;
-        }
-        int GetLevelIndex()
-        {
-            //Debug.Log(transform.GetSiblingIndex() - 1 + "transform.GetSiblingIndex() - 1");
-            return transform.GetSiblingIndex() - 1;
-        }
-        string GetAreaName()
-        {
-            return transform.parent.parent.name;
-        }
-        void SetUnlockedUI()
-        {
-            lockObj.SetActive(false);                           //deactivate lockObj
-            unlockObj.SetActive(true);                          //activate unlockObj
-            activeLevelIndicator.SetActive(false);
-        }
-        void SetLockedUI()
-        {
-            lockObj.SetActive(true);                           //deactivate lockObj
-            unlockObj.SetActive(false);                          //activate unlockObj
-            activeLevelIndicator.SetActive(true);
-        }
-
-        public void SetLevelButton(string areaName)
-        {
-            int index = GetLevelIndex();
-            Debug.Log("index level:" + index);
-            AreaInfomationSO aiso = LevelSystemManager.Instance.DatabaseAreaSO;
-            //Debug.Log(aiso);
-            var levelInformation = aiso.areasData.First(data => data.areaName == areaName);
-
-            //Debug.Log("SetLevelButton " + levelInformation);
-            if (levelInformation.levelsData[index].isUnlocked)
-            {
-                SetUnlockedUI();
-                //Set LevelInfo
-                levelInfo = LevelUIManager.Instance.LevelInfo;
-                //Set button
-                mapDataSO = LevelUIManager.Instance.GetMapSO(index, GetTyMap(areaName)); //Repair
-
-                ZoneIndexText.text = mapDataSO.mapZone;
-                ChangeDifficultMapInfos = LevelUIManager.Instance.ChangeDifficultMap;
-                //SetAuto Click
-                if (LevelUIManager.Instance.CurrentLevelButton == this)
-                {
-                    OnClick();
-
-                }
-                else
-                    Debug.Log("Khong phai LV Can Lay");
-            }
-            else
-            {
-                SetLockedUI();
-                ZoneIndexText.text = "";
-            }
-        }
-        public void OnClick()                                              //method called by button
-        {
-            /*LevelSystemManager.Instance.CurrentLevel = levelIndex;*/  //set the CurrentLevel, we subtract 1 as level data array start from 0
-            if (levelInfo == null)
-            {
-                return;
-            }
-            MapManager.Instance.Difficult = Difficult.Easy;
-
-            levelInfo.SetLevelDataDifficulty(mapDataSO, null);
-            levelInfo.OnButtonClickUIChosseMap();
-            //DifficultHolderUI = LevelUIManager.Instance.DifficultHolder;
-
-            Debug.Log("Click");
-
-
-            // Add ObjectAttack to the ObjectAttackManager
-            if (ObjectAttack != null)
-            {
-                ObjectAttackManager.Instance.AddObjectToManager(ObjectAttack);
-            }
-
-            ActiveUnlockDifficultyMap(ChangeDifficultMapInfos);
-        }
-        private void ActiveUnlockDifficultyMap(ChangeDifficultMapInfos changeDifficultMapInfos)
-        {
-            if (changeDifficultMapInfos.gameObject.activeSelf)
-            {
-                changeDifficultMapInfos.SetUnlockDifficult(mapDataSO);
-            }
-            else
-            {
-                Debug.LogWarning("GameObject không hoạt động hoặc là null.");
-            }
-        }
-
-        public MapType GetTyMap(string namemap)
-        {
-            switch (namemap)
-            {
-                case "GrassChoosen":
-                    return MapType.Grass;
-                case "LavaChoosen":
-                    return MapType.Lava;
-                default:
-                    return MapType.Grass;
-            }
-        }
-        public int GetLVInfo(string namemap)
-        {
-            switch (namemap)
-            {
-                case "GrassChoosen":
-                    return 0;
-                case "LavaChoosen":
-                    return 1;
-                default:
-                    return 0;
-            }
-        }
-        public Difficult GetDifficult(int difficult)
-        {
-            switch (difficult)
-            {
-                case 1:
-                    return Difficult.Easy;
-                case 2:
-                    return Difficult.Normal;
-                case 3:
-                    return Difficult.Hard;
-                default:
-                    return Difficult.Easy;
-            }
-        }
-
-    }
-}
