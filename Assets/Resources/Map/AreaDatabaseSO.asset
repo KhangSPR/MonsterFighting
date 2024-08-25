@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cc99a46d3b6ef147989f80e4e3411e2, type: 3}
-  m_Name: AreaInfomation_SO
+  m_Name: AreaDatabaseSO
   m_EditorClassIdentifier: 
   areasData:
   - areaIndex: 0
@@ -19,193 +19,209 @@ MonoBehaviour:
     - levelIndex: 0
       isUnlocked: 1
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 3
           isCompleted: 1
-        levelInfomation_normal:
-          starCount: 0
-          isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 1
+          starCount: 2
+          isCompleted: 1
+        - difficult: 2
           starCount: 0
           isCompleted: 0
     - levelIndex: 1
       isUnlocked: 1
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 3
-          isCompleted: 0
-        levelInfomation_normal:
-          starCount: 0
-          isCompleted: 0
-        levelInfomation_hard:
+          isCompleted: 1
+        - difficult: 1
+          starCount: 1
+          isCompleted: 1
+        - difficult: 2
           starCount: 0
           isCompleted: 0
     - levelIndex: 2
-      isUnlocked: 0
+      isUnlocked: 1
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
+          starCount: 1
+          isCompleted: 1
+        - difficult: 1
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
-          starCount: 0
-          isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 2
           starCount: 0
           isCompleted: 0
     - levelIndex: 3
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 4
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 5
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 6
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 7
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 8
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 9
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 10
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 11
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 12
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 13
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 14
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 15
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
   - areaIndex: 1
@@ -214,192 +230,208 @@ MonoBehaviour:
     - levelIndex: 0
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 1
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 2
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 3
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 4
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 5
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 6
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 7
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 8
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 9
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 10
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 11
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 12
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 13
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 14
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
     - levelIndex: 15
       isUnlocked: 0
       DifficultInformation:
-        levelInfomation_easy:
+        levelInfomations:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_normal:
+        - difficult: 0
           starCount: 0
           isCompleted: 0
-        levelInfomation_hard:
+        - difficult: 0
           starCount: 0
           isCompleted: 0

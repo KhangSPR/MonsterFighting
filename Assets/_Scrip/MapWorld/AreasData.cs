@@ -30,6 +30,7 @@ public class LevelData
 public class LevelInfomation
 {
     [Header("Level Complete")]
+    public Difficult difficult;
     [Range(0, 3)] public int starCount;
     public bool isCompleted;
 
@@ -37,27 +38,30 @@ public class LevelInfomation
 [System.Serializable]
 public class LevelDifficultInformation
 {
-    // Phương thức trả về khó khăn Easy và thông tin cấp độ tương ứng
-    public (Difficult, LevelInfomation) GetEasyLevelInfo()
+    public LevelInfomation[] levelInfomations = new LevelInfomation[3];
+    private void Awake()
     {
-        return (Difficult.Easy, levelInfomation_easy);
+        InitializeDifficultyMap();
     }
 
-    // Phương thức trả về khó khăn Normal và thông tin cấp độ tương ứng
-    public (Difficult, LevelInfomation) GetNormalLevelInfo()
+    private void InitializeDifficultyMap()
     {
-        return (Difficult.Normal, levelInfomation_normal);
-    }
+        if (levelInfomations == null || levelInfomations.Length != 3)
+        {
+            levelInfomations = new LevelInfomation[3];
+        }
 
-    // Phương thức trả về khó khăn Hard và thông tin cấp độ tương ứng
-    public (Difficult, LevelInfomation) GetHardLevelInfo()
-    {
-        return (Difficult.Hard, levelInfomation_hard);
+        for (int i = 0; i < 3; i++)
+        {
+            if (levelInfomations[i] == null)
+            {
+                levelInfomations[i] = new LevelInfomation
+                {
+                    difficult = (Difficult)i,
+                };
+            }
+        }
     }
-
-    public LevelInfomation levelInfomation_easy;
-    public LevelInfomation levelInfomation_normal;
-    public LevelInfomation levelInfomation_hard;
 }
 
 public enum Difficult

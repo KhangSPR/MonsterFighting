@@ -26,11 +26,11 @@ public class LocalizationManager : MonoBehaviour
     }
 
     private void OnEnable(){
-        if (SettingManager.Instance == null || SettingManager.Instance.settingUI == null)
-        {
-            Debug.LogError("SettingManager or settingUI has not been initialized.");
-            return; // Exit the method if SettingManager or settingUI is not available
-        }
+        //if (SettingManager.Instance == null || SettingManager.Instance.settingUI == null)
+        //{
+        //    Debug.LogError("SettingManager or settingUI has not been initialized.");
+        //    return; // Exit the method if SettingManager or settingUI is not available
+        //}
         SettingManager.Instance.settingUI.LanguageDropDown.ClearOptions();
         //
         List<string> languageOptions = new();

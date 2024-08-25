@@ -16,6 +16,7 @@ public class LevelUIManager : MonoBehaviour
     [SerializeField] private Transform areasHolder;
     [SerializeField] private LevelInfo levelInfo;
     [SerializeField] private PortalHouseBtn portalHouseBtn;
+    public PortalHouseBtn PortalHouseBtn => portalHouseBtn;
     public LevelInfo LevelInfo => levelInfo;
 
     [SerializeField] private Material[] materials;
@@ -26,9 +27,10 @@ public class LevelUIManager : MonoBehaviour
     {
         get
         {
-            if (mapbtnGameObjects != null && mapbtnGameObjects.Count > MapManager.Instance.CurrentIndex)
+            if (mapbtnGameObjects != null && mapbtnGameObjects.Count > MapManager.Instance.MapSOCurrentIndex)
             {
-                return mapbtnGameObjects[MapManager.Instance.CurrentIndex];
+
+                return mapbtnGameObjects[MapManager.Instance.MapSOCurrentIndex];
             }
             else
             {
@@ -47,8 +49,12 @@ public class LevelUIManager : MonoBehaviour
     public ChangeDifficultMapInfos ChangeDifficultMap => difficultHolder;
     private void Start()
     {
-        portalHouseBtn.SetPortals(MapManager.Instance.MapSOCurrent);
+        if (MapManager.Instance.MapSOCurrent != null)
+        {
+            portalHouseBtn.SetPortals(MapManager.Instance.MapSOCurrent);
+        }
     }
+
     private void Awake()
     {
         if (LevelUIManager.instance != null)
@@ -60,7 +66,7 @@ public class LevelUIManager : MonoBehaviour
     }
     public MapDifficulty GetMapDifficultySO(int id, MapType mapType, Difficult difficult)
     {
-        foreach (MapSO mapSO in MapManager.Instance.MapSOArray)
+        foreach (MapSO mapSO in MapManager.Instance.MapArrayCurrent.MapSOArray)
         {
             // Kiểm tra các thuộc tính của MapSO để tìm MapSO phù hợp
             if (mapSO.id == id && mapSO.mapType == mapType)
@@ -80,7 +86,7 @@ public class LevelUIManager : MonoBehaviour
     }
     public MapSO GetMapSO(int id, MapType mapType)
     {
-        foreach (MapSO mapSO in MapManager.Instance.MapSOArray)
+        foreach (MapSO mapSO in MapManager.Instance.MapArrayCurrent.MapSOArray)
         {
             // Kiểm tra các thuộc tính của MapSO để tìm MapSO phù hợp
             if (mapSO.id == id && mapSO.mapType == mapType)
@@ -153,11 +159,11 @@ public class LevelUIManager : MonoBehaviour
     }
     public void ActiveDifficultHolder()
     {
-        difficultHolder.gameObject.SetActive(SetDifficultHolderMapArray(fullMapController.mapOpeningIndex, MapManager.Instance.CurrentIndex));
+        difficultHolder.gameObject.SetActive(SetDifficultHolderMapArray(fullMapController.mapOpeningIndex, MapManager.Instance.MapSOCurrentIndex));
     }
     private bool SetDifficultHolderMapArray(int mapIndex, int levelIndex)
     {
-        if (LevelSystemManager.Instance.DatabaseAreaSO.areasData[mapIndex].levelsData[levelIndex].isUnlocked)
+        if (LevelSystemDataManager.Instance.DatabaseAreaSO.areasData[mapIndex].levelsData[levelIndex].isUnlocked)
         {
             return true;
 

@@ -11,7 +11,6 @@ public class PortalHouseBtn : MonoBehaviour
 
     [SerializeField] Button_UI button_UI;
     [SerializeField] BtnUI btnUI;
-
     private void Start()
     {
         button_UI.MouseUpFunc = () => btnUI.OnClickButton();
@@ -19,14 +18,22 @@ public class PortalHouseBtn : MonoBehaviour
     }
     public void SetPortals(MapSO mapSO)
     {
-        Portals[] portals = mapSO.GetPortals(mapSO.DifficultyMap[0].difficult);
-        Debug.Log("Set Portal_-------------: "+ portals);
+        if (mapSO == null)
+        {
+            Debug.LogError("MapSO is null");
+            return;
+        }
 
-        //Debug.Log(portals)
-        
+        Portals[] portals = mapSO.GetPortals(MapManager.Instance.Difficult);
+
+        if (portals == null || portals.Length == 0)
+        {
+            Debug.LogError("Portals array is null or empty");
+            return;
+        }
+
         foreach (Portals portal in portals)
         {
-            // Set Portal
             if (portal.hasBoss)
             {
                 _Electricity.gameObject.SetActive(portal.hasBoss);
@@ -34,22 +41,29 @@ public class PortalHouseBtn : MonoBehaviour
             }
 
             Debug.Log("Electricity");
+        }
 
+        if (_Electricity == null || _Particle == null || _meterial == null)
+        {
+            Debug.LogError("One or more required components are null");
+            return;
         }
 
         var mainModule = _Electricity.main;
-
-        // Thay đổi thuộc tính startColor thông qua MainModule
         mainModule.startColor = GetColor(GetZone(mapSO.mapZone));
 
         var mainParticle = _Particle.main;
-
         mainParticle.startColor = GetColor(GetZone(mapSO.mapZone));
 
-        //meterial
-        _meterial.material = LevelUIManager.Instance.Materials[GetZone(mapSO.mapZone)];
+        if (LevelUIManager.Instance.Materials == null || GetZone(mapSO.mapZone) >= LevelUIManager.Instance.Materials.Length)
+        {
+            Debug.LogError("Materials array is null or index out of bounds");
+            return;
+        }
 
+        _meterial.material = LevelUIManager.Instance.Materials[GetZone(mapSO.mapZone)];
     }
+
     public Color GetColor(int level)
     {
         switch (level)

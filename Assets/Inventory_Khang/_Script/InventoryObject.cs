@@ -87,24 +87,6 @@ public class InventoryObject : ScriptableObject
     [ContextMenu("Save")]
     public void Save()
     {
-        //try
-        //{
-        //    Debug.Log("Save");
-
-        //    string saveData = JsonUtility.ToJson(this, true);
-        //    BinaryFormatter bf = new BinaryFormatter();
-        //    string fullPath = Path.Combine(Application.persistentDataPath, savePath);
-        //    FileStream file = File.Create(fullPath);
-        //    bf.Serialize(file, saveData);
-        //    file.Close();
-
-        //    Debug.Log($"Saved data to {fullPath}");
-        //}
-        //catch (Exception ex)
-        //{
-        //    Debug.LogError($"Failed to save data: {ex.Message}");
-        //}
-
         IFormatter formatter = new BinaryFormatter();
         Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
         formatter.Serialize(stream, Container);
@@ -114,30 +96,7 @@ public class InventoryObject : ScriptableObject
     [ContextMenu("Load")]
     public void Load()
     {
-        //try
-        //{
-        //    string fullPath = Path.Combine(Application.persistentDataPath, savePath);
-        //    if (File.Exists(fullPath))
-        //    {
-        //        Debug.Log("Load");
-
-        //        BinaryFormatter bf = new BinaryFormatter();
-        //        FileStream file = File.Open(fullPath, FileMode.Open);
-        //        JsonUtility.FromJsonOverwrite(bf.Deserialize(file).ToString(), this);
-        //        file.Close();
-
-        //        Debug.Log($"Loaded data from {fullPath}");
-        //    }
-        //    else
-        //    {
-        //        Debug.LogWarning("Save file does not exist.");
-        //    }
-        //}
-        //catch (Exception ex)
-        //{
-        //    Debug.LogError($"Failed to load data: {ex.Message}");
-        //}
-        if(File.Exists(string.Concat(Application.persistentDataPath,savePath)))
+        if (File.Exists(string.Concat(Application.persistentDataPath,savePath)))
         {
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Open, FileAccess.Read);
@@ -194,3 +153,47 @@ public class InventorySlot
         amount += value;
     }
 }
+#region Comment
+//try
+//{
+//    Debug.Log("Save");
+
+//    string saveData = JsonUtility.ToJson(this, true);
+//    BinaryFormatter bf = new BinaryFormatter();
+//    string fullPath = Path.Combine(Application.persistentDataPath, savePath);
+//    FileStream file = File.Create(fullPath);
+//    bf.Serialize(file, saveData);
+//    file.Close();
+
+//    Debug.Log($"Saved data to {fullPath}");
+//}
+//catch (Exception ex)
+//{
+//    Debug.LogError($"Failed to save data: {ex.Message}");
+//}
+#endregion
+#region Comment
+//try
+//{
+//    string fullPath = Path.Combine(Application.persistentDataPath, savePath);
+//    if (File.Exists(fullPath))
+//    {
+//        Debug.Log("Load");
+
+//        BinaryFormatter bf = new BinaryFormatter();
+//        FileStream file = File.Open(fullPath, FileMode.Open);
+//        JsonUtility.FromJsonOverwrite(bf.Deserialize(file).ToString(), this);
+//        file.Close();
+
+//        Debug.Log($"Loaded data from {fullPath}");
+//    }
+//    else
+//    {
+//        Debug.LogWarning("Save file does not exist.");
+//    }
+//}
+//catch (Exception ex)
+//{
+//    Debug.LogError($"Failed to load data: {ex.Message}");
+//}
+#endregion

@@ -1,10 +1,21 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace UIGameDataMap
 {
+    [System.Serializable]
+    public class MapArrayData
+    {
+        [SerializeField] private MapSO[] mapSOArray;
+        public MapSO[] MapSOArray => mapSOArray;
+
+        public void SetMapSOArray(MapSO[] value)
+        {
+            mapSOArray = value;
+        }
+    }
+
     public class MapManager : SaiMonoBehaviour
     {
         private static MapManager instance;
@@ -13,42 +24,50 @@ namespace UIGameDataMap
         [Header("PrefabMap")]
         public GameObject gameMapPrefab;
 
-        [Space]
-        [Space]
-        [Space]
-        [Space]
-        [Header("MapSOArray")]
         private GameObject currentMap = null;
         public GameObject CurrentMap => currentMap;
 
-        [SerializeField] MapSO[] mapSOArray;
-        public MapSO[] MapSOArray => mapSOArray;
+        [SerializeField] private MapArrayData[] mapArrayData;
+        public MapArrayData[] MapArrayData => mapArrayData;
 
-        // Here, we added a private setter to enable setting this property within this class
-        private MapSO _mapSOCurrent;
-        public MapSO MapSOCurrent
+        [SerializeField] private int m_ArrayCurrentIndex;
+        public int ArrayCurrentIndex => m_ArrayCurrentIndex;
+        [SerializeField] private int m_MapSOCurrentIndex;
+        public int MapSOCurrentIndex => m_MapSOCurrentIndex;
+
+        private MapArrayData _mapArrayCurrent;
+        public MapArrayData MapArrayCurrent
         {
-            get => mapSOArray[m_CurrentIndex];
-            private set => _mapSOCurrent = value; // Only this class can set this property
+            get => mapArrayData[m_ArrayCurrentIndex];
+            set => _mapArrayCurrent = value;
         }
 
-        [SerializeField]
-        int m_CurrentIndex;
-        public int CurrentIndex => m_CurrentIndex;
-        const string mapSOFolder = "Map/";
-        
-        Difficult difficult;
+        [SerializeField] private MapSO _mapSOCurrent;
+        public MapSO MapSOCurrent => _mapSOCurrent;
+        public void SetMapSOCurrent()
+        {
+            _mapSOCurrent = mapArrayData[m_ArrayCurrentIndex].MapSOArray[m_MapSOCurrentIndex];
+        }
+        private Difficult difficult;
         public Difficult Difficult
         {
             get => difficult;
             set => difficult = value; // Only this class can set this property
         }
 
+        private static readonly string[] mapSOFolders = { "Map/GrassChoosen", "Map/LavaChoosen" };
+
         protected override void Start()
         {
             base.Start();
-            mapSOArray = loadMapSO(mapSOFolder);
-            m_CurrentIndex = GetLevelLastUnLockArea();
+            InitializeMapSOArray();
+            m_MapSOCurrentIndex = GetCurrentSOLevelLastUnLockArea();
+            m_ArrayCurrentIndex = GetCurrentArrayLastUnlockArea();
+            difficult = GetCurrentDifficultUnlockMap();
+
+            SetMapSOCurrent();
+
+            Debug.Log("Map current: " + _mapSOCurrent);
         }
 
         protected override void Awake()
@@ -60,25 +79,46 @@ namespace UIGameDataMap
             instance = this;
         }
 
-        MapSO[] loadMapSO(string path)
+        private void InitializeMapSOArray()
+        {
+            mapArrayData = new MapArrayData[mapSOFolders.Length];
+
+            for (int i = 0; i < mapSOFolders.Length; i++)
+            {
+                // Khởi tạo từng phần tử trong mảng
+                mapArrayData[i] = new MapArrayData();
+
+                MapSO[] mapSOs = LoadMapSO(mapSOFolders[i]);
+                mapArrayData[i].SetMapSOArray(mapSOs);
+            }
+        }
+
+        private MapSO[] LoadMapSO(string path)
         {
             MapSO[] mapSOs = UnityEngine.Resources.LoadAll<MapSO>(path);
-            Array.Sort(mapSOs, (x, y) => x.id.CompareTo(y.id)); //Sort
+            Array.Sort(mapSOs, (x, y) => x.id.CompareTo(y.id));
             return mapSOs;
         }
 
         public void LoadNextMap()
         {
-            if (m_CurrentIndex != -1)
+            if (m_MapSOCurrentIndex < _mapArrayCurrent.MapSOArray.Length - 1)
             {
-                int nextIndex = m_CurrentIndex + 1;
-                nextIndex = Math.Clamp(nextIndex, 0, mapSOArray.Length);
-                _mapSOCurrent = mapSOArray[nextIndex]; // Set the current MapSO
+                m_MapSOCurrentIndex++;
+                _mapSOCurrent = _mapArrayCurrent.MapSOArray[m_MapSOCurrentIndex];
 
-                if(_mapSOCurrent != null)
-                    m_CurrentIndex++;
+                Debug.Log("MapSO: " + _mapSOCurrent + " Index: " + m_MapSOCurrentIndex);
 
-                Debug.Log("MapSO: " + _mapSOCurrent+" Index: "+ m_CurrentIndex);
+                ReloadMap();
+            }
+            else if (m_ArrayCurrentIndex < mapArrayData.Length - 1)
+            {
+                m_ArrayCurrentIndex++;
+                _mapArrayCurrent = mapArrayData[m_ArrayCurrentIndex];
+                m_MapSOCurrentIndex = 0;
+                _mapSOCurrent = _mapArrayCurrent.MapSOArray[m_MapSOCurrentIndex];
+
+                Debug.Log("Next MapArray loaded. MapSO: " + _mapSOCurrent + " Index: " + m_MapSOCurrentIndex);
 
                 ReloadMap();
             }
@@ -92,23 +132,29 @@ namespace UIGameDataMap
 
         public void ReloadMap()
         {
-            var newCurrentMap = currentMap;
-            Destroy(currentMap.gameObject);
+            Destroy(currentMap);
             LoadMap();
         }
+
         public void SetCurrentMapSO(MapSO mapSO)
         {
-            if (mapSO != null && Array.IndexOf(mapSOArray, mapSO) != -1)
+            for (int i = 0; i < mapArrayData.Length; i++)
             {
-                _mapSOCurrent = mapSO;
-                m_CurrentIndex = Array.IndexOf(mapSOArray, mapSO);
+                int index = Array.FindIndex(mapArrayData[i].MapSOArray, element => element == mapSO);
+                if (index != -1)
+                {
+                    m_ArrayCurrentIndex = i;
+                    m_MapSOCurrentIndex = index;
+                    _mapArrayCurrent = mapArrayData[i];
+                    _mapSOCurrent = mapSO;
+                    break;
+                }
             }
         }
 
-        #region Get Level Last UnLock Area
-        int GetLevelLastUnLockArea()
+        private int GetCurrentSOLevelLastUnLockArea()
         {
-            List<AreasData> areas = LevelSystemManager.Instance.DatabaseAreaSO.areasData;
+            List<AreasData> areas = LevelSystemDataManager.Instance.DatabaseAreaSO.areasData;
             int firstLockedLevelIndex = -1;
             foreach (AreasData area in areas)
             {
@@ -122,8 +168,49 @@ namespace UIGameDataMap
                     }
                 }
             }
-            return 0; // Default to zero if all levels are unlocked
+            return 0;
         }
-        #endregion
+        private int GetCurrentArrayLastUnlockArea()
+        {
+            List<AreasData> areas = LevelSystemDataManager.Instance.DatabaseAreaSO.areasData;
+            int firstLockedLevelIndex = -1;
+            foreach (AreasData area in areas)
+            {
+                List<LevelData> levels = area.levelsData;
+                foreach (LevelData level in levels)
+                {
+                    if (!level.isUnlocked)
+                    {
+                        firstLockedLevelIndex = areas.IndexOf(area);
+                        return firstLockedLevelIndex;
+                    }
+                }
+
+            }
+            return 0;
+        }
+        private Difficult GetCurrentDifficultUnlockMap()
+        {
+            List<AreasData> areas = LevelSystemDataManager.Instance.DatabaseAreaSO.areasData;
+
+            Difficult difficult = Difficult.Easy; // Default Easy
+
+            if (areas[ArrayCurrentIndex].levelsData[m_MapSOCurrentIndex].isUnlocked)
+            {
+                LevelInfomation[] levelInfomations = areas[ArrayCurrentIndex].levelsData[m_MapSOCurrentIndex].DifficultInformation.levelInfomations;
+                foreach (LevelInfomation levelInfomation in levelInfomations)
+                {
+                    if(!levelInfomation.isCompleted)
+                    {
+                        difficult = levelInfomation.difficult;
+                        return difficult; // return Difficult
+                    }
+                }
+            }
+
+            // return Difficult
+            return difficult;
+        }
+
     }
 }

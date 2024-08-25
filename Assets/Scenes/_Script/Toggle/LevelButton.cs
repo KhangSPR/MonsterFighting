@@ -65,7 +65,7 @@ namespace UIGameDataMap
         {
             int index = GetLevelIndex();
             Debug.Log("index level:" + index);
-            AreaInfomationSO aiso = LevelSystemManager.Instance.DatabaseAreaSO;
+            AreaInfomationSO aiso = LevelSystemDataManager.Instance.DatabaseAreaSO;
             //Debug.Log(aiso);
             var levelInformation = aiso.areasData.First(data => data.areaName == areaName);
 

@@ -70,11 +70,11 @@ namespace UIGameDataMap
 
     public enum MapType
     {
-        Desert,
+        Grass,
         Lava,
+        Desert,
         Snow,
         Ice,
-        Grass,
         Stone
     }
 
@@ -98,6 +98,7 @@ namespace UIGameDataMap
         public bool boss;
         public string mapZone;
         public MapType mapType;
+        public bool Unlocked;
 
         [Header("MapDifficulty")]
         public MapDifficulty[] DifficultyMap = new MapDifficulty[3];

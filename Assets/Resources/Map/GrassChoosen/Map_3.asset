@@ -10,38 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 075d4679b78067f45a885375b0c5acb3, type: 3}
-  m_Name: Map_1
+  m_Name: Map_3
   m_EditorClassIdentifier: 
-  id: 0
+  id: 2
   boss: 0
-  mapZone: I
-  mapType: 0
-  Unlocked: 0
+  mapZone: II
+  mapType: 4
   DifficultyMap:
-  - stars: 0
+  - stars: 1
     difficult: 0
     starsCondition: {fileID: 11400000, guid: 6a151c812946f6d43bde6459ab7bee6a, type: 2}
-    isReceivedReWard: 1
+    isReceivedReWard: 0
     portals:
-    - rarityPortal: 0
+    - rarityPortal: 1
       Count: 1
       DelaySpawnFirstEnemy: 3
       spawnTimeInSeconds:
       - 5
       hasBoss: 0
       enemyTypes:
-      - rarity: 0
-        name: Goblin Green
-        countEnemy: 1
+      - rarity: 1
+        name: Skeleton Magic
+        countEnemy: 2
         timerMin: 3
         timerMax: 5
         skillType:
         - id: 0
           skill: None
-        Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
-      Count: 5
+      Count: 10
   - stars: 0
     difficult: 1
     starsCondition: {fileID: 11400000, guid: 09433ca4b9fe11b42b88c5deacc818fc, type: 2}
@@ -64,6 +63,22 @@ MonoBehaviour:
         - id: 0
           skill: None
         Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+    - rarityPortal: 1
+      Count: 1
+      DelaySpawnFirstEnemy: 3
+      spawnTimeInSeconds:
+      - 16
+      hasBoss: 0
+      enemyTypes:
+      - rarity: 1
+        name: Skeleton Magic
+        countEnemy: 3
+        timerMin: 2
+        timerMax: 5
+        skillType:
+        - id: 0
+          skill: Fire Ball
+        Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 10
@@ -72,7 +87,7 @@ MonoBehaviour:
     starsCondition: {fileID: 11400000, guid: 6a151c812946f6d43bde6459ab7bee6a, type: 2}
     isReceivedReWard: 0
     portals:
-    - rarityPortal: 0
+    - rarityPortal: 1
       Count: 3
       DelaySpawnFirstEnemy: 4
       spawnTimeInSeconds:
@@ -81,15 +96,15 @@ MonoBehaviour:
       - 14
       hasBoss: 0
       enemyTypes:
-      - rarity: 0
-        name: Goblin Green
+      - rarity: 1
+        name: Skeleton Magic
         countEnemy: 4
         timerMin: 1
         timerMax: 5
         skillType:
         - id: 0
           skill: None
-        Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 15
