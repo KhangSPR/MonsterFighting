@@ -243,6 +243,22 @@ public class GameManager : SaiMonoBehaviour
     }
     #endregion
 
+    #region Event Win Game
+    public bool CheckBtnDifficult()
+    {
+        Difficult difficult = (Difficult)((int)MapManager.Instance.Difficult + 1);
+
+        // Kiểm tra nếu difficult vượt quá giá trị enum cuối cùng
+        if ((int)difficult >= Enum.GetValues(typeof(Difficult)).Length)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    #endregion
 
     #region Game ReSult
     //Game Result--------------------------------------------------------------------------------

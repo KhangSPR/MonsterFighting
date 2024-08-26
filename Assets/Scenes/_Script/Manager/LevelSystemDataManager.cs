@@ -13,26 +13,33 @@ public class LevelSystemDataManager : MonoBehaviour
     private static LevelSystemDataManager instance;                             //instance variable
     public static LevelSystemDataManager Instance { get => instance; }          //instance getter
 
+    private void OnEnable()
+    {
 
+    }
+    private void OnApplicationQuit()
+    {
+        SaveAreasData();
+    }
     #region Save LevelDataManager
     private string savePath => Path.Combine(Application.persistentDataPath, "areasData.json");
-    public void SaveAreasData(AreaInfomationSO areaInfoSO)
+    public void SaveAreasData()
     {
-        UpdateMapSOFromAreaData();
+        SaveAreaDataFromMapSO();
 
-        string jsonData = JsonUtility.ToJson(areaInfoSO);
+        string jsonData = JsonUtility.ToJson(DatabaseAreaSO);
         File.WriteAllText(savePath, jsonData);
         Debug.Log("AreasData Saved");
     }
-    public void LoadAreasData(AreaInfomationSO areaInfoSO)
+    public void LoadAreasData()
     {
         if (File.Exists(savePath))
         {
             string jsonData = File.ReadAllText(savePath);
-            JsonUtility.FromJsonOverwrite(jsonData, areaInfoSO);
+            JsonUtility.FromJsonOverwrite(jsonData, DatabaseAreaSO);
             Debug.Log("AreasData Loaded");
 
-            UpdateAreaDataFromMapSO();
+            LoadMapSOFromAreaData();
         }
         else
         {
@@ -45,11 +52,11 @@ public class LevelSystemDataManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            SaveAreasData(DatabaseAreaSO);
+            SaveAreasData();
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            LoadAreasData(DatabaseAreaSO);
+            LoadAreasData();
         }
     }
 
@@ -103,7 +110,7 @@ public class LevelSystemDataManager : MonoBehaviour
             }
         }
     }
-    private void UpdateMapSOFromAreaData()
+    private void LoadMapSOFromAreaData()
     {
         foreach (var area in DatabaseAreaSO.areasData)
         {
@@ -116,11 +123,13 @@ public class LevelSystemDataManager : MonoBehaviour
                 {
                     mapSO.id = level.levelIndex;
                     mapSO.mapType = (MapType)area.areaIndex; // Đảm bảo rằng mapSO cũng lưu areaIndex
+
+                    Debug.Log(mapSO.mapType);
                     mapSO.Unlocked = level.isUnlocked;
 
                     // Cập nhật thông tin khác từ levelData sang MapSO
                     for (int i = 0; i < level.DifficultInformation.levelInfomations.Length; i++)
-                    {
+                    {                   
                         mapSO.DifficultyMap[i].stars = level.DifficultInformation.levelInfomations[i].starCount;
                         mapSO.DifficultyMap[i].isReceivedReWard = level.DifficultInformation.levelInfomations[i].isCompleted;
                     }
@@ -129,7 +138,7 @@ public class LevelSystemDataManager : MonoBehaviour
         }
     }
 
-    private void UpdateAreaDataFromMapSO()
+    private void SaveAreaDataFromMapSO()
     {
         foreach (var area in DatabaseAreaSO.areasData)
         {
@@ -155,6 +164,12 @@ public class LevelSystemDataManager : MonoBehaviour
     {
         // Tìm `MapSO` dựa trên `levelIndex` và `areaIndex` từ `MapManager`
         MapArrayData[] mapArrayDatas = MapManager.Instance.MapArrayData;
+
+        if(mapArrayDatas.Length >0)
+        {
+            Debug.Log("MapArrayData = 0");
+            return null;
+        }
 
         for (int i = 0; i < mapArrayDatas.Length; i++)
         {

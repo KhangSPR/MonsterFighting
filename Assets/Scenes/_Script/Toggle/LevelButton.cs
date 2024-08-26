@@ -78,7 +78,7 @@ namespace UIGameDataMap
                 //Set button
                 mapDataSO = LevelUIManager.Instance.GetMapSO(index, GetTyMap(areaName)); //Repair
 
-                ZoneIndexText.text = mapDataSO.mapZone;
+                //ZoneIndexText.text = mapDataSO.mapZone;
                 ChangeDifficultMapInfos = LevelUIManager.Instance.ChangeDifficultMap;
                 //SetAuto Click
                 if (LevelUIManager.Instance.CurrentLevelButton == this)

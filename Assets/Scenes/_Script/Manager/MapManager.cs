@@ -67,6 +67,8 @@ namespace UIGameDataMap
 
             SetMapSOCurrent();
 
+            LevelSystemDataManager.Instance.LoadAreasData();
+
             Debug.Log("Map current: " + _mapSOCurrent);
         }
 

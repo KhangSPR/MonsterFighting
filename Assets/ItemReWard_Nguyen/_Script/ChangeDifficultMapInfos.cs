@@ -92,7 +92,10 @@ public class ChangeDifficultMapInfos : SaiMonoBehaviour
         }
         else if (hasEasyDifficulty && hasNormalDifficulty && !hasHardDifficulty)
         {
-            HolderLock[2].SetActive(true);
+            HolderLock[1].SetActive(false);
+            changeDifficultMapInfos[1].Button.enabled = true;
+
+            HolderLock[2].SetActive(false);
             changeDifficultMapInfos[2].Button.enabled = true;
 
         }

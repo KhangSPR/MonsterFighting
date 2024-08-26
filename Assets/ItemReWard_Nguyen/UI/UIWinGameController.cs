@@ -37,6 +37,7 @@ public class UIWinGameController : MonoBehaviour
         Shield.gameObject.SetActive(false);
         TitleGameFinish.gameObject.SetActive(false);
         HolderBtn.gameObject.SetActive(false);
+        HolderBtn.transform.Find("NextDifficulty").gameObject.SetActive(false);
     }
     [ContextMenu("DoAnimation")]
     private void DoAnimation()
@@ -81,6 +82,7 @@ public class UIWinGameController : MonoBehaviour
                                     sq.OnComplete(() =>
                                     {
                                         HolderBtn.gameObject.SetActive(true);
+                                        ActiveBtnDifficult();
                                     });
                                 });
                             });
@@ -90,7 +92,11 @@ public class UIWinGameController : MonoBehaviour
             });
         });
     }
-
+    private void ActiveBtnDifficult()
+    {
+        if(GameManager.Instance.CheckBtnDifficult())
+            HolderBtn.transform.Find("NextDifficulty").gameObject.SetActive(true);
+    }
     void SpawnRewardItem()
     {
         if (mapDifficulty.isReceivedReWard) return;

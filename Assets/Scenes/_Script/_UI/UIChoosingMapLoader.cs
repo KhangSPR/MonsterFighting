@@ -10,7 +10,7 @@ namespace UIGameDataMap
             Application.Quit();
         }
 
-        public void LoadNextMap() // Apply only for Grass area
+        public void LoadNextLevel() // Apply only for Grass area
         {
             MapManager.Instance.LoadNextMap();
             //MapManager.Instance.ReloadMap();
@@ -19,7 +19,9 @@ namespace UIGameDataMap
 
             Debug.Log(mapSO);
 
-            LoadGame(mapSO);
+            MapManager.Instance.Difficult = Difficult.Easy;
+
+            LoadGame(mapSO, MapManager.Instance.Difficult);
         }
 
         public void ReloadMap()
@@ -30,7 +32,21 @@ namespace UIGameDataMap
             mapSO = MapManager.Instance.MapSOCurrent;
 
 
-            LoadGame(mapSO);
+            LoadGame(mapSO, MapManager.Instance.Difficult);
+        }
+        public void LoadNextDifficult()
+        {
+            MapManager.Instance.ReloadMap();
+
+            Difficult currentDifficult = (Difficult)((int)MapManager.Instance.Difficult + 1);
+
+            mapSO = MapManager.Instance.MapSOCurrent;
+
+            LoadGame(mapSO, currentDifficult);
+
+            MapManager.Instance.Difficult = currentDifficult;
+
+            Debug.Log("Map: " + mapSO + "-- Difficult: "+ currentDifficult);
         }
 
         public void LoadMap()
@@ -42,9 +58,9 @@ namespace UIGameDataMap
             MapManager.Instance.LoadMap();
 
 
-            LoadGame(mapSO);
+            LoadGame(mapSO, MapManager.Instance.Difficult);
         }
-        private void LoadGame(MapSO mapSO)
+        private void LoadGame(MapSO mapSO, Difficult difficult)
         {
 
             MapCtrl mapCtrl = MapManager.Instance.CurrentMap.GetComponent<MapCtrl>();
@@ -54,7 +70,7 @@ namespace UIGameDataMap
                 Debug.Log("No Haven't MapSO");
                 return;
             }
-            Difficult difficult = MapManager.Instance.Difficult;
+            //Difficult difficult = MapManager.Instance.Difficult;
             PortalSpawnManager.Instance.Difficult = difficult;
             PortalSpawnManager.Instance.MapSO = mapSO;
 

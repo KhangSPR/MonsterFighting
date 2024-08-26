@@ -16,9 +16,9 @@ MonoBehaviour:
   boss: 0
   mapZone: I
   mapType: 0
-  Unlocked: 0
+  Unlocked: 1
   DifficultyMap:
-  - stars: 0
+  - stars: 3
     difficult: 0
     starsCondition: {fileID: 11400000, guid: 6a151c812946f6d43bde6459ab7bee6a, type: 2}
     isReceivedReWard: 1
@@ -42,10 +42,10 @@ MonoBehaviour:
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 5
-  - stars: 0
+  - stars: 3
     difficult: 1
     starsCondition: {fileID: 11400000, guid: 09433ca4b9fe11b42b88c5deacc818fc, type: 2}
-    isReceivedReWard: 0
+    isReceivedReWard: 1
     portals:
     - rarityPortal: 0
       Count: 2
@@ -67,10 +67,10 @@ MonoBehaviour:
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 10
-  - stars: 0
+  - stars: 1
     difficult: 2
     starsCondition: {fileID: 11400000, guid: 6a151c812946f6d43bde6459ab7bee6a, type: 2}
-    isReceivedReWard: 0
+    isReceivedReWard: 1
     portals:
     - rarityPortal: 0
       Count: 3
