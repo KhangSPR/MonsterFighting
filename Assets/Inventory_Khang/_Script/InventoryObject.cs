@@ -153,6 +153,18 @@ public class InventorySlot
         amount += value;
     }
 }
+[System.Serializable]
+public struct InventoryItemReward
+{
+    public ItemObject itemObject;
+    public int count;
+
+    public InventoryItemReward(ItemObject itemObject, int count)
+    {
+        this.itemObject = itemObject;
+        this.count = count;
+    }
+}
 #region Comment
 //try
 //{

@@ -35,12 +35,9 @@ public enum CurrencyType
 {
     Gold,
 
-    GoldXp,
-
-    Ruby,
-    // use real money to buy gems
     USD,
     EnemyStone,
+    EnemyBoss
 
 }
 

@@ -8,21 +8,21 @@ namespace UIGameDataMap
     public struct ReWardIcon
     {
         public Sprite icon;
-        public ItemType resourceType;
+        //public ItemType resourceType;
     }
     [CreateAssetMenu(fileName = "Assets/Resources/GameData/Icons", menuName = "UIGameDataMap/Icons", order = 10)]
     public class GameMapIconSO : ScriptableObject
     {
         public List<ReWardIcon> rewardIcons;
 
-        public Sprite GetReWardIcon(ItemType resourceType)
-        {
-            if (rewardIcons == null || rewardIcons.Count == 0)
-                return null;
+        //public Sprite GetReWardIcon(ItemType resourceType)
+        //{
+        //    if (rewardIcons == null || rewardIcons.Count == 0)
+        //        return null;
 
-            ReWardIcon match = rewardIcons.Find(x => x.resourceType == resourceType);
-            return match.icon;
-        }
+        //    ReWardIcon match = rewardIcons.Find(x => x.resourceType == resourceType);
+        //    return match.icon;
+        //}
     }
 
 }

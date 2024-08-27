@@ -7,17 +7,12 @@ public class ItemReward : ScriptableObject
 {
     [SerializeField] private string itemName;
     [SerializeField] private string itemDescription;
-    [SerializeField] private ItemType type;
     [SerializeField] private Sprite image;
-
+    [SerializeField] private CurrencyType currencyType;
 
     public string ItemName { get { return itemName; } }
     public string ItemDescription { get { return itemDescription; } }
 
-    public ItemType Type { get { return type; } }
     public Sprite Image { get { return image; } }
-}
-public enum ItemType
-{
-    Medicine, Gem, Item, blabla
+    public CurrencyType CurrencyType { get {  return currencyType; } }
 }

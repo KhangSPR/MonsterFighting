@@ -55,8 +55,8 @@ public class CastleSO : ScriptableObject
                 case (ShopItemType.CastleGold):
                     return CurrencyType.Gold;
 
-                case (ShopItemType.CastleRuby):
-                    return CurrencyType.Ruby;
+                //case (ShopItemType.CastleRuby):
+                //    return CurrencyType.Ruby;
                 default:
                     return CurrencyType.Gold;
             }

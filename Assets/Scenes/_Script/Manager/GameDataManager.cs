@@ -173,6 +173,7 @@ namespace UIGameDataManager
                     break;
             }
         }
+
         bool HasSufficientFunds(ShopItemCardSO shopItem)
         {
             if (shopItem == null)
@@ -221,7 +222,24 @@ namespace UIGameDataManager
                     break;
             }
         }
+        public void OnReceiverRewardResources(UIGameDataMap.Resources resources)
+        {
+            CurrencyType currencyType = resources.item.CurrencyType;
 
+            switch (currencyType)
+            {
+                case CurrencyType.EnemyStone:
+                    m_GameData.enemyStone -= (uint)resources.Count;
+                    break;
+
+                case CurrencyType.EnemyBoss:
+                    m_GameData.enemyBoss -= (uint)resources.Count;
+                    break;
+                // non-monetized placeholder - invoke in-app purchase logic/interface for a real application
+                case CurrencyType.USD:
+                    break;
+            }
+        }
         void ReceivePurchasedGoods(ShopItemSO shopItem)
         {
             if (shopItem == null)

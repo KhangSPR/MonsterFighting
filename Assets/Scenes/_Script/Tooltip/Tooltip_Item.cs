@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UIGameDataMap;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Tooltip_Item : MonoBehaviour
@@ -61,10 +62,36 @@ public class Tooltip_Item : MonoBehaviour
 
         Update();
     }
+
+    private void ShowTooltipResource(ItemReward resources)
+    {
+        gameObject.SetActive(true);
+        transform.SetAsLastSibling();
+
+        LoadItemResources(resources);
+
+
+        Update();
+    }
+    private void ShowTooltipResources(ItemReward resources)
+    {
+        gameObject.SetActive(true);
+        transform.SetAsLastSibling();
+
+        LoadItemResources(resources);
+
+
+        Update();
+    }
     private void LoadItem(ItemObject itemObject)
     {
         Name.text = itemObject.Name;
         Description.text = itemObject.description;
+    }
+    private void LoadItemResources(ItemReward resources)
+    {
+        Name.text = resources.ItemName;
+        Description.text = resources.ItemDescription;
     }
     private void HideTooltip()
     {
@@ -73,21 +100,32 @@ public class Tooltip_Item : MonoBehaviour
         Description.color = Color.white;
     }
 
-    public static void ShowTooltip_Static(ItemObject itemObject)
+    public static void ShowTooltip_StaticInventory(ItemObject itemObject)
     {
         instance.ShowTooltip(itemObject);
     }
-
+    public static void ShowTooltip_StaticResources(ItemReward resources)
+    {
+        instance.ShowTooltipResources(resources);
+    }
     public static void HideTooltip_Static()
     {
         instance.HideTooltip();
     }
-    public static void AddTooltip(Transform transform, ItemObject itemObject)
+    public static void AddTooltip(Transform transform, ItemObject itemObject, ItemReward itemReward)
     {
         if (transform.GetComponent<Button_UI>() != null)
         {
-            transform.GetComponent<Button_UI>().MouseOverOnceTooltipFunc = () => Tooltip_Item.ShowTooltip_Static(itemObject);
-            transform.GetComponent<Button_UI>().MouseOutOnceTooltipFunc = () => Tooltip_Item.HideTooltip_Static();
+            if(transform.GetComponent<ItemObject>() != null)
+            {
+                transform.GetComponent<Button_UI>().MouseOverOnceTooltipFunc = () => Tooltip_Item.ShowTooltip_StaticInventory(itemObject);
+                transform.GetComponent<Button_UI>().MouseOutOnceTooltipFunc = () => Tooltip_Item.HideTooltip_Static();
+            }
+            if(transform.GetComponent<ItemReward>() != null)
+            {
+                transform.GetComponent<Button_UI>().MouseOverOnceTooltipFunc = () => Tooltip_Item.ShowTooltip_StaticResources(itemReward);
+                transform.GetComponent<Button_UI>().MouseOutOnceTooltipFunc = () => Tooltip_Item.HideTooltip_Static();
+            }
         }
     }
 }
