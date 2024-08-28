@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class LevelSystemDataManager : MonoBehaviour
 {
-    [Header("Sử dụng phần này")]
+    [Header("Area Database")]
     public AreaInfomationSO DatabaseAreaSO;
     private static LevelSystemDataManager instance;                             //instance variable
     public static LevelSystemDataManager Instance { get => instance; }          //instance getter

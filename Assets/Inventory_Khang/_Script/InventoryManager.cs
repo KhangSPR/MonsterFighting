@@ -26,6 +26,7 @@ public class InventoryManager : MonoBehaviour
     private void Start()
     {
         inventory.Load();
+        inventory.Load();
     }
     private void Update()
     {
@@ -46,6 +47,7 @@ public class InventoryManager : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
+        inventory.Save();
         inventory.Container.Items = new InventorySlot[40];
     }
     public void CreateDisplayPlayByType(InventoryType type, Transform Holder, GameObject prefab)

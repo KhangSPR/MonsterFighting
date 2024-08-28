@@ -9,6 +9,8 @@ public class ItemReward : ScriptableObject
     [SerializeField] private string itemDescription;
     [SerializeField] private Sprite image;
     [SerializeField] private CurrencyType currencyType;
+    public ItemRarity itemRarity;
+
 
     public string ItemName { get { return itemName; } }
     public string ItemDescription { get { return itemDescription; } }

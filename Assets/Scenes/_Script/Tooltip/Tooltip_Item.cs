@@ -116,16 +116,17 @@ public class Tooltip_Item : MonoBehaviour
     {
         if (transform.GetComponent<Button_UI>() != null)
         {
-            if(transform.GetComponent<ItemObject>() != null)
+            if (itemObject != null)
             {
                 transform.GetComponent<Button_UI>().MouseOverOnceTooltipFunc = () => Tooltip_Item.ShowTooltip_StaticInventory(itemObject);
                 transform.GetComponent<Button_UI>().MouseOutOnceTooltipFunc = () => Tooltip_Item.HideTooltip_Static();
             }
-            if(transform.GetComponent<ItemReward>() != null)
+            else if (itemReward != null)
             {
                 transform.GetComponent<Button_UI>().MouseOverOnceTooltipFunc = () => Tooltip_Item.ShowTooltip_StaticResources(itemReward);
                 transform.GetComponent<Button_UI>().MouseOutOnceTooltipFunc = () => Tooltip_Item.HideTooltip_Static();
             }
         }
     }
+
 }

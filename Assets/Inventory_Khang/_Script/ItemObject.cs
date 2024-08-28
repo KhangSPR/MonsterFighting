@@ -16,7 +16,14 @@ public enum Attributes
     Stamina,
     Strength
 }
-
+public enum ItemRarity
+{
+    Common,
+    Uncommon,
+    Rare,
+    Epic,
+    Legendary
+}
 public abstract class ItemObject : ScriptableObject
 {
     public int Id;
@@ -25,6 +32,7 @@ public abstract class ItemObject : ScriptableObject
     public string Name;
     [TextArea(15, 20)]
     public string description;
+    public ItemRarity itemRarity;
     //public ItemBuff[] buff;
     public Item CreateItem()
     {

@@ -16,11 +16,10 @@ public class DisplayInventory : MonoBehaviour
     [SerializeField] Transform holderInventory;
     [SerializeField] GameObject prefabItem;
 
-    private void Start()
+    private void OnEnable()
     {
         CreateDisplay();
     }
-
     private void Update()
     {
         //UpdateSlots();
