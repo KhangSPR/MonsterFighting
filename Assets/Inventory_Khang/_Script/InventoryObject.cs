@@ -154,12 +154,12 @@ public class InventorySlot
     }
 }
 [System.Serializable]
-public struct InventoryItemReward
+public class InventoryItem
 {
     public ItemObject itemObject;
     public int count;
 
-    public InventoryItemReward(ItemObject itemObject, int count)
+    public InventoryItem(ItemObject itemObject, int count)
     {
         this.itemObject = itemObject;
         this.count = count;

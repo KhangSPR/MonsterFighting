@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class GameManager : SaiMonoBehaviour
 {
@@ -272,9 +274,9 @@ public class GameManager : SaiMonoBehaviour
         {
             if (item.gameObject.activeSelf)
             {
-                if (!item.GetComponent<ItemPickupCtrl>().IsAnimationProcess)
+                if (!item.GetComponent<ItemDropCtrl>().IsAnimationProcess)
                 {
-                    item.GetComponent<ItemPickupCtrl>().ItemPickupAnimation();
+                    item.GetComponent<ItemDropCtrl>().ItemPickupAnimation();
                     //uint itemValue = 1; // biến này sau này sẽ dựa theo scale của đá mà set value
                     //costManager.StoneEnemyCurrency += 1;
                 }
@@ -283,7 +285,7 @@ public class GameManager : SaiMonoBehaviour
         Map_UI_Manager.UIWin.gameObject.SetActive(true);
 
         Debug.Log(gameDataManager);
-        gameDataManager.GameData.enemyStone += (uint)costManager.StoneEnemyCurrency;
+        OnReceiverItemData();
 
         UpdateResources?.Invoke();
 
@@ -306,6 +308,18 @@ public class GameManager : SaiMonoBehaviour
             }
             Map_UI_Manager.GetComponent<Map_Ui_Manager>().UILose.gameObject.SetActive(true);
 
+        }
+    }
+    private void OnReceiverItemData()
+    {
+        gameDataManager.GameData.StoneEnemy += (uint)costManager.StoneEnemyCurrency;
+        gameDataManager.GameData.StoneBoss += (uint)costManager.StoneBossCurrency;
+
+        foreach (var item in costManager.ListInventoryItem)
+        {
+            Item Item = new Item(item.itemObject);
+
+            InventoryManager.Instance.inventory.AddItem(Item, item.count);
         }
     }
     #endregion

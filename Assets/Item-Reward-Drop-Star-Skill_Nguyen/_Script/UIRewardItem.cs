@@ -14,7 +14,7 @@ public class UIRewardItems : MonoBehaviour
     public string TimerStr;
     public bool hasRewardItems;
     public List<UIGameDataMap.Resources> resoureceItems; // Item - Count
-    public List<InventoryItemReward> inventoryItems; // Item - Count
+    public List<InventoryItem> inventoryItems; // Item - Count
 
 
     [Space]

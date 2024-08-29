@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-
 public class EnemyDeSpawn : DespawnByTime
 {
     [SerializeField] protected EnemyCtrl enemyCtrl;
     public EnemyCtrl EnemyCtrl => enemyCtrl;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -24,16 +21,8 @@ public class EnemyDeSpawn : DespawnByTime
 
         enemyCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
 
-        Transform newDropItem = EnemyDropSpawner.Instance.Spawn(GetTag(), transform.parent.position, Quaternion.identity);
-
-        newDropItem.gameObject.SetActive(true);
+        //Drop Item : rate, itemType, min max count
+        enemyCtrl.EnemyDropItem.DropItem();
     }
-    string GetTag()
-    {
-        if (enemyCtrl == null) return "ItemGem";
 
-        Debug.Log("GetTag = " + enemyCtrl.EnemyTag);
-
-        return EnemyDropSpawner.Instance.GetDropItemForEnemy(enemyCtrl.EnemyTag);
-    }
 }

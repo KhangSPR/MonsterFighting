@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea1a29aed6a305469a422ea36e08d53, type: 3}
-  m_Name: Archery Skeleton
+  m_Script: {fileID: 11500000, guid: a1f886d6de4cccb46a7ed0d823b7c834, type: 3}
+  m_Name: WolfFangs
   m_EditorClassIdentifier: 
-  basePointsAttack: 15
-  basePointsLife: 67
-  basePointsAttackSpeed: 3
-  basePointsSpecialAttack: 0
-  basePointsSpeedMove: 1
-  itemDrop: []
+  Id: 7
+  Sprite: {fileID: -212243803, guid: 77521624ac7a4914e8c257c1c3a6a235, type: 3}
+  type: 2
+  Name: Wolf Fangs
+  description: Often used to make weapons or amulets
+  itemRarity: 0
+  count: 0

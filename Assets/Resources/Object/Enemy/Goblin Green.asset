@@ -17,3 +17,12 @@ MonoBehaviour:
   basePointsAttackSpeed: 2
   basePointsSpecialAttack: 0
   basePointsSpeedMove: 1
+  itemDrop:
+  - itemDropType: 1
+    minDrop: 1
+    maxDrop: 1
+    spawnRate: 500
+  - itemDropType: 2
+    minDrop: 1
+    maxDrop: 1
+    spawnRate: 1500

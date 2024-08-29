@@ -1,7 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CostManager : SaiMonoBehaviour
 {
@@ -19,8 +19,11 @@ public class CostManager : SaiMonoBehaviour
     [SerializeField] private int stoneEnemyCurrency;
     [SerializeField] private int stoneBossCurrency;
 
-    [SerializeField] private int autoIncreaseAmount = 0; // Số vàng tăng mỗi giây
+    [SerializeField] private int autoIncreaseAmount = 0; //Số vàng tăng mỗi giây
     private Coroutine autoIncreaseCoroutine;
+
+    [SerializeField] private List<InventoryItem> listInventoryItem;
+    public List<InventoryItem> ListInventoryItem => listInventoryItem;
     public void SetAutoIncreaseAmount(int amount)
     {
         autoIncreaseAmount = amount;
@@ -110,5 +113,47 @@ public class CostManager : SaiMonoBehaviour
             yield return null;
         }
         label.text = endValue.ToString();
+    }
+    public void ReceiverItemDisplay(ItemDropType itemDropType, int count)
+    {
+        switch (itemDropType)
+        {
+            case ItemDropType.MagicalCrystal:
+                StoneEnemyCurrency += count;
+                break;
+
+            case ItemDropType.Crystalline:
+                stoneBossCurrency += count;
+                break;
+            default:
+                Debug.Log("Item Error");
+                break;
+        }
+    }
+    public void ReceiverItemInventory(InventoryItem inventoryItem)
+    {
+        if (listInventoryItem == null)
+        {
+            listInventoryItem = new List<InventoryItem>();
+        }
+
+
+        if (CheckForDuplicateType(inventoryItem))
+            return;
+
+        listInventoryItem.Add(inventoryItem);
+    }    
+    bool CheckForDuplicateType(InventoryItem inventoryItem)
+    {
+        foreach (InventoryItem item in listInventoryItem)
+        {
+            if(inventoryItem.itemObject.Id == item.itemObject.Id)
+            {
+                item.count += inventoryItem.count;
+
+                return true;
+            }
+        }
+        return false;
     }
 }

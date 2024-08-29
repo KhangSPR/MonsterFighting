@@ -1,7 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+public enum ItemDropType
+{
+    Crystalline,
+    MagicalCrystal,
+    WolfFangs,
 
+}
+[Serializable]
+public class ItemDrop
+{
+    public ItemDropType itemDropType;
+    //public 
+    public int minDrop;
+    public int maxDrop;
+    // Ti le 1/10000 min 0.01 max 100
+    [SerializeField, Range(0, 10000)] private float spawnRate;
+    public float SpawnRate => spawnRate;
+}
 [CreateAssetMenu(fileName = "Assets/Resources/Object/Enemy", menuName = "Object/Enemy", order = 1)]
 public class EnemySO : ScriptableObject
 {
@@ -10,4 +26,8 @@ public class EnemySO : ScriptableObject
     public float basePointsAttackSpeed;
     public float basePointsSpecialAttack;
     public float basePointsSpeedMove;
+    [Space]
+    [Space]
+    [Header("Item Drop")]
+    public ItemDrop[] itemDrop;
 }

@@ -2858,6 +2858,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StarsUIParticle
       objectReference: {fileID: 0}
+    - target: {fileID: 8415907682469451047, guid: aed677e1a1bdee44d9661d9c0db61d6f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4934,7 +4939,7 @@ GameObject:
   - component: {fileID: 640225915}
   - component: {fileID: 640225914}
   m_Layer: 5
-  m_Name: ChoosingStone
+  m_Name: ChoosingItemCraft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5883,7 +5888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 11400000, guid: e799aecbc2939c24899bfdf85b81058c, type: 2}
-  displayInventory: {fileID: 0}
+  displayInventory: {fileID: 742790490}
 --- !u!1 &783846338
 GameObject:
   m_ObjectHideFlags: 0
@@ -16421,8 +16426,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GameData:
     badGe: 5
-    enemyBoss: 0
-    enemyStone: 0
+    StoneBoss: 50
+    StoneEnemy: 50
     ruby: 1499
     settings:
       resolutionWidth: 0

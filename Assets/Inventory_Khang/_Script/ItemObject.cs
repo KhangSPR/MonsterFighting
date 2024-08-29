@@ -6,8 +6,7 @@ public enum InventoryType
 {
     Skill,
     Medicine,
-    Stone,
-
+    ItemCraft,
 }
 public enum Attributes
 {
@@ -19,7 +18,6 @@ public enum Attributes
 public enum ItemRarity
 {
     Common,
-    Uncommon,
     Rare,
     Epic,
     Legendary

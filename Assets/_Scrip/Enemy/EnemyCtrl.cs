@@ -15,10 +15,10 @@ public class EnemyCtrl : ObjectCtrl
     public ObjMovement ObjMovement => objMovement;
     private Vector3Int cellPosition;
 
-    [SerializeField] protected EnemyTag enemyTag;
-    public EnemyTag EnemyTag => enemyTag;
     [SerializeField] protected EnemySO enemySO;
     public EnemySO EnemySO => enemySO;
+    [SerializeField] protected EnemyDropItem enemyDropItem;
+    public EnemyDropItem EnemyDropItem => enemyDropItem;
     protected override string GetObjectTypeString()
     {
         return ObjectType.Enemy.ToString();
@@ -34,6 +34,7 @@ public class EnemyCtrl : ObjectCtrl
         this.loadEnemyAttack();
         this.loadEnemyModel();
         this.loadObjMovement();
+        this.LoadEnemyDropItem();
     }
     protected virtual void loadObjMovement()
     {
@@ -58,6 +59,12 @@ public class EnemyCtrl : ObjectCtrl
         if (this.enemyShooter != null) return;
         this.enemyShooter = transform.GetComponentInChildren<EnemyShooter>();
         Debug.Log(gameObject.name + ": loadPCanAttackEnemy" + gameObject);
+    }
+    protected virtual void LoadEnemyDropItem()
+    {
+        if (this.enemyDropItem != null) return;
+        this.enemyDropItem = transform.GetComponentInChildren<EnemyDropItem>();
+        Debug.Log(gameObject.name + ": LoadEnemyDropItem" + gameObject);
     }
 
 }

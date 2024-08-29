@@ -87,9 +87,9 @@ namespace UIGameDataManager
         }
         void RemoveItem()
         {
-            m_GameData.enemyBoss = 0;
+            m_GameData.StoneBoss = 0;
             m_GameData.badGe = 0;
-            m_GameData.enemyStone = 0;
+            m_GameData.StoneEnemy = 0;
             
         }
         [Header("Test Add Item")]
@@ -97,8 +97,8 @@ namespace UIGameDataManager
 
         void AddItem()
         {
-            m_GameData.enemyStone += 99;
-            m_GameData.enemyBoss += 5;
+            m_GameData.StoneEnemy += 99;
+            m_GameData.StoneBoss += 5;
             m_GameData.badGe += 35;
 
             m_SaveManager?.SaveGame();
@@ -140,7 +140,7 @@ namespace UIGameDataManager
                     return m_GameData.badGe >= discountedPrice;
 
                 case CurrencyType.EnemyStone:
-                    return m_GameData.enemyStone >= discountedPrice;
+                    return m_GameData.StoneEnemy >= discountedPrice;
 
                 case CurrencyType.USD:
                     return true;
@@ -165,7 +165,7 @@ namespace UIGameDataManager
                     break;
 
                 case CurrencyType.EnemyStone:
-                    m_GameData.enemyStone -= (uint)discountedPrice;
+                    m_GameData.StoneEnemy -= (uint)discountedPrice;
                     break;
 
                 // non-monetized placeholder - invoke in-app purchase logic/interface for a real application
@@ -189,7 +189,7 @@ namespace UIGameDataManager
                     return m_GameData.badGe >= discountedPrice;
 
                 case CurrencyType.EnemyStone:
-                    return m_GameData.enemyStone >= discountedPrice;
+                    return m_GameData.StoneEnemy >= discountedPrice;
 
                 case CurrencyType.USD:
                     return true;
@@ -214,7 +214,7 @@ namespace UIGameDataManager
                     break;
 
                 case CurrencyType.EnemyStone:
-                    m_GameData.enemyStone -= (uint)discountedPrice;
+                    m_GameData.StoneEnemy -= (uint)discountedPrice;
                     break;
 
                 // non-monetized placeholder - invoke in-app purchase logic/interface for a real application
@@ -229,11 +229,11 @@ namespace UIGameDataManager
             switch (currencyType)
             {
                 case CurrencyType.EnemyStone:
-                    m_GameData.enemyStone -= (uint)resources.Count;
+                    m_GameData.StoneEnemy -= (uint)resources.Count;
                     break;
 
                 case CurrencyType.EnemyBoss:
-                    m_GameData.enemyBoss -= (uint)resources.Count;
+                    m_GameData.StoneBoss -= (uint)resources.Count;
                     break;
                 // non-monetized placeholder - invoke in-app purchase logic/interface for a real application
                 case CurrencyType.USD:

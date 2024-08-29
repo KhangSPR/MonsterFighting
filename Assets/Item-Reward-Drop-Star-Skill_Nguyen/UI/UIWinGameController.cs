@@ -105,7 +105,7 @@ public class UIWinGameController : MonoBehaviour
         foreach (var item in mapDifficulty.Reward)
         {
 
-            GameDataManager.Instance.GameData.enemyStone += (uint)item.Count;
+            GameDataManager.Instance.GameData.StoneEnemy += (uint)item.Count;
 
             GameObject rewardItem = Instantiate(RewardItem_Prefab, RewardHolder).gameObject;
             rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;

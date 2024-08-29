@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-public class ItemPickupCtrl : MonoBehaviour
+
+public abstract class ItemDropCtrl : MonoBehaviour
 {
     bool isAnimationProcess = false;
     bool hasBeenPickedUp = false;
@@ -16,7 +17,6 @@ public class ItemPickupCtrl : MonoBehaviour
             Invoke("ItemPickupAnimation", Random.Range(3, 6));
         }
     }
-
     private void OnDisable()
     {
 
@@ -84,8 +84,9 @@ public class ItemPickupCtrl : MonoBehaviour
 
         isAnimationProcess = true;
 
+        // Repair
         // Tăng chi phí
-        CostManager.Instance.StoneEnemyCurrency += 1;
+        this.OnReceiverItem();
 
         transform.DOMove(firstTarget, 0.3f).SetEase(Ease.Linear).OnComplete(() =>
         {
@@ -98,4 +99,5 @@ public class ItemPickupCtrl : MonoBehaviour
             });
         });
     }
+    protected abstract void OnReceiverItem();
 }

@@ -59,14 +59,14 @@ namespace UIGameDataManager
         void OnStoneUpdated(GameData gameData)
         {
             //SetGold(gameData.gold);
-            SetStoneBoss(gameData.enemyBoss);
-            SetStoneEnemy(gameData.enemyStone);
+            SetStoneBoss(gameData.StoneBoss);
+            SetStoneEnemy(gameData.StoneEnemy);
         }
         void OnFundsUpdated(GameData gameData)
         {
             SetBadge(gameData.badGe);
-            SetStoneBoss(gameData.enemyBoss);
-            SetStoneEnemy(gameData.enemyStone);
+            SetStoneBoss(gameData.StoneBoss);
+            SetStoneEnemy(gameData.StoneEnemy);
             SetRuby(gameData.ruby);
             SetBadgeGuild(gameData.badGe);
 

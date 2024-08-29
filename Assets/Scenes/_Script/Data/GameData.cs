@@ -9,8 +9,8 @@ using System;
 public class GameData
 {
     public uint badGe = 5;
-    public uint enemyBoss = 50;
-    public uint enemyStone = 50;
+    public uint StoneBoss = 50;
+    public uint StoneEnemy = 50;
     public uint ruby = 1499;
     //public uint healthPotions = 6;
     //public uint levelUpPotions = 80;
@@ -32,8 +32,8 @@ public class GameData
     {
         // player stats/data
         this.badGe = 5;
-        this.enemyBoss = 50;
-        this.enemyStone = 50;
+        this.StoneBoss = 50;
+        this.StoneEnemy = 50;
         this.ruby = 1499;
         //this.healthPotions = 6;
         //this.levelUpPotions = 80;
