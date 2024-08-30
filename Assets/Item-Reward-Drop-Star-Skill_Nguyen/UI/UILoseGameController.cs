@@ -25,12 +25,19 @@ public class UILoseGameController : MonoBehaviour
     [SerializeField] Transform TitleGameFinish;
     [SerializeField] Transform Replay;
     //[SerializeField] Transform NextGame;
+    [SerializeField] Transform MissionPanel;
     private void Awake()
     {
         //mapSO = GameDataManager.Instance.currentMapSO;
         UIGameStart();
         DoAnimation();
         SpawnRewardItem();
+        /////////
+        CloseMissionPanel();
+    }
+    private void CloseMissionPanel()
+    {
+        MissionPanel.gameObject.SetActive(false);
     }
     void UIGameStart()
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using UIGameDataManager;
 using UnityEngine;
 
 
@@ -79,6 +80,17 @@ public abstract class DamageReceiver : AbstractCtrl
         {
             isDead = true;
             OnDead();
+            //if (damageByPlayer)
+            //{
+            //    Debug.Log($"Enemy {this.transform.name} Dead");
+            //    if (GameDataManager.Instance.currentMapSO.GetStarsCondition(GameDataManager.Instance.currentMapSO.difficult).GetType() == typeof(KillEnemyCondition))
+            //    {
+            //        Debug.Log($"Active Kill Enemy Condition");
+            //        KillEnemyCondition killEnemyCondition = GameDataManager.Instance.currentMapSO.GetStarsCondition(GameDataManager.Instance.currentMapSO.difficult) as KillEnemyCondition;
+            //        killEnemyCondition.enemyKill++;
+            //        killEnemyCondition.currentThreshold = killEnemyCondition.enemyKill;
+            //    }
+            //}
         }
     }
     public void HandleSlashDamage()

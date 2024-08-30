@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using TMPro;
 using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class GameManager : SaiMonoBehaviour
 {
@@ -98,6 +96,18 @@ public class GameManager : SaiMonoBehaviour
         // Xử lý tại đây khi game bị tắt
         HandleEscape();
     }
+    //protected override void Update()
+    //{
+    //    base.Update();
+    //    var mapSO = GameDataManager.Instance.currentMapSO;
+    //    var condition = mapSO.GetStarsCondition(mapSO.difficult);
+    //    KeepHpCondition keepHpCondition = condition as KeepHpCondition;
+    //    if (keepHpCondition != null)
+    //    {
+    //        keepHpCondition.currentHpValue = current_hp;
+    //        keepHpCondition.currentThreshold = keepHpCondition.currentHpValue;
+    //    }
+    //}
     //public void CheckStars()
     //{
     //    var mapSO = GameDataManager.Instance.currentMapSO;
