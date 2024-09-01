@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UIGameDataMap
 {
     public class UIChoosingMapLoader : SaiMonoBehaviour
     {
         private MapSO mapSO;
+
+        public static event Action<LevelSettings> LevelSettingsChanged;
+
         public void onClickExit()
         {
             Application.Quit();
@@ -62,6 +66,7 @@ namespace UIGameDataMap
         }
         private void LoadGame(MapSO mapSO, Difficult difficult)
         {
+            LevelSettingsChanged?.Invoke(MapManager.Instance.LoadCurrentLevelSettings());
 
             MapCtrl mapCtrl = MapManager.Instance.CurrentMap.GetComponent<MapCtrl>();
 
@@ -76,7 +81,10 @@ namespace UIGameDataMap
 
             mapCtrl.UIInGame.ListCardTowerData.InstantiateObjectsFromData();
             mapCtrl.UIInGame.UIWinGameController.MapDifficulty = mapSO.GetMapDifficult(difficult);
+            mapCtrl.UIInGame.UILevelStarConditionCtrl.ActiveLevelConditionUI(true);
+            mapCtrl.UIInGame.UILevelStarConditionCtrl.UpdateUIWithLevelSettings(GameManager.Instance.CurrentLevelSettings);
 
+            //Event 
             LevelUIManager.Instance.mapbtnGameObjects.Clear();
         }
         public void SetMapSOFromLevelInfo(MapSO mapSO)

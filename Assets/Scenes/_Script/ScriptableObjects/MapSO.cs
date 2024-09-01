@@ -89,6 +89,7 @@ namespace UIGameDataMap
         public bool isReceivedReWard = false;
         public Portals[] portals;
         public Resources[] Reward;
+
     }
 
     [CreateAssetMenu(fileName = "NewLevelMapSO", menuName = "Map/LevelMapSO")]

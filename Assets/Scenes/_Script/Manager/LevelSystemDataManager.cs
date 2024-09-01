@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UIGameDataMap;
 using UnityEngine;
 
@@ -10,6 +12,9 @@ public class LevelSystemDataManager : MonoBehaviour
 {
     [Header("Area Database")]
     public AreaInfomationSO DatabaseAreaSO;
+    [SerializeField]
+    TextAsset csvFile;
+
     private static LevelSystemDataManager instance;                             //instance variable
     public static LevelSystemDataManager Instance { get => instance; }          //instance getter
 
@@ -58,6 +63,7 @@ public class LevelSystemDataManager : MonoBehaviour
         {
             LoadAreasData();
         }
+
     }
 
     public void Awake()
@@ -184,6 +190,106 @@ public class LevelSystemDataManager : MonoBehaviour
         }
         return null; // Nếu không tìm thấy
     }
+    public LevelSettings LoadLevelSettings(int areaId, int lvId, string difficult)
+    {
+        LevelSettings levelSettings = new LevelSettings();
+
+        // Tách dữ liệu từ CSV
+        string[] lines = csvFile.text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Bỏ qua dòng tiêu đề (header)
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string[] fields = lines[i].Split(',');
+
+            // Kiểm tra số lượng cột
+            if (fields.Length < 9)
+            {
+                Debug.LogWarning($"Dòng {i + 1} không đủ số cột.");
+                continue;
+            }
+
+            // Lấy giá trị từ các cột
+            if (!int.TryParse(fields[0], out int area))
+            {
+                Debug.LogWarning($"Không thể chuyển đổi AreaId: {fields[0]}");
+                continue;
+            }
+            if (!int.TryParse(fields[1], out int lv))
+            {
+                Debug.LogWarning($"Không thể chuyển đổi LvID: {fields[1]}");
+                continue;
+            }
+            string diff = fields[2];
+
+            Debug.Log(fields[0] + fields[1] + fields[2] + fields[3] + fields[4] + fields[5] + fields[6] + fields[7] + fields[8]);
+
+            // Kiểm tra điều kiện khớp
+            if (area != areaId || lv != lvId || !diff.Equals(difficult, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            // Nếu tất cả các điều kiện đều đúng, tiếp tục xử lý các cột tiếp theo
+            string[] conditionTypes = { fields[3], fields[4], fields[5] };
+            string[] conditionValues = { fields[6], fields[7], fields[8] };
+
+            for (int j = 0; j < conditionTypes.Length; j++)
+            {
+                ILevelCondition condition = null;
+                var values = conditionValues[j].Split('-');
+
+                // Xử lý các điều kiện dựa trên conditionTypes[j]
+                switch (conditionTypes[j])
+                {
+                    case "Hp":
+                        condition = new HpPercentageCondition();
+                        if (values.Length > 0 && float.TryParse(values[0], out float hpPercentage))
+                        {
+                            ((HpPercentageCondition)condition).RequiredHpPercentage = hpPercentage;
+                        }
+                        break;
+                    case "Hp-Time":
+                        condition = new HpAndTimeCondition();
+                        if (values.Length > 0 && float.TryParse(values[0], out float hpTimePercentage))
+                        {
+                            ((HpAndTimeCondition)condition).RequiredHpPercentage = hpTimePercentage;
+                        }
+                        if (values.Length > 1 && float.TryParse(values[1], out float completionTime))
+                        {
+                            ((HpAndTimeCondition)condition).RequiredCompletionTime = completionTime;
+                        }
+                        break;
+                    case "Time":
+                        condition = new TimeCondition();
+                        if (values.Length > 0 && float.TryParse(values[0], out float timeRequired))
+                        {
+                            ((TimeCondition)condition).RequiredTime = timeRequired;
+                        }
+                        break;
+                        // Thêm các trường hợp khác nếu cần
+                }
+
+                if (condition != null)
+                {
+                    levelSettings.starConditions.Add(condition);
+
+                }
+
+                Debug.Log("starConditions count: " + (levelSettings?.starConditions.Count ?? 0));
+            }
+            levelSettings.levelName = diff;
+
+
+            return levelSettings; // Trả về kết quả khi đã tìm thấy
+        }
+
+        // Nếu không tìm thấy kết quả
+        Debug.LogWarning("Không thể tải LevelSettings cho các tham số đã cho.");
+        return null;
+    }
+
+
 
 }
 //[Header("Bỏ Qua Phần Bên Dưới")]

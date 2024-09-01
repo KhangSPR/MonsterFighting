@@ -9,7 +9,7 @@ public class EnemyDropSpawner : Spawner
     public static string WolfFangs = "ItemWolfFangs"; // Item 1
 
 
-    public int[] itemsValue = new int[] { 1, 3, 5, 7, 10 };
+    int[] itemsValue = new int[] { 1, 3, 5, 7, 10 };
 
     protected override void Awake()
     {

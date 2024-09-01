@@ -28,8 +28,6 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Header("Game Play")]
     [SerializeField] private bool isGamePaused = false;
-    public Transform gameFinish;
-    public Transform fade;
 
     [Space]
     [Space]
@@ -66,15 +64,34 @@ public class GameManager : SaiMonoBehaviour
     public static event Action CastleSetHpMax;
     public static event Action UpdateResources;
 
+    //LevelSettings Game Play
+    private LevelSettings currentLevelSettings;
+    public LevelSettings CurrentLevelSettings => currentLevelSettings;
+
     protected override void OnEnable()
     {
         base.OnEnable();
         PortalSpawnManager.AllPortalsSpawned += GameWin;
+        UIChoosingMapLoader.LevelSettingsChanged += OnSetLevelSettings;
     }
     protected override void OnDisable()
     {
         base.OnDisable();
         PortalSpawnManager.AllPortalsSpawned -= GameWin;
+        UIChoosingMapLoader.LevelSettingsChanged -= OnSetLevelSettings;
+
+    }
+    protected override void Update()
+    {
+        base.Update();
+        //if(Input.GetKeyDown(KeyCode.T)) {
+        //    foreach(var item in currentLevelSettings.starConditions)
+        //    {
+        //        HpPercentageCondition hp = item as HpPercentageCondition;
+
+        //        Debug.Log("HP: " + hp.RequiredHpPercentage);
+        //    }
+        //}
     }
     protected override void Start()
     {
@@ -96,6 +113,14 @@ public class GameManager : SaiMonoBehaviour
         // Xử lý tại đây khi game bị tắt
         HandleEscape();
     }
+    #region Level Settings
+    void OnSetLevelSettings(LevelSettings levelSettings)
+    {
+        currentLevelSettings = levelSettings;
+
+        Debug.Log("Set 1 lan");
+    }    
+    #endregion
     //protected override void Update()
     //{
     //    base.Update();

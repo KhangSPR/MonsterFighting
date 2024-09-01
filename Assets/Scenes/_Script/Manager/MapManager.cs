@@ -71,7 +71,6 @@ namespace UIGameDataMap
 
             Debug.Log("Map current: " + _mapSOCurrent);
         }
-
         protected override void Awake()
         {
             if (instance != null)
@@ -212,6 +211,20 @@ namespace UIGameDataMap
 
             // return Difficult
             return difficult;
+        }
+        public LevelSettings LoadCurrentLevelSettings()
+        {
+            LevelSettings levelSettings = LevelSystemDataManager.Instance.LoadLevelSettings(m_ArrayCurrentIndex, m_MapSOCurrentIndex, Difficult.ToString());
+
+            if (levelSettings == null)
+            {
+                Debug.Log("Null");
+                return null;
+            }
+
+            Debug.Log("Not Null");
+
+            return levelSettings;
         }
 
     }

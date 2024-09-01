@@ -15,6 +15,7 @@ public class Map_Ui_Manager : SaiMonoBehaviour
     public RectTransform UI_Bottom_center;
     public RectTransform UIWin;
     public RectTransform UILose;
+    public RectTransform UICenter;
     protected override void Awake()
     {
         base.Awake();

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UIGameDataManager;
 using UnityEngine;
 
-public class StarsCondition : ScriptableObject
+public class StarsCondition
 {
-    public float threshold1;
-    public float threshold2;
-    public float threshold3;
-    public float currentThreshold;
+    public uint threshold1;
+    public uint threshold2;
+    public uint threshold3;
+    public uint currentThreshold;
 
     [Space]
     [Space]
@@ -19,7 +19,7 @@ public class StarsCondition : ScriptableObject
 
     }
 
-    public virtual float CheckThreshold()
+    public virtual uint CheckThreshold()
     {
         return 0;
     }
@@ -29,7 +29,5 @@ public class StarsCondition : ScriptableObject
         //if (!isFullStar || FirstTimeFullStars) return;
 
         //GameDataManager.Instance.FirstTimeGetFullStars = true;
-
-
     }
 }

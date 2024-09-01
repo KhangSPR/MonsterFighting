@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(menuName = "Stars Condition/Kill Enemy")]
 public class KillEnemyCondition : StarsCondition
 {
-    public int enemyKill;
+    public uint enemyKill;
 
     public override void SetDefaultValue()
     {
@@ -12,11 +11,11 @@ public class KillEnemyCondition : StarsCondition
         currentThreshold = enemyKill;
     }
 
-    public override float CheckThreshold()
+    public override uint CheckThreshold()
     {
-        
-        float result = 0;
-        float enemyKill = (float)this.enemyKill;
+
+        uint result = 0;
+        uint enemyKill = this.enemyKill;
         if (enemyKill >= threshold1) result = 1;
         if(enemyKill >= threshold2) result = 2;
         if(enemyKill >= threshold3) result = 3;

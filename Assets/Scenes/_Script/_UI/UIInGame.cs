@@ -11,6 +11,10 @@ public class UIInGame : MonoBehaviour
     [SerializeField] UIWinGameController uIWinGameController;
     public UIWinGameController UIWinGameController => uIWinGameController;
 
+    [SerializeField] UILevelStarConditionCtrl uILevelStarConditionCtrl;
+    public UILevelStarConditionCtrl UILevelStarConditionCtrl => uILevelStarConditionCtrl;
+
+
 
     [Header("List Card Data")]
     [SerializeField] ListCardCharacterData listcardTowerData;
