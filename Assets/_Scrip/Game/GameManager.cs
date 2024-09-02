@@ -60,6 +60,13 @@ public class GameManager : SaiMonoBehaviour
     [Min(1)] public int max_hp;
     [ReadOnlyInspector, SerializeField] private int current_hp;
 
+    [Space]
+    [Space]
+    [Space]
+    [Header("StarCondition")]
+    public Slider slider_star;
+    private bool FlagHPStar = true;
+
     //Envent
     public static event Action CastleSetHpMax;
     public static event Action UpdateResources;
@@ -73,12 +80,16 @@ public class GameManager : SaiMonoBehaviour
         base.OnEnable();
         PortalSpawnManager.AllPortalsSpawned += GameWin;
         UIChoosingMapLoader.LevelSettingsChanged += OnSetLevelSettings;
+        LevelSettings.HpPercentage += OnUpdateCurrentHpPercentage;
     }
     protected override void OnDisable()
     {
         base.OnDisable();
         PortalSpawnManager.AllPortalsSpawned -= GameWin;
         UIChoosingMapLoader.LevelSettingsChanged -= OnSetLevelSettings;
+
+        LevelSettings.HpPercentage -= OnUpdateCurrentHpPercentage;
+
 
     }
     protected override void Update()
@@ -101,6 +112,7 @@ public class GameManager : SaiMonoBehaviour
         GuildSOManager.GuildAbilitySO.ApplyDefaultStats(gameObject);
 
         SetHpInGame();
+
     }
     protected override void Awake()
     {
@@ -149,7 +161,7 @@ public class GameManager : SaiMonoBehaviour
     //    }
 
     //}
-    #region Guild Defaut
+    #region Guild Defaut and StarCondition HP
 
     //Guild ------------------------------------------------------------------------------
     // max hp value and UI
@@ -166,11 +178,53 @@ public class GameManager : SaiMonoBehaviour
     public void UpdateCurrentHpUI()
     {
         slider_maxhp.value = current_hp;
+
     }
     public void Castle_On_Damage(int damage)
     {
         current_hp -= damage;
+
+        //StarCondition
+        currentLevelSettings.CheckStarCondition();
+
         UpdateCurrentHpUI(); GameLoss(current_hp);
+    }
+    
+    void OnUpdateCurrentHpPercentage()
+    {
+        if (FlagHPStar)
+        {
+            slider_star.maxValue = 100;
+            FlagHPStar = false;
+        }
+
+        float hpPercentage = GetCurrentHpPercentage();
+
+        slider_star.value = hpPercentage;
+    }
+    private float GetCurrentHpPercentage()
+    {
+        if (max_hp <= 0)
+        {
+            return 0;
+        }
+
+        float currentHpPercentage = ((float)current_hp / max_hp) * 100f;
+
+        return currentHpPercentage;
+    }
+    public float[] GetCurrentHpPercentageArrays()
+    {
+        float[] Percentage = new float[3];
+
+        for (int i = 0; i < Percentage.Length; i++)
+        {
+            if (currentLevelSettings.starConditions[i] is HpPercentageCondition hpCondition)
+            {
+                Percentage[i] = hpCondition.RequiredHpPercentage;
+            }
+        }
+        return Percentage;
     }
     #endregion
 
@@ -304,6 +358,7 @@ public class GameManager : SaiMonoBehaviour
         //CheckStars();
         var dropItemHolder = EnemyDropSpawner.Instance.holder;
 
+
         gameDataManager = FindAnyObjectByType<GameDataManager>();
         foreach (Transform item in dropItemHolder)
         {
@@ -323,6 +378,9 @@ public class GameManager : SaiMonoBehaviour
         OnReceiverItemData();
 
         UpdateResources?.Invoke();
+
+        //Star Condition
+        
 
         //fade.gameObject.SetActive(true);
     }
@@ -344,6 +402,26 @@ public class GameManager : SaiMonoBehaviour
             Map_UI_Manager.GetComponent<Map_Ui_Manager>().UILose.gameObject.SetActive(true);
 
         }
+    }
+    private int SetStartHPPercentageCondition()
+    {
+        int star = 3;
+
+        float currentHpPercentage = ((float)current_hp / max_hp) * 100f;
+
+
+        float[] PercentHP = GetCurrentHpPercentageArrays();
+
+        for (int i = PercentHP.Length - 1; i >= 0; i--)
+        {
+            if (star == 0) return 0;
+
+            if (PercentHP[i] > currentHpPercentage)
+            {
+                star--;
+            }
+        }
+        return star;
     }
     private void OnReceiverItemData()
     {

@@ -81,7 +81,7 @@ namespace UIGameDataMap
 
             mapCtrl.UIInGame.ListCardTowerData.InstantiateObjectsFromData();
             mapCtrl.UIInGame.UIWinGameController.MapDifficulty = mapSO.GetMapDifficult(difficult);
-            mapCtrl.UIInGame.UILevelStarConditionCtrl.ActiveLevelConditionUI(true);
+            mapCtrl.UIInGame.UILevelStarConditionCtrl.ActiveLevelConditionUI();
             mapCtrl.UIInGame.UILevelStarConditionCtrl.UpdateUIWithLevelSettings(GameManager.Instance.CurrentLevelSettings);
 
             //Event 

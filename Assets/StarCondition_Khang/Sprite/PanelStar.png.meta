@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b70ef0a665dcbdb459caee94fffe9bbf
+guid: 3f40754b05c34b64e89d72ac4897cd18
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ui_setting_header_0
+      name: PanelStar_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 3
-        width: 156
-        height: 26
+        x: 354
+        y: 834
+        width: 1893
+        height: 268
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f45ecaa1cfb428c4fbc410c824a35c22
-      internalID: 1845204894
+      spriteID: 725ce2f2bcf13594bbe29b0d904ba2fa
+      internalID: 476724294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PanelStar_1
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 434
+        width: 1797
+        height: 191
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae7d0ed3a7a564e458a97c84c3da18e4
+      internalID: 926920613
       vertices: []
       indices: 
       edges: []
@@ -134,14 +155,15 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ui_setting_header_0: 1845204894
+      PanelStar_0: 476724294
+      PanelStar_1: 926920613
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

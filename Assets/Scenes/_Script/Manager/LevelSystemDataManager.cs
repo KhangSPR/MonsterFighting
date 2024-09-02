@@ -222,6 +222,8 @@ public class LevelSystemDataManager : MonoBehaviour
             }
             string diff = fields[2];
 
+            string des = fields[9];
+
             Debug.Log(fields[0] + fields[1] + fields[2] + fields[3] + fields[4] + fields[5] + fields[6] + fields[7] + fields[8]);
 
             // Kiểm tra điều kiện khớp
@@ -278,7 +280,7 @@ public class LevelSystemDataManager : MonoBehaviour
 
                 Debug.Log("starConditions count: " + (levelSettings?.starConditions.Count ?? 0));
             }
-            levelSettings.levelName = diff;
+            levelSettings.levelName = des;
 
 
             return levelSettings; // Trả về kết quả khi đã tìm thấy

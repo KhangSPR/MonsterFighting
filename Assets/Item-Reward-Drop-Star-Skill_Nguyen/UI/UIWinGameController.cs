@@ -22,19 +22,19 @@ public class UIWinGameController : MonoBehaviour
 
     MapDifficulty mapDifficulty;
 
-    [Space]
-    [Space]
-    [Space]
-    [Space]
-    [Header("MissionStar Panel")]
-    [SerializeField] Transform MissionPanel;
-    [SerializeField] Transform StarUI;
-    [SerializeField] Transform MissionInfomationUI;
+    //[Space]
+    //[Space]
+    //[Space]
+    //[Space]
+    //[Header("MissionStar Panel")]
+    //[SerializeField] Transform MissionPanel;
+    //[SerializeField] Transform StarUI;
+    //[SerializeField] Transform MissionInfomationUI;
     #region Mission Star
-    public void CloseMissionPanel()
-    {
-        MissionPanel.gameObject.SetActive(false);   
-    }
+    //public void CloseMissionPanel()
+    //{
+    //    MissionPanel.gameObject.SetActive(false);   
+    //}
     #endregion
     public MapDifficulty MapDifficulty { get { return mapDifficulty; } set {  mapDifficulty = value; } }
 
@@ -44,7 +44,7 @@ public class UIWinGameController : MonoBehaviour
         DoAnimation();
         SpawnRewardItem();
         /////////////////
-        CloseMissionPanel();
+        //CloseMissionPanel();
     }
     void UIGameStart()
     {
@@ -80,8 +80,8 @@ public class UIWinGameController : MonoBehaviour
                             Shield.DOScale(Vector3.one*2, 0.3f).SetEase(Ease.Linear).OnComplete(() =>
                             {
                                 //MissionPanel
-                                StarUI.gameObject.SetActive(true);
-                                MissionInfomationUI.gameObject.SetActive(true);
+                                //StarUI.gameObject.SetActive(true);
+                                //MissionInfomationUI.gameObject.SetActive(true);
                                 //-----------------------------------------------------//
                                 TitleGameFinish.gameObject.SetActive(true);
                                 RewardHolder.gameObject.SetActive(true);

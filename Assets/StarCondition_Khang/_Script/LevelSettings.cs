@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 public class LevelSettings
 {
@@ -6,6 +7,11 @@ public class LevelSettings
     public List<ILevelCondition> starConditions; // Danh sách các điều kiện để đạt sao
 
     // Constructor để khởi tạo danh sách điều kiện
+
+
+    //Event
+    public static event Action HpPercentage;
+
     public LevelSettings()
     {
         starConditions = new List<ILevelCondition>();
@@ -37,5 +43,23 @@ public class LevelSettings
 
         return result;
     }
+    public void CheckStarCondition()
+    {
+        foreach (ILevelCondition condition in starConditions)
+        {
+            switch (condition)
+            {
+                case HpPercentageCondition hpPercentage:
+                    HpPercentage?.Invoke();
+                    break;
 
+                case HpAndTimeCondition hpAndTime:
+                    break;
+
+                case TimeCondition timeCondition:
+                    break;
+
+            }
+        }
+    }
 }

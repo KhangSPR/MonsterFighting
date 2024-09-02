@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b70ef0a665dcbdb459caee94fffe9bbf
+guid: d5bb8dd7d6760fb4aaf6a15200e877d4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,22 +110,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ui_setting_header_0
+      name: SliderHP_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 3
-        width: 156
-        height: 26
+        x: 73
+        y: 1066
+        width: 449
+        height: 417
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f45ecaa1cfb428c4fbc410c824a35c22
-      internalID: 1845204894
+      spriteID: 95d904c3eed499b42a34522ca390bcbf
+      internalID: 1646879699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SliderHP_1
+      rect:
+        serializedVersion: 2
+        x: 991
+        y: 1065
+        width: 801
+        height: 801
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b26a2df09041bd48857a6fe12cd9d49
+      internalID: -1827654551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SliderHP_2
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 704
+        width: 1908
+        height: 291
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 111, y: 54, z: 126, w: 42}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15f80a94d88b4a049b01cac81e60c543
+      internalID: 1304609844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SliderHP_3
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 355
+        width: 1909
+        height: 293
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0dd0163562ab5f74fb1a021f9a8b18ab
+      internalID: 228122276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SliderHP_4
+      rect:
+        serializedVersion: 2
+        x: 684
+        y: 70
+        width: 1817
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 89, y: 21, z: 86, w: 18}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16103c348a8ca8241bf27f202c0ff2b6
+      internalID: -1456800334
       vertices: []
       indices: 
       edges: []
@@ -134,14 +218,18 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ui_setting_header_0: 1845204894
+      SliderHP_0: 1646879699
+      SliderHP_1: -1827654551
+      SliderHP_2: 1304609844
+      SliderHP_3: 228122276
+      SliderHP_4: -1456800334
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
