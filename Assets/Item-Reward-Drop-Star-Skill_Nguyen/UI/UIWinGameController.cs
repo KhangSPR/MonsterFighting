@@ -1,7 +1,9 @@
 ﻿using DG.Tweening;
-
+using System.Collections;
+using System.Collections.Generic;
 using UIGameDataManager;
 using UIGameDataMap;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +12,7 @@ public class UIWinGameController : MonoBehaviour
 {
     [Header("Game Data")]
     [SerializeField] Transform RewardItem_Prefab;
-   
+
     [Header("UI")]
     [SerializeField] Transform RewardHolder;
     [SerializeField] Transform Status;
@@ -19,6 +21,13 @@ public class UIWinGameController : MonoBehaviour
     [SerializeField] Transform Shield;
     [SerializeField] Transform TitleGameFinish;
     [SerializeField] Transform HolderBtn;
+    [SerializeField] Transform StarSpawnHolder;
+    [SerializeField] List<Transform> _VFXWing;
+    [SerializeField] List<Transform> _VFXStar;
+
+
+    [SerializeField] private _Object_Shake _object_Shake;
+    //[SerializeField] Transform TargetSword;
 
     MapDifficulty mapDifficulty;
 
@@ -36,7 +45,7 @@ public class UIWinGameController : MonoBehaviour
     //    MissionPanel.gameObject.SetActive(false);   
     //}
     #endregion
-    public MapDifficulty MapDifficulty { get { return mapDifficulty; } set {  mapDifficulty = value; } }
+    public MapDifficulty MapDifficulty { get { return mapDifficulty; } set { mapDifficulty = value; } }
 
     private void Awake()
     {
@@ -45,6 +54,13 @@ public class UIWinGameController : MonoBehaviour
         SpawnRewardItem();
         /////////////////
         //CloseMissionPanel();
+    }
+    void DeActiveListStar()
+    {
+        foreach (Transform obj in _VFXStar)
+        {
+            obj.gameObject.SetActive(false);
+        }
     }
     void UIGameStart()
     {
@@ -55,67 +71,98 @@ public class UIWinGameController : MonoBehaviour
         TitleGameFinish.gameObject.SetActive(false);
         HolderBtn.gameObject.SetActive(false);
         HolderBtn.transform.Find("NextDifficulty").gameObject.SetActive(false);
+        DeActiveListStar();
     }
     [ContextMenu("DoAnimation")]
     private void DoAnimation()
     {
+        StartCoroutine(DoAnimationSequence());
+    }
+
+    private IEnumerator DoAnimationSequence()
+    {
         Debug.Log("Do Animation UI Win Game ");
         Shield.gameObject.SetActive(true);
         Sword1.gameObject.SetActive(true);
-        Sword1.transform.position = Sword1.transform.position - Sword1.up* 2;
-        Sword1.DOMove(Sword1.transform.position - Sword1.up * 0.3f, 0.3f).SetEase(Ease.Linear).OnComplete(() =>
+
+        yield return Sword1.DOMove(Sword1.transform.position - Sword1.up * 10.5f, 0.3f).SetEase(Ease.Linear).WaitForCompletion();
+
+        _object_Shake._Shake(true);
+        yield return Sword1.DOMove(Sword1.transform.position + Sword1.up * 2f, 0.15f).SetEase(Ease.Linear).WaitForCompletion();
+
+        _object_Shake._Shake(false);
+        Sword2.gameObject.SetActive(true);
+        yield return Sword2.DOMove(Sword2.transform.position - Sword2.up * 10.5f, 0.3f).SetEase(Ease.Linear).WaitForCompletion();
+
+        _object_Shake._Shake(true);
+        yield return Sword2.DOMove(Sword2.transform.position + Sword2.up * 2f, 0.15f).SetEase(Ease.Linear).WaitForCompletion();
+
+        _object_Shake._Shake(false);
+        foreach (Transform vfxWing in _VFXWing)
         {
-            Sword1.DOMove(Sword1.transform.position + Sword1.up * 2.3f, 0.1f).SetEase(Ease.Linear).OnComplete(() =>
+            vfxWing.gameObject.SetActive(true);
+        }
+
+        int countStar = GameManager.Instance.SetStartHPPercentageCondition();
+
+        if (countStar < 0 || countStar > 3) yield break;  // Sửa điều kiện
+
+        // Đợi cho đến khi hoàn thành việc kích hoạt VFX Stars
+        yield return StartCoroutine(ActivateVFXStarsBasedOnCount(countStar));
+
+        yield return Status.DOMove(Status.transform.position + Status.up * 2.3f, 0.3f).SetEase(Ease.Linear).SetDelay(0.2f).WaitForCompletion();
+
+        Sword1.DOScale(Vector3.one * 2.3f, 0.3f).SetEase(Ease.Linear);
+        Sword2.DOScale(Vector3.one * 2.3f, 0.3f).SetEase(Ease.Linear);
+        StarSpawnHolder.DOScale(Vector3.one *2.3f,0.3f).SetEase(Ease.Linear);
+        yield return Shield.DOScale(Vector3.one * 2.3f, 0.3f).SetEase(Ease.Linear).WaitForCompletion();
+
+        TitleGameFinish.gameObject.SetActive(true);
+        RewardHolder.gameObject.SetActive(true);
+
+        foreach (Transform item in RewardHolder)
+        {
+            item.DOScale(Vector3.zero, 0f);
+        }
+        RewardHolder.localScale = new Vector3(0, 1, 1);
+        yield return RewardHolder.DOScale(Vector3.one, 1.3f).WaitForCompletion();
+
+        DG.Tweening.Sequence sq = DOTween.Sequence();
+        foreach (Transform item in RewardHolder)
+        {
+            sq.Append(item.DOScale(Vector3.one * 1.2f, 0.4f).SetEase(Ease.Linear).OnComplete(() =>
             {
-                Sword2.gameObject.SetActive(true);
-                Sword2.transform.position -= Sword2.up * 2f;
-                Sword2.DOMove(Sword2.transform.position - Sword2.up * 0.3f, 0.3f).SetEase(Ease.Linear).OnComplete(() =>
-                {
-                    Sword2.DOMove(Sword2.transform.position + Sword2.up * 2.3f, 0.1f).SetEase(Ease.Linear).OnComplete(() =>
-                    {
-                        Status.DOMove(Status.transform.position + Status.up * 2.3f, 0.3f).SetEase(Ease.Linear).SetDelay(0.2f).OnStart(() => 
-                        { 
-                            Sword1.DOScale(Vector3.one*2, 0.3f).SetEase(Ease.Linear);
-                            Sword2.DOScale(Vector3.one*2, 0.3f).SetEase(Ease.Linear);
-                            Shield.DOScale(Vector3.one*2, 0.3f).SetEase(Ease.Linear).OnComplete(() =>
-                            {
-                                //MissionPanel
-                                //StarUI.gameObject.SetActive(true);
-                                //MissionInfomationUI.gameObject.SetActive(true);
-                                //-----------------------------------------------------//
-                                TitleGameFinish.gameObject.SetActive(true);
-                                RewardHolder.gameObject.SetActive(true);
-                                foreach(Transform item in RewardHolder)
-                                {
-                                    item.DOScale(Vector3.zero, 0f);
-                                }
-                                RewardHolder.localScale = new Vector3(0, 1,1);
-                                RewardHolder.DOScale(Vector3.one, 1.3f).OnComplete(() =>
-                                {
-                                    Sequence sq = DOTween.Sequence();
-                                    foreach(Transform item in RewardHolder)
-                                    {
-                                        sq.Append(item.DOScale(Vector3.one * 1.2f, 0.4f).SetEase(Ease.Linear).OnComplete(() =>
-                                        {
-                                            item.DOScale(Vector3.one, 0.1f).SetEase(Ease.Linear);
-                                        }));
-                                    }
-                                    sq.OnComplete(() =>
-                                    {
-                                        HolderBtn.gameObject.SetActive(true);
-                                        ActiveBtnDifficult();
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
+                item.DOScale(Vector3.one, 0.1f).SetEase(Ease.Linear);
+            }));
+        }
+
+        sq.OnComplete(() =>
+        {
+            HolderBtn.gameObject.SetActive(true);
+            ActiveBtnDifficult();
         });
     }
+
+    IEnumerator ActivateVFXStarsBasedOnCount(int countStar)
+    {
+        Debug.Log("Start activating VFX Stars");
+        countStar = Mathf.Min(countStar, _VFXStar.Count);
+
+            Debug.Log("CountStar: " + countStar);
+        foreach (Transform obj in _VFXStar)
+        {
+            obj.gameObject.SetActive(true);
+
+
+            yield return new WaitForSeconds(0.35f);
+        }
+
+        Debug.Log("Finished activating VFX Stars");
+    }
+
     private void ActiveBtnDifficult()
     {
-        if(GameManager.Instance.CheckBtnDifficult())
+        if (GameManager.Instance.CheckBtnDifficult())
             HolderBtn.transform.Find("NextDifficulty").gameObject.SetActive(true);
     }
     void SpawnRewardItem()

@@ -47,6 +47,8 @@ public class PortalSpawnManager : AbilityPointAbstract
     protected override void Start()
     {
         base.Start();
+        if (mapSO == null) return;
+
         portalsSpawning = this.mapSO.PortalsSpawn(difficult).ToList(); // Repair
     }
     protected override void LoadComponents()

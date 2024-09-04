@@ -21,6 +21,8 @@ public class PortalTimer : PortalSpawnManagerAbstract
         //Set MapSO
         this.mapSOInstance = portalSpawnManagerCtrl.MapSO;
 
+
+        if (mapSOInstance == null) return;
         //Set Time 
         this.TimeSpawns = this.mapSOInstance.TimeSpawnPortal(PortalSpawnManager.Instance.Difficult);
 

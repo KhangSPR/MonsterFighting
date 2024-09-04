@@ -403,7 +403,7 @@ public class GameManager : SaiMonoBehaviour
 
         }
     }
-    private int SetStartHPPercentageCondition()
+    public int SetStartHPPercentageCondition()
     {
         int star = 3;
 

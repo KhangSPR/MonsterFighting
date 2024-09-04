@@ -26,6 +26,8 @@ public class ProgressPortals : PortalSpawnManagerAbstract
     protected override void Start()
     {
         base.Start();
+        if (portalSpawnManagerCtrl.MapSO == null) return;
+
         //Set MapSO
         mapSOProgress = portalSpawnManagerCtrl.MapSO;
         //Enemy Max

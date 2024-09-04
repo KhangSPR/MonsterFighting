@@ -38,14 +38,16 @@ public class UILevelStarConditionCtrl : MonoBehaviour
 
         LeanTween.moveLocal(PanelUI, new Vector3(0f, 0f, 0f), 0.5f)
                  .setDelay(0.1f)
-                 .setEase(LeanTweenType.easeInCirc);
-        LeanTween.alpha(Button.GetComponent<RectTransform>(), 1f, 0.5f)
-                 .setDelay(1f)
-                 .setOnComplete(() =>
+                 .setEase(LeanTweenType.easeInCirc).setOnComplete(() =>
                  {
                      GameManager.Instance.TogglePauseGame();
+
                  });
-                 
+
+        //Fade Button
+        //LeanTween.alpha(Button.GetComponent<RectTransform>(), 1f, 0.5f)
+        //         .setDelay(1f); 
+
     }
 
     private void Setfade()
