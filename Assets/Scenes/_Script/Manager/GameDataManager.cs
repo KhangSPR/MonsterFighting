@@ -31,6 +31,8 @@ namespace UIGameDataManager
 
             m_SaveManager = GetComponent<SaveManager>();
 
+
+
         }
 
         #region Test Reset Funds

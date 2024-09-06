@@ -1,10 +1,5 @@
-using UnityEngine;
-using UnityEngine.UIElements;
-using System;
+﻿using UnityEngine;
 
-
-
-// stores consumable data (resources)
 [System.Serializable]
 public class GameData
 {
@@ -12,21 +7,9 @@ public class GameData
     public uint StoneBoss = 50;
     public uint StoneEnemy = 50;
     public uint ruby = 1499;
-    //public uint healthPotions = 6;
-    //public uint levelUpPotions = 80;
 
-    //public string username;
-    //public string theme;
-
-    //public float musicVolume;
-    //public float sfxVolume;
-
-    //// non-functional, used for saving SettingsScreen values
-    //public bool isSlideToggled;
-    //public bool isToggled;
-    //public string dropdownSelection;
-    //public int buttonSelection;
     public Settings settings;
+
     // constructor, starting values
     public GameData()
     {
@@ -35,20 +18,7 @@ public class GameData
         this.StoneBoss = 50;
         this.StoneEnemy = 50;
         this.ruby = 1499;
-        //this.healthPotions = 6;
-        //this.levelUpPotions = 80;
 
-        //// settings
-        //this.musicVolume = 80f;
-        //this.sfxVolume = 80f;
-
-        //this.username = "GUEST_123456";
-        //this.dropdownSelection = "Item1";
-        //this.theme = "Default";
-        //this.buttonSelection = 2;
-
-        //this.isSlideToggled = true;
-        //this.isToggled = true;
     }
 
     public string ToJson()

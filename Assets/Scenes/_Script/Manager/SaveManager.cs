@@ -78,6 +78,8 @@ namespace UIGameDataManager
             if (GameDataManager.Instance.GameData != null)
             {
                 OnGameDataLoaded?.Invoke(GameDataManager.Instance.GameData);
+
+                Debug.Log("GameData != null");
             }
         }
 
