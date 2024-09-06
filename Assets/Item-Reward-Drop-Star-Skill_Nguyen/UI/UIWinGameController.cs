@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UIGameDataManager;
 using UIGameDataMap;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -103,7 +102,7 @@ public class UIWinGameController : MonoBehaviour
             vfxWing.gameObject.SetActive(true);
         }
 
-        int countStar = GameManager.Instance.SetStartHPPercentageCondition();
+        int countStar = GameManager.Instance.Star;
 
         if (countStar < 0 || countStar > 3) yield break;  // Sửa điều kiện
 
@@ -149,10 +148,9 @@ public class UIWinGameController : MonoBehaviour
         countStar = Mathf.Min(countStar, _VFXStar.Count);
 
             Debug.Log("CountStar: " + countStar);
-        foreach (Transform obj in _VFXStar)
+        for (int i = 0; i < countStar; i++)
         {
-            obj.gameObject.SetActive(true);
-
+            _VFXStar[i].gameObject.SetActive(true);
 
             yield return new WaitForSeconds(0.35f);
         }

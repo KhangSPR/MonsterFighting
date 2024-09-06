@@ -46,7 +46,17 @@ namespace UIGameDataMap
         public MapSO MapSOCurrent => _mapSOCurrent;
         public void SetMapSOCurrent()
         {
-            _mapSOCurrent = mapArrayData[m_ArrayCurrentIndex].MapSOArray[m_MapSOCurrentIndex];
+            if (m_MapSOCurrentIndex == -1) m_MapSOCurrentIndex = 0;
+
+            MapSO mapSO = mapArrayData[m_ArrayCurrentIndex].MapSOArray[m_MapSOCurrentIndex];
+            if (mapSO == null) return;
+            _mapSOCurrent = mapSO;
+
+            if (_mapSOCurrent.id == 0)
+            {
+                Debug.Log("True");
+                _mapSOCurrent.Unlocked = true;
+            }
         }
         private Difficult difficult;
         public Difficult Difficult
@@ -60,14 +70,15 @@ namespace UIGameDataMap
         protected override void Start()
         {
             base.Start();
+
+
             InitializeMapSOArray();
             m_MapSOCurrentIndex = GetCurrentSOLevelLastUnLockArea();
             m_ArrayCurrentIndex = GetCurrentArrayLastUnlockArea();
-            difficult = GetCurrentDifficultUnlockMap();
+            //difficult = GetCurrentDifficultUnlockMap();
 
             SetMapSOCurrent();
 
-            LevelSystemDataManager.Instance.LoadAreasData();
 
             Debug.Log("Map current: " + _mapSOCurrent);
         }
@@ -190,28 +201,28 @@ namespace UIGameDataMap
             }
             return 0;
         }
-        private Difficult GetCurrentDifficultUnlockMap()
-        {
-            List<AreasData> areas = LevelSystemDataManager.Instance.DatabaseAreaSO.areasData;
+        //private Difficult GetCurrentDifficultUnlockMap()
+        //{
+        //    List<AreasData> areas = LevelSystemDataManager.Instance.DatabaseAreaSO.areasData;
 
-            Difficult difficult = Difficult.Easy; // Default Easy
+        //    Difficult difficult = Difficult.Easy; // Default Easy
 
-            if (areas[ArrayCurrentIndex].levelsData[m_MapSOCurrentIndex].isUnlocked)
-            {
-                LevelInfomation[] levelInfomations = areas[ArrayCurrentIndex].levelsData[m_MapSOCurrentIndex].DifficultInformation.levelInfomations;
-                foreach (LevelInfomation levelInfomation in levelInfomations)
-                {
-                    if(!levelInfomation.isCompleted)
-                    {
-                        difficult = levelInfomation.difficult;
-                        return difficult; // return Difficult
-                    }
-                }
-            }
+        //    if (areas[ArrayCurrentIndex].levelsData[m_MapSOCurrentIndex].isUnlocked)
+        //    {
+        //        LevelInfomation[] levelInfomations = areas[ArrayCurrentIndex].levelsData[m_MapSOCurrentIndex].DifficultInformation.levelInfomations;
+        //        foreach (LevelInfomation levelInfomation in levelInfomations)
+        //        {
+        //            if(!levelInfomation.isCompleted)
+        //            {
+        //                difficult = levelInfomation.difficult;
+        //                return difficult; // return Difficult
+        //            }
+        //        }
+        //    }
 
-            // return Difficult
-            return difficult;
-        }
+        //    // return Difficult
+        //    return difficult;
+        //}
         public LevelSettings LoadCurrentLevelSettings()
         {
             LevelSettings levelSettings = LevelSystemDataManager.Instance.LoadLevelSettings(m_ArrayCurrentIndex, m_MapSOCurrentIndex, Difficult.ToString());
@@ -226,6 +237,52 @@ namespace UIGameDataMap
 
             return levelSettings;
         }
+        public void SetStarDifficult(int star)
+        {
+            _mapSOCurrent.SetStarsCount(difficult, star);
+        }
+        public void SetReward()
+        {
+            MapDifficulty difficulty =
+            _mapSOCurrent.GetMapDifficult(difficult);
+            difficulty.isReceivedReWard = true;
+        }
+        public void UnLockNextMap()
+        {
+            foreach (var mapArray in mapArrayData)
+            {
+                for (int i = 0; i < mapArray.MapSOArray.Length; i++)
+                {
+                    MapSO so = mapArray.MapSOArray[i];
 
+                    if (so == _mapSOCurrent) 
+                    {
+                        if (i + 1 < mapArray.MapSOArray.Length)
+                        {
+                            MapSO nextMapSO = mapArray.MapSOArray[i + 1];
+
+                            if (CheckUnlocked(nextMapSO)) 
+                            {
+                                nextMapSO.Unlocked = true;
+                                m_MapSOCurrentIndex++;
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Không còn bản đồ tiếp theo để mở khóa.");
+                        }
+
+                        return; // Ngừng vòng lặp sau khi đã xử lý
+                    }
+                }
+            }
+        }
+
+        private bool CheckUnlocked(MapSO mapSO)
+        {
+            if (mapSO == null) return false;
+            return !mapSO.Unlocked; // If not unlocked, return true
+        }
     }
 }

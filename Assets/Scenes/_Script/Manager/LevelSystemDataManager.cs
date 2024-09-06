@@ -18,9 +18,9 @@ public class LevelSystemDataManager : MonoBehaviour
     private static LevelSystemDataManager instance;                             //instance variable
     public static LevelSystemDataManager Instance { get => instance; }          //instance getter
 
-    private void OnEnable()
+    private void Start()
     {
-
+        LoadAreasData();
     }
     private void OnApplicationQuit()
     {
@@ -171,7 +171,7 @@ public class LevelSystemDataManager : MonoBehaviour
         // Tìm `MapSO` dựa trên `levelIndex` và `areaIndex` từ `MapManager`
         MapArrayData[] mapArrayDatas = MapManager.Instance.MapArrayData;
 
-        if(mapArrayDatas.Length >0)
+        if (mapArrayDatas.Length < 0)
         {
             Debug.Log("MapArrayData = 0");
             return null;

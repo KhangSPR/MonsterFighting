@@ -66,6 +66,8 @@ public class GameManager : SaiMonoBehaviour
     [Header("StarCondition")]
     public Slider slider_star;
     private bool FlagHPStar = true;
+    private int star;
+    public int Star => star;
 
     //Envent
     public static event Action CastleSetHpMax;
@@ -355,6 +357,9 @@ public class GameManager : SaiMonoBehaviour
     //Game Result--------------------------------------------------------------------------------
     private void GameWin()
     {
+        //Set Star Type
+        SetStarConditionTypeMap();
+
         //CheckStars();
         var dropItemHolder = EnemyDropSpawner.Instance.holder;
 
@@ -380,8 +385,9 @@ public class GameManager : SaiMonoBehaviour
         UpdateResources?.Invoke();
 
         //Star Condition
-        
-
+        MapManager.Instance.UnLockNextMap();
+        MapManager.Instance.SetStarDifficult(star);
+        MapManager.Instance.SetReward();
         //fade.gameObject.SetActive(true);
     }
     private void GameLoss(int current_hp)
@@ -403,7 +409,14 @@ public class GameManager : SaiMonoBehaviour
 
         }
     }
-    public int SetStartHPPercentageCondition()
+    private void SetStarConditionTypeMap()
+    {
+        if (currentLevelSettings.starConditions[0] is HpPercentageCondition hpCondition) //Repair
+        {
+            star = SetStartHPPercentageCondition();
+        }
+    }
+    private int SetStartHPPercentageCondition()
     {
         int star = 3;
 

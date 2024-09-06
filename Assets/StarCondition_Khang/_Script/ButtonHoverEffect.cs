@@ -18,12 +18,9 @@ public class ButtonHoverEffect : MonoBehaviour
         // Dừng tween nếu có đang chạy
         LeanTween.cancel(tweenId);
 
-        // Phóng to từ kích thước hiện tại đến kích thước lớn nhất
-        tweenId = LeanTween.scale(gameObject, originalScale * hoverScale, duration)
+        LeanTween.scale(gameObject, originalScale*hoverScale, duration)
             .setEase(LeanTweenType.easeInOutSine)
-            .setLoopPingPong()  // Thực hiện hiệu ứng ping-pong
-            .setIgnoreTimeScale(true)  // Sử dụng thời gian thực
-            .id;  // Lưu ID của tween
+            .setIgnoreTimeScale(true);  // Sử dụng thời gian thực
     }
 
     public void OnPointerExit()

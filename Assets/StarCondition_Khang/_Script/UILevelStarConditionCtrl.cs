@@ -9,50 +9,50 @@ public class UILevelStarConditionCtrl : MonoBehaviour
     [SerializeField] TMP_Text DesStar_1;
     [SerializeField] TMP_Text DesStar_2;
     [SerializeField] TMP_Text DesStar_3;
-    [SerializeField] GameObject Fade;
     [SerializeField] GameObject PanelUI;
     [SerializeField] GameObject Button;
     [SerializeField] private StarHolderCondition starHolderCondition;
     [SerializeField] private Transform StarShowUI;
     [SerializeField] private GameObject StarsShow;
+
+
+    //Animation
+    [SerializeField] private RectTransform fade;
+    private void OpenMenuExit()
+    {
+        
+        LeanTween.scale(transform.GetComponent<RectTransform>(), new Vector3(1, 1, 1), 0.5f)
+        .setDelay(0.45f).setEase(LeanTweenType.easeOutBack);
+
+        LeanTween.alpha(fade, 0.5f, 0.8f).setOnComplete(() => {
+
+            GameManager.Instance.TogglePauseGame(); 
+
+        
+        });
+    }
+    private void CloseMenuExit()
+    {
+        LeanTween.scale(transform.GetComponent<RectTransform>(), new Vector3(0, 0, 0), 0.45f);
+        LeanTween.alpha(fade, 0f, 0.5f).setOnComplete(() => {
+            fade.gameObject.SetActive(false);
+
+        });
+
+    }
+    
     public void Onclick()
     {
         GameManager.Instance.TogglePauseGame();
 
-        LeanTween.moveLocal(PanelUI, new Vector3(0f, 850f, 0f), 0.45f)
-                 .setDelay(0f)
-                 .setEase(LeanTweenType.easeOutCirc)
-                 .setOnComplete(() =>
-                 {
-                     Setfade();
-                 });
+        CloseMenuExit();
     }
 
     public void ActiveLevelConditionUI()
     {
-        Fade.SetActive(true);
-        gameObject.SetActive(true);
-        Debug.Log("Da set true");
-
         UpdateStarsBasedOnHpPercentage();
 
-        LeanTween.moveLocal(PanelUI, new Vector3(0f, 0f, 0f), 0.5f)
-                 .setDelay(0.1f)
-                 .setEase(LeanTweenType.easeInCirc).setOnComplete(() =>
-                 {
-                     GameManager.Instance.TogglePauseGame();
-
-                 });
-
-        //Fade Button
-        //LeanTween.alpha(Button.GetComponent<RectTransform>(), 1f, 0.5f)
-        //         .setDelay(1f); 
-
-    }
-
-    private void Setfade()
-    {
-        Fade.SetActive(false);
+        OpenMenuExit();
     }
 
     public void UpdateUIWithLevelSettings(LevelSettings levelSettings)

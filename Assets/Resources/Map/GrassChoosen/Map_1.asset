@@ -41,8 +41,6 @@ MonoBehaviour:
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 5
-    levelSettings:
-    - levelName: 
   - stars: 3
     difficult: 1
     isReceivedReWard: 1
@@ -67,10 +65,9 @@ MonoBehaviour:
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 10
-    levelSettings: []
-  - stars: 1
+  - stars: 0
     difficult: 2
-    isReceivedReWard: 1
+    isReceivedReWard: 0
     portals:
     - rarityPortal: 0
       Count: 3
@@ -93,4 +90,3 @@ MonoBehaviour:
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 15
-    levelSettings: []

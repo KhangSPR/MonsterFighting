@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 075d4679b78067f45a885375b0c5acb3, type: 3}
-  m_Name: Map_3
+  m_Name: Map_4
   m_EditorClassIdentifier: 
-  id: 2
+  id: 3
   boss: 0
   mapZone: II
   mapType: 0
@@ -23,15 +23,17 @@ MonoBehaviour:
     isReceivedReWard: 0
     portals:
     - rarityPortal: 1
-      Count: 1
+      Count: 3
       DelaySpawnFirstEnemy: 3
       spawnTimeInSeconds:
       - 5
+      - 7
+      - 10
       hasBoss: 0
       enemyTypes:
       - rarity: 1
         name: Skeleton Magic
-        countEnemy: 2
+        countEnemy: 3
         timerMin: 3
         timerMax: 5
         skillType:
@@ -40,7 +42,7 @@ MonoBehaviour:
         Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
-      Count: 10
+      Count: 20
   - stars: 0
     difficult: 1
     isReceivedReWard: 0
@@ -63,10 +65,12 @@ MonoBehaviour:
           skill: None
         Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
     - rarityPortal: 1
-      Count: 1
+      Count: 3
       DelaySpawnFirstEnemy: 3
       spawnTimeInSeconds:
       - 16
+      - 19
+      - 21
       hasBoss: 0
       enemyTypes:
       - rarity: 1
@@ -105,4 +109,4 @@ MonoBehaviour:
         Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
-      Count: 15
+      Count: 30

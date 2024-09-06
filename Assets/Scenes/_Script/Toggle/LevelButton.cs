@@ -48,6 +48,17 @@ namespace UIGameDataMap
         {
             return transform.parent.parent.name;
         }
+        int GetAreaIndex(string AreaName)
+        {
+            switch (AreaName)
+            {
+                case "GrassChoosen":
+                    return 0;
+                case "LavaChoosen":
+                    return 1;
+                default: return 0;
+            }
+        }
         void SetUnlockedUI()
         {
             lockObj.SetActive(false);                           //deactivate lockObj
@@ -60,23 +71,39 @@ namespace UIGameDataMap
             unlockObj.SetActive(false);                          //activate unlockObj
             activeLevelIndicator.SetActive(true);
         }
+        bool IsLevelUnlocked(int areaIndex, int levelIndex)
+        {
+            if (areaIndex < 0 || areaIndex >= MapManager.Instance.MapArrayData.Length)
+            {
+                return false; 
+            }
 
+            if (levelIndex < 0 || levelIndex >= MapManager.Instance.MapArrayData[areaIndex].MapSOArray.Length)
+            {
+                return false; 
+            }
+
+            return MapManager.Instance.MapArrayData[areaIndex].MapSOArray[levelIndex].Unlocked;
+        }
         public void SetLevelButton(string areaName)
         {
-            int index = GetLevelIndex();
-            Debug.Log("index level:" + index);
-            AreaInfomationSO aiso = LevelSystemDataManager.Instance.DatabaseAreaSO;
+            int levelIndex = GetLevelIndex();
+            int areaIndex = GetAreaIndex(areaName);
+            Debug.Log("index level:" + levelIndex);
+            //AreaInfomationSO aiso = LevelSystemDataManager.Instance.DatabaseAreaSO;
             //Debug.Log(aiso);
-            var levelInformation = aiso.areasData.First(data => data.areaName == areaName);
+            //var levelInformation = aiso.areasData.First(data => data.areaName == areaName);
+
+            bool isUnlockLevel = IsLevelUnlocked(areaIndex, levelIndex);
 
             //Debug.Log("SetLevelButton " + levelInformation);
-            if (levelInformation.levelsData[index].isUnlocked)
+            if (isUnlockLevel)
             {
                 SetUnlockedUI();
                 //Set LevelInfo
                 levelInfo = LevelUIManager.Instance.LevelInfo;
                 //Set button
-                mapDataSO = LevelUIManager.Instance.GetMapSO(index, GetTyMap(areaName)); //Repair
+                mapDataSO = LevelUIManager.Instance.GetMapSO(levelIndex, GetTyMap(areaName)); //Repair
 
                 //ZoneIndexText.text = mapDataSO.mapZone;
                 ChangeDifficultMapInfos = LevelUIManager.Instance.ChangeDifficultMap;
@@ -84,7 +111,6 @@ namespace UIGameDataMap
                 if (LevelUIManager.Instance.CurrentLevelButton == this)
                 {
                     OnClick();
-
                 }
                 else
                     Debug.Log("Khong phai LV Can Lay");

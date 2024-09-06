@@ -163,7 +163,9 @@ public class LevelUIManager : MonoBehaviour
     }
     private bool SetDifficultHolderMapArray(int mapIndex, int levelIndex)
     {
-        if (LevelSystemDataManager.Instance.DatabaseAreaSO.areasData[mapIndex].levelsData[levelIndex].isUnlocked)
+        if (levelIndex == 0) return true;
+
+        if (MapManager.Instance.MapArrayData[mapIndex].MapSOArray[levelIndex].Unlocked)
         {
             return true;
 
