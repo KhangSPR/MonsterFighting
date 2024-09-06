@@ -1,7 +1,6 @@
 ﻿[System.Serializable]
 public struct Settings
 {
-
     [UnityEngine.Header("GRAPHIC")]
     public int graphic;
 
@@ -13,15 +12,7 @@ public struct Settings
 
     [UnityEngine.Header("LANGUAGE")]
     public int localeID;
-    public Settings(Settings settings)
-    {
-        this.graphic = settings.graphic;
-        this.musicVolume = settings.musicVolume;
-        this.musicMute = settings.musicMute;
-        this.sfxVolume = settings.sfxVolume;
-        this.sfxMute = settings.sfxMute;
-        this.localeID = settings.localeID;
-    }
+
     public bool Compare(Settings settings)
     {
         if (!graphic.Equals(settings.graphic)) return false;

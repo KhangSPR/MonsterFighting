@@ -25,16 +25,8 @@ public class SettingManager : MonoBehaviour
     }
 
     public void LoadSetting(GameData data){
-        if(data== null)
-        {
-            Debug.Log("Data Null");
-        }
-        
-
-        currentSettings = new Settings(data.settings);
-
-        Debug.Log("Current Setting: " + currentSettings.musicVolume);
-        //settingUI.LoadUIFromSetting(currentSettings);
+        currentSettings = data.settings;
+        settingUI.LoadUIFromSetting(currentSettings);
         Debug.Log("Load Setting");
     }
 
@@ -43,13 +35,5 @@ public class SettingManager : MonoBehaviour
         GameDataManager.Instance.SaveManager.SaveGame();
         Debug.Log("Save Setting");
     }
-
-    public void OpenSetting(){
-        LoadSetting(GameDataManager.Instance.GameData);
-        settingUI.gameObject.SetActive(true);
-    }
-
-    public void CloseSetting(){
-        settingUI.gameObject.SetActive(false);
-    }
+    
 }

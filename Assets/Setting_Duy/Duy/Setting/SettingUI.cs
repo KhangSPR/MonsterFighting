@@ -22,7 +22,7 @@ public class SettingUI : MonoBehaviour
 
     private void OnEnable(){
         SaveButton.onClick.AddListener(() => SettingManager.Instance.SaveSetting());
-        SaveButton.onClick.AddListener(() => SettingManager.Instance.CloseSetting());
+        SaveButton.onClick.AddListener(() => CloseSettingUI());
     }
 
     private void OnDisable(){
@@ -34,6 +34,17 @@ public class SettingUI : MonoBehaviour
         SFXVolumeSlider.value = settings.sfxVolume;
         MusicMuteToggle.isOn = settings.musicMute;
         SFXMuteToggle.isOn = settings.sfxMute;
+        LocalizationManager.Instance.ChangeLocale(settings.localeID);
+        GraphicManager.Instance.ChangeGraphic(settings.graphic);
+    }
+
+    public void OpenSettingUI(){
+        SettingManager.Instance.LoadSetting(UIGameDataManager.GameDataManager.Instance.GameData);
+        gameObject.SetActive(true);
+    }
+
+    public void CloseSettingUI(){
+        gameObject.SetActive(false);
     }
 
 }

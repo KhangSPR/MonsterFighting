@@ -16,10 +16,6 @@ public class LocalizationManager : MonoBehaviour
         }
     }
 
-    private void OnEnable(){
-        
-    }
-
     private void Start(){
         SettingManager.Instance.settingUI.NextLocale.onClick.AddListener(() => NextLocale());
         SettingManager.Instance.settingUI.PreviousLocale.onClick.AddListener(() => PreviousLocale());
@@ -29,14 +25,12 @@ public class LocalizationManager : MonoBehaviour
     private void NextLocale(){
         int localeID = SettingManager.Instance.currentSettings.localeID + 1;
         localeID = (localeID >= LocalizationSettings.AvailableLocales.Locales.Count) ? 0 : localeID;
-        SettingManager.Instance.currentSettings.localeID = localeID;
         ChangeLocale(localeID);
     }
 
     private void PreviousLocale(){
         int localeID = SettingManager.Instance.currentSettings.localeID - 1;
         localeID = (localeID < 0) ? LocalizationSettings.AvailableLocales.Locales.Count - 1 : localeID;
-        SettingManager.Instance.currentSettings.localeID = localeID;
         ChangeLocale(localeID);
     }
 
