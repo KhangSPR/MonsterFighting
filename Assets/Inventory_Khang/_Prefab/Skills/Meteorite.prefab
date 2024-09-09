@@ -19552,7 +19552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85e8c6c2c2f17a14a97267467fb93f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _particleSystem: {fileID: 8522148012771983179}
   _sender: {fileID: 5098936193646816332}
   _impact: {fileID: 4696891065644591762}
 --- !u!1 &7324023097079319630
@@ -19581,13 +19580,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7324023097079319630}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.2299999, y: 0, z: -2.3100014}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5626167734784406656}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &7659651572236729067
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -24408,7 +24407,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 89b7ebbe4879016408576e85d1a40fb0, type: 2}
+  - {fileID: 2100000, guid: 78d769c12dfbb6c4fb317bbadd4caab6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

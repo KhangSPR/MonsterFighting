@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UIGameDataManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,7 +30,7 @@ public class SettingUI : MonoBehaviour
         SaveButton.onClick.RemoveAllListeners();
     }
 
-    public void LoadUIFromSetting(Settings settings){
+    public void LoadUIFromSetting(Settings settings) {
         MusicVolumeSlider.value = settings.musicVolume;
         SFXVolumeSlider.value = settings.sfxVolume;
         MusicMuteToggle.isOn = settings.musicMute;
@@ -37,6 +38,13 @@ public class SettingUI : MonoBehaviour
         LocalizationManager.Instance.ChangeLocale(settings.localeID);
         GraphicManager.Instance.ChangeGraphic(settings.graphic);
     }
+    //public void LoadUIFromSettingInGame(Settings settings)
+    //{
+    //    MusicVolumeSlider.value = settings.musicVolume;
+    //    SFXVolumeSlider.value = settings.sfxVolume;
+    //    MusicMuteToggle.isOn = settings.musicMute;
+    //    SFXMuteToggle.isOn = settings.sfxMute;
+    //}
 
     public void OpenSettingUI(){
         SettingManager.Instance.LoadSetting(UIGameDataManager.GameDataManager.Instance.GameData);

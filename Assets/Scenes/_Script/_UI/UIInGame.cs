@@ -14,6 +14,13 @@ public class UIInGame : MonoBehaviour
     [SerializeField] UILevelStarConditionCtrl uILevelStarConditionCtrl;
     public UILevelStarConditionCtrl UILevelStarConditionCtrl => uILevelStarConditionCtrl;
 
+    [Space]
+    [Space]
+    [Space]
+    [Header("Settings")]
+    [SerializeField] SettingUI settingUI;
+    public SettingUI SettingUI => settingUI;
+
 
 
     [Header("List Card Data")]

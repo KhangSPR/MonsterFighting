@@ -15,9 +15,16 @@ public class UILevelStarConditionCtrl : MonoBehaviour
     [SerializeField] private Transform StarShowUI;
     [SerializeField] private GameObject StarsShow;
 
-
+    
     //Animation
     [SerializeField] private RectTransform fade;
+
+    [Space]
+    [Space]
+    [Header("Cowndown")]
+    //CownDownPlay
+    bool flagFirst = false;
+    [SerializeField] CountDownManager countDownCtrl;
     private void OpenMenuExit()
     {
         
@@ -36,6 +43,12 @@ public class UILevelStarConditionCtrl : MonoBehaviour
         LeanTween.scale(transform.GetComponent<RectTransform>(), new Vector3(0, 0, 0), 0.45f);
         LeanTween.alpha(fade, 0f, 0.5f).setOnComplete(() => {
             fade.gameObject.SetActive(false);
+
+            if (!flagFirst)
+            {
+                countDownCtrl.enabled = true;
+                flagFirst = true;
+            }
 
         });
 

@@ -77,6 +77,7 @@ public class GameManager : SaiMonoBehaviour
     private LevelSettings currentLevelSettings;
     public LevelSettings CurrentLevelSettings => currentLevelSettings;
 
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -114,6 +115,7 @@ public class GameManager : SaiMonoBehaviour
         GuildSOManager.GuildAbilitySO.ApplyDefaultStats(gameObject);
 
         SetHpInGame();
+
 
     }
     protected override void Awake()
