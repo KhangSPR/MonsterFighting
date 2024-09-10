@@ -34,13 +34,6 @@ public class AudioManager : MonoBehaviour
         sfx.playOnAwake = false;
     }
 
-    private void Start(){
-        SettingManager.Instance.settingUI.MusicVolumeSlider.onValueChanged.AddListener((float volume) => SetMusicVolume(volume));
-        SettingManager.Instance.settingUI.SFXVolumeSlider.onValueChanged.AddListener((float volume) => SetSFXVolume(volume));
-        SettingManager.Instance.settingUI.MusicMuteToggle.onValueChanged.AddListener((bool mute) => SetMusicMute(mute));
-        SettingManager.Instance.settingUI.SFXMuteToggle.onValueChanged.AddListener((bool mute) => SetSFXMute(mute));
-    }
-
     public void PlayMusic(string clipName, float delayedTime = 0){
         music.clip = musicClips.Find(x => x.name.Equals(clipName)).clip;
         music.PlayDelayed(delayedTime);

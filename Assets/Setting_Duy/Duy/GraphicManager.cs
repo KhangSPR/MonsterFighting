@@ -31,19 +31,17 @@ public class GraphicManager : MonoBehaviour
     }
 
     private void Start(){
-        SettingManager.Instance.settingUI.NextGraphic.onClick.AddListener(() => NextGraphic());
-        SettingManager.Instance.settingUI.PreviousGraphic.onClick.AddListener(() => PreviousGraphic());
         localizeStringEvent = SettingManager.Instance.settingUI.GraphicText.GetComponent<LocalizeStringEvent>();
         localizeStringEvent.StringReference.Arguments = new object[]{SettingManager.Instance.currentSettings.graphic};
     }
 
-    private void NextGraphic(){
+    public void NextGraphic(){
         int g = SettingManager.Instance.currentSettings.graphic + 1;
         g = (g >= graphics.Count) ? 0 : g;
         ChangeGraphic(g);
     }
 
-    private void PreviousGraphic(){
+    public void PreviousGraphic(){
         int g = SettingManager.Instance.currentSettings.graphic - 1;
         g = (g < 0) ? graphics.Count - 1 : g;
         ChangeGraphic(g);

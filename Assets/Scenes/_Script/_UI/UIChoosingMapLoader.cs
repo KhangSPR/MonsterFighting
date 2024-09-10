@@ -85,7 +85,6 @@ namespace UIGameDataMap
             mapCtrl.UIInGame.UIWinGameController.MapDifficulty = mapSO.GetMapDifficult(difficult);
             mapCtrl.UIInGame.UILevelStarConditionCtrl.ActiveLevelConditionUI();
             mapCtrl.UIInGame.UILevelStarConditionCtrl.UpdateUIWithLevelSettings(GameManager.Instance.CurrentLevelSettings);
-            //mapCtrl.UIInGame.SettingUI.LoadUIFromSettingInGame(SettingManager.Instance.currentSettings);
 
             //Event 
             LevelUIManager.Instance.mapbtnGameObjects.Clear();

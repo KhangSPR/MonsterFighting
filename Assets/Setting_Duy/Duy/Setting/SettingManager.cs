@@ -26,7 +26,6 @@ public class SettingManager : MonoBehaviour
 
     public void LoadSetting(GameData data){
         currentSettings = data.settings;
-        settingUI.LoadUIFromSetting(currentSettings);
         Debug.Log("Load Setting");
     }
 
