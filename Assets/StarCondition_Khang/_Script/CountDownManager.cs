@@ -8,9 +8,13 @@ public class CountDownManager : MonoBehaviour
     public TextMeshProUGUI countdownDisplay;
     public float waitDuration = 0.8f;   // Thời gian chờ cho mỗi trạng thái
 
+    [SerializeField] private RectTransform fade;
+
+
     private void Start()
     {
         gameObject.SetActive(true);
+        fade.gameObject.SetActive(true);
         Time.timeScale = 0;
         StartCoroutine(CountdownToStart());
     }
@@ -29,7 +33,12 @@ public class CountDownManager : MonoBehaviour
         // Kết thúc đếm ngược
         Debug.Log("Count Down Finished");
         gameObject.SetActive(false);
+        fade.gameObject.SetActive(false);
+
         Time.timeScale = 1;
+
+        //Set Ready Timer Portal
+        GameManager.Instance.ReadyTimer = true;
     }
 
     IEnumerator DisplayText(string text, bool applyEffects)

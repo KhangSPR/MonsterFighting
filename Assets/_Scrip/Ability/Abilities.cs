@@ -3,11 +3,11 @@ using UnityEngine;
 public class Abilities : SaiMonoBehaviour
 {
     [Header("Ability ObjectCtrl")]
-    [SerializeField] protected PortalCtrl portalCtrl;
-    public PortalCtrl PortalCtrl => portalCtrl;
+    [SerializeField] protected AbilityPointAbstract abilityCtrl;
+    public AbilityPointAbstract AbilityCtrl => abilityCtrl;
     [Header("Abilities")]
-    [SerializeField] protected AbilitySummonEnemy abilitySummonEnemy;
-    public AbilitySummonEnemy AbilitySummonEnemy => abilitySummonEnemy;
+    [SerializeField] protected AbilitySummon abilitySummon;
+    public AbilitySummon AbilitySummon => abilitySummon;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -16,14 +16,14 @@ public class Abilities : SaiMonoBehaviour
     }
     protected virtual void LoadPortalCtrl()
     {
-        if (this.portalCtrl != null) return;
-        this.portalCtrl = transform.parent.GetComponent<PortalCtrl>();
+        if (this.abilityCtrl != null) return;
+        this.abilityCtrl = transform.parent.GetComponent<AbilityPointAbstract>();
         Debug.Log(gameObject.name + ": LoadPortalCtrl" + gameObject);
     }
     protected virtual void LoadAbilitySummonEnemy()
     {
-        if (this.abilitySummonEnemy != null) return;
-        this.abilitySummonEnemy = transform.GetComponentInChildren<AbilitySummonEnemy>();
+        if (this.abilitySummon != null) return;
+        this.abilitySummon = transform.GetComponentInChildren<AbilitySummon>();
         Debug.Log(gameObject.name + ": loadAbilitySummonEnemy" + gameObject);
     }
 }

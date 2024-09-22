@@ -1,107 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UIGameDataMap;
 using UnityEngine;
 
-[System.Serializable]
-public class EnemyNameAndCount
+public class AbilitySummonEnemy : AbilitySummon
 {
-    public string name;
-    public int max;
-    public int spawnCount;
-    [Header("Time min/max Random")]
-    public float radomMin = 0;
-    public float radomMax = 0;
-}
-public class AbilitySummonEnemy : AbilitySummon, IPortalSpawnListener
-{
-    [Header("List Enemys")]
-    [SerializeField] List<EnemyNameAndCount> nameEnemyandCount;
-    [SerializeField] List<Transform> minions;
-    public List<Transform> Minions { get { return minions; } }
+    private List<EnemyRandom> enemies = new List<EnemyRandom>();
+    public List<EnemyRandom> Enemies => enemies;
+    [SerializeField] private int currentListEnemies = 0;
+    public int CurrentListEnemies => currentListEnemies;
 
-    [Header("Minion Count")]
-    [SerializeField] int minionLimit = 0;
-    [SerializeField] int minionCount = 0;
-    [Header("Portal")]
-    [SerializeField] Portals portal;
-    public Portals Portal { get { return portal; } set { portal = value; } }
 
-    [Header("Portal Control")]
-    //[SerializeField] bool closePortal;
-    [SerializeField] bool objectIsEnabled = false;
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
-        InvokeRepeating(nameof(RemoveInactiveMinions), 2f, 1f);
-        //if (minions.Count == 0)
-        //{
-        //    Destroy(gameObject); 
-        //}
-        InvokeRepeating(nameof(CheckObjectState), 2f, 1f);
+        base.OnEnable();
+        WaveSpawnManager.UpdateWave += OnWaveCurrent;
     }
-    protected void RemoveInactiveMinions()
-    {
-        for (int i = minions.Count - 1; i >= 0; i--)
-        {
-            if (!minions[i].gameObject.activeSelf)
-            {
-                minions.RemoveAt(i);
-                PortalSpawnManager.Instance.ProgressPortals.EnemySpawn++;
-                Debug.Log("Remove");
-            }
-        }
-    }
-    protected void CheckPortalcontrol()
-    {
-        if (minionCount < minionLimit)
-        {
-            return;
-        }
-        if (minionLimit == minionCount && minions.Count == 0)
-        {
-            this.abilities.PortalCtrl.ObjAppearSmall.IsAppearing = true;
-            if(this.abilities.PortalCtrl.ObjAppearSmall.Appeared)
-            {
-                PortalSpawner.Instance.Despawn(transform.parent.parent);
-                this.OnAllPortalsSpawned();
-            }
-        }
-    }
-    void CheckObjectState()
-    {
-        if (objectIsEnabled)
-        {
-            CheckPortalcontrol();
-        }
-    }
-    public void EnableObject()
-    {
-        //Delay First Time
-        this.delay = portal.DelaySpawnFirstEnemy;
-        //Name and Count
-        this.nameEnemyandCount = ListNameAndCountEnemy(portal);
-        //Minion Max
-        this.minionLimit = SumEnemy(portal);
-        //Object
-        objectIsEnabled = true;
-    }
-    public void DisableObject()
-    {
-        objectIsEnabled = false;
 
-        this.Active();
-
-        //InitScale
-        this.abilities.PortalCtrl.ObjAppearSmall.InitScale();
-
-        //Minion Count
-        this.minionCount = 0;
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        WaveSpawnManager.UpdateWave -= OnWaveCurrent;
     }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        LoadEnemySpawner();
+        this.LoadEnemySpawner();
     }
 
     protected virtual void LoadEnemySpawner()
@@ -112,76 +36,80 @@ public class AbilitySummonEnemy : AbilitySummon, IPortalSpawnListener
         Debug.LogWarning(transform.name + ": LoadAbilities", gameObject);
     }
 
+    private void OnWaveCurrent(Wave wave, bool WaveType)
+    {
+        this.checkALLEnemyDead = false;
+        this.UpdateClear();
+
+        enemies.AddRange(WaveType ? wave.GetEnemiesWave(wave) : wave.GetEnemiesRandom(wave));
+        this.AddEnemies();
+    }
+
+    private void AddEnemies()
+    {
+        while (currentListEnemies < enemies.Count)
+        {
+            AddEnimesCurrent();
+            currentListEnemies++;
+            return;
+        }
+        Debug.Log("ADD Ngoai");
+
+        AddEnimesCurrent();
+    }
+    private void AddEnimesCurrent()
+    {
+        minionCount = 0;
+        this.nameEnemyandCount.Clear();
+        var enemy = enemies[currentListEnemies];
+        delay = enemy.TimeFirstSpawn;
+        this.minionLimit = enemy.SumEnemy(enemy);
+        this.nameEnemyandCount = enemy.ListNameAndCountEnemy(enemy);
+    }
     protected override void Summoning()
     {
-        if (minionCount >= minionLimit) return;
+        if (minionCount >= minionLimit)
+        {
+            return;
+        }
+
+        Debug.Log("Sumoning loi ");
+
         SetNameSpawn();
-
-        Summon();
-
+        Transform pos = this.abilities.AbilityCtrl.SpawnEnemyPoints.GetRandom();
+        Summon(pos);
+        WaveSpawnManager.Instance.ProgressPortals.OnEnemySpawned();
         minionCount++;
-
         this.Active();
+        this.ClearEnemySpawn();
     }
-    protected override Transform Summon()
+    private void UpdateClear()
     {
-        Transform minion = base.Summon();
-        //minion.parent = this.abilities.AbilityObjectCtrl.transform;
-        this.minions.Add(minion);
-        return minion;
+        currentListEnemies = 0;
+
+        this.enemies.Clear();
     }
-    protected void SetNameSpawn()
-    { 
-        //Take Enemy Count < enemy Max
-        List<EnemyNameAndCount> validEnemies = new List<EnemyNameAndCount>();
-        foreach (var enemyInfo in nameEnemyandCount)
+    private void ClearEnemySpawn()
+    {
+        if (minionCount < minionLimit) return;
+
+        if (currentListEnemies < enemies.Count)
         {
-            if (enemyInfo.spawnCount < enemyInfo.max)
-            {
-                validEnemies.Add(enemyInfo);
-            }
+            this.nameEnemyandCount.Clear();
+            AddEnemies();
         }
-        int randomIndex = Random.Range(0, validEnemies.Count);
-        var randomEnemy = validEnemies[randomIndex];
-
-        //Set Delay
-        delay = RandomRange(randomEnemy.radomMin, randomEnemy.radomMax);
-        randomEnemy.spawnCount++;
-        // Set namePrefab
-        namePrefab = randomEnemy.name;
-
-
     }
-    int SumEnemy(Portals portals)
+
+    protected override bool CheckTypeAbility()
     {
-        int totalEnemyCount = 0;
+        if (minionCount < minionLimit) return false;
 
-        foreach (EnemyType enemyType in portals.enemyTypes)
-        {
-            totalEnemyCount += enemyType.countEnemy;
-        }
+        if (currentListEnemies < enemies.Count) return false;
 
-        return totalEnemyCount;
-    }
-    List<EnemyNameAndCount> ListNameAndCountEnemy(Portals portals)
-    {
-        List<EnemyNameAndCount> enemyNameAndCount = new List<EnemyNameAndCount>();
+        if (minions.Count > 0) return false;
 
-        foreach (EnemyType enemyType in portals.enemyTypes)
-        {
-            EnemyNameAndCount enemy = new EnemyNameAndCount();
-            enemy.name = enemyType.name;
-            enemy.max = enemyType.countEnemy;
-            enemy.radomMin = enemyType.timerMin;
-            enemy.radomMax = enemyType.timerMax;
-            enemyNameAndCount.Add(enemy);
-        }
+        Debug.Log("Da goi");
 
-        return enemyNameAndCount;
-    }
-    public void OnAllPortalsSpawned()
-    {
-        PortalSpawnManager.Instance.portalsSpawning.Remove(portal);
-        PortalSpawnManager.Instance.CheckPortalsSpawned();
+        return true;
     }
 }

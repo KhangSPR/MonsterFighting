@@ -28,6 +28,33 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Header("Game Play")]
     [SerializeField] private bool isGamePaused = false;
+    [SerializeField] private bool isGameSpeeded = false;
+    [SerializeField] private bool readyTimer = false;
+    public bool ReadyTimer { get { return readyTimer; } set { readyTimer = value; } }
+
+    [Space]
+    [Space]
+    [Space]
+    [Header("Setting GamePlay")]
+    [SerializeField] private SettingUI settingUI;
+
+    #region Setting GamePlay
+    public void OnOpenSetting()
+    {
+        this.settingUI.OpenSettingUI();
+        this.TogglePauseGame();
+    }
+    public void CloseSetting()
+    {
+        this.settingUI.CloseSettingUI();
+        this.TogglePauseGame();
+    }
+    public void SaveSetting()
+    {
+        SettingManager.Instance.SaveSetting();
+    }
+
+    #endregion
 
     [Space]
     [Space]
@@ -81,14 +108,14 @@ public class GameManager : SaiMonoBehaviour
     protected override void OnEnable()
     {
         base.OnEnable();
-        PortalSpawnManager.AllPortalsSpawned += GameWin;
+        WaveSpawnManager.AllPortalsSpawned += GameWin;
         UIChoosingMapLoader.LevelSettingsChanged += OnSetLevelSettings;
         LevelSettings.HpPercentage += OnUpdateCurrentHpPercentage;
     }
     protected override void OnDisable()
     {
         base.OnDisable();
-        PortalSpawnManager.AllPortalsSpawned -= GameWin;
+        WaveSpawnManager.AllPortalsSpawned -= GameWin;
         UIChoosingMapLoader.LevelSettingsChanged -= OnSetLevelSettings;
 
         LevelSettings.HpPercentage -= OnUpdateCurrentHpPercentage;
@@ -326,16 +353,52 @@ public class GameManager : SaiMonoBehaviour
         }
     }
 
+    public void ToggleSpeedGame()
+    {
+        isGameSpeeded = !isGameSpeeded;
+
+        if (isGameSpeeded)
+        {
+            SpeedX2();
+        }
+        else
+        {
+            SpeedNormal();
+        }
+    }
+
+    private void SpeedX2()
+    {
+        Time.timeScale = 2f;
+    }
+
+    private void SpeedNormal()
+    {
+        // Kiểm tra nếu đang tạm dừng thì không thay đổi timeScale
+        if (!isGamePaused)
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
     private void PauseGame()
     {
         Time.timeScale = 0f; // Dừng thời gian trong trò chơi
-
     }
 
     private void ResumeGame()
     {
-        Time.timeScale = 1f; // Tiếp tục thời gian trong trò chơi       
+        // Kiểm tra nếu isGameSpeeded đang bật thì giữ Time.timeScale là 2
+        if (isGameSpeeded)
+        {
+            Time.timeScale = 2f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
     }
+
     #endregion
 
     #region Event Win Game
@@ -359,6 +422,7 @@ public class GameManager : SaiMonoBehaviour
     //Game Result--------------------------------------------------------------------------------
     private void GameWin()
     {
+        if (isGameSpeeded) Time.timeScale = 1;
         //Set Star Type
         SetStarConditionTypeMap();
 

@@ -20,6 +20,8 @@ public class SettingUI : MonoBehaviour
     public Image LocaleImage;
     public Button NextLocale;
     public Button PreviousLocale;
+    public RectTransform fade;
+
 
     private void OnEnable(){
         SaveButton?.onClick.AddListener(() => SettingManager.Instance.SaveSetting());
@@ -38,7 +40,7 @@ public class SettingUI : MonoBehaviour
     }
 
     private void OnDisable(){
-        SaveButton.onClick.RemoveAllListeners();
+        SaveButton?.onClick.RemoveAllListeners();
     }
 
     public void LoadUIFromSetting(Settings settings) {
@@ -61,15 +63,15 @@ public class SettingUI : MonoBehaviour
         SettingManager.Instance.LoadSetting(UIGameDataManager.GameDataManager.Instance.GameData);
         LoadUIFromSetting(SettingManager.Instance.currentSettings);
         gameObject.SetActive(true);
-    }
-    public void OpenInGameSettingUI(){
-        SettingManager.Instance.LoadSetting(UIGameDataManager.GameDataManager.Instance.GameData);
-        LoadUIFromInGameSetting(SettingManager.Instance.currentSettings);
-        gameObject.SetActive(true);
-    }
+        if(fade != null)
+            fade.gameObject.SetActive(true);
 
+    }
     public void CloseSettingUI(){
         gameObject.SetActive(false);
+        if (fade != null)
+            fade.gameObject.SetActive(false);
+
     }
 
 }

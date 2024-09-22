@@ -19,6 +19,8 @@ public class EnemyCtrl : ObjectCtrl
     public EnemySO EnemySO => enemySO;
     [SerializeField] protected EnemyDropItem enemyDropItem;
     public EnemyDropItem EnemyDropItem => enemyDropItem;
+    [SerializeField] protected ObjAppearBigger objAppearBigger;
+    public ObjAppearBigger ObjAppearBigger => objAppearBigger;
     protected override string GetObjectTypeString()
     {
         return ObjectType.Enemy.ToString();
@@ -35,6 +37,13 @@ public class EnemyCtrl : ObjectCtrl
         this.loadEnemyModel();
         this.loadObjMovement();
         this.LoadEnemyDropItem();
+        this.loadObjAppearBigger();
+    }
+    protected virtual void loadObjAppearBigger()
+    {
+        if (this.objAppearBigger != null) return;
+        this.objAppearBigger = transform.GetComponentInChildren<ObjAppearBigger>();
+        Debug.Log(gameObject.name + ": loadObjAppearBigger" + gameObject);
     }
     protected virtual void loadObjMovement()
     {

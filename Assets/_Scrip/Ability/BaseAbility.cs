@@ -8,6 +8,7 @@ public abstract class BaseAbility : SaiMonoBehaviour
     [SerializeField] protected Abilities abilities;
     public Abilities Abilities => abilities;
 
+
     protected override void LoadComponents()
     {
         base.LoadComponents();

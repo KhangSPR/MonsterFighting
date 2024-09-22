@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ac41c8e1f8f74fd429084289d97ca8f0
+guid: d9a8f183bef068e428bb324cfc4e9e6e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: icon_0
+      name: flag_0
       rect:
         serializedVersion: 2
-        x: 58
-        y: 80
-        width: 417
-        height: 420
+        x: 94
+        y: 140
+        width: 2050
+        height: 2393
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +124,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1561cccbbc348d14cbd1108147dfa1e2
-      internalID: 1765327630
+      spriteID: c829e008db9599f4b94e0d44d6f0eee7
+      internalID: -1361397293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: flag_1
+      rect:
+        serializedVersion: 2
+        x: 2942
+        y: 297
+        width: 221
+        height: 2166
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3644f22eda61b3e449cb71124cca14e7
+      internalID: 1374137082
       vertices: []
       indices: 
       edges: []
@@ -141,7 +162,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      icon_0: 1765327630
+      flag_0: -1361397293
+      flag_1: 1374137082
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

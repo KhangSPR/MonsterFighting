@@ -12,7 +12,6 @@ public abstract class Spawner : SaiMonoBehaviour
 
     public List<Transform> prefabs;
     [SerializeField] protected List<Transform> poolObjs;
-
     protected override void LoadComponents()
     {
         this.LoadPrefabs();

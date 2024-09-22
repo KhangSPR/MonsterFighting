@@ -21,72 +21,536 @@ MonoBehaviour:
   - stars: 3
     difficult: 0
     isReceivedReWard: 1
-    portals:
-    - rarityPortal: 0
-      Count: 1
-      DelaySpawnFirstEnemy: 3
-      spawnTimeInSeconds:
-      - 5
-      hasBoss: 0
-      enemyTypes:
-      - rarity: 0
-        name: Goblin Green
-        countEnemy: 1
-        timerMin: 3
-        timerMax: 5
-        skillType:
-        - id: 0
-          skill: None
-        Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+    Waves:
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 5.78
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 3
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 1
+            timerMin: 2
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 3
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 1
+            timerMin: 2
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 5
   - stars: 3
     difficult: 1
     isReceivedReWard: 1
-    portals:
-    - rarityPortal: 0
-      Count: 2
-      DelaySpawnFirstEnemy: 3
-      spawnTimeInSeconds:
-      - 5
-      - 12
-      hasBoss: 0
-      enemyTypes:
-      - rarity: 0
-        name: Goblin Green
-        countEnemy: 3
-        timerMin: 2
-        timerMax: 5
-        skillType:
-        - id: 0
-          skill: None
-        Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+    Waves:
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 4
+            timerMin: 1
+            timerMax: 2
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 2
+          DelaySpawnFirstEnemy: 2
+          spawnTimeInSeconds:
+          - 8
+          - 12
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 3
+            timerMin: 2
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 4
+            timerMin: 1
+            timerMax: 2
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 2
+          DelaySpawnFirstEnemy: 2
+          spawnTimeInSeconds:
+          - 8
+          - 12
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 3
+            timerMin: 2
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 10
-  - stars: 0
+  - stars: 2
     difficult: 2
     isReceivedReWard: 0
-    portals:
-    - rarityPortal: 0
-      Count: 3
-      DelaySpawnFirstEnemy: 4
-      spawnTimeInSeconds:
-      - 5
-      - 12
-      - 14
-      hasBoss: 0
-      enemyTypes:
-      - rarity: 0
-        name: Goblin Green
-        countEnemy: 4
-        timerMin: 1
-        timerMax: 5
-        skillType:
-        - id: 0
-          skill: None
-        Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+    Waves:
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 4
+            timerMin: 1
+            timerMax: 2
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 2
+          DelaySpawnFirstEnemy: 2
+          spawnTimeInSeconds:
+          - 8
+          - 12
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 3
+            timerMin: 2
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 4
+            timerMin: 1
+            timerMax: 2
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 2
+          DelaySpawnFirstEnemy: 2
+          spawnTimeInSeconds:
+          - 8
+          - 12
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 3
+            timerMin: 2
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 4
+            timerMin: 1
+            timerMax: 2
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 2
+          DelaySpawnFirstEnemy: 2
+          spawnTimeInSeconds:
+          - 8
+          - 12
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 3
+            timerMin: 2
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 4
+            timerMin: 1
+            timerMax: 2
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 2
+          DelaySpawnFirstEnemy: 2
+          spawnTimeInSeconds:
+          - 8
+          - 12
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 3
+            timerMin: 2
+            timerMax: 4
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - rarity: 0
+            name: Goblin Green
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 1
+            name: Skeleton Magic
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
+            skillType:
+            - id: 0
+              skill: None
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
+              type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 15

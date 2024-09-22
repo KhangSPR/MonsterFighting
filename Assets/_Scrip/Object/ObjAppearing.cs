@@ -10,6 +10,9 @@ public abstract class ObjAppearing : SaiMonoBehaviour
     [SerializeField] protected bool appeared = false;
     public bool Appeared { get { return appeared; } set { appeared = value; } }
     [SerializeField] protected List<ObjAppearObserver> Observer = new List<ObjAppearObserver>();
+
+    protected bool checkCallAppearing;
+    public bool CheckCallAppearing { get { return checkCallAppearing; } set { checkCallAppearing = value; } }
     protected override void Start()
     {
         base.Start();

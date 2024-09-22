@@ -66,29 +66,49 @@ namespace UIGameDataMap
         }
         private void LoadGame(MapSO mapSO, Difficult difficult)
         {
-
-            LevelSettingsChanged?.Invoke(MapManager.Instance.LoadCurrentLevelSettings());
-
-            MapCtrl mapCtrl = MapManager.Instance.CurrentMap.GetComponent<MapCtrl>();
-
-
+            // Kiểm tra null sớm và thoát hàm nếu không có mapSO
             if (mapSO == null)
             {
-                Debug.Log("No Haven't MapSO");
+                Debug.LogWarning("MapSO is null. Unable to load the game.");
                 return;
             }
-            //Difficult difficult = MapManager.Instance.Difficult;
-            PortalSpawnManager.Instance.Difficult = difficult;
-            PortalSpawnManager.Instance.MapSO = mapSO;
 
-            mapCtrl.UIInGame.ListCardTowerData.InstantiateObjectsFromData();
-            mapCtrl.UIInGame.UIWinGameController.MapDifficulty = mapSO.GetMapDifficult(difficult);
-            mapCtrl.UIInGame.UILevelStarConditionCtrl.ActiveLevelConditionUI();
-            mapCtrl.UIInGame.UILevelStarConditionCtrl.UpdateUIWithLevelSettings(GameManager.Instance.CurrentLevelSettings);
+            // Kích hoạt sự kiện thay đổi cài đặt màn chơi
+            LevelSettingsChanged?.Invoke(MapManager.Instance?.LoadCurrentLevelSettings());
 
-            //Event 
-            LevelUIManager.Instance.mapbtnGameObjects.Clear();
+            // Thiết lập thông tin cho PortalSpawnManager
+            SetUpPortalSpawnManager(mapSO, difficult);
+
+            // Thiết lập và cập nhật UI trong game
+            UpdateInGameUI(mapSO, difficult);
+
+            // Clear các button trong LevelUIManager
+            LevelUIManager.Instance?.mapbtnGameObjects?.Clear();
         }
+
+        private void SetUpPortalSpawnManager(MapSO mapSO, Difficult difficult)
+        {
+            WaveSpawnManager.Instance.Difficult = difficult;
+            WaveSpawnManager.Instance.MapSO = mapSO;
+            WaveSpawnManager.Instance.Wave = mapSO.GetWaves(difficult);
+        }
+
+        private void UpdateInGameUI(MapSO mapSO, Difficult difficult)
+        {
+            var mapCtrl = MapManager.Instance?.CurrentMap?.GetComponent<MapCtrl>();
+            if (mapCtrl == null)
+            {
+                Debug.LogError("Failed to get MapCtrl. UI will not be updated.");
+                return;
+            }
+
+            // Khởi tạo các đối tượng UI liên quan
+            mapCtrl.UIInGame?.ListCardTowerData?.InstantiateObjectsFromData();
+            mapCtrl.UIInGame.UIWinGameController.MapDifficulty = mapSO.GetMapDifficult(difficult);
+            mapCtrl.UIInGame?.UILevelStarConditionCtrl?.ActiveLevelConditionUI();
+            mapCtrl.UIInGame?.UILevelStarConditionCtrl?.UpdateUIWithLevelSettings(GameManager.Instance?.CurrentLevelSettings);
+        }
+
         public void SetMapSOFromLevelInfo(MapSO mapSO)
         {
             this.mapSO = mapSO;

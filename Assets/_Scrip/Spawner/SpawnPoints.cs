@@ -20,6 +20,18 @@ public class SpawnPoints : SaiMonoBehaviour
         }
         Debug.Log(gameObject.name + ": loadSpawnPoints" + gameObject);
     }
+    public void ResetPointEmpty()
+    {
+        List<Transform> nonEmptyPoints = new List<Transform>();
+        foreach (Transform point in points)
+        {
+            TileSpawn tileSpawn = point.GetComponent<TileSpawn>();
+            if(tileSpawn.IsEmpty)
+            {
+                tileSpawn.IsEmpty = false;
+            }
+        }
+    }
     public virtual Transform GetRandomIsEmpty()
     {
         List<Transform> nonEmptyPoints = new List<Transform>();

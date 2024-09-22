@@ -1,4 +1,5 @@
 ﻿using CodeMonkey.Utils;
+using System.Collections.Generic;
 using UIGameDataMap;
 using UnityEngine;
 
@@ -18,51 +19,78 @@ public class PortalHouseBtn : MonoBehaviour
     }
     public void SetPortals(MapSO mapSO)
     {
+        // Kiểm tra xem mapSO có null không
         if (mapSO == null)
         {
             Debug.LogError("MapSO is null");
             return;
         }
 
-        Portals[] portals = mapSO.GetPortals(MapManager.Instance.Difficult);
+        Wave[] waves = mapSO.GetWaves(MapManager.Instance.Difficult);
 
-        if (portals == null || portals.Length == 0)
+        if (waves == null)
         {
-            Debug.LogError("Portals array is null or empty");
+            Debug.Log("No Wave found.");
             return;
         }
 
+        // Khởi tạo danh sách portals
+        List<Portals> portals = new List<Portals>();
+
+        // Duyệt qua từng wave để lấy portals và thêm vào danh sách
+        foreach (var wave in waves)
+        {
+            Portals[] portalsFromWave = mapSO.GetPortalsWave(wave);
+            if (portalsFromWave != null && portalsFromWave.Length > 0)
+            {
+                portals.AddRange(portalsFromWave); // Thêm tất cả portals vào danh sách
+            }
+        }
+
+        // Kiểm tra nếu danh sách portals trống
+        if (portals == null || portals.Count == 0)
+        {
+            Debug.LogError("No portals found for the given waves.");
+            return;
+        }
+        //Debug.Log("CountPortal: " + portals.Count);
+
+        // Duyệt qua các portal và kích hoạt Electricity nếu có boss
         foreach (Portals portal in portals)
         {
             if (portal.hasBoss)
             {
-                _Electricity.gameObject.SetActive(portal.hasBoss);
-                break;
+                _Electricity.gameObject.SetActive(true);
+                break; // Dừng vòng lặp khi đã tìm thấy boss
             }
-
-            Debug.Log("Electricity");
         }
 
+        // Kiểm tra các thành phần cần thiết có null không
         if (_Electricity == null || _Particle == null || _meterial == null)
         {
-            Debug.LogError("One or more required components are null");
+            Debug.LogError("One or more required components (_Electricity, _Particle, or _meterial) are null");
             return;
         }
 
+        // Thiết lập màu sắc cho _Electricity và _Particle dựa trên zone của map
         var mainModule = _Electricity.main;
         mainModule.startColor = GetColor(GetZone(mapSO.mapZone));
 
         var mainParticle = _Particle.main;
         mainParticle.startColor = GetColor(GetZone(mapSO.mapZone));
 
-        if (LevelUIManager.Instance.Materials == null || GetZone(mapSO.mapZone) >= LevelUIManager.Instance.Materials.Length)
+        // Kiểm tra nếu materials của LevelUIManager hợp lệ
+        int zoneIndex = GetZone(mapSO.mapZone);
+        if (LevelUIManager.Instance.Materials == null || zoneIndex >= LevelUIManager.Instance.Materials.Length)
         {
-            Debug.LogError("Materials array is null or index out of bounds");
+            Debug.LogError("Materials array is null or zone index is out of bounds.");
             return;
         }
 
-        _meterial.material = LevelUIManager.Instance.Materials[GetZone(mapSO.mapZone)];
+        // Thiết lập material cho _meterial dựa trên zone
+        _meterial.material = LevelUIManager.Instance.Materials[zoneIndex];
     }
+
 
     public Color GetColor(int level)
     {

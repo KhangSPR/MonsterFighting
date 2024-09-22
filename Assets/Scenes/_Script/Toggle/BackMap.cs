@@ -17,6 +17,8 @@ public class BackMap : MonoBehaviour
     }
     void OnClick()
     {
+        Time.timeScale = 1;
+
         Destroy(Map);
         UIManager.Instance.ActiveGameUI();
     }

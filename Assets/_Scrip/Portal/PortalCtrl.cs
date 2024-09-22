@@ -5,32 +5,41 @@ using UnityEngine;
 public class PortalCtrl : AbilityPointAbstract
 {
     [Header("PortalCtrl")]
-    [SerializeField] protected Abilities abilities;
-    public Abilities Abilities => abilities;
     [SerializeField] protected ObjAppearSmall objAppearSmall;
     public ObjAppearSmall ObjAppearSmall => objAppearSmall;
+
     protected override void OnEnable()
     {
         base.OnEnable();
-        this.abilities.AbilitySummonEnemy.EnableObject();
+
+        this.EnableObject();
     }
     protected override void OnDisable()
     {
-        this.abilities.AbilitySummonEnemy.DisableObject();
+        base.OnDisable();
 
+        this.DisableObject();
+    }
+    protected void EnableObject()
+    {
+        if(this.abilities.AbilitySummon is AbilitySummonPortal abilitySummonPortal)
+        {
+            abilitySummonPortal.EnableObject();
+        }
+    }
+    protected void DisableObject()
+    {
+        if (this.abilities.AbilitySummon is AbilitySummonPortal abilitySummonPortal)
+        {
+            abilitySummonPortal.DisableObject();
+        }
     }
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        this.loadAbilities();
         this.loadObjAppearSmall();
     }
-    protected virtual void loadAbilities()
-    {
-        if (this.abilities != null) return;
-        this.abilities = transform.GetComponentInChildren<Abilities>();
-        Debug.Log(gameObject.name + ": loadAbilities" + gameObject);
-    }
+
     protected virtual void loadObjAppearSmall()
     {
         if (this.objAppearSmall != null) return;

@@ -13,6 +13,8 @@ public class ObjAppearBigger : ObjAppearing
     {
         base.OnEnable();
 
+        if (!checkCallAppearing) return;
+
         this.InitScale();
 
     }
@@ -39,7 +41,7 @@ public class ObjAppearBigger : ObjAppearing
 
     public override bool ShouldCallAppearing()
     {
-        return true;
+        return checkCallAppearing;
     }
 
 }

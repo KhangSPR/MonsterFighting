@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace UIGameDataMap
@@ -10,20 +13,160 @@ namespace UIGameDataMap
         public ItemReward item;
         public int Count;
     }
+    [Serializable]
+    public class Wave
+    {
+        public WaveRandom waveRandom;
+        public WaveFinal waveFinal;
 
+        public List<EnemyRandom> GetEnemiesRandom(Wave wave)
+        {
+            return wave.waveRandom.enemyRanDoms.ToList();
+        }
+        public List<EnemyRandom> GetEnemiesWave(Wave wave)
+        {
+            return wave.waveFinal.enemyRanDoms.ToList();
+        }
+        public Portals[] GetPortalsWave(Wave wave)
+        {
+            return wave.waveFinal.Portals;
+        }
+        public Portals[] GetPortalsSpawning(Wave wave)
+        {
+            return wave.waveRandom.Portals;
+        }
+        public int SumEnemyWave(Wave wave)
+        {
+            int sumEnemy = 0;
+            sumEnemy += SumEnemyRanDom(wave);
+            sumEnemy += SumEnemyWaveFinal(wave);
+
+            return sumEnemy;
+        }
+        public int SumEnemyRanDom(Wave wave)
+        {
+            int sumEnemy = 0;
+            var portals = GetPortalsSpawning(wave);
+            foreach (var portal in portals)
+            {
+                if (portal == null) return 0;
+
+                sumEnemy += portal.SumEnemy(portal);
+            }
+            var enemys = GetEnemiesRandom(wave);
+            foreach (var enemyRandom in enemys)
+            {
+                if (enemyRandom == null) return 0;
+
+                sumEnemy += enemyRandom.SumEnemy(enemyRandom);
+            }
+            return sumEnemy;
+        }
+        public int SumEnemyWaveFinal(Wave wave)
+        {
+            int sumEnemy = 0;
+            var portals = GetPortalsWave(wave);
+            foreach (var portal in portals)
+            {
+                if (portal == null) return 0;
+
+                sumEnemy += portal.SumEnemy(portal);
+            }
+            var enemys = GetEnemiesWave(wave);
+            foreach (var enemyRandom in enemys)
+            {
+                if (enemyRandom == null) return 0;
+
+                sumEnemy += enemyRandom.SumEnemy(enemyRandom);
+            }
+            return sumEnemy;
+        }
+    }
+    [Serializable]
+    public class WaveRandom
+    {
+        public EnemyRandom[] enemyRanDoms;
+        public Portals[] Portals;
+    }
+    [Serializable]
+    public class WaveFinal
+    {
+        public EnemyRandom[] enemyRanDoms;
+        public Portals[] Portals;
+    }
     [Serializable]
     public class Portals
     {
         public RarityPortal rarityPortal;
-        public int Count;
+        public int countPortal;
         public float DelaySpawnFirstEnemy;
         public float[] spawnTimeInSeconds;
 
         [Header("On Mouse")]
         public bool hasBoss;
         public EnemyType[] enemyTypes;
-    }
 
+        public int SumEnemy(Portals portals)
+        {
+            int totalEnemyCount = 0;
+
+            foreach (EnemyType enemyType in portals.enemyTypes)
+            {
+                totalEnemyCount += enemyType.countEnemy;
+            }
+
+            return totalEnemyCount;
+        }
+        public List<EnemyNameAndCount> ListNameAndCountEnemy(Portals portals)
+        {
+            List<EnemyNameAndCount> enemyNameAndCount = new List<EnemyNameAndCount>();
+
+            foreach (EnemyType enemyType in portals.enemyTypes)
+            {
+                EnemyNameAndCount enemy = new EnemyNameAndCount();
+                enemy.name = enemyType.name;
+                enemy.max = enemyType.countEnemy;
+                enemy.radomMin = enemyType.timerMin;
+                enemy.radomMax = enemyType.timerMax;
+                enemyNameAndCount.Add(enemy);
+            }
+
+            return enemyNameAndCount;
+        }
+    }
+    [Serializable]
+    public class EnemyRandom
+    {
+        public float TimeFirstSpawn;
+        public EnemyType[] EnemyType;
+        public int SumEnemy(EnemyRandom enemyRandom)
+        {
+            int totalEnemyCount = 0;
+
+            foreach (EnemyType enemyType in enemyRandom.EnemyType)
+            {
+                totalEnemyCount += enemyType.countEnemy;
+            }
+
+            return totalEnemyCount;
+        }
+        public List<EnemyNameAndCount> ListNameAndCountEnemy(EnemyRandom enemyRandom)
+        {
+            List<EnemyNameAndCount> enemyNameAndCount = new List<EnemyNameAndCount>();
+
+            foreach (EnemyType enemyType in enemyRandom.EnemyType)
+            {
+                EnemyNameAndCount enemy = new EnemyNameAndCount();
+                enemy.name = enemyType.name;
+                enemy.max = enemyType.countEnemy;
+                enemy.radomMin = enemyType.timerMin;
+                enemy.radomMax = enemyType.timerMax;
+                enemyNameAndCount.Add(enemy);
+            }
+
+            return enemyNameAndCount;
+        }
+    }
     [Serializable]
     public class EnemyType
     {
@@ -87,7 +230,7 @@ namespace UIGameDataMap
         public Difficult difficult;
         public StarsCondition starsCondition;
         public bool isReceivedReWard = false;
-        public Portals[] portals;
+        public Wave[] Waves;
         public Resources[] Reward;
 
     }
@@ -126,7 +269,7 @@ namespace UIGameDataMap
                         stars = 0,
                         Reward = new Resources[0],
                         isReceivedReWard = false,
-                        portals = new Portals[0]
+                        Waves = new Wave[0]
                     };
                 }
             }
@@ -136,7 +279,19 @@ namespace UIGameDataMap
         {
             return DifficultyMap[(int)difficult];
         }
+        public MapDifficulty GetMapDifficultUnlock(MapSO mapSO)
+        {
+            MapDifficulty[] mapDifficulties = mapSO.DifficultyMap;
 
+            foreach (MapDifficulty difficulty in mapDifficulties)
+            {
+                if (!difficulty.isReceivedReWard)
+                {
+                    return difficulty;
+                }
+            }
+            return null;
+        }
         public void SetStarsCount(Difficult difficult, int starsCount)
         {
             DifficultyMap[(int)difficult].stars = starsCount;
@@ -144,7 +299,7 @@ namespace UIGameDataMap
         public int SumStarsMapDifficult(MapDifficulty[] DifficultyMap)
         {
             int sum = 0;
-            foreach(MapDifficulty difficulty in DifficultyMap)
+            foreach (MapDifficulty difficulty in DifficultyMap)
             {
                 sum += difficulty.stars;
             }
@@ -183,58 +338,87 @@ namespace UIGameDataMap
                 _ => Color.gray
             };
         }
-
-        public Portals[] GetPortals(Difficult difficult)
+        #region Wave-Portal-Enemy
+        //Get Sum Wave
+        public Wave[] GetWaves(Difficult difficult)
         {
-            return DifficultyMap[(int)difficult]?.portals;
+            return DifficultyMap[(int)difficult]?.Waves;
         }
-
-        public float[] TimeSpawnPortal(Difficult difficult)
+        public Portals[] GetPortalsWave(Wave wave)
         {
-            var portals = GetPortals(difficult);
+            return wave.waveFinal.Portals;
+        }
+        public Portals[] GetPortalsSpawning(Wave wave)
+        {
+            return wave.waveRandom.Portals;
+        }
+        public List<EnemyRandom> GetEnemiesRandom(Wave wave)
+        {
+            return wave.waveRandom.enemyRanDoms.ToList();
+        }
+        public List<EnemyRandom> GetEnemiesWave(Wave wave)
+        {
+            return wave.waveFinal.enemyRanDoms.ToList();
+        }
+        public List<float> TimeSpawnWavePotal(Wave wave)
+        {
+            var spawnTimes = new List<float>();
+
+            var portals = GetPortalsWave(wave);
             if (portals == null || portals.Length == 0) return null;
 
-            var spawnTimes = new List<float>();
             foreach (var portal in portals)
             {
                 spawnTimes.AddRange(portal.spawnTimeInSeconds);
             }
 
-            return spawnTimes.ToArray();
+            Debug.Log("Da lay");
+
+            return spawnTimes;
         }
-
-        public Portals[] PortalsSpawn(Difficult difficult)
+        public List<float> TimeSpawningPortal(Wave wave)
         {
-            var portals = GetPortals(difficult);
-            if (portals == null) return null;
+            var spawnTimes = new List<float>();
 
-            var portalsSpawn = new List<Portals>();
+            var portals = GetPortalsSpawning(wave);
+            if (portals == null || portals.Length == 0) return null;
+
             foreach (var portal in portals)
             {
-                for (int i = 0; i < portal.Count; i++)
-                {
-                    portalsSpawn.Add(portal);
-                }
+                spawnTimes.AddRange(portal.spawnTimeInSeconds);
             }
 
-            return portalsSpawn.ToArray();
-        }
+            Debug.Log("Da lay");
 
-        public int SumEnemySpawnPortal(Difficult difficult)
+            return spawnTimes;
+        }
+        public int SumEnemyAll(Difficult difficult)
         {
-            var portals = GetPortals(difficult);
-            if (portals == null) return 0;
+            var waves = GetWaves(difficult);
 
             int sumEnemy = 0;
-            foreach (var portal in portals)
-            {
-                foreach (var enemyType in portal.enemyTypes)
-                {
-                    sumEnemy += enemyType.countEnemy * portal.Count;
-                }
-            }
 
+            foreach (var wave in waves)
+            {
+                sumEnemy+= wave.SumEnemyRanDom(wave);
+                sumEnemy += wave.SumEnemyWaveFinal(wave);
+            }
             return sumEnemy;
         }
+        public int SumWaveSpawn(Difficult difficult)
+        {
+            var waves = GetWaves(difficult);
+            if (waves == null) return 0;
+
+            int sumWave = 0;
+            foreach (var wave in waves)
+            {
+                sumWave++;
+            }
+
+            return sumWave;
+        }
+        #endregion
     }
 }
+

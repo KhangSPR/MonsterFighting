@@ -5,8 +5,8 @@ using UnityEngine;
 public abstract class PortalSpawnManagerAbstract : SaiMonoBehaviour
 {
     [Header("Portal SpawnManager")]
-    [SerializeField] protected PortalSpawnManager portalSpawnManagerCtrl;
-    public PortalSpawnManager PortalSpawnerCtrl => portalSpawnManagerCtrl;
+    [SerializeField] protected WaveSpawnManager portalSpawnManagerCtrl;
+    public WaveSpawnManager PortalSpawnerCtrl => portalSpawnManagerCtrl;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -15,7 +15,7 @@ public abstract class PortalSpawnManagerAbstract : SaiMonoBehaviour
     protected virtual void loadPortalSpawnerCtrl()
     {
         if (this.portalSpawnManagerCtrl != null) return;
-        this.portalSpawnManagerCtrl = transform.parent.GetComponent<PortalSpawnManager>();
+        this.portalSpawnManagerCtrl = transform.parent.GetComponent<WaveSpawnManager>();
         Debug.Log(gameObject.name + ": loadPortalSpawnerCtrl" + gameObject);
     }
 }

@@ -44,16 +44,41 @@ namespace UIGameDataMap
             this.SetMapSo(mapSO);
 
             this.LoadItems(mapDifficulty);
-            this.LoadProtals(mapDifficulty);
+            this.LoadPortals(mapDifficulty);
             this.SetChangeDifficultMapInfos(mapSO);
         }
         private void SetMapSo(MapSO MapSO)
         {
             mapSO = MapSO;
         }
-        public void LoadProtals(MapDifficulty mapDifficulty)
+        public void LoadPortals(MapDifficulty mapDifficulty)
         {
-            Portals[] portals = mapSO.GetPortals(mapDifficulty.difficult);
+            // Lấy các wave từ MapSO theo độ khó
+            Wave[] waves = mapSO.GetWaves(mapDifficulty.difficult);
+
+            // Khởi tạo danh sách portals
+            List<Portals> portalsList = new List<Portals>();
+
+            // Duyệt qua từng wave để lấy portals và thêm vào danh sách
+            foreach (var wave in waves)
+            {
+                Portals[] portalsFromWave = mapSO.GetPortalsWave(wave);
+                if (portalsFromWave != null)
+                {
+                    portalsList.AddRange(portalsFromWave); // Thêm tất cả portals vào danh sách
+                }
+            }
+
+            Debug.Log("portalsList: " + portalsList.Count);
+
+            // Nếu danh sách portals trống thì thoát hàm
+            if (portalsList.Count == 0)
+            {
+                Debug.LogWarning("No portals found for the given waves.");
+                return;
+            }
+
+            // Xóa tất cả các Portal hiện có trong HolderPortals
             foreach (Transform child in HolderPortals)
             {
                 Destroy(child.gameObject);
@@ -61,25 +86,29 @@ namespace UIGameDataMap
 
             int index = 0; // Khai báo biến index ở đây để giữ giá trị của nó sau mỗi lần lặp
 
-            foreach (Portals portal in portals)
+            // Duyệt qua từng portal trong danh sách portals
+            foreach (Portals portal in portalsList)
             {
-
+                // Instantiate object cho mỗi portal
                 GameObject portalObject = Instantiate(objPortalTooltip, HolderPortals);
 
+                // Set các giá trị cho Portal object
+                Portal portalComponent = portalObject.GetComponent<Portal>();
+                portalComponent.MapSO = mapSO; // Set MapSO
+                portalComponent.MapDifficulty = mapDifficulty; // Set MapDifficulty
+                portalComponent.PortalsIndex = index; // Set Index ToolTip
+                portalComponent.SetObjPortal(portal); // Set Portal
 
-                portalObject.GetComponent<Portal>().MapSO = mapSO; // Set MapSo
-                portalObject.GetComponent<Portal>().MapDifficulty = mapDifficulty;
-                portalObject.GetComponent<Portal>().PortalsIndex = index; // Set Index ToolTip
-                portalObject.GetComponent<Portal>().SetObjPortal(portal);
-                // Set Portal
-                portalObject.transform.Find("Count").GetComponent<Text>().text = "x" + portal.Count.ToString();
-                portalObject.transform.Find("ElectricityBoss").gameObject.SetActive(portal.hasBoss); //Electricity Boss
+                // Set số lượng portal hiển thị trong "Count"
+                portalObject.transform.Find("Count").GetComponent<Text>().text = "x" + portal.countPortal.ToString();
 
-                index++;
+                // Hiển thị hoặc ẩn ElectricityBoss nếu có boss
+                portalObject.transform.Find("ElectricityBoss").gameObject.SetActive(portal.hasBoss);
 
+                index++; // Tăng giá trị index sau mỗi lần lặp
             }
-
         }
+
         private void LoadItems(MapDifficulty mapDifficulty)
         {
 

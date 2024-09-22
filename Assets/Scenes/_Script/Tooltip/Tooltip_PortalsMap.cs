@@ -1,4 +1,4 @@
-/* 
+﻿/* 
     ------------------- Code Monkey -------------------
 
     Thank you for downloading this package
@@ -96,11 +96,27 @@ public class Tooltip_PortalsMap : MonoBehaviour
     //}
     private void ShowTooltip(MapSO mapSO,MapDifficulty mapDifficulty, int portalsIndex)
     {
-        Portals[] portalsLst = mapSO.GetPortals(mapDifficulty.difficult);
+        //Portals[] portalsLst = mapSO.GetPortals(mapDifficulty.difficult);
+
+        // Lấy các wave từ MapSO theo độ khó
+        Wave[] waves = mapSO.GetWaves(mapDifficulty.difficult);
+
+        // Khởi tạo danh sách portals
+        List<Portals> portalsList = new List<Portals>();
+
+        // Duyệt qua từng wave để lấy portals và thêm vào danh sách
+        foreach (var wave in waves)
+        {
+            Portals[] portalsFromWave = mapSO.GetPortalsWave(wave);
+            if (portalsFromWave != null)
+            {
+                portalsList.AddRange(portalsFromWave); // Thêm tất cả portals vào danh sách
+            }
+        }
         gameObject.SetActive(true);
         transform.SetAsLastSibling();
 
-        Portals portals = portalsLst[portalsIndex];
+        Portals portals = portalsList[portalsIndex];
 
 
         power.text = portals.rarityPortal.ToString();
