@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UIGameDataMap;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
@@ -57,8 +58,6 @@ public class WaveSpawnManager : SaiMonoBehaviour
     }
 
     [SerializeField]
-    private int currentWaveIndex = 0;
-    [SerializeField]
     private bool portalsSpawnType; // Marks when portalsSpawning has finished spawning
     private List<AbilitySummon> abilitySummons = new List<AbilitySummon>();
     public List<AbilitySummon> AbilitySummons
@@ -73,9 +72,39 @@ public class WaveSpawnManager : SaiMonoBehaviour
 
     // Animation
     [SerializeField] TextSizeAnimation textSizeAnimation;
+    [SerializeField] TMP_Text text_Wave;
+    const float k_LerpTime = 0.6f;
+    [SerializeField]
+    private int currentWaveIndex;
 
-    
+    public int CurrentWaveIndex
+    {
+        get { return currentWaveIndex; }
+        set
+        {
+            if (currentWaveIndex != value)
+            {
+                StartCoroutine(LerpRoutine(text_Wave, currentWaveIndex, value, k_LerpTime));
+                currentWaveIndex = value;
+            }
+        }
+    }
 
+    // Coroutine để animate số hiệu sóng
+    IEnumerator LerpRoutine(TMP_Text label, int startValue, int endValue, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            int currentValue = Mathf.RoundToInt(Mathf.Lerp(startValue, endValue, t));
+            label.text = $"<color=green>{currentValue}</color>/{waves.Length}";
+            yield return null;
+        }
+        // Đảm bảo giá trị cuối cùng được thiết lập chính xác
+        label.text = $"<color=green>{endValue}</color>/{waves.Length}";
+    }
     protected override void Awake()
     {
         base.Awake();
@@ -90,7 +119,11 @@ public class WaveSpawnManager : SaiMonoBehaviour
         // Initialize the first wave
         UpdateFirstWave();
 
-        InvokeRepeating(nameof(LoadWaveTypeCurrentNext), 2f, 1f); 
+        InvokeRepeating(nameof(LoadWaveTypeCurrentNext), 2f, 1f);
+
+
+        //Update Text Wave
+        text_Wave.text = "<color=green>" + currentWaveIndex.ToString() + "</color>/" + waves.Length.ToString();
     }
 
     public void UpdateFirstWave()
@@ -133,7 +166,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
         // Update the portal spawn action
         this.portalSpawnAction.PortalSpawns = portalsSpawning.ToArray();
 
-
+        
         // Set the flag to indicate spawning portals have been loaded
         // Reset the portalsSpawnType if necessary
     }
@@ -189,7 +222,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
         textSizeAnimation.textUI.text = "";
         textSizeAnimation.gameObject.SetActive(false);
 
-        currentWaveIndex++;
+        CurrentWaveIndex++;
 
         GameManager.Instance.ReadyTimer = true;
         Debug.Log("Đã đặt ReadyTimer thành true");
@@ -209,14 +242,20 @@ public class WaveSpawnManager : SaiMonoBehaviour
     }
     private void WaveFinallyGame()
     {
-        if (checkOneWave || IsFinalWave() && abilitySummons.Count <=0)
+        if (checkOneWave || (IsFinalWave() && abilitySummons.Count <= 0))
         {
-            AllPortalsSpawned?.Invoke();
+            StartCoroutine(InvokeAllPortalsSpawnedAfterDelay(2f));
 
-            stopLoadingWaves = true;  // Đặt cờ để dừng LoadWaveTypeCurrentNext
+            stopLoadingWaves = true;  //= LoadWaveTypeCurrentNext
             return;
         }
     }
+    private IEnumerator InvokeAllPortalsSpawnedAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);  
+        AllPortalsSpawned?.Invoke(); 
+    }
+
     public void LoadPortalsWaveComplete()
     {
         //Point Empty == false ALL

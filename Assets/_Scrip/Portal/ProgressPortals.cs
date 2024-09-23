@@ -96,8 +96,8 @@ public class ProgressPortals : PortalSpawnManagerAbstract
 
     private Vector3 CalculateUIPosition(float percentage)
     {
-        float minX = -333 / 2f;
-        float maxX = 333 / 2f;
+        float minX = -348 / 2f;
+        float maxX = 348 / 2f;
         float positionXTarget = Mathf.Lerp(maxX, minX, percentage);
 
         return new Vector3(positionXTarget, targetUI.localPosition.y, targetUI.localPosition.z);
