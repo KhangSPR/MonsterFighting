@@ -5,7 +5,7 @@ public class StatsFake : MonoBehaviour
     [SerializeField] private int _attack;
     [SerializeField] private int _life;
     [SerializeField] private float _attackSpeed;
-    [SerializeField] private float _specialAttack;
+    [SerializeField] private float _currentMana;
 
     // Public properties with getter and setter
     public int Attack
@@ -26,17 +26,17 @@ public class StatsFake : MonoBehaviour
         set => _attackSpeed = value;
     }
 
-    public float SpecialAttack
+    public float CurrentMana
     {
-        get => _specialAttack;
-        set => _specialAttack = value;
+        get => _currentMana;
+        set => _currentMana = value;
     }
 
-    public void Initialize(int attack, int life, float attackSpeed, float specialAttack)
+    public void Initialize(int attack, int life, float attackSpeed, float currentMana)
     {
         _attack = attack;
         _life = life;
         _attackSpeed = attackSpeed;
-        _specialAttack = specialAttack;
+        _currentMana = currentMana;
     }
 }

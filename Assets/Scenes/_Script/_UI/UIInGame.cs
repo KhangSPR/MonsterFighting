@@ -8,8 +8,8 @@ public class UIInGame : MonoBehaviour
     [SerializeField] UILoseGameController uiloseGameController;
     public UILoseGameController UILoseGameController => uiloseGameController;
 
-    [SerializeField] UIWinGameController uIWinGameController;
-    public UIWinGameController UIWinGameController => uIWinGameController;
+    [SerializeField] UIWinGameCtrl uIWinGameController;
+    public UIWinGameCtrl UIWinGameController => uIWinGameController;
 
     [SerializeField] UILevelStarConditionCtrl uILevelStarConditionCtrl;
     public UILevelStarConditionCtrl UILevelStarConditionCtrl => uILevelStarConditionCtrl;

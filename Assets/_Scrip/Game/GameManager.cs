@@ -21,7 +21,7 @@ public class GameManager : SaiMonoBehaviour
     [SerializeField]
     ImageRefresh cardRefresh;
     public ImageRefresh CardRefresh => cardRefresh;
-    CardBtn cardBtn;
+    CardButton cardBtn;
 
     [Space]
     [Space]
@@ -278,7 +278,7 @@ public class GameManager : SaiMonoBehaviour
 
             Hover.Instance.Activate(button.Sprite);
         }
-        else if (button is CardBtn && costManager.Currency >= button.Price)
+        else if (button is CardButton && costManager.Currency >= button.Price)
         {
             HandleActivation(button);
 
@@ -324,13 +324,13 @@ public class GameManager : SaiMonoBehaviour
     }
     public void HandleActivation(BaseBtn button)
     {
-        if (button is CardBtn)
+        if (button is CardButton)
         {
             Hover.Instance.Activate(button.Sprite);
 
-            this.clickBtn = button as CardBtn;
+            this.clickBtn = button as CardButton;
 
-            cardBtn = (CardBtn)clickBtn;
+            cardBtn = (CardButton)clickBtn;
 
             cardBtn.SelectButton.SetActive(true);
         }

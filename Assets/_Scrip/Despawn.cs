@@ -28,6 +28,8 @@ public abstract class Despawn : SaiMonoBehaviour
     public void ResetCanDespawnFlag()
     {
         this.canDespawnFlag = true;
+
+        //transform.parent.gameObject.SetActive(false);
     }
     protected abstract bool canDespawn();
 

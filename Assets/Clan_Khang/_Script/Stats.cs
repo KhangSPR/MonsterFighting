@@ -8,7 +8,7 @@ public class Stats : ScriptableObject
     [SerializeField] private int _attack;
     [SerializeField] private int _life;
     [SerializeField] private float _attackSpeed;
-    [SerializeField] private float _specialAttack;
+    [SerializeField] private float _currentMana;
     // Public properties with getter and setter
     public int Attack
     {
@@ -28,18 +28,18 @@ public class Stats : ScriptableObject
         set => _attackSpeed = value;
     }
 
-    public float SpecialAttack
+    public float CurrentManaAttack
     {
-        get => _specialAttack;
-        set => _specialAttack = value;
+        get => _currentMana;
+        set => _currentMana = value;
     }
 
 
-    public Stats(int attack, int life, float attackSpeed, float specialAttack)
+    public Stats(int attack, int life, float attackSpeed, float currentMana)
     {
         _attack = attack;
         _life = life;
         _attackSpeed = attackSpeed;
-        _specialAttack = specialAttack;
+        _currentMana = currentMana;
     }
 }

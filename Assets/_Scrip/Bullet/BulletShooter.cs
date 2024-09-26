@@ -170,6 +170,8 @@ public abstract class BulletShooter : AbstractCtrl
                 return BulletSpawner.bulletOne;
             case "Magic Fire":
                 return BulletSpawner.bulletSix;
+            case "Dark Sorceress":
+                return BulletSpawner.Bullet_DarkSorceress;
             //Transform là Guard
             case "Guard_1":
                 return BulletSpawner.bulletFive;

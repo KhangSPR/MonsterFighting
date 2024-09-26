@@ -19,6 +19,8 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
     public Despawn Despawn { get => despawn; }
     [SerializeField] protected AbstractModel abstractModel;
     public AbstractModel AbstractModel { get => abstractModel; }
+    [SerializeField] protected ObjMana objMana;
+    public ObjMana ObjMana => objMana;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -29,6 +31,13 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         this.loadAnimationDameSender();
         this.loadDespawn();
         this.loadAbstractModel();
+        this.loadObjMana();
+    }
+    protected virtual void loadObjMana()
+    {
+        if (this.objMana != null) return;
+        this.objMana = transform.GetComponentInChildren<ObjMana>();
+        Debug.Log(gameObject.name + ": loadObjMana" + gameObject);
     }
     protected virtual void loadAbstractModel()
     {

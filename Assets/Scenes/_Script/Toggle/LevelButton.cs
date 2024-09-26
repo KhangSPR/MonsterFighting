@@ -20,7 +20,7 @@ namespace UIGameDataMap
         [Header("Level Settings")]
         [SerializeField] private Text ZoneIndexText;               // ref to text which indicates the level number
         [SerializeField] private Button btn;
-        /*[SerializeField] private Image[] starsArray;  */              //ref to all the stars of button
+        //[SerializeField] private Image[] starsArray;                //ref to all the stars of button
         [SerializeField] ChangeDifficultMapInfos ChangeDifficultMapInfos;                                                              //ref to hold button component
                                                                                                                                        //public static event Action OnClickEnvent;
         public MapSO GetMapSO()

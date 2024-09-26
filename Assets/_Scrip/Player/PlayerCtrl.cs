@@ -15,6 +15,12 @@ public class PlayerCtrl : ObjectCtrl
     private Vector3Int cellPosition;
     StatsFake characterStatsFake;
     public StatsFake CharacterStatsFake => characterStatsFake;
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        this.abstractModel.SetOnDeadAnimation();
+    }
     private void InitCharacterStats()
     {
         if (cardCharacter != null)
@@ -23,11 +29,11 @@ public class PlayerCtrl : ObjectCtrl
             if (characterStatsFake == null)
             {
                 characterStatsFake = gameObject.AddComponent<StatsFake>();
-                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.SpecialAttack);
+                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.CurrentManaAttack);
             }
             else
             {
-                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.SpecialAttack);
+                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.CurrentManaAttack);
             }
 
             // Áp dụng thêm các chỉ số từ GuildSOManager (nếu cần)
@@ -36,6 +42,19 @@ public class PlayerCtrl : ObjectCtrl
                 GameManager.Instance.GuildSOManager.GuildJoined.abilitySO.ApplyMoreStats(gameObject);
             }
         }
+    }
+    private void SetSkill(CardCharacter cardTower)
+    {
+        var skill1 = cardTower.skill1;
+        float manaSkill1 = skill1?.manaRequirement ?? 0f;
+        bool lockSkill1 = skill1?.skillUnlock ?? false;
+
+        var skill2 = cardTower.skill2;
+        float manaSkill2 = skill2?.manaRequirement ?? 0f;
+        bool lockSkill2 = skill2?.skillUnlock ?? false;
+
+        // Call Funtion SetSkill Abstract Modle
+        this.abstractModel.SetSkill(manaSkill1, lockSkill1, manaSkill2, lockSkill2);
     }
 
     public void ApplyTemporaryStats(StatsFake tempStats)
@@ -46,7 +65,7 @@ public class PlayerCtrl : ObjectCtrl
             characterStatsFake.Attack = tempStats.Attack;
             characterStatsFake.Life = tempStats.Life;
             characterStatsFake.AttackSpeed = tempStats.AttackSpeed;
-            characterStatsFake.SpecialAttack = tempStats.SpecialAttack;
+            characterStatsFake.CurrentMana = tempStats.CurrentMana;
 
             // Áp dụng các chỉ số vào GameObject nếu cần thiết
         }
@@ -56,6 +75,7 @@ public class PlayerCtrl : ObjectCtrl
     {
         cardCharacter = cardTower;
         InitCharacterStats();
+        SetSkill(cardTower);
     }
 
     protected override string GetObjectTypeString()

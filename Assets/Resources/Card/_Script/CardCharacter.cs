@@ -1,4 +1,4 @@
-﻿#nullable enable
+﻿//#nullable enable
 
 using UnityEngine;
 
@@ -10,6 +10,7 @@ namespace UIGameDataManager
         Warrior,       // Close-range physical attacks
         Archer,      // Attacks from a distance
         Wizard,       // Magical attacks
+        Animation,
         //Stealth,     // Sneaky and stealthy attacks
 
         // Add more types as needed

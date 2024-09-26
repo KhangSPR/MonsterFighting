@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 public enum attackType
 {
@@ -28,11 +30,15 @@ public abstract class AbstractModel : AbstractCtrl
     public EffectCharacter EffectCharacter => effectCharacter;
 
     protected bool isAttacking = false;
-    protected bool isAnimationComplete = false;
+    protected bool isAnimationAttackComplete = false;
+    protected bool isAnimationDeadComplete = false;
     protected float delayAttack = 3.0f;
     protected float currentDelay = 0f;
     protected bool isStun = false;
     public bool IsStun { get { return isStun; } set { isStun = value; } }
+
+
+    //[SerializeField] protected float fadeDuration = 2.0f;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -112,7 +118,17 @@ public abstract class AbstractModel : AbstractCtrl
 
     public void OnAttackAnimationEnd()
     {
-        this.isAnimationComplete = true;
+        this.isAnimationAttackComplete = true;
+    }
+    public void OnDeadAnimationEnd()
+    {
+        this.isAnimationDeadComplete = true;
+    }
+    public void SetOnDeadAnimation()
+    {
+        this.isAnimationDeadComplete = false;
+        this.EnablePhysics();
+        this.effectCharacter.ResetAlpha();
     }
 
     protected virtual void CheckDelay()
@@ -144,9 +160,115 @@ public abstract class AbstractModel : AbstractCtrl
         this.animator.Play("Move");
     }
 
-    protected void Idle()
+    public void Idle()
     {
         this.animator.Play("Idle");
     }
+    protected virtual void DisablePhysics()
+    {
+        this.boxCollider.enabled = false;
+        this.circleCollider.enabled = false;
+        this._rigidbody.simulated = false;
+    }
+    protected virtual void EnablePhysics()
+    {
+        this.boxCollider.enabled = true;
+        this.circleCollider.enabled = true;
+        this._rigidbody.simulated = true;
+    }
+    protected void Dead()
+    {
+        HandleDeath();
+    }
+    private void HandleDeath()
+    {
+        this.animator.Play("Dead");
 
+        DisablePhysics();
+
+        if (!isAnimationDeadComplete) return;
+
+        this.effectCharacter.StartFadeOut();
+
+        if(this.effectCharacter.FadeCharacter)
+        {
+
+            animator.Rebind();
+
+            this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
+
+        }        
+    }
+    ////////////////////////////////////////////////////////////////////////-----------------------------------------------------------------------
+    /// <summary>
+    /// 
+    /// </summary>
+    [SerializeField]
+    protected SkillCharacter Skill1;
+    [SerializeField]
+    protected SkillCharacter Skill2;
+    [SerializeField]
+    protected bool skillEnable = false;
+
+    public void OnSkillEnableComplete()
+    {
+        this.skillEnable = false;
+    }
+    public void SetSkill(float manaSkill1, bool lockSkill1, float manaSkill2, bool lockSkill2)
+    {
+        // Thiết lập giá trị cho Skill1
+        Skill1 = new SkillCharacter
+        {
+            manaSkill = manaSkill1,
+            unlockSkill = lockSkill1
+        };
+
+        // Thiết lập giá trị cho Skill2
+        Skill2 = new SkillCharacter
+        {
+            manaSkill = manaSkill2,
+            unlockSkill = lockSkill2
+        };
+    }
+
+    protected virtual void CallAnimationSkill()
+    {
+        if (this.skillEnable) return; 
+
+        if (Skill2.unlockSkill && this.ObjectCtrl.ObjMana.IsMana >= Skill2.manaSkill)
+        {
+            currentState = State.Skill; // Chuyển sang trạng thái Skill
+            this.animator.Play("Skill2");
+            this.ObjectCtrl.ObjMana.DeductMana(Skill2.manaSkill);
+            this.skillEnable = true;  // Đặt cờ skill đang chạy
+
+            //PlayAnimation("Attack", false);
+
+
+            Debug.Log("Da Goi skill 2 : " + transform.parent.name);
+
+            return;
+        }
+
+        if (Skill1.unlockSkill && this.ObjectCtrl.ObjMana.IsMana >= Skill1.manaSkill)
+        {
+            currentState = State.Skill; // Chuyển sang trạng thái Skill
+            this.animator.Play("Skill1");
+            this.ObjectCtrl.ObjMana.DeductMana(Skill1.manaSkill);
+            this.skillEnable = true;  // Đặt cờ skill đang chạy
+
+            //PlayAnimation("Attack", false);
+
+
+            Debug.Log("Da Goi skill 1 : " + transform.parent.name);
+
+        }
+    }
+
+}
+[Serializable] 
+public class SkillCharacter
+{
+    public float manaSkill;
+    public bool unlockSkill;
 }

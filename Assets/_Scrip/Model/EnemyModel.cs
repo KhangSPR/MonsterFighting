@@ -33,7 +33,7 @@
                     PlayAnimation("Stun", false);
 
                     isAttacking = true;
-                    isAnimationComplete = false;
+                    isAnimationAttackComplete = false;
                 }
                 else
                 {
@@ -64,10 +64,10 @@
 
         if (shouldAttack)
         {
-            if (isAttacking && isAnimationComplete)
+            if (isAttacking && isAnimationAttackComplete)
             {
                 this.AttackType();
-                isAnimationComplete = false;
+                isAnimationAttackComplete = false;
                 currentDelay = delayAttack; // Set time Wait
                 currentState = State.Idle; // Next State Idle
             }

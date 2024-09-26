@@ -40,7 +40,7 @@ public abstract class TileScrip : SaiMonoBehaviour
 
             if (obj != null)
             {
-                obj.transform.SetParent(transform);
+                //obj.transform.SetParent(transform);
                 this.IsEmpty = false;
             }
         }

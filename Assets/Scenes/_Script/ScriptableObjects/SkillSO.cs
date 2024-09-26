@@ -11,8 +11,10 @@ using UnityEngine.UI;
 public class SkillSO : ScriptableObject
 {
     public string skillName;
+    public float damage;
     // time in seconds
-    public float damageTime;
+    public float coutdownTimer;
+
 
     // icon for character screen
     public Sprite sprite;

@@ -28,10 +28,10 @@ public class ListCardCharacterData : SaiMonoBehaviour
 
             // Set Prefab Instance
             //newCardObject.GetComponent<CardBtn>().CardPrefabSet = PlayerSpawner.Instance.GetGameobjectPrefabByName(cardCharacterData.nameCard);
-            newCardObject.GetComponent<CardBtn>().CardCharacter = cardCharacterData;
-            newCardObject.GetComponent<CardBtn>().Sprite = cardCharacterData.avatar;
-            newCardObject.GetComponent<CardBtn>().Price = cardCharacterData.price;
-            newCardObject.GetComponent<CardBtn>().CardRefresh.cooldownDuration = cardCharacterData.cardRefresh;
+            newCardObject.GetComponent<CardButton>().CardCharacter = cardCharacterData;
+            newCardObject.GetComponent<CardButton>().Sprite = cardCharacterData.avatar;
+            newCardObject.GetComponent<CardButton>().Price = cardCharacterData.price;
+            newCardObject.GetComponent<CardButton>().CardRefresh.cooldownDuration = cardCharacterData.cardRefresh;
         }
         Debug.Log("Click");
     }

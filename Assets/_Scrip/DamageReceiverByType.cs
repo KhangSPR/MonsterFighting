@@ -112,14 +112,14 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         isBurning = false;
         if (burnCoroutine != null) StopCoroutine(burnCoroutine);
 
-        ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
     }
     public void StopGlace()
     {
         isGlacing = false;
         if (glaceCoroutine != null) StopCoroutine(glaceCoroutine);
 
-        ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
         enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;  // Khôi phục vận tốc ban đầu
     }
     public void StopTwitching()
@@ -128,7 +128,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
 
         if (twitchCoroutine != null) StopCoroutine(twitchCoroutine);
 
-        ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
         this.enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;
         this.enemyCtrl.AbstractModel.IsStun = false;
 
@@ -151,7 +151,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         isPoition = false;
         if (poitionCoroutine != null) StopCoroutine(poitionCoroutine);
 
-        ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
     }
     #endregion
     #region Glace Effect
@@ -164,7 +164,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         if (material != null)
         {
             Debug.Log("Set Glace Effect");
-            ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
+            objectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
         }
 
         if (enemyCtrl != null)
@@ -193,7 +193,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         if(material!= null)
         {
             Debug.Log("Set Fire Burn");
-            ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
+            objectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
         }
 
         if (burnCoroutine != null) StopCoroutine(burnCoroutine);
@@ -225,7 +225,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         if (material != null)
         {
             Debug.Log("Set Electric Effect");
-            ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
+            objectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
         }
 
         if (enemyCtrl != null)
@@ -273,7 +273,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         if (material != null)
         {
             Debug.Log("Set Fire Burn");
-            ObjectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
+            objectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
         }
 
         if (poitionCoroutine != null) StopCoroutine(poitionCoroutine);

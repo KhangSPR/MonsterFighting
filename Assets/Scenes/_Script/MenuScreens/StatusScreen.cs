@@ -11,7 +11,7 @@ namespace UIGameDataManager
 
         public static event Action ScreenEnabled;
         public static event Action ScreenDisabled;
-        public static event Action<CardStatsSkill> CharStatsWindowUpdated;
+        public static event Action<CardStatsSkillUI> CharStatsWindowUpdated;
 
 
         [Header("Exit Panel")]
@@ -21,7 +21,7 @@ namespace UIGameDataManager
         [Space]
         [Space]
         [Header("Component")]
-        [SerializeField] CardStatsSkill m_CharStatsWindow;
+        [SerializeField] CardStatsSkillUI m_CharStatsWindow;
         [SerializeField] GameIconsSO m_GameIconsData;
         private void Start()
         {

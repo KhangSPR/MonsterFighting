@@ -24,7 +24,7 @@ public abstract class DamageReceiver : AbstractCtrl
     [Space]
     [Space]
     [Header("Object")]
-    [SerializeField] protected ObjectCtrl ObjectCtrl;
+    [SerializeField] protected ObjectCtrl objectCtrl;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -33,8 +33,8 @@ public abstract class DamageReceiver : AbstractCtrl
 
     protected virtual void LoadObjectCtrl()
     {
-        if (ObjectCtrl != null) return;
-        ObjectCtrl = transform.parent.GetComponent<ObjectCtrl>();
+        if (objectCtrl != null) return;
+        objectCtrl = transform.parent.GetComponent<ObjectCtrl>();
         Debug.Log(gameObject.name + ": Loaded ObjectCtrl for " + gameObject.name);
     }
 
@@ -95,8 +95,8 @@ public abstract class DamageReceiver : AbstractCtrl
     }
     public void HandleSlashDamage()
     {
-        if(ObjectCtrl!=null)
-            ObjectCtrl.AbstractModel.DameFlash.CallDamageFlash();
+        if(objectCtrl!=null)
+            objectCtrl.AbstractModel.DameFlash.CallDamageFlash();
     }
     public abstract void OnDead();
 

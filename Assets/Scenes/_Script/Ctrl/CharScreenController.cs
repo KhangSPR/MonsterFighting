@@ -28,8 +28,8 @@ namespace UIGameDataManager
         public List<CharacterData> M_Characters { get { return m_Characters; } set { m_Characters = value; } }
         public CharacterData CurrentCharacter { get => M_Characters[m_CurrentIndex]; }
 
-        CardStatsSkill m_Stats;
-        public CardStatsSkill Stats { get { return m_Stats; } set { m_Stats = value;  } }
+        CardStatsSkillUI m_Stats;
+        public CardStatsSkillUI Stats { get { return m_Stats; } set { m_Stats = value;  } }
 
         [SerializeField] int m_CurrentIndex;
         int m_ActiveGearSlot;
@@ -181,7 +181,7 @@ namespace UIGameDataManager
         {
             ShowCharacterPreview(false);
         }
-        void OnCharStatsWindowUpdated(CardStatsSkill charStatsWindow)
+        void OnCharStatsWindowUpdated(CardStatsSkillUI charStatsWindow)
         {
             // Cập nhật Stats từ CharStatsWindow
             m_Stats = charStatsWindow;

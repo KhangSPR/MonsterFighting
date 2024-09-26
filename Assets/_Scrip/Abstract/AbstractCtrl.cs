@@ -17,6 +17,8 @@ public abstract class AbstractCtrl : SaiMonoBehaviour
     public BulletCtrl BulletCtrl { get => bulletCtrl; }
     [SerializeField] protected ParticleCtrl particleCtrl;
     public ParticleCtrl ParticleCtrl { get => particleCtrl; }
+    [SerializeField] protected ObjectCtrl objCtrl;
+    public ObjectCtrl ObjectCtrl { get => objCtrl; }
 
     protected override void LoadComponents()
     {
@@ -27,6 +29,8 @@ public abstract class AbstractCtrl : SaiMonoBehaviour
         LoadInParentComponent(ref deFenSeCtrl);
         LoadInParentComponent(ref  bulletCtrl);
         LoadInParentComponent(ref particleCtrl);
+        LoadInParentComponent(ref objCtrl);
+
     }
 
     protected void LoadInParentComponent<T>(ref T component) where T : Component

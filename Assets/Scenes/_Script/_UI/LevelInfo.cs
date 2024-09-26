@@ -29,7 +29,7 @@ namespace UIGameDataMap
         [SerializeField] ChangeDifficultMapInfos MapInfos;
         private void SetChangeDifficultMapInfos(MapSO mapSO)
         {
-            foreach (ChangeDifficultMapInfo mapInfo in MapInfos.ChangeDifficultMapInfo)
+            foreach (ChangeDifficultMap mapInfo in MapInfos.ChangeDifficultMapInfo)
             {
                 mapInfo.SetMapSO(mapSO);
             }

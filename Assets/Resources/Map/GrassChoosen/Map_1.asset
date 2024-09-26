@@ -38,7 +38,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
-            name: Goblin Green
+            name: Grassland Wolf
             countEnemy: 1
             timerMin: 3
             timerMax: 4
@@ -251,9 +251,9 @@ MonoBehaviour:
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 10
-  - stars: 2
+  - stars: 3
     difficult: 2
-    isReceivedReWard: 0
+    isReceivedReWard: 1
     Waves:
     - waveRandom:
         enemyRanDoms:

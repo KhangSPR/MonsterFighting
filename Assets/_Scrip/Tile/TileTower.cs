@@ -18,7 +18,7 @@ public class TileTower : TileScrip
     protected override void OnMouseOver()
     {
         IsActive();
-        if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickBtn != null && GameManager.Instance.ClickBtn is CardBtn)
+        if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickBtn != null && GameManager.Instance.ClickBtn is CardButton)
         {
             if (IsEmpty)
             {

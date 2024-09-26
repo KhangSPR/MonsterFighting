@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class ChangeDifficultMapInfos : SaiMonoBehaviour
 {
-    [SerializeField] ChangeDifficultMapInfo[] changeDifficultMapInfos;
-    public ChangeDifficultMapInfo[] ChangeDifficultMapInfo => changeDifficultMapInfos;
+    [SerializeField] ChangeDifficultMap[] changeDifficultMapInfos;
+    public ChangeDifficultMap[] ChangeDifficultMapInfo => changeDifficultMapInfos;
 
     [SerializeField] GameObject[] HolderLock;
     [SerializeField] GameObject[] HolderPVP;
@@ -20,7 +20,7 @@ public class ChangeDifficultMapInfos : SaiMonoBehaviour
     {
         if (this.changeDifficultMapInfos == null || this.changeDifficultMapInfos.Length == 0)
         {
-            this.changeDifficultMapInfos = transform.GetComponentsInChildren<ChangeDifficultMapInfo>();
+            this.changeDifficultMapInfos = transform.GetComponentsInChildren<ChangeDifficultMap>();
         }
     }
     protected virtual void LoadHolder()

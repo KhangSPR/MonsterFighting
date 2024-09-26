@@ -7,10 +7,10 @@ public class ObjectDamageReceiver : DamageReceiverByType
     public override void OnDead()
     {
         base.OnDead();
-        if (ObjectCtrl != null)
+        if (objectCtrl != null)
         {
-            ObjectCtrl.Despawn.ResetCanDespawnFlag();
-            ObjectCtrl.AbstractModel.DameFlash.StopCoroutieSlash();
+            //objectCtrl.Despawn.ResetCanDespawnFlag();
+            objectCtrl.AbstractModel.DameFlash.StopCoroutieSlash();
         }
         else
         {
@@ -22,9 +22,9 @@ public class ObjectDamageReceiver : DamageReceiverByType
         // Ensure the ObjectCtrl and its dependencies are loaded first
         LoadObjectCtrl();
 
-        if (ObjectCtrl != null)
+        if (objectCtrl != null)
         {
-            isMaxHP = PlayerCtrl?.CardCharacter.CharacterStats.Life
+            isMaxHP = PlayerCtrl?.CharacterStatsFake.Life
                       ?? EnemyCtrl?.EnemySO.basePointsLife
                       ?? isMaxHP;
         }

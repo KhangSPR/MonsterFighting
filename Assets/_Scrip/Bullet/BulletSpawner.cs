@@ -14,6 +14,7 @@ public class BulletSpawner : Spawner
     public static string bulletEight = "Bullet_8"; // bullet 2
     public static string bulletNine = "Bullet_9";
     public static string bulletTen = "Bullet_10";
+    public static string Bullet_DarkSorceress = "Bullet_DarkSorceress";
 
     protected override void Awake()
     {
