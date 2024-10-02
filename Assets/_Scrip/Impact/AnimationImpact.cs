@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 public class AnimationImpact : SaiMonoBehaviour
 {
     [Header("Animation Impart")]
-    [SerializeField] protected BoxCollider2D boxCollider2D;
+    [SerializeField] protected CircleCollider2D boxCollider2D;
     [SerializeField] protected PlayerCtrl playerCtrl;
     public PlayerCtrl PlayerCtrl { get => playerCtrl; }
     [SerializeField] protected EnemyCtrl enemyCtrl;
@@ -35,10 +35,10 @@ public class AnimationImpact : SaiMonoBehaviour
     protected virtual void LoadCollider()
     {
         if (this.boxCollider2D != null) return;
-        this.boxCollider2D = GetComponent<BoxCollider2D>();
+        this.boxCollider2D = GetComponent<CircleCollider2D>();
         this.boxCollider2D.isTrigger = true;
         this.boxCollider2D.offset = new Vector2(0.75f, -0.05f);
-        this.boxCollider2D.size = new Vector2(0.5f, 0.15f);
+        this.boxCollider2D.offset = new Vector2(0.5f, 0.15f);
         Debug.Log(transform.name + ": LoadCollider", gameObject);
     }
     protected virtual void OnTriggerEnter2D(Collider2D other)

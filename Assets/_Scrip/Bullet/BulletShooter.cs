@@ -6,10 +6,15 @@ public abstract class BulletShooter : AbstractCtrl
     public bool isShooting = false;
     [SerializeField] protected Transform transformParent;
     public Transform TransformParent => transformParent;
+
+    [SerializeField]
+    protected Transform gunPoint;
+    public Transform GunPoint => gunPoint;
     protected override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadTransFormParentObject();
+        this.LoadGunPoint();
     }
     protected override void Update()
     {
@@ -24,10 +29,17 @@ public abstract class BulletShooter : AbstractCtrl
         Debug.Log(gameObject.transform.parent.name + ": LoadTransFormParentObject" + gameObject);
         return this.transformParent;
     }
+    protected virtual void LoadGunPoint()
+    {
+        if (this.gunPoint != null) return;
+        this.gunPoint = transform.Find("GunPoint");
+
+        Debug.Log(gameObject.transform.parent.name + ": LoadGunPoint" + gameObject);
+
+    }
     public void Shoot()
     {
         Vector3 shootingDirection = GetShootingDirection();
-        Transform gunPoint = transform.Find("GunPoint");
         Quaternion rotation;
 
         // Find the "Bow" object within the parent "Model" object

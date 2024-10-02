@@ -45,17 +45,25 @@ public class PlayerCtrl : ObjectCtrl
     }
     private void SetSkill(CardCharacter cardTower)
     {
-        var skill1 = cardTower.skill1;
-        float manaSkill1 = skill1?.manaRequirement ?? 0f;
-        bool lockSkill1 = skill1?.skillUnlock ?? false;
+        // Skill 1
+        SkillSO skill1 = cardTower.skill1;
+        float manaSkill1 = skill1 != null ? skill1.manaRequirement : 0f;
+        float dmg1 = skill1 != null ? skill1.damage : 0f;
+        bool lockSkill1 = skill1 != null ? skill1.skillUnlock : false;
+        ISkill classSkill1 = skill1 != null ? skill1.GetSkillInstance() : null;
 
-        var skill2 = cardTower.skill2;
-        float manaSkill2 = skill2?.manaRequirement ?? 0f;
-        bool lockSkill2 = skill2?.skillUnlock ?? false;
+        // Skill 2
+        SkillSO skill2 = cardTower.skill2;
+        float manaSkill2 = skill2 != null ? skill2.manaRequirement : 0f;
+        bool lockSkill2 = skill2 != null ? skill2.skillUnlock : false;
+        float dmg2 = skill2 != null ? skill2.damage : 0f;
+        ISkill classSkill2 = lockSkill2 && skill2 != null ? skill2.GetSkillInstance() : null;
 
-        // Call Funtion SetSkill Abstract Modle
-        this.abstractModel.SetSkill(manaSkill1, lockSkill1, manaSkill2, lockSkill2);
+        // Call Function SetSkill for AbstractModel
+        this.abstractModel.SetSkill(manaSkill1, lockSkill1,dmg1, classSkill1, manaSkill2, lockSkill2, dmg2, classSkill2);
     }
+
+
 
     public void ApplyTemporaryStats(StatsFake tempStats)
     {

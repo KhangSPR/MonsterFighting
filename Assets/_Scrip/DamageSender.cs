@@ -26,8 +26,22 @@ public class DamageSender : AbstractCtrl
         DamageReceiver damageReceiver = obj.GetComponentInChildren<DamageReceiver>();
         if (damageReceiver == null) return;
         this.Send(damageReceiver);
-    }
 
+        FXSpawner.Instance.SendFXText(damage, skillType, obj, Quaternion.identity);
+
+        Debug.Log("Default Spawner Sender");
+    }
+    public virtual void SendFXImpact(DamageReceiver damageReceiver)
+    {
+        //DamageReceiver damageReceiver = obj.GetComponent<DamageReceiver>();
+
+        this.Send(damageReceiver);
+
+        FXSpawner.Instance.SendFXText(damage, skillType, damageReceiver.transform.parent, Quaternion.identity);
+
+        Debug.Log("FX Spawner Sender");
+
+    }
     public virtual void Send(DamageReceiver damageReceiver)
     {
         damageReceiver.DeductHealth(this.damage);

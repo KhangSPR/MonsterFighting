@@ -131,7 +131,19 @@ public abstract class Spawner : SaiMonoBehaviour
 
         return null;
     }
+    public virtual List<Transform> FindObjectEnable()
+    {
+        List<Transform> list = new List<Transform>();   
 
+        foreach(Transform obj in holder)
+        {
+            if(obj.gameObject.activeSelf)
+            {
+                list.Add(obj);
+            }
+        }
+        return list;
+    }
     public virtual Transform RandomPrefab()
     {
         int rand = Random.Range(0, this.prefabs.Count);

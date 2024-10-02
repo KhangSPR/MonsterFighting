@@ -1,6 +1,10 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public enum attackType
 {
@@ -98,10 +102,11 @@ public abstract class AbstractModel : AbstractCtrl
 
     protected virtual void LoadAnimationImpact()
     {
-        if (attackType != attackType.Animation) return;
+        //if (attackType != attackType.Animation) return;
         if (this.animationImpact != null) return;
 
-        this.animationImpact = transform.Find("AnimationImpact").GetComponent<AnimationImpact>();
+        //this.animationImpact = transform.Find("AnimationImpact").GetComponent<AnimationImpact>();
+        this.animationImpact = transform.GetComponentInChildren<AnimationImpact>();
         Debug.Log(transform.name + ": LoadAnimationImpact", gameObject);
     }
 
@@ -129,6 +134,8 @@ public abstract class AbstractModel : AbstractCtrl
         this.isAnimationDeadComplete = false;
         this.EnablePhysics();
         this.effectCharacter.ResetAlpha();
+
+        Debug.Log("Set On Dead");
     }
 
     protected virtual void CheckDelay()
@@ -154,7 +161,25 @@ public abstract class AbstractModel : AbstractCtrl
     }
 
     protected abstract void AnimationLoading();
-    protected abstract void AttackType();
+    protected virtual void AttackType()
+    {
+        switch (attackType)
+        {
+            case attackType.BulletDefault:
+                this.objCtrl.BulletShooter.Shoot();
+                break;
+            case attackType.BulletPX:
+                this.objCtrl.BulletShooter.ShootPX();
+                break;
+            case attackType.Animation:
+                animationImpact.damageSent = false;
+                animationImpact.gameObject.SetActive(true);
+                break;
+            default:
+                // Xử lý cho các trường hợp khác (nếu cần)
+                break;
+        }
+    }
     protected void Move()
     {
         this.animator.Play("Move");
@@ -190,85 +215,75 @@ public abstract class AbstractModel : AbstractCtrl
 
         this.effectCharacter.StartFadeOut();
 
-        if(this.effectCharacter.FadeCharacter)
+        if (this.effectCharacter.FadeCharacter)
         {
 
             animator.Rebind();
 
             this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
 
-        }        
+        }
     }
     ////////////////////////////////////////////////////////////////////////-----------------------------------------------------------------------
     /// <summary>
     /// 
     /// </summary>
     [SerializeField]
-    protected SkillCharacter Skill1;
-    [SerializeField]
-    protected SkillCharacter Skill2;
+    protected SkillCharacter Skill1, Skill2;
     [SerializeField]
     protected bool skillEnable = false;
 
+    // Biến tạm lưu skill đang hoạt động
+    private SkillCharacter currentActiveSkill;
+    public SkillCharacter CurrentActiveSkill => currentActiveSkill;
+
     public void OnSkillEnableComplete()
     {
-        this.skillEnable = false;
+        skillEnable = false;
     }
-    public void SetSkill(float manaSkill1, bool lockSkill1, float manaSkill2, bool lockSkill2)
-    {
-        // Thiết lập giá trị cho Skill1
-        Skill1 = new SkillCharacter
-        {
-            manaSkill = manaSkill1,
-            unlockSkill = lockSkill1
-        };
 
-        // Thiết lập giá trị cho Skill2
-        Skill2 = new SkillCharacter
-        {
-            manaSkill = manaSkill2,
-            unlockSkill = lockSkill2
-        };
+    public void SetSkill(float manaSkill1, bool lockSkill1, float damage1, ISkill skillType1, float manaSkill2, bool lockSkill2, float damage2, ISkill skillType2)
+    {
+        Skill1 = new SkillCharacter(manaSkill1, lockSkill1, damage1, skillType1);
+        Skill2 = new SkillCharacter(manaSkill2, lockSkill2, damage2, skillType2);
     }
 
     protected virtual void CallAnimationSkill()
     {
-        if (this.skillEnable) return; 
+        if (skillEnable) return;
 
-        if (Skill2.unlockSkill && this.ObjectCtrl.ObjMana.IsMana >= Skill2.manaSkill)
+        // Kiểm tra Skill2 trước, nếu không thì kiểm tra Skill1
+        if (TryUseSkill(Skill2, "Skill2") || TryUseSkill(Skill1, "Skill1"))
         {
-            currentState = State.Skill; // Chuyển sang trạng thái Skill
-            this.animator.Play("Skill2");
-            this.ObjectCtrl.ObjMana.DeductMana(Skill2.manaSkill);
-            this.skillEnable = true;  // Đặt cờ skill đang chạy
-
-            //PlayAnimation("Attack", false);
-
-
-            Debug.Log("Da Goi skill 2 : " + transform.parent.name);
-
-            return;
-        }
-
-        if (Skill1.unlockSkill && this.ObjectCtrl.ObjMana.IsMana >= Skill1.manaSkill)
-        {
-            currentState = State.Skill; // Chuyển sang trạng thái Skill
-            this.animator.Play("Skill1");
-            this.ObjectCtrl.ObjMana.DeductMana(Skill1.manaSkill);
-            this.skillEnable = true;  // Đặt cờ skill đang chạy
-
-            //PlayAnimation("Attack", false);
-
-
-            Debug.Log("Da Goi skill 1 : " + transform.parent.name);
-
+            skillEnable = true;
         }
     }
 
+    private bool TryUseSkill(SkillCharacter skill, string animationName)
+    {
+        if (skill.CanUseSkill(ObjectCtrl.ObjMana))
+        {
+            currentState = State.Skill;
+            animator.Play(animationName);
+            currentActiveSkill = skill;  // Lưu skill hiện tại vào biến tạm
+            skill.UseSkill(ObjectCtrl);
+            Debug.Log("Đã gọi " + animationName + " : " + transform.parent.name);
+            return true;
+        }
+        return false;
+    }
+
+    // Hàm này sẽ được gọi trong Unity Event
+    public void OnActiveSkillAnimation()
+    {
+        if (currentActiveSkill != null)
+        {
+            currentActiveSkill.ActiveSkill(objCtrl); // Kích hoạt skill hiện tại
+
+            Debug.Log("Đang kích hoạt skill: " + (currentActiveSkill == Skill1 ? "Skill 1" : "Skill 2"));
+        }
+    }
+
+
 }
-[Serializable] 
-public class SkillCharacter
-{
-    public float manaSkill;
-    public bool unlockSkill;
-}
+

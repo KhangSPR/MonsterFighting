@@ -9,7 +9,7 @@ public class ObjectDamageReceiver : DamageReceiverByType
         base.OnDead();
         if (objectCtrl != null)
         {
-            //objectCtrl.Despawn.ResetCanDespawnFlag();
+            //objectCtrl.Despawn.ResetCanDespawnFlag(); //In Animation Dead ObjModle
             objectCtrl.AbstractModel.DameFlash.StopCoroutieSlash();
         }
         else
@@ -48,7 +48,7 @@ public class ObjectDamageReceiver : DamageReceiverByType
     }
     protected virtual void CreateTextPointFX(int point, Vector3 hitPos, Medicine medicineType)
     {
-        string fxName = this.GetTextDamageFX();
+        string fxName = "TextDamage";
         Transform fxObj = FXSpawner.Instance.Spawn(fxName, hitPos, Quaternion.identity);
         TextDamage textDamage = fxObj.GetComponent<TextDamage>();
         textDamage.DoAnimation(point, medicineType);

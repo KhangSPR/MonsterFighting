@@ -107,6 +107,7 @@ public class TextDamage : SaiMonoBehaviour
             SkillType.Stone => Color.gray + Color.red + Color.yellow,
             SkillType.Poison => Color.green,
             SkillType.Electric => Color.yellow,
+            SkillType.Dark => Color.magenta,
             _ => Color.white,
         };
     }

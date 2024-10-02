@@ -4,16 +4,18 @@ using System.Collections;
 using UIGameDataMap;
 using UnityEngine;
 
-public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
+public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, IDarkable
 {
     [Header("Damage Type")]
     [SerializeField] protected float exitTimeTwitch = 1f;
     [SerializeField] protected float exitTimeBurn = 2f;
+    [SerializeField] protected float exitTimeDark = 2f;
     //[SerializeField] protected float exitTimeGlace = 4f;
 
     [SerializeField] protected int DamagePerSecondFire = 2;
     [SerializeField] protected int DamagePerSecondTwitch = 1;
     [SerializeField] protected int DamagePerSecondPoition = 1;
+    [SerializeField] protected int DamagePerSecondDark = 1;
 
 
     [SerializeField] protected float TimeDurationFire = 3;
@@ -21,6 +23,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
     [SerializeField] protected float TimeDurationTwich = 2;
     [SerializeField] protected float TimeDurationPoition = 6;
     [SerializeField] protected float TimeDurationStun = 2;
+    [SerializeField] protected float TimeDurationDark = 3;
 
 
 
@@ -30,20 +33,20 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
     private Coroutine twitchCoroutine = null;
     private Coroutine poitionCoroutine = null;
     private Coroutine stunCoroutine = null;
+    private Coroutine darkCoroutine = null;
 
 
-    private Transform objFX;
     #region Machine Effect
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        //HandleCollisionEnter<IBurnable>(collision, DamagePerSecondFire, StartBurning);
+        HandleCollisionEnter<IDarkable>(collision, DamagePerSecondDark, StartDarking);
         //HandleCollisionEnter<IElectricable>(collision, DamagePerSecondTwitch, StartTwitching);
     }
 
     protected virtual void OnTriggerExit2D(Collider2D collision)
     {
-        //HandleCollisionExit<IBurnable>(collision, exitTimeBurn, StopBurning);
+        HandleCollisionExit<IDarkable>(collision, exitTimeDark, StopDarking);
         //HandleCollisionExit<IElectricable>(collision, exitTimeTwitch, StopTwitching);
     }
 
@@ -79,21 +82,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         yield return new WaitForSeconds(time);
         stopEffect();
     }
-    public void StartBurning(int damagePerSecond)
-    {
-        isBurning = true;
-
-        if (burnCoroutine != null) StopCoroutine(burnCoroutine);
-        burnCoroutine = StartCoroutine(ApplyEffect(damagePerSecond, () => isBurning));
-    }
-    public void StartTwitching(int damagePerSecond)
-    {
-        isTwitching = true;
-        if (twitchCoroutine != null) StopCoroutine(twitchCoroutine);
-        twitchCoroutine = StartCoroutine(ApplyEffect(damagePerSecond, () => isTwitching));
-
-    }
-    private IEnumerator ApplyEffect(int damagePerSecond, Func<bool> condition)
+        private IEnumerator ApplyEffect(int damagePerSecond, Func<bool> condition, SkillType skillType)
     {
         float interval = 1f / damagePerSecond;
         WaitForSeconds wait = new WaitForSeconds(interval);
@@ -103,7 +92,43 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         {
             yield return wait;
             DeductHealth(damagePerTick);
+            FXSpawner.Instance.SendFXText(damagePerSecond, skillType, transform, Quaternion.identity);
+
+            Debug.Log("Darking");
         }
+    }
+    public void StartBurning(int damagePerSecond)
+    {
+        isBurning = true;
+
+        if (burnCoroutine != null) StopCoroutine(burnCoroutine);
+        burnCoroutine = StartCoroutine(ApplyEffect(damagePerSecond, () => isBurning, SkillType.Fire));
+    }
+    public void StartTwitching(int damagePerSecond)
+    {
+        isTwitching = true;
+        if (twitchCoroutine != null) StopCoroutine(twitchCoroutine);
+        twitchCoroutine = StartCoroutine(ApplyEffect(damagePerSecond, () => isTwitching, SkillType.Electric));
+
+    }
+    #endregion
+    #region Darking Effect
+    public void StartDarking(int damagePerSecond)
+    {
+        isDarking = true;
+
+        StartStun();
+
+        if (darkCoroutine != null) StopCoroutine(darkCoroutine);
+        darkCoroutine = StartCoroutine(ApplyEffect(damagePerSecond, () => isDarking, SkillType.Dark));
+    }
+
+    public void StopDarking()
+    {
+        isDarking = false;
+        if (darkCoroutine != null) StopCoroutine(darkCoroutine);
+
+        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
     }
     #endregion
     #region STOP EFFECT
@@ -132,17 +157,6 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         this.enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;
         this.enemyCtrl.AbstractModel.IsStun = false;
 
-
-        Debug.Log("StopStun");
-    }
-    public void StopStun()
-    {
-        isStun = false;
-
-        if (stunCoroutine != null) StopCoroutine(stunCoroutine);
-
-        this.enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;
-        this.enemyCtrl.AbstractModel.IsStun = false;
 
         Debug.Log("StopStun");
     }
@@ -208,7 +222,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         {
             yield return wait;
             DeductHealth(damagePerSecond);
-            Send(damagePerSecond, skillType);
+            FXSpawner.Instance.SendFXText(damagePerSecond, skillType,transform,Quaternion.identity);
             elapsedTime += 0.5f;
         }
 
@@ -230,15 +244,6 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
 
         if (enemyCtrl != null)
         {
-            Vector3 hitPos = transform.position;
-            hitPos.y += 0.35f;
-
-            objFX = FXSpawner.Instance.Spawn("Stun", hitPos, Quaternion.identity); // Assign to objFX
-
-            objFX.GetComponentInChildren<FxDespawn>().delay = TimeDurationTwich;
-
-            objFX.gameObject.SetActive(true); // Activate the GameObject
-
             StartCoroutine(ApplyTwitchingEffect(DamagePerSecondTwitch, TimeDurationTwich, skillType));
 
             this.enemyCtrl.AbstractModel.IsStun = true;
@@ -255,7 +260,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         {
             yield return wait;
             DeductHealth(damagePerSecond);
-            Send(damagePerSecond, skillType);
+            FXSpawner.Instance.SendFXText(damagePerSecond, skillType, transform, Quaternion.identity);
             elapsedTime += 0.5f;
         }
 
@@ -288,7 +293,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         {
             yield return wait;
             DeductHealth(damagePerSecond);
-            Send(damagePerSecond, skillType);
+            FXSpawner.Instance.SendFXText(damagePerSecond, skillType, transform, Quaternion.identity);
             elapsedTime += 0.5f;
         }
 
@@ -302,19 +307,12 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
 
         if (enemyCtrl != null)
         {
-            Vector3 hitPos = transform.position;
-            hitPos.y += 0.35f;
-
-            objFX = FXSpawner.Instance.Spawn("Stun", hitPos, Quaternion.identity); // Assign to objFX
-
-            objFX.GetComponentInChildren<FxDespawn>().delay = TimeDurationStun;
-
-            objFX.gameObject.SetActive(true); // Activate the GameObject
-
-            StartCoroutine(ApplyStunEffect(TimeDurationTwich));
+            StartCoroutine(ApplyStunEffect(TimeDurationStun));
 
             this.enemyCtrl.AbstractModel.IsStun = true;
             this.enemyCtrl.ObjMovement.MoveSpeed = 0;
+
+            Debug.Log("Call Start Stun");
         }
     }
 
@@ -324,44 +322,21 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
 
         StopStun(); // Dừng hiệu ứng twitching khi hết thời gian
     }
-    #endregion
-    #region FX Text ... 
-    public void Send(int dame, SkillType skillType)
+    public void StopStun()
     {
-        Vector3 hitPos = transform.position;
-        Quaternion hitRot = transform.rotation;
+        isStun = false;
 
-        //this.CreateImpactFX(hitPos, hitRot);
-        this.CreateTextDamageFX(dame,hitPos, skillType);
-    }
-    protected virtual void CreateTextDamageFX(int dame,Vector3 hitPos, SkillType skillType)
-    {
-        string fxName = this.GetTextDamageFX();
-        Transform fxObj = FXSpawner.Instance.Spawn(fxName, hitPos, Quaternion.identity);
-        TextDamage textDamage = fxObj.GetComponent<TextDamage>();
-        textDamage.DoAnimation(dame, skillType);
-        fxObj.gameObject.SetActive(true);
-    }
+        if (stunCoroutine != null) StopCoroutine(stunCoroutine);
 
-    protected virtual string GetTextDamageFX()
-    {
-        return FXSpawner.textDamage;
+        this.enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;
+        this.enemyCtrl.AbstractModel.IsStun = false;
+
+        Debug.Log("StopStun");
     }
     #endregion
     public override void OnDead()
     {
         Debug.Log("OnDead ");
-
-        // Kiểm tra và cập nhật delay của objFX nếu đang tồn tại
-        if (objFX != null)
-        {
-            var fxDespawn = objFX.GetComponentInChildren<FxDespawn>();
-            if (fxDespawn != null)
-            {
-                fxDespawn.timer = fxDespawn.delay;
-                Debug.Log("Set objFX delay to 0s");
-            }
-        }
 
         // Xử lý các hiệu ứng đang chạy
         HandleEffectCharacter();
@@ -393,6 +368,11 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable
         {
             StopStun();
             Debug.Log("Stop Stun");
+        }
+        if(isDarking)
+        {
+            StopDarking();
+            Debug.Log("Stop Darking");
         }
     }
 }

@@ -21,6 +21,9 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
     public AbstractModel AbstractModel { get => abstractModel; }
     [SerializeField] protected ObjMana objMana;
     public ObjMana ObjMana => objMana;
+    [SerializeField] protected BulletShooter bulletShooter;
+
+    public BulletShooter BulletShooter => bulletShooter;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -32,6 +35,13 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         this.loadDespawn();
         this.loadAbstractModel();
         this.loadObjMana();
+        this.LoadBulletShooter();
+    }
+    protected virtual void LoadBulletShooter()
+    {
+        if (this.bulletShooter != null) return;
+        this.bulletShooter = transform.GetComponentInChildren<BulletShooter>();
+        Debug.Log(gameObject.name + ": loadPCanAttackEnemy" + gameObject);
     }
     protected virtual void loadObjMana()
     {

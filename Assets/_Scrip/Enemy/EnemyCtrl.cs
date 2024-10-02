@@ -6,9 +6,6 @@ public class EnemyCtrl : ObjectCtrl
     [Header("Enemy Ctrl")]
     [SerializeField] protected EnemyAttack enemyAttack;
     public EnemyAttack EnemyAttack => enemyAttack;
-    [SerializeField] protected EnemyShooter enemyShooter;
-
-    public EnemyShooter EnemyShooter => enemyShooter;
     [SerializeField] protected EnemyModel enemyModel;
     public EnemyModel EnemyModel => EnemyModel;
     [SerializeField] protected ObjMovement objMovement;
@@ -21,6 +18,8 @@ public class EnemyCtrl : ObjectCtrl
     public EnemyDropItem EnemyDropItem => enemyDropItem;
     [SerializeField] protected ObjAppearBigger objAppearBigger;
     public ObjAppearBigger ObjAppearBigger => objAppearBigger;
+    [SerializeField] protected TargetSkill targetSkill;
+    public TargetSkill TargetSkill => targetSkill;
     protected override string GetObjectTypeString()
     {
         return ObjectType.Enemy.ToString();
@@ -29,21 +28,33 @@ public class EnemyCtrl : ObjectCtrl
     {
         cellPosition = cellPos;
     }
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        this.abstractModel.SetOnDeadAnimation();
+    }
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        this.LoadEnemyShooter();
         this.loadEnemyAttack();
         this.loadEnemyModel();
         this.loadObjMovement();
         this.LoadEnemyDropItem();
         this.loadObjAppearBigger();
+        this.loadTargetSkill();
     }
     protected virtual void loadObjAppearBigger()
     {
         if (this.objAppearBigger != null) return;
         this.objAppearBigger = transform.GetComponentInChildren<ObjAppearBigger>();
         Debug.Log(gameObject.name + ": loadObjAppearBigger" + gameObject);
+    }
+    protected virtual void loadTargetSkill()
+    {
+        if (this.targetSkill != null) return;
+        this.targetSkill = transform.GetComponentInChildren<TargetSkill>();
+        Debug.Log(gameObject.name + ": loadTargetSkill" + gameObject);
     }
     protected virtual void loadObjMovement()
     {
@@ -62,12 +73,6 @@ public class EnemyCtrl : ObjectCtrl
         if (this.enemyAttack != null) return;
         this.enemyAttack = transform.GetComponentInChildren<EnemyAttack>();
         Debug.Log(gameObject.name + ": loadEnemyAttack" + gameObject);
-    }
-    protected virtual void LoadEnemyShooter()
-    {
-        if (this.enemyShooter != null) return;
-        this.enemyShooter = transform.GetComponentInChildren<EnemyShooter>();
-        Debug.Log(gameObject.name + ": loadPCanAttackEnemy" + gameObject);
     }
     protected virtual void LoadEnemyDropItem()
     {

@@ -73,6 +73,10 @@ public class PortalTimer : PortalSpawnManagerAbstract
 
     void TimerSpawn(List<float> spawnTimes)
     {
+        if (spawnTimes.Count <= 0) return;
+
+        Debug.Log("TimerSpawn = " + spawnTimes.Count);
+
         this.delayArray = new float[spawnTimes.Count];
 
         for (int i = 0; i < spawnTimes.Count; i++)
@@ -113,6 +117,12 @@ public class PortalTimer : PortalSpawnManagerAbstract
         {
             this.TimeSpawns = portalSpawnManagerCtrl.MapSO.TimeSpawningPortal(portalSpawnManagerCtrl.CurrentWave);
         }
+        if (TimeSpawns == null || TimeSpawns.Count == 0)
+        {
+            //Debug.LogError("TimeSpawns is null or empty.");
+            return;
+        }
+
 
         // Cập nhật lại delayArray
         this.TimerSpawn(this.TimeSpawns);

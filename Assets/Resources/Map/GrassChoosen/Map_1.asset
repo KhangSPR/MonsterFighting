@@ -24,58 +24,15 @@ MonoBehaviour:
     Waves:
     - waveRandom:
         enemyRanDoms:
-        - TimeFirstSpawn: 5.78
-          EnemyType:
-          - rarity: 0
-            name: Goblin Green
-            countEnemy: 1
-            timerMin: 3
-            timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
-        - TimeFirstSpawn: 2
+        - TimeFirstSpawn: 4
           EnemyType:
           - rarity: 0
             name: Grassland Wolf
             countEnemy: 1
             timerMin: 3
-            timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
-        Portals:
-        - rarityPortal: 0
-          countPortal: 1
-          DelaySpawnFirstEnemy: 3
-          spawnTimeInSeconds:
-          - 3
-          hasBoss: 0
-          enemyTypes:
-          - rarity: 0
-            name: Goblin Green
-            countEnemy: 1
-            timerMin: 2
-            timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
-      waveFinal:
-        enemyRanDoms:
-        - TimeFirstSpawn: 3
-          EnemyType:
-          - rarity: 0
-            name: Goblin Green
-            countEnemy: 1
-            timerMin: 3
-            timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+            timerMax: 5
+            skillType: []
+            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -85,14 +42,40 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 0
-            name: Goblin Green
-            countEnemy: 1
-            timerMin: 2
-            timerMax: 4
+            name: Grassland Wolf
+            countEnemy: 5
+            timerMin: 4
+            timerMax: 6
             skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+            - id: 3
+              skill: 7
+            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 3
+          EnemyType:
+          - rarity: 0
+            name: Grassland Wolf
+            countEnemy: 2
+            timerMin: 4
+            timerMax: 6
+            skillType: []
+            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
+        Portals:
+        - rarityPortal: 0
+          countPortal: 0
+          DelaySpawnFirstEnemy: 2
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - rarity: 0
+            name: Grassland Wolf
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+            skillType: []
+            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 5

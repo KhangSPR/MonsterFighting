@@ -1,7 +1,18 @@
-﻿public class EnemyModel : AbstractModel
+﻿using UnityEngine;
+
+public class EnemyModel : AbstractModel
 {
     protected override void AnimationLoading()
     {
+        // Kiểm tra nếu nhân vật đang chết
+        if (this.objCtrl.ObjectDamageReceiver.IsDead)
+        {
+            Debug.Log("Play Animation Dead");
+            this.Dead();
+            return;
+        }
+
+
         bool shouldAttack = false;
 
         if (isStun)
@@ -86,23 +97,4 @@
         }
     }
 
-    protected override void AttackType()
-    {
-        switch (attackType)
-        {
-            case attackType.BulletDefault:
-                this.enemyCtrl.EnemyShooter.Shoot();
-                break;
-            case attackType.BulletPX:
-                this.enemyCtrl.EnemyShooter.ShootPX();
-                break;
-            case attackType.Animation:
-                animationImpact.damageSent = false;
-                animationImpact.gameObject.SetActive(true);
-                break;
-            default:
-                // Xử lý cho các trường hợp khác (nếu cần)
-                break;
-        }
-    }
 }

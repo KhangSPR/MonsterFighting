@@ -20,6 +20,9 @@ public abstract class AbstractCtrl : SaiMonoBehaviour
     [SerializeField] protected ObjectCtrl objCtrl;
     public ObjectCtrl ObjectCtrl { get => objCtrl; }
 
+    [SerializeField] protected SkillCtrl skillCtrl;
+    public SkillCtrl SkillCtrl { get => skillCtrl; }
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -30,6 +33,8 @@ public abstract class AbstractCtrl : SaiMonoBehaviour
         LoadInParentComponent(ref  bulletCtrl);
         LoadInParentComponent(ref particleCtrl);
         LoadInParentComponent(ref objCtrl);
+        LoadInParentComponent(ref skillCtrl);
+
 
     }
 

@@ -9,6 +9,8 @@ public class Selection : MonoBehaviour
     [SerializeField] float mapScale;
     public int mapCurrent = 0;
     public List<RectTransform> mapsList = new List<RectTransform>();
+    internal static GameObject activeGameObject;
+
     void Awake()
     {
         //mapsList.AddRange(GetComponentsInChildren<RectTransform>());

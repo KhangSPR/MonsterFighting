@@ -18,7 +18,8 @@ public abstract class DamageReceiver : AbstractCtrl
     protected bool isGlacing;
     protected bool isPoition;
     protected bool isStun;
-
+    protected bool isDarking;
+    [SerializeField]
     protected bool isDead;
     public bool IsDead => isHP <= 0;
     [Space]
@@ -65,6 +66,9 @@ public abstract class DamageReceiver : AbstractCtrl
 
     public virtual void DeductHealth(int amount)
     {
+
+        Debug.Log("DeductHealth + " + transform.parent.name);
+
         if (isDead) return;
         if(!isBurning && !isGlacing && !isTwitching)//Add Effect...
         {
@@ -76,8 +80,12 @@ public abstract class DamageReceiver : AbstractCtrl
     }
     protected virtual void CheckIfDead()
     {
+        Debug.Log("CheckIfDead Is Fasle");
+
         if (IsDead)
         {
+            Debug.Log("CheckIfDead Is True");
+
             isDead = true;
             OnDead();
             //if (damageByPlayer)

@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyAttack : EnemyAbstract
 {
     public bool canAttack = false;
+
     public List<Transform> CanAtacck = new List<Transform>();
     private bool detectedFirstCollision = false;
     private void OnTriggerEnter2D(Collider2D other)

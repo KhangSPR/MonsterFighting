@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerModel : AbstractModel
@@ -25,7 +26,7 @@ public class PlayerModel : AbstractModel
             return;
         }
 
-        Debug.Log("Goi 1 lan Animation skill");
+        //Debug.Log("Goi 1 lan Animation skill");
 
         bool shouldAttack = false;
 
@@ -51,7 +52,7 @@ public class PlayerModel : AbstractModel
         {
             shouldAttack = true;
         }
-        if(shouldAttack &&(this.ObjectCtrl.ObjMana.IsMana >= Skill2.manaSkill || this.ObjectCtrl.ObjMana.IsMana >= Skill1.manaSkill))
+        if (shouldAttack && (this.ObjectCtrl.ObjMana.IsMana >= Skill2.manaSkill && Skill2.unlockSkill|| this.ObjectCtrl.ObjMana.IsMana >= Skill1.manaSkill && Skill1.unlockSkill))
         {
             CallAnimationSkill();
 
@@ -76,27 +77,6 @@ public class PlayerModel : AbstractModel
             isAnimationAttackComplete = false;
             currentDelay = delayAttack; // Thời gian chờ sau khi tấn công
             currentState = State.Idle;
-        }
-    }
-
-
-    protected override void AttackType()
-    {
-        switch (attackType)
-        {
-            case attackType.BulletDefault:
-                this.playerCtrl.PlayerShooter.Shoot();
-                break;
-            case attackType.BulletPX:
-                this.playerCtrl.PlayerShooter.ShootPX();
-                break;
-            case attackType.Animation:
-                animationImpact.damageSent = false;
-                animationImpact.gameObject.SetActive(true);
-                break;
-            default:
-                // Xử lý cho các trường hợp khác (nếu cần)
-                break;
         }
     }
 
