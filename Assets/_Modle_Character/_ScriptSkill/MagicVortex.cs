@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class MagicVortex : ISkill
 {
@@ -14,17 +15,27 @@ public class MagicVortex : ISkill
         {
             Transform objEnemy = canAttackList[i];
 
-            // Lấy TargetSkill một lần duy nhất
-            TargetSkill targetSkill = objEnemy.GetComponentInChildren<TargetSkill>();
-            if (targetSkill == null || targetSkill.IsSkill)
-            {
-                continue; 
-            }
-
             // Spawn new FXSkill
             Transform newFXSkill = FXSpawner.Instance.Spawn(FXSpawner.MagicVortex, objectCtrl.BulletShooter.GunPoint.position, Quaternion.Euler(-105f, 0f, 0f));
 
-            MagicVortexCtrl iskill = newFXSkill.GetComponent<MagicVortexCtrl>();
+            newFXSkill.gameObject.SetActive(true);
+
+
+            MagicVortexCtrl iskill = newFXSkill.GetComponent<MagicVortexCtrl>(); // Repair
+
+            // Lấy TargetSkill một lần duy nhất
+            TargetSkill targetSkill = objEnemy.GetComponentInChildren<TargetSkill>();
+
+            targetSkill.listSkillCtrl.Add(iskill);
+
+
+            if (targetSkill.listSkillCtrl.Count > 1)
+            {
+                //skill stack
+                targetSkill.StartCoroutine(WaitForSkillCompletion(targetSkill));
+            }
+
+
             if (iskill != null)
             {
                 // Gán damage và target cho skill
@@ -33,11 +44,19 @@ public class MagicVortex : ISkill
                 iskill.SetObjectCtrl(targetSkill.EnemyCtrl);
 
                 // Kích hoạt FXSkill và thực hiện hành động skill
-                newFXSkill.gameObject.SetActive(true);
                 iskill.SkillAction();
             }
-
-            targetSkill.IsSkill = true;
         }
+    }
+    private IEnumerator WaitForSkillCompletion(TargetSkill targetSkill)
+    {
+        MagicVortexCtrl firstSkillCtrl = (MagicVortexCtrl)targetSkill.listSkillCtrl[0];
+
+        yield return new WaitUntil(() => firstSkillCtrl.IsSkillActionComplete);
+
+        // Sau khi skill hoàn thành, reset despawn flag
+        firstSkillCtrl.FxDespawn.ResetCanDespawnFlag();
+
+        Debug.Log("WaitForSkillCompletion");
     }
 }

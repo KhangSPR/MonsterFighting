@@ -11,6 +11,15 @@ public class ObjectDamageReceiver : DamageReceiverByType
         {
             //objectCtrl.Despawn.ResetCanDespawnFlag(); //In Animation Dead ObjModle
             objectCtrl.AbstractModel.DameFlash.StopCoroutieSlash();
+            if(enemyCtrl !=null)
+            {
+                if (enemyCtrl.TargetSkill.listSkillCtrl.Count <= 0) return;
+
+                foreach(SkillCtrl scrSkill in enemyCtrl.TargetSkill.listSkillCtrl)
+                {
+                    scrSkill.FxDespawn.ResetCanDespawnFlag();
+                }
+            }
         }
         else
         {

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +12,11 @@ public class AnimationImpact : SaiMonoBehaviour
     [SerializeField] protected EnemyCtrl enemyCtrl;
     public EnemyCtrl EnemyCtrl { get => enemyCtrl; }
 
+    //[Header("Object")]
+    //[SerializeField] protected ObjectCtrl objectCtrl;
+
+
+
     public bool damageSent;
     protected override void LoadComponents()
     {
@@ -19,6 +24,7 @@ public class AnimationImpact : SaiMonoBehaviour
         this.LoadCollider();
         this.LoadEnemyCtrl();
         this.LoadPlayerCtrl();
+        //this.LoadObjectCtrl();
     }
     protected virtual void LoadPlayerCtrl()
     {
@@ -41,43 +47,50 @@ public class AnimationImpact : SaiMonoBehaviour
         this.boxCollider2D.offset = new Vector2(0.5f, 0.15f);
         Debug.Log(transform.name + ": LoadCollider", gameObject);
     }
+
+    //protected virtual void LoadObjectCtrl()
+    //{
+    //    if (objectCtrl != null) return;
+    //    objectCtrl = transform.parent.GetComponent<ObjectCtrl>();
+    //    Debug.Log(gameObject.name + ": Loaded ObjectCtrl for " + gameObject.name);
+    //}
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (damageSent) return;
 
-        if (playerCtrl != null /*&& playerCtrl.transform.CompareTag("Player")*/)
+        // Nếu không có FXDamageReceiver, xử lý theo logic khác
+        if (playerCtrl != null)
         {
             if (other.transform.parent.CompareTag("Enemy"))
             {
                 playerCtrl.DamageSender.Send(other.transform.parent);
+                Debug.Log("damageSent (player vs enemy)");
 
-                Debug.Log("damageSent");
-
-                //Finish DamageSent
+                // Đánh dấu đã gửi damage
                 damageSent = true;
                 gameObject.SetActive(false);
-
                 return;
             }
-
-
-
         }
-        else if (enemyCtrl != null /*&& enemyCtrl.transform.CompareTag("Enemy")*/)
+        else if (enemyCtrl != null)
         {
+            if(enemyCtrl.TargetSkill.listSkillCtrl.Count >0)
+            {
+                enemyCtrl.TargetSkill.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage);
+
+                Debug.Log("Skill Effect");
+                damageSent = true;
+                gameObject.SetActive(false);
+                return;
+            }
             if (other.transform.parent.CompareTag("Player") || other.transform.parent.CompareTag("Castle"))
             {
                 enemyCtrl.DamageSender.Send(other.transform.parent);
-
-                Debug.Log("damageSent");
-
                 damageSent = true;
                 gameObject.SetActive(false);
-
                 return;
             }
-
         }
-        //this.CreateImpactFX(other);
     }
+
 }

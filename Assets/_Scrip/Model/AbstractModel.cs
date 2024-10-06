@@ -150,7 +150,7 @@ public abstract class AbstractModel : AbstractCtrl
         }
     }
 
-    public void DameSent()
+    public void EventDameSent()
     {
         animationImpact.damageSent = false;
     }
@@ -207,22 +207,8 @@ public abstract class AbstractModel : AbstractCtrl
     }
     private void HandleDeath()
     {
-        this.animator.Play("Dead");
-
-        DisablePhysics();
-
-        if (!isAnimationDeadComplete) return;
-
         this.effectCharacter.StartFadeOut();
 
-        if (this.effectCharacter.FadeCharacter)
-        {
-
-            animator.Rebind();
-
-            this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
-
-        }
     }
     ////////////////////////////////////////////////////////////////////////-----------------------------------------------------------------------
     /// <summary>

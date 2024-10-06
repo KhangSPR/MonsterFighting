@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimationDameSender : DamageSender
 {
-    
+
     //public override void Send(DamageReceiver receiver)
     //{
     //    base.Send(receiver);

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TargetSkill : EnemyAbstract
 {
-    [SerializeField] private bool isSkill = false;
-    public bool IsSkill { get { return isSkill; } set { isSkill = value; } }
+    //[SerializeField] private bool isSkill = false;
+    //public bool IsSkill { get { return isSkill; } set { isSkill = value; } }
+
+    public List<SkillCtrl> listSkillCtrl;
+
 }

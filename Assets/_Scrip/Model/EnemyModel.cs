@@ -2,13 +2,46 @@
 
 public class EnemyModel : AbstractModel
 {
+    private bool isVFXCalled = false;
     protected override void AnimationLoading()
     {
-        // Kiểm tra nếu nhân vật đang chết
         if (this.objCtrl.ObjectDamageReceiver.IsDead)
         {
             Debug.Log("Play Animation Dead");
-            this.Dead();
+            this.animator.Play("Dead");
+
+            this.DisablePhysics();
+
+            if (!isAnimationDeadComplete) return;
+
+            // Check if VFX has not been called
+            if (!isVFXCalled)
+            {
+                this.effectCharacter.CallVFXDeadEnemy();
+                isVFXCalled = true; 
+            }
+
+            if (this.effectCharacter.IsDissolveComplete)
+            {
+                Debug.Log("isDissolveComplete");
+
+                this.Dead();
+
+                if (this.effectCharacter.FadeCharacter)
+                {
+
+                    animator.Rebind();
+
+                    this.effectCharacter.SetDissolveCompleteFalse();
+                    isVFXCalled = false;
+
+                    //Despawn
+                    this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
+
+                    Debug.Log("Call 1 Lan");
+                }
+
+            }
             return;
         }
 

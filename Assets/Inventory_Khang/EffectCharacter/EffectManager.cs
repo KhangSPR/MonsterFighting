@@ -19,7 +19,7 @@ public class EffectManager : SaiMonoBehaviour
     }
     public Material GetMaterialByName(string materialName)
     {
-        switch (materialName.ToLower())
+        switch (materialName.ToLower()) //Chuyen thanh chu thuong
         {
             case "glace":
                 return effectCharacter[0];

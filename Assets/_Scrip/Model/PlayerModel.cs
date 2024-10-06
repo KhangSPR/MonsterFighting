@@ -11,7 +11,24 @@ public class PlayerModel : AbstractModel
         if (this.objCtrl.ObjectDamageReceiver.IsDead)
         {
             Debug.Log("Play Animation Dead");
+            this.animator.Play("Dead");
+
+            this.DisablePhysics();
+
+            if (!isAnimationDeadComplete) return;
+
+
             this.Dead();
+
+
+            if (this.effectCharacter.FadeCharacter)
+            {
+
+                animator.Rebind();
+
+                //Despawn
+                this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
+            }
             return;
         }
 
