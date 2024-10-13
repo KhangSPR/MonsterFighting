@@ -32,17 +32,35 @@ public abstract class AbstractModel : AbstractCtrl
     public DameFlash DameFlash => dameFlash;
     [SerializeField] protected EffectCharacter effectCharacter;
     public EffectCharacter EffectCharacter => effectCharacter;
-
+    [SerializeField]
     protected bool isAttacking = false;
     protected bool isAnimationAttackComplete = false;
     protected bool isAnimationDeadComplete = false;
-    protected float delayAttack = 3.0f;
+    [SerializeField]
+    protected float delayAttack;
+    [SerializeField]
     protected float currentDelay = 0f;
+    [SerializeField]
     protected bool isStun = false;
     public bool IsStun { get { return isStun; } set { isStun = value; } }
 
 
+    [SerializeField]
+    protected bool isRage = false;
+    public bool IsRage { get { return isRage; } set { isRage = value; } }
+
+    [SerializeField]
+    protected bool isFuryGain = false;
+    public bool IsFuryGain { get { return isFuryGain; } set { isFuryGain = value; } }
+
     //[SerializeField] protected float fadeDuration = 2.0f;
+
+
+    protected bool isUsingAttack1 = true; // Variable to check current attack type
+    [SerializeField]
+    protected bool hasAttack2 = false;
+    
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -54,7 +72,26 @@ public abstract class AbstractModel : AbstractCtrl
         this.LoadDameFlash();
         this.LoadEffectCharacter();
     }
-
+    protected override void Start()
+    {
+        base.Start();
+        LoaHasAttack2();
+    }
+    protected virtual void LoaHasAttack2()
+    {
+        hasAttack2 = HasParameter(animator, "Attack2");
+    }
+    private bool HasParameter(Animator animator, string paramName)
+    {
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.name == paramName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     protected virtual void LoadBoxCollider2D()
     {
         if (this.boxCollider != null) return;
@@ -201,6 +238,12 @@ public abstract class AbstractModel : AbstractCtrl
         this.circleCollider.enabled = true;
         this._rigidbody.simulated = true;
     }
+    protected virtual void SetFalseAnimation()
+    {
+        this.isStun = false;
+        this.isRage = false;
+        this.isFuryGain = false;
+    }
     protected void Dead()
     {
         HandleDeath();
@@ -210,6 +253,22 @@ public abstract class AbstractModel : AbstractCtrl
         this.effectCharacter.StartFadeOut();
 
     }
+    //Rage Skill
+    public void SetRageState()
+    {
+        currentState = State.Rage;
+    }
+    //Fury Animation
+    public void SetEventAnimationFuryEnd()
+    {
+        Debug.Log("Fury-Gain Animation Ended");
+        isFuryGain = false;
+        this.isRage = true;
+
+    }
+
+
+
     ////////////////////////////////////////////////////////////////////////-----------------------------------------------------------------------
     /// <summary>
     /// 

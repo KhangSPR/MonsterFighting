@@ -4,5 +4,7 @@ public enum State
     Move,
     Attack,
     Stun,
-    Skill
+    Skill,
+    Rage,
+    Fury
 }

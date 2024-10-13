@@ -41,6 +41,19 @@ public class EffectCharacter : MonoBehaviour
         Transform Font = transform.Find("Textures/Font");
         Transform Middle = transform.Find("Textures/Midle");
         Transform Back = transform.Find("Textures/Back");
+        if(Font== null)
+        {
+            Font = transform.Find("Character/Font");
+        }
+        if (Middle == null)
+        {
+            Middle = transform.Find("Character/Midle");
+        }
+        if (Back == null)
+        {
+            Back = transform.Find("Character/Back");
+        }
+        //Character -- Co the gan luon khoi can auto
 
         if (Font != null)
         {
@@ -158,7 +171,7 @@ public class EffectCharacter : MonoBehaviour
             float currentValue = Mathf.Lerp(1.0f, 0.0f, elapsedTime / dissolveTime);
 
             SetMaterialsToValue(currentValue);
-            Debug.Log("Dissolving... CurrentValue: " + currentValue);
+            //Debug.Log("Dissolving... CurrentValue: " + currentValue);
 
             if (elapsedTime >= dissolveTime)
             {

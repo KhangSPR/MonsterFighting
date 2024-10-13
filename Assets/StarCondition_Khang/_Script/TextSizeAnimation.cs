@@ -18,6 +18,8 @@ public class TextSizeAnimation : MonoBehaviour
     public AnimationCurve scaleCurve1;
 
     private float timer = 0f;
+    //[Header("Fade")]
+    //public GameObject Fade;
     public void PlayWaveAnimation(string Text, bool endWave)
     {
         if (textUI == null)

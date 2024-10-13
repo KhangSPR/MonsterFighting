@@ -43,12 +43,11 @@ namespace CartoonFX
         void OnEditorUpdate()
         {
             CalculateAndUpdateEmission();
-            if (Selection.activeGameObject != this.gameObject)
+
+            if (!System.Array.Exists(Selection.gameObjects, item => item == this.gameObject))
             {
                 DetachFromEditor();
             }
-
-
         }
 
         void CalculateAndUpdateEmission()

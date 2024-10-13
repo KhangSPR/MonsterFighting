@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using UIGameDataMap;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, IDarkable
@@ -71,7 +72,8 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         {
             if (component is T)
             {
-                StartCoroutine(CountDownAndStopEffect(exitTime, stopEffect));
+                //StartCoroutine(CountDownAndStopEffect(exitTime, stopEffect));
+                CoroutineManager.Instance.StartGlobalCoroutine(CountDownAndStopEffect(exitTime, stopEffect));
                 break;
             }
         }
@@ -115,21 +117,66 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
     #region Darking Effect
     public void StartDarking(int damagePerSecond)
     {
+        if (this.playerCtrl != null) return;
+
+        // Nếu darkCoroutine đang chạy, dừng nó trước khi khởi động lại
+        if (darkCoroutine != null)
+        {
+            StopCoroutine(darkCoroutine);
+            darkCoroutine = null;
+        }
+
         isDarking = true;
 
+        // Khởi động lại hiệu ứng Stun từ đầu
         StartStun();
 
-        if (darkCoroutine != null) StopCoroutine(darkCoroutine);
+        // Bắt đầu lại hiệu ứng Darking
         darkCoroutine = StartCoroutine(ApplyEffect(damagePerSecond, () => isDarking, SkillType.Dark));
     }
 
+
     public void StopDarking()
     {
-        isDarking = false;
-        if (darkCoroutine != null) StopCoroutine(darkCoroutine);
+        // Đảm bảo không chạy tiếp nếu object đã bị hủy
+        if (this == null || transform == null || transform.parent == null)
+        {
+            Debug.LogWarning("StopDarking: Đối tượng đã bị hủy, không thể tiếp tục thực thi.");
+            return;
+        }
 
+        isDarking = false;
+
+        // Kiểm tra darkCoroutine có tồn tại và dừng coroutine
+        if (darkCoroutine != null)
+        {
+            // Kiểm tra nếu đối tượng cha đã bị vô hiệu hóa
+            if (!transform.parent.gameObject.activeSelf) return;
+
+            StopCoroutine(darkCoroutine);
+            darkCoroutine = null; // Đảm bảo đặt về null sau khi dừng
+        }
+
+        // Kiểm tra nếu objectCtrl đã bị hủy
+        if (objectCtrl == null)
+        {
+            Debug.LogWarning("objectCtrl đã bị hủy hoặc không tồn tại.");
+            return; // Kết thúc sớm nếu objectCtrl đã bị hủy
+        }
+
+        // Kiểm tra các thành phần khác
+        if (objectCtrl.AbstractModel == null || objectCtrl.AbstractModel.EffectCharacter == null)
+        {
+            Debug.LogWarning("AbstractModel hoặc EffectCharacter đã bị hủy hoặc không tồn tại.");
+            return; // Kết thúc sớm nếu các thành phần này không tồn tại
+        }
+
+        // Thay đổi material nếu tất cả thành phần đều tồn tại
         objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
     }
+
+
+
     #endregion
     #region STOP EFFECT
     public void StopBurning()
@@ -305,9 +352,16 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
     {
         isStun = true;
 
+        // Nếu stunCoroutine đang chạy, dừng nó trước khi khởi động lại
+        if (stunCoroutine != null)
+        {
+            StopCoroutine(stunCoroutine);
+            stunCoroutine = null;
+        }
+
         if (enemyCtrl != null)
         {
-            StartCoroutine(ApplyStunEffect(TimeDurationStun));
+            stunCoroutine = StartCoroutine(ApplyStunEffect(TimeDurationStun)); // Khởi động lại từ đầu
 
             this.enemyCtrl.AbstractModel.IsStun = true;
             this.enemyCtrl.ObjMovement.MoveSpeed = 0;
@@ -315,6 +369,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
             Debug.Log("Call Start Stun");
         }
     }
+
 
     private IEnumerator ApplyStunEffect(float duration)
     {
@@ -326,13 +381,25 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
     {
         isStun = false;
 
-        if (stunCoroutine != null) StopCoroutine(stunCoroutine);
+        if (stunCoroutine != null)
+            StopCoroutine(stunCoroutine);
 
-        this.enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;
-        this.enemyCtrl.AbstractModel.IsStun = false;
+        if (enemyCtrl != null)
+        {
+            if (enemyCtrl.ObjMovement != null)
+                this.enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;
 
-        Debug.Log("StopStun");
+            if (enemyCtrl.AbstractModel != null)
+                this.enemyCtrl.AbstractModel.IsStun = false;
+
+            Debug.Log("StopStun");
+        }
+        //else
+        //{
+        //    Debug.LogError("enemyCtrl is null in StopStun!" + transform.parent.name);
+        //}
     }
+
     #endregion
     public override void OnDead()
     {

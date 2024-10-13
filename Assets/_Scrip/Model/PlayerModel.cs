@@ -14,6 +14,7 @@ public class PlayerModel : AbstractModel
             this.animator.Play("Dead");
 
             this.DisablePhysics();
+            this.SetFalseAnimation();
 
             if (!isAnimationDeadComplete) return;
 

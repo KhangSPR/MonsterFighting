@@ -12,6 +12,7 @@ public abstract class TileScrip : SaiMonoBehaviour
         get { return isEmpty; }
         set { isEmpty = value; }
     }
+    protected GameObject newObjSet;
     protected override void Start()
     {
         base.Start();
@@ -37,6 +38,8 @@ public abstract class TileScrip : SaiMonoBehaviour
         if (GameManager.Instance.ClickBtn != null)
         {
             GameObject obj = GameManager.Instance.ClickBtn.PlaceAbstract(towerTransform);
+
+            newObjSet = obj;
 
             if (obj != null)
             {

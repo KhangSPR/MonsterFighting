@@ -34,6 +34,7 @@ public class EnemyCtrl : ObjectCtrl
 
         this.abstractModel.SetOnDeadAnimation();
         this.enemyModel.EffectCharacter.SetVFX_Dissolve(false);
+        this.objRageSkill.SetRage(false);
     }
     protected override void LoadComponents()
     {

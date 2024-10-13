@@ -23,25 +23,33 @@ public class CoroutineManager : SaiMonoBehaviour
         runningCoroutines.Add(coroutine);
         return coroutine;
     }
+
+    // Dừng và xóa Coroutine ra khỏi danh sách
     public void StopManagedCoroutine(Coroutine coroutine)
     {
-        if (coroutine != null)
+        if (coroutine != null && runningCoroutines.Contains(coroutine))
         {
             StopCoroutine(coroutine);
             runningCoroutines.Remove(coroutine);
         }
     }
 
-    // Cập nhật danh sách các Coroutine
-    protected override void Update()
+    // Xóa tất cả coroutine đang chạy nếu cần thiết
+    public void StopAllManagedCoroutines()
     {
-        base.Update();
-        for (int i = runningCoroutines.Count - 1; i >= 0; i--)
+        foreach (var coroutine in runningCoroutines)
         {
-            if (runningCoroutines[i] == null)
+            if (coroutine != null)
             {
-                runningCoroutines.RemoveAt(i);
+                StopCoroutine(coroutine);
             }
         }
+        runningCoroutines.Clear();
+    }
+
+    ///
+    public void StartGlobalCoroutine(IEnumerator coroutine)
+    {
+        StartCoroutine(coroutine);
     }
 }

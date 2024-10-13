@@ -84,6 +84,8 @@ namespace UIGameDataMap
 
             // Clear các button trong LevelUIManager
             LevelUIManager.Instance?.mapbtnGameObjects?.Clear();
+
+            CoroutineManager.Instance.StopAllManagedCoroutines();
         }
 
         private void SetUpPortalSpawnManager(MapSO mapSO, Difficult difficult)

@@ -59,6 +59,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
 
     [SerializeField]
     private bool portalsSpawnType; // Marks when portalsSpawning has finished spawning
+    //[SerializeField]
     private List<AbilitySummon> abilitySummons = new List<AbilitySummon>();
     public List<AbilitySummon> AbilitySummons
     {
@@ -197,6 +198,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
         Debug.Log("Bắt đầu coroutine: WaitForTextAnimation");
 
         textSizeAnimation.gameObject.SetActive(true);
+        
 
         if (textSizeAnimation != null)
         {
@@ -318,6 +320,10 @@ public class WaveSpawnManager : SaiMonoBehaviour
 
     private bool OnALLEnemysSpawnedPortal()
     {
+        if (abilitySummons == null) return false;
+
+        if (abilitySummons.Count <= 0) return false;
+        
         foreach (var ability in abilitySummons)
         {
             if (!ability.CheckAllEnemyDead)

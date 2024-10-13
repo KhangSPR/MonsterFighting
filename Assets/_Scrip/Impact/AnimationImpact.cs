@@ -85,9 +85,15 @@ public class AnimationImpact : SaiMonoBehaviour
             }
             if (other.transform.parent.CompareTag("Player") || other.transform.parent.CompareTag("Castle"))
             {
-                enemyCtrl.DamageSender.Send(other.transform.parent);
+                if (enemyCtrl.EnemyAttack.CanAtacck.Count > 0)
+                {
+                    enemyCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.CanAtacck[0]);
+                }
                 damageSent = true;
                 gameObject.SetActive(false);
+
+                Debug.Log("Animation Impact");
+
                 return;
             }
         }

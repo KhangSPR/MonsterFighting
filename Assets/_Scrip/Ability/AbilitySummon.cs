@@ -25,6 +25,7 @@ public abstract class AbilitySummon : ActiveAbility
     [Header("Ability Summon")]
     [SerializeField] protected Spawner spawner;
     [SerializeField] protected string namePrefab;
+    //[SerializeField]
     protected List<Transform> minions = new List<Transform>();
     public List<Transform> Minions { get { return minions; } }
 
@@ -122,7 +123,7 @@ public abstract class AbilitySummon : ActiveAbility
         if (CheckTypeAbility())
         {
 
-            Debug.Log("1 Check");
+            Debug.Log("1 Check" + transform.parent.parent.name);
             Active();
 
             this.checkALLEnemyDead = true;

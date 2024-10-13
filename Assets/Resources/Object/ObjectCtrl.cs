@@ -21,6 +21,10 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
     public AbstractModel AbstractModel { get => abstractModel; }
     [SerializeField] protected ObjMana objMana;
     public ObjMana ObjMana => objMana;
+
+    [SerializeField] protected ObjRageSkill objRageSkill;
+    public ObjRageSkill ObjRageSkill => objRageSkill;
+
     [SerializeField] protected BulletShooter bulletShooter;
 
     public BulletShooter BulletShooter => bulletShooter;
@@ -35,6 +39,7 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         this.loadDespawn();
         this.loadAbstractModel();
         this.loadObjMana();
+        this.loadObjRageSkill();
         this.LoadBulletShooter();
     }
     protected virtual void LoadBulletShooter()
@@ -42,6 +47,12 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         if (this.bulletShooter != null) return;
         this.bulletShooter = transform.GetComponentInChildren<BulletShooter>();
         Debug.Log(gameObject.name + ": loadPCanAttackEnemy" + gameObject);
+    }
+    protected virtual void loadObjRageSkill()
+    {
+        if (this.objRageSkill != null) return;
+        this.objRageSkill = transform.GetComponentInChildren<ObjRageSkill>();
+        Debug.Log(gameObject.name + ": loadObjRageSkill" + gameObject);
     }
     protected virtual void loadObjMana()
     {

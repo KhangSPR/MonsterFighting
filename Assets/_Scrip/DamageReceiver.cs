@@ -26,6 +26,11 @@ public abstract class DamageReceiver : AbstractCtrl
     [Space]
     [Header("Object")]
     [SerializeField] protected ObjectCtrl objectCtrl;
+
+
+    //Event
+    public event Action OnTakeDamage;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -76,6 +81,9 @@ public abstract class DamageReceiver : AbstractCtrl
         }    
         //Debug.Log(amount);
         isHP -= amount;
+
+        OnTakeDamage?.Invoke();
+
         CheckIfDead();
     }
     protected virtual void CheckIfDead()

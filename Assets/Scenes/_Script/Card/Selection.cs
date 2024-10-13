@@ -10,6 +10,7 @@ public class Selection : MonoBehaviour
     public int mapCurrent = 0;
     public List<RectTransform> mapsList = new List<RectTransform>();
     internal static GameObject activeGameObject;
+    internal static readonly object[] gameObjects;
 
     void Awake()
     {
