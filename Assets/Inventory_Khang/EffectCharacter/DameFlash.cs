@@ -9,7 +9,7 @@ public class DameFlash : MonoBehaviour
     [SerializeField] private float _flashTime = 0.25f;
     [SerializeField] private AnimationCurve _flashCurve;
 
-    [SerializeField] private SpriteRenderer[] _spriteRenderers;
+    [SerializeField] private List<SpriteRenderer> _spriteRenderers;
     [SerializeField] private Material[] _materials;
 
     private Coroutine _damageFlashCoroutine;
@@ -27,23 +27,50 @@ public class DameFlash : MonoBehaviour
         }
     }
 
-    private void Awake()
+    private void Start()
     {
-        _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        //_spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        SetSpriteRenderer();
 
         Init();
     }
+    private void SetSpriteRenderer()
+    {
+        Transform Font = transform.Find("Textures/Font");
+        if (Font == null)
+        {
+            Font = transform.Find("Character/Font");
+        }
+        //Character -- Co the gan luon khoi can auto
+        if (Font != null)
+        {
+            _spriteRenderers = new List<SpriteRenderer>(Font.GetComponentsInChildren<SpriteRenderer>());
 
+            Debug.Log("Set Font");
+
+        }
+    }
+    // Hàm để set material cho nhân vật
+    public void SetMaterialDamageFlash()
+    {
+        // Gán materials từ _materials vào spriteRenderers
+        for (int i = 0; i < _spriteRenderers.Count; i++)
+        {
+            _spriteRenderers[i].material = _materials[i]; // Gán lại material cho từng SpriteRenderer
+        }
+    }
     private void Init()
     {
-        _materials = new Material[_spriteRenderers.Length];
+        _materials = new Material[_spriteRenderers.Count];
 
-        //assing sprite renderer materials to _materials
+        // Assign sprite renderer materials to _materials
         for (int i = 0; i < _materials.Length; i++)
         {
             _materials[i] = _spriteRenderers[i].material;
         }
+
     }
+
 
     public void CallDamageFlash()
     {
@@ -52,6 +79,8 @@ public class DameFlash : MonoBehaviour
 
     private IEnumerator DamageFlasher()
     {
+        Debug.Log("Dame Flasher Of: " + transform.parent.name);
+
         //Set the color
         SetFlashColor();
 

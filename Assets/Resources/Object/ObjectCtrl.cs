@@ -28,6 +28,9 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
     [SerializeField] protected BulletShooter bulletShooter;
 
     public BulletShooter BulletShooter => bulletShooter;
+
+    [SerializeField] protected Transform transformSkill;
+    public Transform TransformSkill => transformSkill;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -41,6 +44,13 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         this.loadObjMana();
         this.loadObjRageSkill();
         this.LoadBulletShooter();
+        this.LoadTransformSkill();
+    }
+    protected virtual void LoadTransformSkill()
+    {
+        if (transformSkill != null) return;
+        this.transformSkill = transform.Find("TargetSkill");
+        Debug.Log(gameObject.name + ": LoadTransformSkill" + gameObject);
     }
     protected virtual void LoadBulletShooter()
     {

@@ -35,6 +35,10 @@ public class EnemyAttack : EnemyAbstract
     }
     public Transform GetTransFromFirstAttack()
     {
-        return CanAtacck[0];
+        Transform transform = CanAtacck[0].GetComponent<PlayerCtrl>().TargetBullet;
+
+        if (transform != null)
+            return transform;
+        return null;
     }
 }

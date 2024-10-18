@@ -59,7 +59,7 @@ public abstract class AbstractModel : AbstractCtrl
     protected bool isUsingAttack1 = true; // Variable to check current attack type
     [SerializeField]
     protected bool hasAttack2 = false;
-    
+
 
     protected override void LoadComponents()
     {
@@ -197,6 +197,7 @@ public abstract class AbstractModel : AbstractCtrl
         this.animator.SetBool(animationName, state);
     }
 
+
     protected abstract void AnimationLoading();
     protected virtual void AttackType()
     {
@@ -266,8 +267,20 @@ public abstract class AbstractModel : AbstractCtrl
         this.isRage = true;
 
     }
+    [SerializeField] protected bool danceEnable = false;
+    //Dance Animation -> Goblin
+    public void SetDanceAnimation()
+    {
+        danceEnable = true;
 
-
+        currentState = State.Dance;
+    }
+    public void OnDaceAnimationComplete()
+    {
+        danceEnable = false;
+    }
+    //Call Skill == VFX Stun
+    protected bool isVfxStunActive = false;
 
     ////////////////////////////////////////////////////////////////////////-----------------------------------------------------------------------
     /// <summary>
@@ -282,9 +295,11 @@ public abstract class AbstractModel : AbstractCtrl
     private SkillCharacter currentActiveSkill;
     public SkillCharacter CurrentActiveSkill => currentActiveSkill;
 
-    public void OnSkillEnableComplete()
+    public void OnSkillEnabeleComplete()
     {
         skillEnable = false;
+
+        Debug.Log("Call OnSkillEnabeleComplete");
     }
 
     public void SetSkill(float manaSkill1, bool lockSkill1, float damage1, ISkill skillType1, float manaSkill2, bool lockSkill2, float damage2, ISkill skillType2)
@@ -293,30 +308,56 @@ public abstract class AbstractModel : AbstractCtrl
         Skill2 = new SkillCharacter(manaSkill2, lockSkill2, damage2, skillType2);
     }
 
-    protected virtual void CallAnimationSkill()
+    protected virtual bool CallAnimationSkill()
     {
-        if (skillEnable) return;
+        if (skillEnable) return false;
 
-        // Kiểm tra Skill2 trước, nếu không thì kiểm tra Skill1
-        if (TryUseSkill(Skill2, "Skill2") || TryUseSkill(Skill1, "Skill1"))
+        // Kiểm tra và gọi kỹ năng nếu đủ điều kiện
+        if (TryUseAvailableSkill())
         {
             skillEnable = true;
+            return true; // Kỹ năng đã được thực thi
         }
+
+        return false; // Không kỹ năng nào được gọi
     }
 
-    private bool TryUseSkill(SkillCharacter skill, string animationName)
+    private bool TryUseAvailableSkill()
     {
-        if (skill.CanUseSkill(ObjectCtrl.ObjMana))
+        // Kiểm tra Skill2 trước
+        if (Skill2 != null && Skill2.unlockSkill && Skill2.CanUseSkill(ObjectCtrl.ObjMana))
         {
-            currentState = State.Skill;
-            animator.Play(animationName);
-            currentActiveSkill = skill;  // Lưu skill hiện tại vào biến tạm
-            skill.UseSkill(ObjectCtrl);
-            Debug.Log("Đã gọi " + animationName + " : " + transform.parent.name);
+            CallSkill(Skill2, State.Skill2);  // Gọi hàm CallSkill
             return true;
         }
+
+        // Kiểm tra Skill1
+        if (Skill1 != null && Skill1.CanUseSkill(ObjectCtrl.ObjMana))
+        {
+            CallSkill(Skill1, State.Skill1);  // Gọi hàm CallSkill
+
+            Debug.Log("CallSkill 1");
+
+            return true;
+        }
+
         return false;
     }
+
+    // Hàm gọi skill với thông tin kỹ năng và trạng thái
+    private void CallSkill(SkillCharacter skill, State state)
+    {
+        currentState = state;               // Cập nhật trạng thái hiện tại
+        currentActiveSkill = skill;         // Cập nhật kỹ năng hiện tại
+        skill.UseSkill(ObjectCtrl);         // Thực thi kỹ năng
+
+        isVfxStunActive = false;
+
+        Debug.Log("Đã gọi " + state.ToString() + " : " + transform.parent.name);
+    }
+
+
+
 
     // Hàm này sẽ được gọi trong Unity Event
     public void OnActiveSkillAnimation()

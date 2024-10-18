@@ -5,7 +5,7 @@ using UIGameDataMap;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, IDarkable
+public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, IDarkable, IPotionable
 {
     [Header("Damage Type")]
     [SerializeField] protected float exitTimeTwitch = 1f;
@@ -114,10 +114,70 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
 
     }
     #endregion
+    #region Potioning Effect
+    public void StartPotioning(int damagePerSecond)
+    {
+        if (this.enemyCtrl != null) return; //Repair
+
+        // Nếu darkCoroutine đang chạy, dừng nó trước khi khởi động lại
+        if (poitionCoroutine != null)
+        {
+            StopCoroutine(poitionCoroutine);
+            poitionCoroutine = null;
+        }
+
+        isPoition = true;
+
+        // Khởi động lại hiệu ứng Stun từ đầu
+        StartStun();
+
+        // Bắt đầu lại hiệu ứng Darking
+        poitionCoroutine = StartCoroutine(ApplyEffect(damagePerSecond, () => isPoition, SkillType.Poison));
+    }
+
+    public void StopPotioning()
+    {
+        // Đảm bảo không chạy tiếp nếu object đã bị hủy
+        if (this == null || transform == null || transform.parent == null)
+        {
+            Debug.LogWarning("StopDarking: Đối tượng đã bị hủy, không thể tiếp tục thực thi.");
+            return;
+        }
+
+        isPoition = false;
+
+        // Kiểm tra darkCoroutine có tồn tại và dừng coroutine
+        if (poitionCoroutine != null)
+        {
+            // Kiểm tra nếu đối tượng cha đã bị vô hiệu hóa
+            if (!transform.parent.gameObject.activeSelf) return;
+
+            StopCoroutine(poitionCoroutine);
+            poitionCoroutine = null; // Đảm bảo đặt về null sau khi dừng
+        }
+
+        // Kiểm tra nếu objectCtrl đã bị hủy
+        if (objectCtrl == null)
+        {
+            Debug.LogWarning("objectCtrl đã bị hủy hoặc không tồn tại.");
+            return; // Kết thúc sớm nếu objectCtrl đã bị hủy
+        }
+
+        // Kiểm tra các thành phần khác
+        if (objectCtrl.AbstractModel == null || objectCtrl.AbstractModel.EffectCharacter == null)
+        {
+            Debug.LogWarning("AbstractModel hoặc EffectCharacter đã bị hủy hoặc không tồn tại.");
+            return; // Kết thúc sớm nếu các thành phần này không tồn tại
+        }
+
+        // Thay đổi material nếu tất cả thành phần đều tồn tại
+        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
+    }
+    #endregion
     #region Darking Effect
     public void StartDarking(int damagePerSecond)
     {
-        if (this.playerCtrl != null) return;
+        if (this.playerCtrl != null) return; //Repair
 
         // Nếu darkCoroutine đang chạy, dừng nó trước khi khởi động lại
         if (darkCoroutine != null)
@@ -172,7 +232,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         }
 
         // Thay đổi material nếu tất cả thành phần đều tồn tại
-        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
     }
 
 
@@ -184,14 +244,14 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         isBurning = false;
         if (burnCoroutine != null) StopCoroutine(burnCoroutine);
 
-        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
     }
     public void StopGlace()
     {
         isGlacing = false;
         if (glaceCoroutine != null) StopCoroutine(glaceCoroutine);
 
-        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
         enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;  // Khôi phục vận tốc ban đầu
     }
     public void StopTwitching()
@@ -200,7 +260,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
 
         if (twitchCoroutine != null) StopCoroutine(twitchCoroutine);
 
-        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
         this.enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;
         this.enemyCtrl.AbstractModel.IsStun = false;
 
@@ -212,7 +272,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         isPoition = false;
         if (poitionCoroutine != null) StopCoroutine(poitionCoroutine);
 
-        objectCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
     }
     #endregion
     #region Glace Effect
@@ -340,7 +400,14 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         {
             yield return wait;
             DeductHealth(damagePerSecond);
-            FXSpawner.Instance.SendFXText(damagePerSecond, skillType, transform, Quaternion.identity);
+            if(playerCtrl!=null)
+            {
+                FXSpawner.Instance.SendFXText(damagePerSecond, skillType, playerCtrl.TargetBullet, Quaternion.identity);
+            }
+            else
+            {
+                FXSpawner.Instance.SendFXText(damagePerSecond, skillType, transform, Quaternion.identity);
+            }
             elapsedTime += 0.5f;
         }
 
@@ -368,6 +435,13 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
 
             Debug.Log("Call Start Stun");
         }
+        else if(playerCtrl!=null)
+        {
+            stunCoroutine = StartCoroutine(ApplyStunEffect(TimeDurationStun)); // Khởi động lại từ đầu
+
+            this.playerCtrl.AbstractModel.IsStun = true;
+            Debug.Log("Call Start Stun");
+        }
     }
 
 
@@ -391,6 +465,13 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
 
             if (enemyCtrl.AbstractModel != null)
                 this.enemyCtrl.AbstractModel.IsStun = false;
+
+            Debug.Log("StopStun");
+        }
+        else if (playerCtrl!= null)
+        {
+            if (playerCtrl.AbstractModel != null)
+                this.playerCtrl.AbstractModel.IsStun = false;
 
             Debug.Log("StopStun");
         }
@@ -442,4 +523,5 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
             Debug.Log("Stop Darking");
         }
     }
+
 }

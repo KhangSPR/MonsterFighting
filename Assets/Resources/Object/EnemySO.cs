@@ -23,11 +23,17 @@ public class EnemySO : ScriptableObject
 {
     public int basePointsAttack;
     public int basePointsLife;
-    public float basePointsAttackSpeed;
+    public float basePointsAttackSpeed; //Delay Attack
     public float basePointsCurrentMana;
     public float basePointsSpeedMove;
     [Space]
     [Space]
     [Header("Item Drop")]
     public ItemDrop[] itemDrop;
+    [Space]
+    [Space]
+    [Header("Skill")]
+    public SkillSO skill1;
+    public SkillSO skill2;
+
 }

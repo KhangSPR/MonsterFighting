@@ -46,11 +46,30 @@ public abstract class AbilitySummon : ActiveAbility
 
     protected virtual Transform Summon(Transform spawnPos)
     {
+
         Transform minionPrefab = this.spawner.GetPrefabByName(namePrefab);
+        if (minionPrefab == null)
+        {
+            Debug.LogError("Prefab is null for name: " + namePrefab);
+            return null;
+        }
+
+        if (spawner == null)
+        {
+            Debug.LogError("Spawner is null in AbilitySummon");
+            return null;
+        }
+
+
         Transform minion = this.spawner.Spawn(minionPrefab, spawnPos.position, spawnPos.rotation);
+
+
+
         minion.GetComponent<EnemyCtrl>().ObjAppearBigger.CheckCallAppearing = true;
         minion.gameObject.SetActive(true);
         this.AddSummon(minion);
+
+        Debug.Log("Sumon " + transform.parent.parent.name);
         return minion;
     }
 

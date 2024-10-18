@@ -6,5 +6,8 @@ public enum State
     Stun,
     Skill,
     Rage,
-    Fury
+    Fury,
+    Dance,
+    Skill1,
+    Skill2,
 }

@@ -42,15 +42,15 @@ namespace UIGameDataManager
         public string bioTitle;
         [TextArea] public string bio;
 
-        public SkillSO? skill1;
-        public SkillSO? skill2;
+        public SkillSO skill1;
+        public SkillSO skill2;
 
         public RarityCard rarityCard;
         public AttackType attackTypeCard;
         public GameObject characterVisualsPrefab;
 
         public CardCharacter(string Name, float CardRefresh, int Price, Sprite Frame, Sprite Background, Sprite Avatar, Stats stats,
-                             string BioTitle, string Bio, SkillSO Skill1, SkillSO? Skill2,
+                             string BioTitle, string Bio, SkillSO Skill1, SkillSO Skill2,
                              RarityCard CardRare, AttackType CardAttack,
                              GameObject CharacterVisualsPrefab) : base(Name, CardRefresh, Price, Frame, Background, Avatar)
         {
@@ -65,7 +65,7 @@ namespace UIGameDataManager
             SetSkillsBasedOnRarity(Skill1, Skill2);
         }
 
-        private void SetSkillsBasedOnRarity(SkillSO skill1, SkillSO? skill2)
+        private void SetSkillsBasedOnRarity(SkillSO skill1, SkillSO skill2)
         {
             this.skill1 = skill1;
             this.skill2 = (rarityCard == RarityCard.D || rarityCard == RarityCard.C) ? null : skill2;

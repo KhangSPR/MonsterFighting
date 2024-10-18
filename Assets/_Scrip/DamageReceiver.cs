@@ -12,13 +12,18 @@ public abstract class DamageReceiver : AbstractCtrl
     public int IsHP => isHP;
     [SerializeField] protected int isMaxHP = 3;
     public int IsMaxHP => isMaxHP;
-
+    [SerializeField]
     protected bool isBurning;
+    [SerializeField]
     protected bool isTwitching;
+    [SerializeField]
     protected bool isGlacing;
+    [SerializeField]
     protected bool isPoition;
-    protected bool isStun;
+    [SerializeField]
     protected bool isDarking;
+    [SerializeField]
+    protected bool isStun;
     [SerializeField]
     protected bool isDead;
     public bool IsDead => isHP <= 0;
@@ -75,9 +80,12 @@ public abstract class DamageReceiver : AbstractCtrl
         Debug.Log("DeductHealth + " + transform.parent.name);
 
         if (isDead) return;
-        if(!isBurning && !isGlacing && !isTwitching)//Add Effect...
+        if(!isBurning && !isGlacing && !isTwitching && !isPoition)//Add Effect...
         {
             HandleSlashDamage();
+
+
+            Debug.Log("Dame Flash Of: " + transform.parent.name);
         }    
         //Debug.Log(amount);
         isHP -= amount;
@@ -112,7 +120,10 @@ public abstract class DamageReceiver : AbstractCtrl
     public void HandleSlashDamage()
     {
         if(objectCtrl!=null)
+        {
             objectCtrl.AbstractModel.DameFlash.CallDamageFlash();
+            Debug.Log("HandleSlash Damage Of: "+ transform.parent.name);
+        }
     }
     public abstract void OnDead();
 

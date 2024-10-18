@@ -41,16 +41,30 @@ public class EnemyModel : AbstractModel
             }
             return;
         }
-
         if (isFuryGain)
         {
             currentState = State.Fury;
         }
+
         if (isStun)
         {
-            currentState = State.Stun;
-        }
+            if (!skillEnable)
+            {
+                currentState = State.Stun;
 
+            }
+            else
+            {
+                if (!isVfxStunActive)
+                {
+                    this.effectCharacter.Vfx_Stun.SetActive(true);
+                    isVfxStunActive = true; 
+                    Debug.Log("Set Active VFX to true");
+                }
+            }
+
+            Debug.Log("Call Stun");
+        }
         bool shouldAttack = false;
 
         switch (this.currentState)
@@ -69,6 +83,10 @@ public class EnemyModel : AbstractModel
                 PlayAnimation("Idle", false);
                 PlayAnimation("Rage", false);
                 PlayAnimation("Fury", false);
+                PlayAnimation("Skill1", false);
+                PlayAnimation("Skill2", false);
+                PlayAnimation("Dance", false);
+
 
                 isAttacking = false;
                 if (this.enemyCtrl.ObjMovement.gameObject.activeSelf)
@@ -94,18 +112,26 @@ public class EnemyModel : AbstractModel
                         {
                             PlayAnimation("Attack2", true);
                         }
+                        else
+                        {
+                            PlayAnimation("Attack", true);
+
+                            Debug.Log("Calll Attack !");
+                        }
                         //Animation Another
-                        PlayAnimation("Attack", true);
                     }
 
                     if (hasAttack2)
                         isUsingAttack1 = !isUsingAttack1;
 
                     PlayAnimation("Moving", false);
+                    PlayAnimation("Dance", false);
                     PlayAnimation("Idle", false);
                     PlayAnimation("Stun", false);
                     PlayAnimation("Rage", false);
                     PlayAnimation("Fury", false);
+                    PlayAnimation("Skill1", false);
+                    PlayAnimation("Skill2", false);
 
                     isAttacking = true;
                     isAnimationAttackComplete = false;
@@ -132,14 +158,23 @@ public class EnemyModel : AbstractModel
                 PlayAnimation("Stun", false);
                 PlayAnimation("Rage", false);
                 PlayAnimation("Fury", false);
+                PlayAnimation("Skill1", false);
+                PlayAnimation("Skill2", false);
+                PlayAnimation("Dance", false);
 
                 isAttacking = false;
                 break;
 
             case State.Stun:
+                if(this.effectCharacter.Vfx_Stun.activeSelf)
+                    this.effectCharacter.Vfx_Stun.SetActive(false);
+
                 PlayAnimation("Stun", true);
                 PlayAnimation("Fury", false);
                 PlayAnimation("Moving", false);
+                PlayAnimation("Skill1", false);
+                PlayAnimation("Skill2", false);
+
 
                 isAttacking = false;
                 break;
@@ -156,6 +191,8 @@ public class EnemyModel : AbstractModel
 
                 PlayAnimation("Stun", false);
                 PlayAnimation("Moving", false);
+                PlayAnimation("Skill1", false);
+                PlayAnimation("Skill2", false);
 
                 isAttacking = false;
 
@@ -165,13 +202,57 @@ public class EnemyModel : AbstractModel
                 PlayAnimation("Fury", true);
                 PlayAnimation("Stun", false);
                 PlayAnimation("Moving", false);
+                PlayAnimation("Skill1", false);
+                PlayAnimation("Skill2", false);
 
                 break;
+            case State.Skill1:
+                PlayAnimation("Skill1", true);
+                PlayAnimation("Idle", false);
+                PlayAnimation("Moving", false);
+                PlayAnimation("Attack", false);
+
+                isAttacking = false;
+
+
+                break;
+            case State.Skill2:
+                PlayAnimation("Skill2", true);
+                PlayAnimation("Idle", false);
+                PlayAnimation("Moving", false);
+                PlayAnimation("Attack", false);
+
+                isAttacking = false;
+
+                break;
+            case State.Dance: //After Skill Animation Event
+                PlayAnimation("Dance", true);
+                PlayAnimation("Skill1", false);
+                PlayAnimation("Skill2", false);
+                PlayAnimation("Attack", false);
+
+                if (this.effectCharacter.Vfx_Stun.activeSelf && !this.isStun)
+                    this.effectCharacter.Vfx_Stun.SetActive(false);
+
+                isAttacking = false;
+
+                break;
+
+        }
+
+        // If in skill state, do not perform other actions
+        if (skillEnable || danceEnable)
+        {
+            return;
         }
 
         if (this.enemyCtrl.EnemyAttack.canAttack)
         {
             shouldAttack = true;
+        }
+        if (shouldAttack && CallAnimationSkill()) // Gọi hàm và kiểm tra điều kiện
+        {
+            return;
         }
         if (IsRage && shouldAttack && !IsStun)
         {

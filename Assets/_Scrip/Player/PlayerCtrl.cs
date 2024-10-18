@@ -15,6 +15,10 @@ public class PlayerCtrl : ObjectCtrl
     private Vector3Int cellPosition;
     StatsFake characterStatsFake;
     public StatsFake CharacterStatsFake => characterStatsFake;
+
+    [SerializeField] protected Transform targetBullet;
+    public Transform TargetBullet => targetBullet;
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -102,6 +106,7 @@ public class PlayerCtrl : ObjectCtrl
         LoadPlayerAttack();
         LoadPlayerShooter();
         loadTargetVFX();
+        this.LoadTargetBullet();
     }
 
     protected virtual void LoadPlayerAttack()
@@ -122,5 +127,11 @@ public class PlayerCtrl : ObjectCtrl
         if (playerShooter != null) return;
         playerShooter = transform.GetComponentInChildren<PlayerShooter>();
         Debug.Log(gameObject.name + ": loadCanAttackPlayer" + gameObject);
+    }
+    protected virtual void LoadTargetBullet()
+    {
+        if (targetBullet != null) return;
+        targetBullet = transform.Find("TargetBullet");
+        Debug.Log(gameObject.name + ": LoadTargetBullet" + gameObject);
     }
 }

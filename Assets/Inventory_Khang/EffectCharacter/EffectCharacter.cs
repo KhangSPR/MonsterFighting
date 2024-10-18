@@ -26,8 +26,11 @@ public class EffectCharacter : MonoBehaviour
     private bool isDissolveComplete = false;
     public bool IsDissolveComplete => isDissolveComplete;
 
-    
 
+    [Space(3)]
+    [Header("Effect Stun")]
+    [SerializeField] GameObject vfx_Stun;
+    public GameObject Vfx_Stun => vfx_Stun;
 
     private void Awake()
     {
@@ -92,12 +95,11 @@ public class EffectCharacter : MonoBehaviour
         // Kiểm tra và xử lý quá trình dissolve nếu đang diễn ra
         HandleDissolve();
     }
-
     // Hàm để set material cho nhân vật
     public void SetMaterial(Material material)
     {
-        Debug.Log("Set Material: "+ material.name);
-        foreach (var spriteRenderer in _spriteRenderers)
+        Debug.Log("Set Material: " + material.name);
+        foreach (var spriteRenderer in _frontSpriteRenderers)
         {
             spriteRenderer.material = material;
         }

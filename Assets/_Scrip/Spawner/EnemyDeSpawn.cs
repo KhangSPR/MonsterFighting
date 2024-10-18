@@ -19,7 +19,7 @@ public class EnemyDeSpawn : DespawnByTime
     {
         EnemySpawner.Instance.Despawn(transform.parent);
 
-        enemyCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
+        enemyCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
 
         //Drop Item : rate, itemType, min max count
         enemyCtrl.EnemyDropItem.DropItem();

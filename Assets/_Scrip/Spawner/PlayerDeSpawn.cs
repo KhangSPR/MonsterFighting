@@ -21,8 +21,7 @@ public class PlayerDeSpawn : Despawn
     {
         PlayerSpawner.Instance.Despawn(transform.parent);
 
-        playerCtrl.AbstractModel.EffectCharacter.SetMaterial(EffectManager.Instance.MaterialDefault);
-
+        playerCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
     }
 
     protected override bool canDespawn()

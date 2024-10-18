@@ -8,6 +8,7 @@ public static class SkillFactory
     {
         { "Ball Of Darkness", typeof(BallOfDarkness) },
         {"Magic Vortex", typeof(MagicVortex) },
+        {"Venomous Explosion Sphere", typeof(VenomousExplosionSphere) },
         // Thêm các skill khác
     };
 

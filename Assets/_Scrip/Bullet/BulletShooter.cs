@@ -177,6 +177,8 @@ public abstract class BulletShooter : AbstractCtrl
                 return BulletSpawner.bulletOne;
             case "Skeleton Magic":
                 return BulletSpawner.bulletSix;
+            case "Goblin Venomorb":
+                return BulletSpawner.Bullet_GoblinVenomorb;
             //Transform là Player
             case "Archer":
                 return BulletSpawner.bulletOne;

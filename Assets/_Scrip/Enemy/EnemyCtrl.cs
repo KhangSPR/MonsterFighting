@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UIGameDataManager;
 using UnityEngine;
 
 public class EnemyCtrl : ObjectCtrl
@@ -34,7 +35,15 @@ public class EnemyCtrl : ObjectCtrl
 
         this.abstractModel.SetOnDeadAnimation();
         this.enemyModel.EffectCharacter.SetVFX_Dissolve(false);
-        this.objRageSkill.SetRage(false);
+
+        if(objRageSkill != null)
+             this.objRageSkill.SetRage(false);
+    }
+    protected override void Start()
+    {
+        base.Start();
+
+        this.SetSkill(enemySO);
     }
     protected override void LoadComponents()
     {
@@ -82,5 +91,27 @@ public class EnemyCtrl : ObjectCtrl
         this.enemyDropItem = transform.GetComponentInChildren<EnemyDropItem>();
         Debug.Log(gameObject.name + ": LoadEnemyDropItem" + gameObject);
     }
+    private void SetSkill(EnemySO enemySO)
+    {
+        // Skill 1
+        SkillSO skill1 = enemySO.skill1;
+        float manaSkill1 = skill1 != null ? skill1.manaRequirement : 0f;
+        float dmg1 = skill1 != null ? skill1.damage : 0f;
+        bool lockSkill1 = skill1 != null ? skill1.skillUnlock : false;
+        ISkill classSkill1 = skill1 != null ? skill1.GetSkillInstance() : null;
 
+        // Skill 2
+        SkillSO skill2 = enemySO.skill2;
+        float manaSkill2 = skill2 != null ? skill2.manaRequirement : 0f;
+        bool lockSkill2 = skill2 != null ? skill2.skillUnlock : false;
+        float dmg2 = skill2 != null ? skill2.damage : 0f;
+        ISkill classSkill2 = lockSkill2 && skill2 != null ? skill2.GetSkillInstance() : null;
+
+        // Call Function SetSkill for AbstractModel
+        this.abstractModel.SetSkill(manaSkill1, lockSkill1, dmg1, classSkill1, manaSkill2, lockSkill2, dmg2, classSkill2);
+
+
+
+        Debug.Log("Set Skill 1 Lan EnemyCtrl");
+    }
 }

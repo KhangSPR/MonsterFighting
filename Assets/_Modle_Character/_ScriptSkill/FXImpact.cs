@@ -10,7 +10,9 @@ public class FXImpact : SkillAbstract
     [SerializeField] protected Rigidbody2D _rigidbody;
 
     // Set to store collided ObjectCtrl objects
-    private HashSet<ObjectCtrl> collidedObjects = new HashSet<ObjectCtrl>();
+    private HashSet<ObjectCtrl> collidedObjectsEnemy = new HashSet<ObjectCtrl>();
+    private HashSet<ObjectCtrl> collidedObjectsPlayer = new HashSet<ObjectCtrl>();
+
 
     protected override void LoadComponents()
     {
@@ -37,38 +39,84 @@ public class FXImpact : SkillAbstract
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
+        if (this.skillCtrl.ObjectCtrl == null) return;
+
+
         // Check if the parent of the collider is tagged "Enemy"
-        if (collision.transform.parent.CompareTag("Enemy"))
+        if (this.skillCtrl.ObjectCtrl != null)
         {
-            // Get ObjectCtrl from the parent object
-            ObjectCtrl objectCtrl = collision.transform.parent.GetComponent<ObjectCtrl>();
-
-            // If ObjectCtrl hasn't been collided before, process the impact
-            if (!collidedObjects.Contains(objectCtrl))
+            if (this.skillCtrl.ObjectCtrl.transform.CompareTag("Player"))
             {
-                // Add ObjectCtrl to the collided objects list
-                collidedObjects.Add(objectCtrl);
+                if (collision.transform.parent.CompareTag("Enemy"))
+                {
+                    // Get ObjectCtrl from the parent object
+                    ObjectCtrl objectCtrl = collision.transform.parent.GetComponent<ObjectCtrl>();
 
-                Debug.Log("Ontrigger SkillCollider + " + transform.parent.name);
+                    // If ObjectCtrl hasn't been collided before, process the impact
+                    if (!collidedObjectsEnemy.Contains(objectCtrl))
+                    {
+                        // Add ObjectCtrl to the collided objects list
+                        collidedObjectsEnemy.Add(objectCtrl);
 
-                // Call SkillCollider and send damage
-                this.skillCtrl.SkillColider(objectCtrl);
+                        Debug.Log("Ontrigger SkillCollider + " + transform.parent.name);
+
+                        // Call SkillCollider and send damage
+                        this.skillCtrl.SkillColider(objectCtrl);
+                    }
+                }
             }
+            else if (this.skillCtrl.ObjectCtrl.transform.CompareTag("Enemy"))
+            {
+                if (collision.transform.parent.CompareTag("Castle") || collision.transform.parent.CompareTag("Player"))
+                {
+                    // Get ObjectCtrl from the parent object
+                    ObjectCtrl objectCtrl = collision.transform.parent.GetComponent<ObjectCtrl>();
+
+                    // If ObjectCtrl hasn't been collided before, process the impact
+                    if (!collidedObjectsPlayer.Contains(objectCtrl))
+                    {
+                        // Add ObjectCtrl to the collided objects list
+                        collidedObjectsPlayer.Add(objectCtrl);
+
+                        Debug.Log("Ontrigger SkillCollider + " + transform.parent.name);
+
+                        // Call SkillCollider and send damage
+                        this.skillCtrl.SkillColider(objectCtrl);
+                    }
+                }
+            }
+
         }
     }
 
     protected void OnTriggerExit2D(Collider2D collision)
     {
-        // Check if the parent of the collider is tagged "Enemy"
-        if (collision.transform.parent.CompareTag("Enemy"))
+        if (this.skillCtrl.ObjectCtrl.transform.CompareTag("Player"))
         {
-            // Get ObjectCtrl from the parent object
-            ObjectCtrl objectCtrl = collision.transform.parent.GetComponent<ObjectCtrl>();
-
-            // Remove ObjectCtrl from the list when exiting collision
-            if (collidedObjects.Contains(objectCtrl))
+            if (collision.transform.parent.CompareTag("Enemy"))
             {
-                collidedObjects.Remove(objectCtrl);
+                ObjectCtrl objectCtrl = collision.transform.parent.GetComponent<ObjectCtrl>();
+
+                // Remove ObjectCtrl from the list when exiting collision
+                if (collidedObjectsEnemy.Contains(objectCtrl))
+                {
+                    collidedObjectsEnemy.Remove(objectCtrl);
+                }
+            }
+            else if (this.skillCtrl.ObjectCtrl.transform.CompareTag("Enemy"))
+            {
+                if (collision.transform.parent.CompareTag("Castle") || collision.transform.parent.CompareTag("Player"))
+                {
+                    // Get ObjectCtrl from the parent object
+                    ObjectCtrl objectCtrl = collision.transform.parent.GetComponent<ObjectCtrl>();
+
+                    // Remove ObjectCtrl from the list when exiting collision
+                    if (collidedObjectsPlayer.Contains(objectCtrl))
+                    {
+                        collidedObjectsPlayer.Remove(objectCtrl);
+                    }
+                }
+
             }
         }
     }

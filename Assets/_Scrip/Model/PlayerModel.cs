@@ -32,18 +32,25 @@ public class PlayerModel : AbstractModel
             }
             return;
         }
-
-        // Nếu đang ở trạng thái skill, không thực hiện các hành động khác
-        if (currentState == State.Skill)
+        if (isStun)
         {
-            // Đợi skill hoàn thành
             if (!skillEnable)
             {
-                currentState = State.Idle;
-            }
-            return;
-        }
+                currentState = State.Stun;
 
+            }
+            else
+            {
+                if (!isVfxStunActive)
+                {
+                    this.effectCharacter.Vfx_Stun.SetActive(true);
+                    isVfxStunActive = true;
+                    Debug.Log("Set Active VFX to true");
+                }
+            }
+
+            Debug.Log("Call Stun");
+        }
         //Debug.Log("Goi 1 lan Animation skill");
 
         bool shouldAttack = false;
@@ -52,6 +59,12 @@ public class PlayerModel : AbstractModel
         {
             case State.Idle:
                 PlayAnimation("Attack", false);
+                PlayAnimation("Idle", true);
+                PlayAnimation("Skill1", false);
+                PlayAnimation("Skill2", false);
+                PlayAnimation("Stun", false);
+
+
                 isAttacking = false;
                 break;
 
@@ -59,22 +72,60 @@ public class PlayerModel : AbstractModel
                 if (!isAttacking && currentDelay <= 0)
                 {
                     PlayAnimation("Attack", true);
+                    PlayAnimation("Idle", false);
+                    PlayAnimation("Skill1", false);
+                    PlayAnimation("Skill2", false);
+                    PlayAnimation("Stun", false);
+
                     isAttacking = true;
                     isAnimationAttackComplete = false;
                 }
                 break;
+            case State.Skill1:
+                PlayAnimation("Skill1", true);
+                PlayAnimation("Idle", false);
+                PlayAnimation("Attack", false);
+                PlayAnimation("Skill2", false);
+
+                isAttacking = false;
+
+                break;
+            case State.Skill2:
+                PlayAnimation("Skill2", true);
+                PlayAnimation("Idle", false);
+                PlayAnimation("Attack", false);
+                PlayAnimation("Skill1", false);
+
+                isAttacking = false;
+
+                break;
+            case State.Stun:
+                if (this.effectCharacter.Vfx_Stun.activeSelf)
+                    this.effectCharacter.Vfx_Stun.SetActive(false);
+
+                PlayAnimation("Stun", true);
+                PlayAnimation("Idle", false);
+                PlayAnimation("Attack", false);
+
+
+                isAttacking = false;
+                break;
         }
+        // Nếu đang ở trạng thái skill, không thực hiện các hành động khác
+        if (skillEnable)
+        {
+            return;
+        }
+
 
         // Gọi skill nếu có đủ điều kiện
         if (this.playerCtrl.PlayerAttack.canAttack)
         {
             shouldAttack = true;
         }
-        if (shouldAttack && (this.ObjectCtrl.ObjMana.IsMana >= Skill2.manaSkill && Skill2.unlockSkill|| this.ObjectCtrl.ObjMana.IsMana >= Skill1.manaSkill && Skill1.unlockSkill))
+        if (shouldAttack && CallAnimationSkill()) // Gọi hàm và kiểm tra điều kiện
         {
-            CallAnimationSkill();
-
-            Debug.Log("Goi 1 lan khi du nang luong");
+            Debug.Log("Call Skill Player");
 
             return;
         }
