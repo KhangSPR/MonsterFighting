@@ -17,6 +17,8 @@ MonoBehaviour:
   basePointsAttackSpeed: 2
   basePointsCurrentMana: 45
   basePointsSpeedMove: 1
+  attackSpeed: 1.4
+  attackSpeedMelee: 0
   itemDrop:
   - itemDropType: 1
     minDrop: 1
@@ -26,3 +28,5 @@ MonoBehaviour:
     minDrop: 1
     maxDrop: 1
     spawnRate: 1500
+  skill1: {fileID: 0}
+  skill2: {fileID: 0}

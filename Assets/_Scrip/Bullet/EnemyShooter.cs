@@ -9,7 +9,7 @@ public class EnemyShooter : BulletShooter
 
     protected override bool IsShooting()
     {
-        if (this.EnemyCtrl.EnemyAttack.canAttack)
+        if (this.EnemyCtrl.EnemyAttack.CheckCanAttack)
             return true;
         else
             return false;

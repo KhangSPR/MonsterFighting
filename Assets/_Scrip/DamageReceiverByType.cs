@@ -156,22 +156,9 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
             poitionCoroutine = null; // Đảm bảo đặt về null sau khi dừng
         }
 
-        // Kiểm tra nếu objectCtrl đã bị hủy
-        if (objectCtrl == null)
-        {
-            Debug.LogWarning("objectCtrl đã bị hủy hoặc không tồn tại.");
-            return; // Kết thúc sớm nếu objectCtrl đã bị hủy
-        }
-
-        // Kiểm tra các thành phần khác
-        if (objectCtrl.AbstractModel == null || objectCtrl.AbstractModel.EffectCharacter == null)
-        {
-            Debug.LogWarning("AbstractModel hoặc EffectCharacter đã bị hủy hoặc không tồn tại.");
-            return; // Kết thúc sớm nếu các thành phần này không tồn tại
-        }
 
         // Thay đổi material nếu tất cả thành phần đều tồn tại
-        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
+        this.AbstractModel.DameFlash.SetMaterialDamageFlash();
     }
     #endregion
     #region Darking Effect
@@ -216,23 +203,8 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
             StopCoroutine(darkCoroutine);
             darkCoroutine = null; // Đảm bảo đặt về null sau khi dừng
         }
-
-        // Kiểm tra nếu objectCtrl đã bị hủy
-        if (objectCtrl == null)
-        {
-            Debug.LogWarning("objectCtrl đã bị hủy hoặc không tồn tại.");
-            return; // Kết thúc sớm nếu objectCtrl đã bị hủy
-        }
-
-        // Kiểm tra các thành phần khác
-        if (objectCtrl.AbstractModel == null || objectCtrl.AbstractModel.EffectCharacter == null)
-        {
-            Debug.LogWarning("AbstractModel hoặc EffectCharacter đã bị hủy hoặc không tồn tại.");
-            return; // Kết thúc sớm nếu các thành phần này không tồn tại
-        }
-
         // Thay đổi material nếu tất cả thành phần đều tồn tại
-        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
+        this.AbstractModel.DameFlash.SetMaterialDamageFlash();
     }
 
 
@@ -244,14 +216,14 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         isBurning = false;
         if (burnCoroutine != null) StopCoroutine(burnCoroutine);
 
-        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
+        this.AbstractModel.DameFlash.SetMaterialDamageFlash();
     }
     public void StopGlace()
     {
         isGlacing = false;
         if (glaceCoroutine != null) StopCoroutine(glaceCoroutine);
 
-        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
+        this.AbstractModel.DameFlash.SetMaterialDamageFlash();
         enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;  // Khôi phục vận tốc ban đầu
     }
     public void StopTwitching()
@@ -260,7 +232,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
 
         if (twitchCoroutine != null) StopCoroutine(twitchCoroutine);
 
-        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
+        this.AbstractModel.DameFlash.SetMaterialDamageFlash();
         this.enemyCtrl.ObjMovement.MoveSpeed = enemyCtrl.EnemySO.basePointsSpeedMove;
         this.enemyCtrl.AbstractModel.IsStun = false;
 
@@ -272,7 +244,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         isPoition = false;
         if (poitionCoroutine != null) StopCoroutine(poitionCoroutine);
 
-        objectCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
+        this.AbstractModel.DameFlash.SetMaterialDamageFlash();
     }
     #endregion
     #region Glace Effect
@@ -285,7 +257,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         if (material != null)
         {
             Debug.Log("Set Glace Effect");
-            objectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
+            this.AbstractModel.EffectCharacter.SetMaterial(material);
         }
 
         if (enemyCtrl != null)
@@ -314,7 +286,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         if(material!= null)
         {
             Debug.Log("Set Fire Burn");
-            objectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
+            this.AbstractModel.EffectCharacter.SetMaterial(material);
         }
 
         if (burnCoroutine != null) StopCoroutine(burnCoroutine);
@@ -346,7 +318,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         if (material != null)
         {
             Debug.Log("Set Electric Effect");
-            objectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
+            this.AbstractModel.EffectCharacter.SetMaterial(material);
         }
 
         if (enemyCtrl != null)
@@ -385,7 +357,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         if (material != null)
         {
             Debug.Log("Set Fire Burn");
-            objectCtrl.AbstractModel.EffectCharacter.SetMaterial(material);
+            this.AbstractModel.EffectCharacter.SetMaterial(material);
         }
 
         if (poitionCoroutine != null) StopCoroutine(poitionCoroutine);
@@ -402,7 +374,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
             DeductHealth(damagePerSecond);
             if(playerCtrl!=null)
             {
-                FXSpawner.Instance.SendFXText(damagePerSecond, skillType, playerCtrl.TargetBullet, Quaternion.identity);
+                FXSpawner.Instance.SendFXText(damagePerSecond, skillType, playerCtrl.TargetPosition, Quaternion.identity);
             }
             else
             {

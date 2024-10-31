@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea1a29aed6a305469a422ea36e08d53, type: 3}
+  m_Name: Grassland Pig
+  m_EditorClassIdentifier: 
+  basePointsAttack: 20
+  basePointsLife: 116
+  basePointsAttackSpeed: 2
+  basePointsCurrentMana: 45
+  basePointsSpeedMove: 1.2
+  attackSpeed: 2
+  attackSpeedMelee: 2
+  itemDrop:
+  - itemDropType: 1
+    minDrop: 1
+    maxDrop: 1
+    spawnRate: 500
+  - itemDropType: 2
+    minDrop: 1
+    maxDrop: 1
+    spawnRate: 1500
+  skill1: {fileID: 0}
+  skill2: {fileID: 0}

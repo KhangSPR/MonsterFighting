@@ -1,13 +1,19 @@
 public enum State
 {
     Idle,
+    IdleAxe,
     Move,
+    MoveAxe,
     Attack,
     Stun,
     Skill,
-    Rage,
+    NormalRage,
+    AttackAxe,
     Fury,
     Dance,
     Skill1,
     Skill2,
+    MeleeWitch,
+    Horn,
+    HitRage,
 }

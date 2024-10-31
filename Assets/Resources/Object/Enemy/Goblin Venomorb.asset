@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Goblin Venomorb
   m_EditorClassIdentifier: 
   basePointsAttack: 23
-  basePointsLife: 103
+  basePointsLife: 1000
   basePointsAttackSpeed: 2
   basePointsCurrentMana: 98
   basePointsSpeedMove: 0.8
+  attackSpeed: 2.8
+  attackSpeedMelee: 1.5
   itemDrop:
   - itemDropType: 1
     minDrop: 1

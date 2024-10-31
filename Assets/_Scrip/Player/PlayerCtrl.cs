@@ -16,14 +16,13 @@ public class PlayerCtrl : ObjectCtrl
     StatsFake characterStatsFake;
     public StatsFake CharacterStatsFake => characterStatsFake;
 
-    [SerializeField] protected Transform targetBullet;
-    public Transform TargetBullet => targetBullet;
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
         this.abstractModel.SetOnDeadAnimation();
+
     }
     private void InitCharacterStats()
     {
@@ -33,11 +32,11 @@ public class PlayerCtrl : ObjectCtrl
             if (characterStatsFake == null)
             {
                 characterStatsFake = gameObject.AddComponent<StatsFake>();
-                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.CurrentManaAttack);
+                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.CurrentManaAttack, cardCharacter.CharacterStats.AttackSpeedMelee);
             }
             else
             {
-                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.CurrentManaAttack);
+                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.CurrentManaAttack, cardCharacter.CharacterStats.AttackSpeedMelee);
             }
 
             // Áp dụng thêm các chỉ số từ GuildSOManager (nếu cần)
@@ -54,6 +53,7 @@ public class PlayerCtrl : ObjectCtrl
         float manaSkill1 = skill1 != null ? skill1.manaRequirement : 0f;
         float dmg1 = skill1 != null ? skill1.damage : 0f;
         bool lockSkill1 = skill1 != null ? skill1.skillUnlock : false;
+        float distanceAttack1 = skill1 != null ? skill1.distanceAttack : 0f;
         ISkill classSkill1 = skill1 != null ? skill1.GetSkillInstance() : null;
 
         // Skill 2
@@ -61,10 +61,11 @@ public class PlayerCtrl : ObjectCtrl
         float manaSkill2 = skill2 != null ? skill2.manaRequirement : 0f;
         bool lockSkill2 = skill2 != null ? skill2.skillUnlock : false;
         float dmg2 = skill2 != null ? skill2.damage : 0f;
+        float distanceAttack2 = skill2 != null ? skill2.distanceAttack : 0f;
         ISkill classSkill2 = lockSkill2 && skill2 != null ? skill2.GetSkillInstance() : null;
 
         // Call Function SetSkill for AbstractModel
-        this.abstractModel.SetSkill(manaSkill1, lockSkill1,dmg1, classSkill1, manaSkill2, lockSkill2, dmg2, classSkill2);
+        this.abstractModel.SetSkill(manaSkill1, lockSkill1, dmg1, classSkill1, distanceAttack1, manaSkill2, lockSkill2, dmg2, classSkill2, distanceAttack2);
     }
 
 
@@ -88,6 +89,9 @@ public class PlayerCtrl : ObjectCtrl
         cardCharacter = cardTower;
         InitCharacterStats();
         SetSkill(cardTower);
+
+        //Attack Speed Default
+        this.abstractModel.SetDelayCharacter(characterStatsFake.AttackSpeed);
     }
 
     protected override string GetObjectTypeString()
@@ -106,7 +110,6 @@ public class PlayerCtrl : ObjectCtrl
         LoadPlayerAttack();
         LoadPlayerShooter();
         loadTargetVFX();
-        this.LoadTargetBullet();
     }
 
     protected virtual void LoadPlayerAttack()
@@ -127,11 +130,5 @@ public class PlayerCtrl : ObjectCtrl
         if (playerShooter != null) return;
         playerShooter = transform.GetComponentInChildren<PlayerShooter>();
         Debug.Log(gameObject.name + ": loadCanAttackPlayer" + gameObject);
-    }
-    protected virtual void LoadTargetBullet()
-    {
-        if (targetBullet != null) return;
-        targetBullet = transform.Find("TargetBullet");
-        Debug.Log(gameObject.name + ": LoadTargetBullet" + gameObject);
     }
 }

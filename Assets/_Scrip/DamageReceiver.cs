@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 // Base class for damage receivers
-public abstract class DamageReceiver : AbstractCtrl
+public abstract class DamageReceiver : ObjModleAbstact
 {
     [Header("Damage Receiver")]
     [SerializeField] protected int isHP = 1;
@@ -27,28 +27,10 @@ public abstract class DamageReceiver : AbstractCtrl
     [SerializeField]
     protected bool isDead;
     public bool IsDead => isHP <= 0;
-    [Space]
-    [Space]
-    [Header("Object")]
-    [SerializeField] protected ObjectCtrl objectCtrl;
 
 
     //Event
     public event Action OnTakeDamage;
-
-    protected override void LoadComponents()
-    {
-        base.LoadComponents();
-        this.LoadObjectCtrl();
-    }
-
-    protected virtual void LoadObjectCtrl()
-    {
-        if (objectCtrl != null) return;
-        objectCtrl = transform.parent.GetComponent<ObjectCtrl>();
-        Debug.Log(gameObject.name + ": Loaded ObjectCtrl for " + gameObject.name);
-    }
-
     protected override void OnEnable()
     {
         ReBorn();
@@ -56,7 +38,6 @@ public abstract class DamageReceiver : AbstractCtrl
 
     protected virtual void LoadValue()
     {
-        LoadObjectCtrl();
         ReBorn();
     }
 
@@ -119,11 +100,7 @@ public abstract class DamageReceiver : AbstractCtrl
     }
     public void HandleSlashDamage()
     {
-        if(objectCtrl!=null)
-        {
-            objectCtrl.AbstractModel.DameFlash.CallDamageFlash();
-            Debug.Log("HandleSlash Damage Of: "+ transform.parent.name);
-        }
+        AbstractModel.DameFlash.CallDamageFlash();
     }
     public abstract void OnDead();
 

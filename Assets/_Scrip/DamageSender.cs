@@ -27,7 +27,9 @@ public class DamageSender : AbstractCtrl
         if (damageReceiver == null) return;
         this.Send(damageReceiver);
 
-        FXSpawner.Instance.SendFXText(damage, skillType, obj, Quaternion.identity);
+        Transform targetPosition = obj.GetComponent<ObjectCtrl>().TargetPosition;
+
+        FXSpawner.Instance.SendFXText(damage, skillType, targetPosition, Quaternion.identity);
 
         Debug.Log("Default Spawner Sender");
     }

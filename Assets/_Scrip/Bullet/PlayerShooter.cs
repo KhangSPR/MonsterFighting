@@ -9,7 +9,7 @@ public class PlayerShooter : BulletShooter
 
     protected override bool IsShooting()
     {
-        if (this.PlayerCtrl.PlayerAttack.canAttack)
+        if (this.PlayerCtrl.PlayerAttack.CheckCanAttack)
             return true;
         else
             return false;

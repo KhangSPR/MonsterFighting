@@ -21,6 +21,8 @@ public class EnemyCtrl : ObjectCtrl
     public ObjAppearBigger ObjAppearBigger => objAppearBigger;
     [SerializeField] protected TargetSkill targetSkill;
     public TargetSkill TargetSkill => targetSkill;
+    [SerializeField] protected HornSpawnerCtrl enemySpawnCtrl;
+    public HornSpawnerCtrl EnemySpawnCtrl => enemySpawnCtrl;
     protected override string GetObjectTypeString()
     {
         return ObjectType.Enemy.ToString();
@@ -38,6 +40,37 @@ public class EnemyCtrl : ObjectCtrl
 
         if(objRageSkill != null)
              this.objRageSkill.SetRage(false);
+
+        if (this.enemySpawnCtrl != null)
+        {
+            OneDisableObject();
+        }
+
+        this.abstractModel.EffectCharacter.SetOrderLayerRenderer(objLand.LandIndex);
+    }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        if (this.enemySpawnCtrl != null)
+        {
+            OnEnableObject();
+        }
+
+    }
+    protected void OneDisableObject()
+    {
+        if(this.enemySpawnCtrl.Abilities.AbilitySummon is AbilitySumonHorn abilitySumonHorn)
+        {
+            abilitySumonHorn.EnableObject();
+        }
+    }
+    protected void OnEnableObject()
+    {
+        if(this.enemySpawnCtrl.Abilities.AbilitySummon is AbilitySumonHorn abilitySumonHorn)
+        {
+            abilitySumonHorn.DisableObject();
+        }
     }
     protected override void Start()
     {
@@ -54,6 +87,13 @@ public class EnemyCtrl : ObjectCtrl
         this.LoadEnemyDropItem();
         this.loadObjAppearBigger();
         this.loadTargetSkill();
+        this.loadEnemySpawnCtrl();
+    }
+    protected virtual void loadEnemySpawnCtrl()
+    {
+        if (this.enemySpawnCtrl != null) return;
+        this.enemySpawnCtrl = transform.GetComponentInChildren<HornSpawnerCtrl>();
+        Debug.Log(gameObject.name + ": loadEnemySpawnCtrl" + gameObject);
     }
     protected virtual void loadObjAppearBigger()
     {
@@ -98,6 +138,7 @@ public class EnemyCtrl : ObjectCtrl
         float manaSkill1 = skill1 != null ? skill1.manaRequirement : 0f;
         float dmg1 = skill1 != null ? skill1.damage : 0f;
         bool lockSkill1 = skill1 != null ? skill1.skillUnlock : false;
+        float distanceAttack1 = skill1 != null ? skill1.distanceAttack : 0f;
         ISkill classSkill1 = skill1 != null ? skill1.GetSkillInstance() : null;
 
         // Skill 2
@@ -105,12 +146,11 @@ public class EnemyCtrl : ObjectCtrl
         float manaSkill2 = skill2 != null ? skill2.manaRequirement : 0f;
         bool lockSkill2 = skill2 != null ? skill2.skillUnlock : false;
         float dmg2 = skill2 != null ? skill2.damage : 0f;
+        float distanceAttack2 = skill2 != null ? skill2.distanceAttack : 0f;
         ISkill classSkill2 = lockSkill2 && skill2 != null ? skill2.GetSkillInstance() : null;
 
         // Call Function SetSkill for AbstractModel
-        this.abstractModel.SetSkill(manaSkill1, lockSkill1, dmg1, classSkill1, manaSkill2, lockSkill2, dmg2, classSkill2);
-
-
+        this.abstractModel.SetSkill(manaSkill1, lockSkill1, dmg1, classSkill1, distanceAttack1, manaSkill2, lockSkill2, dmg2, classSkill2, distanceAttack2);
 
         Debug.Log("Set Skill 1 Lan EnemyCtrl");
     }

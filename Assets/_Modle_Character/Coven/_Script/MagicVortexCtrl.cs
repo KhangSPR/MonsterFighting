@@ -49,7 +49,7 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
             yield break;
         }
 
-        enemyCtrl.EnemyAttack.canAttack = true;
+        enemyCtrl.EnemyAttack.CheckCanAttack = true;
         IsSkillActionComplete = true;
     }
 
@@ -87,8 +87,8 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
         {
             enemyCtrl.TargetSkill.listSkillCtrl.RemoveAt(0);
 
-            if (enemyCtrl.EnemyAttack.CanAtacck.Count <= 0 && enemyCtrl.TargetSkill.listSkillCtrl.Count <= 0)
-                enemyCtrl.EnemyAttack.canAttack = false;
+            if (enemyCtrl.EnemyAttack.ListObjAttacks.Count <= 0 && enemyCtrl.TargetSkill.listSkillCtrl.Count <= 0)
+                enemyCtrl.EnemyAttack.CheckCanAttack = false;
         }
     }
 }

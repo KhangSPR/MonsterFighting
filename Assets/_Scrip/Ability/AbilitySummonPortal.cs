@@ -10,6 +10,7 @@ public class AbilitySummonPortal : AbilitySummon
     [SerializeField] protected ObjAppearSmall objAppearSmall;
     public ObjAppearSmall ObjAppearSmall => objAppearSmall;
 
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -41,7 +42,6 @@ public class AbilitySummonPortal : AbilitySummon
         this.minionLimit = portal.SumEnemy(portal);
         this.minionCount = 0;
         this.checkALLEnemyDead = false;
-
 
         Debug.Log("IsAppearing: " + this.objAppearSmall.IsAppearing); //True
         Debug.Log("Appeared: " + this.objAppearSmall.Appeared); //False

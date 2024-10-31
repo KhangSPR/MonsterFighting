@@ -28,7 +28,9 @@ public abstract class AbilitySummon : ActiveAbility
     //[SerializeField]
     protected List<Transform> minions = new List<Transform>();
     public List<Transform> Minions { get { return minions; } }
-
+    [Header("Ability Land")]
+    [SerializeField] protected int landIndex;
+    public int LandIndex { get { return landIndex; } set { landIndex = value; } }
     protected override void Start()
     {
         base.Start();
@@ -63,9 +65,12 @@ public abstract class AbilitySummon : ActiveAbility
 
         Transform minion = this.spawner.Spawn(minionPrefab, spawnPos.position, spawnPos.rotation);
 
+        EnemyCtrl enemyCtrl = minion.GetComponent<EnemyCtrl>();
 
 
-        minion.GetComponent<EnemyCtrl>().ObjAppearBigger.CheckCallAppearing = true;
+        enemyCtrl.ObjAppearBigger.CheckCallAppearing = true;
+        enemyCtrl.ObjLand.SetLand(landIndex);
+
         minion.gameObject.SetActive(true);
         this.AddSummon(minion);
 

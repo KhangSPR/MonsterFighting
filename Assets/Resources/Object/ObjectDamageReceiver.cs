@@ -7,42 +7,32 @@ public class ObjectDamageReceiver : DamageReceiverByType
     public override void OnDead()
     {
         base.OnDead();
-        if (objectCtrl != null)
-        {
-            //objectCtrl.Despawn.ResetCanDespawnFlag(); //In Animation Dead ObjModle
-            objectCtrl.AbstractModel.DameFlash.StopCoroutieSlash();
-            if(enemyCtrl !=null)
-            {
-                if (enemyCtrl.TargetSkill.listSkillCtrl.Count <= 0) return;
 
-                foreach(SkillCtrl scrSkill in enemyCtrl.TargetSkill.listSkillCtrl)
-                {
-                    scrSkill.FxDespawn.ResetCanDespawnFlag();
-                }
+        //objectCtrl.Despawn.ResetCanDespawnFlag(); //In Animation Dead ObjModle
+        this.AbstractModel.DameFlash.StopCoroutieSlash();
+        if (this.enemyCtrl)
+        {
+            if (enemyCtrl.TargetSkill.listSkillCtrl.Count <= 0) return;
+
+            foreach (SkillCtrl scrSkill in enemyCtrl.TargetSkill.listSkillCtrl)
+            {
+                scrSkill.FxDespawn.ResetCanDespawnFlag();
             }
         }
-        else
-        {
-            Debug.LogError("ObjectCtrl is not assigned for " + gameObject.name);
-        }
-    }  
+
+    }
     public override void ReBorn()
     {
-        // Ensure the ObjectCtrl and its dependencies are loaded first
-        LoadObjectCtrl();
-
-        if (objectCtrl != null)
-        {
-            isMaxHP = PlayerCtrl?.CharacterStatsFake.Life
-                      ?? EnemyCtrl?.EnemySO.basePointsLife
-                      ?? isMaxHP;
-        }
+        this.LoadObjCtrl();
+        isMaxHP = PlayerCtrl?.CharacterStatsFake.Life
+                  ?? EnemyCtrl?.EnemySO.basePointsLife
+                  ?? isMaxHP;
 
         base.ReBorn();
     }
     public void AddPoint(int amount, Medicine medicineType)
     {
-        this.AddPointType(amount, medicineType);    
+        this.AddPointType(amount, medicineType);
         this.AddPointText(amount, medicineType);
     }
     #region FX Text ... 
@@ -63,7 +53,7 @@ public class ObjectDamageReceiver : DamageReceiverByType
         textDamage.DoAnimation(point, medicineType);
         fxObj.gameObject.SetActive(true);
     }
-    protected void AddPointType(int amount,Medicine medicineType)
+    protected void AddPointType(int amount, Medicine medicineType)
     {
         switch (medicineType)
         {

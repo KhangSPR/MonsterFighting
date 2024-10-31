@@ -1,59 +1,45 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAttack : PlayerAbstract
+public class PlayerAttack : ObjAttack
 {
-    public bool canAttack = false;
-    public List<Transform> CanAttack = new List<Transform>();
-    private bool detectedFirstCollision = false;
-
-    private void OnTriggerEnter2D(Collider2D other)
+    protected override void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.parent != null && other.transform.parent.tag == "Enemy")
         {
-            if (!detectedFirstCollision)
+            if (!other.transform.parent.GetComponent<ObjectCtrl>().ObjLand.CampareLand(objCtrl.ObjLand.LandIndex))
+                return;
+
+            checkCanAttack = true;
+
+            if (!listObjAttacks.Contains(other.transform.parent))
             {
-                canAttack = true;
-                detectedFirstCollision = true;
-            }
-            if (!CanAttack.Contains(other.transform.parent))
-            {
-                CanAttack.Add(other.transform.parent);
+                listObjAttacks.Add(other.transform.parent);
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    protected override void OnTriggerExit2D(Collider2D other)
     {
-        if (other.transform.parent != null && CanAttack.Contains(other.transform.parent))
+        if (other.transform.parent != null && listObjAttacks.Contains(other.transform.parent))
         {
-            CanAttack.Remove(other.transform.parent);
-            if (CanAttack.Count == 0)
+            listObjAttacks.Remove(other.transform.parent);
+            if (listObjAttacks.Count == 0)
             {
-                canAttack = false;
-                detectedFirstCollision = false;
-                RecheckColliders();  // Recheck the colliders to ensure no enemy is still within range
+                checkCanAttack = false;
+
+                this.ResetCollider();//Reset Collider
             }
         }
     }
 
-    private void RecheckColliders()
+    public override Transform GetTransFromFirstAttack()
     {
-        foreach (Transform enemy in CanAttack)
-        {
-            if (enemy != null && enemy.tag == "Enemy")
-            {
-                canAttack = true;
-                detectedFirstCollision = true;
-                return;  // As soon as one valid enemy is found, set canAttack to true and exit
-            }
-        }
-    }
+        Transform transform = listObjAttacks[0].GetComponent<ObjectCtrl>().TargetPosition;
 
-    public Transform GetTransFromFirstAttack()
-    {
-        if (CanAttack.Count > 0)
-            return CanAttack[0];
+        if (transform != null)
+            return transform;
         return null;
     }
 }

@@ -41,6 +41,7 @@ public class FXImpact : SkillAbstract
     {
         if (this.skillCtrl.ObjectCtrl == null) return;
 
+        if (collision.name == "CanAttack" || collision.name == "ObjMelee") return;
 
         // Check if the parent of the collider is tagged "Enemy"
         if (this.skillCtrl.ObjectCtrl != null)

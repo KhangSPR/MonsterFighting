@@ -1,41 +1,43 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttack : EnemyAbstract
+
+public class EnemyAttack : ObjAttack
 {
-    public bool canAttack = false;
-
-    public List<Transform> CanAtacck = new List<Transform>();
-    private bool detectedFirstCollision = false;
-    private void OnTriggerEnter2D(Collider2D other)
+    protected override void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform.parent.tag == "Player" || other.transform.parent.tag == "Castle")
+        if (other.transform.parent.tag == "Player" /*|| other.transform.parent.tag == "Castle"*/)
         {
-            if (!detectedFirstCollision && CanAtacck.Count == 0)
+            if (!other.transform.parent.GetComponent<ObjectCtrl>().ObjLand.CampareLand(objCtrl.ObjLand.LandIndex))
+                return;
+
+            checkCanAttack = true;
+
+            if (!listObjAttacks.Contains(other.transform.parent))
             {
-                canAttack = true;
-                detectedFirstCollision = true;
-                CanAtacck.Add(other.transform.parent);
+                listObjAttacks.Add(other.transform.parent);
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    protected override void OnTriggerExit2D(Collider2D other)
     {
-        if (CanAtacck.Contains(other.transform.parent))
+        if (listObjAttacks.Contains(other.transform.parent))
         {
-            CanAtacck.Remove(other.transform.parent);
+            listObjAttacks.Remove(other.transform.parent);
 
-            if (CanAtacck.Count == 0)
+            if (listObjAttacks.Count == 0)
             {
-                canAttack = false;
-                detectedFirstCollision = false;
+                checkCanAttack = false;
+
+                this.ResetCollider(); //Reset Collider
             }
         }
     }
-    public Transform GetTransFromFirstAttack()
+
+    public override Transform GetTransFromFirstAttack()
     {
-        Transform transform = CanAtacck[0].GetComponent<PlayerCtrl>().TargetBullet;
+        Transform transform = listObjAttacks[0].GetComponent<ObjectCtrl>().TargetPosition;
 
         if (transform != null)
             return transform;

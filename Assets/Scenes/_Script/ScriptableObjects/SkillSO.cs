@@ -23,6 +23,7 @@ public class SkillSO : ScriptableObject
     public bool skillUnlock;
 
     public float manaRequirement;
+    public float distanceAttack;
 
     public string GetTierText(int m_ActiveIndex)
     {

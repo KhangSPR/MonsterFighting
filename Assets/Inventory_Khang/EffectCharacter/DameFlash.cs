@@ -44,7 +44,7 @@ public class DameFlash : MonoBehaviour
         //Character -- Co the gan luon khoi can auto
         if (Font != null)
         {
-            _spriteRenderers = new List<SpriteRenderer>(Font.GetComponentsInChildren<SpriteRenderer>());
+            _spriteRenderers.AddRange(Font.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Font");
 

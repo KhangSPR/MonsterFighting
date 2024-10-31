@@ -14,7 +14,11 @@ public class BulletRegularCtrl : BulletCtrl
     public Vector3 Direction => direction;
     [SerializeField] protected ObjLookAtTargetSetter objLookAtTargetSetter;
     public ObjLookAtTargetSetter ObjLookAtTargetSetter => objLookAtTargetSetter;
-
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        this.bulletImpact.hasDealtDamage = false;
+    }
     protected override void LoadComponents()
     {
         base.LoadComponents();

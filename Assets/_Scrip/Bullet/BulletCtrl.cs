@@ -24,12 +24,20 @@ public class BulletCtrl : SaiMonoBehaviour
         get { return objectCtrl; }
         set { objectCtrl = value; }
     }
-
+    [SerializeField] protected BulletImpact bulletImpact;
+    public BulletImpact BulletImpact => bulletImpact;
     protected override void LoadComponents()
     {
         base.LoadComponents();
         this.loadDamageSender();
         this.loadBulletDespawn();
+        this.loadBulletImpact();
+    }
+    protected virtual void loadBulletImpact()
+    {
+        if (this.bulletImpact != null) return;
+        this.bulletImpact = transform.GetComponentInChildren<BulletImpact>();
+        Debug.Log(gameObject.name + ": loadBulletImpact" + gameObject);
     }
     protected virtual void loadDamageSender()
     {

@@ -48,55 +48,84 @@ public class AnimationImpact : SaiMonoBehaviour
         Debug.Log(transform.name + ": LoadCollider", gameObject);
     }
 
-    //protected virtual void LoadObjectCtrl()
-    //{
-    //    if (objectCtrl != null) return;
-    //    objectCtrl = transform.parent.GetComponent<ObjectCtrl>();
-    //    Debug.Log(gameObject.name + ": Loaded ObjectCtrl for " + gameObject.name);
-    //}
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (damageSent) return;
+
+        if (other.name == "CanAttack" || other.name == "ObjMelee") return;
+
 
         // Nếu không có FXDamageReceiver, xử lý theo logic khác
         if (playerCtrl != null)
         {
             if (other.transform.parent.CompareTag("Enemy"))
             {
-                playerCtrl.DamageSender.Send(other.transform.parent);
-                Debug.Log("damageSent (player vs enemy)");
+                var otherObjectCtrl = other.transform.parent.GetComponent<ObjectCtrl>();
 
+                if (otherObjectCtrl == null || playerCtrl.ObjLand.LandIndex != otherObjectCtrl.ObjLand.LandIndex)
+                {
+                    Debug.Log("Animation Impact other enemyCtrl: " + other.name);
+                    return;
+                }
+
+                if (playerCtrl.ObjMelee != null && playerCtrl.ObjMelee.ListObjAttacks.Count > 0)
+                {
+                    playerCtrl.DamageSender.Send(playerCtrl.ObjMelee.ListObjAttacks[0]); //close range attack first
+                }
+                else if (playerCtrl.PlayerAttack.ListObjAttacks.Count > 0)
+                {
+                    playerCtrl.DamageSender.Send(playerCtrl.PlayerAttack.ListObjAttacks[0]);
+                }
                 // Đánh dấu đã gửi damage
                 damageSent = true;
                 gameObject.SetActive(false);
-                return;
             }
         }
         else if (enemyCtrl != null)
         {
-            if(enemyCtrl.TargetSkill.listSkillCtrl.Count >0)
+            var otherObjectCtrl = other.transform.parent.GetComponent<ObjectCtrl>();
+
+            if (otherObjectCtrl == null || enemyCtrl.ObjLand.LandIndex != otherObjectCtrl.ObjLand.LandIndex)
+            {
+                Debug.Log("Animation Impact other enemyCtrl: " + other.name);
+                return;
+            }
+
+
+
+            if (enemyCtrl.TargetSkill.listSkillCtrl.Count > 0)
             {
                 enemyCtrl.TargetSkill.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage);
-
                 Debug.Log("Skill Effect");
                 damageSent = true;
                 gameObject.SetActive(false);
-                return;
             }
-            if (other.transform.parent.CompareTag("Player") || other.transform.parent.CompareTag("Castle"))
+            else if (other.transform.parent.CompareTag("Player") || other.transform.parent.CompareTag("Castle"))
             {
-                if (enemyCtrl.EnemyAttack.CanAtacck.Count > 0)
+                if (enemyCtrl.ObjMelee != null && enemyCtrl.ObjMelee.ListObjAttacks.Count > 0)
                 {
-                    enemyCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.CanAtacck[0]);
+                    enemyCtrl.DamageSender.Send(enemyCtrl.ObjMelee.ListObjAttacks[0]); //close range attack first
                 }
+                else if (enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
+                {
+                    int targetsToSend = Mathf.Min(enemyCtrl.ObjAttack.MaxAttackTargets, enemyCtrl.EnemyAttack.ListObjAttacks.Count);
+
+                    for (int i = 0; i < targetsToSend; i++)
+                    {
+                        enemyCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.ListObjAttacks[i]);
+                        Debug.Log("Send to Player " + (i + 1) + ": " + enemyCtrl.EnemyAttack.ListObjAttacks[i].name);
+                    }
+
+                    Debug.Log("Send " + targetsToSend + " Player(s)");
+                }
+
                 damageSent = true;
                 gameObject.SetActive(false);
 
                 Debug.Log("Animation Impact");
-
-                return;
             }
         }
     }
+
 
 }

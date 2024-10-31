@@ -73,16 +73,50 @@ public class AbilitySummonEnemy : AbilitySummon
             return;
         }
 
-        Debug.Log("Sumoning loi ");
+        Debug.Log("Summoning started");
 
         SetNameSpawn();
-        Transform pos = this.abilities.AbilityCtrl.SpawnEnemyPoints.GetRandom();
-        Summon(pos);
-        WaveSpawnManager.Instance.ProgressPortals.OnEnemySpawned();
+
+        // Kiểm tra abilities và AbilityCtrl có hợp lệ không
+        if (this.abilities == null || this.abilities.AbilityCtrl == null)
+        {
+            Debug.LogError("abilities hoặc AbilityCtrl chưa được gán.");
+            return;
+        }
+
+        // Kiểm tra SpawnPoints có hợp lệ không và lấy spawn point ngẫu nhiên
+        var spawnPoint = this.abilities.AbilityCtrl.SpawnPoints?.GetRandom();
+        if (spawnPoint == null)
+        {
+            Debug.LogError("Không tìm thấy spawn point hoặc SpawnPoints chưa được khởi tạo.");
+            return;
+        }
+
+        // Lấy LandIndexScript từ spawnPoint
+        LandIndexScript landIndexScript = spawnPoint.GetComponent<LandIndexScript>();
+        if (landIndexScript == null)
+        {
+            Debug.LogError("LandIndexScript chưa được tìm thấy trong spawnPoint.");
+            return;
+        }
+
+        landIndex = landIndexScript.LandIndex;
+
+        // Kiểm tra nếu WaveSpawnManager và ProgressPortals tồn tại
+        if (WaveSpawnManager.Instance?.ProgressPortals == null)
+        {
+            Debug.LogError("WaveSpawnManager hoặc ProgressPortals chưa được khởi tạo.");
+            return;
+        }
+
+        Summon(landIndexScript.transform); // Gọi hàm Summon với vị trí spawn
+
+        WaveSpawnManager.Instance.ProgressPortals.OnEnemySpawned(); // Thông báo khi spawn địch thành công
         minionCount++;
         this.Active();
         this.ClearEnemySpawn();
     }
+
     private void UpdateClear()
     {
         currentListEnemies = 0;

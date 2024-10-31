@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ObjModleAbstact : SaiMonoBehaviour
+{
+    [SerializeField] protected AbstractModel abstractModel;
+    public AbstractModel AbstractModel => abstractModel;
+     
+    [SerializeField] protected EnemyCtrl enemyCtrl;
+    public EnemyCtrl EnemyCtrl => enemyCtrl;
+    [SerializeField] protected PlayerCtrl playerCtrl;
+    public PlayerCtrl PlayerCtrl => playerCtrl;
+    [SerializeField] protected SkillCtrl skillCtrl;
+    public SkillCtrl SkillCtrl => skillCtrl;
+    protected override void LoadComponents()
+    {
+        base.LoadComponents();
+        this.LoadAbstractModel();
+        this.LoadSkillCtrl();
+    }
+    protected void LoadAbstractModel()
+    {
+        if (abstractModel != null) return;
+
+        this.abstractModel = transform.parent.GetComponent<AbstractModel>();
+    }
+    protected void LoadObjCtrl()
+    {
+        if (abstractModel == null)
+        {
+            Debug.LogError("Need Preload AbstractModel");
+            return;
+        }
+
+        if(this.abstractModel.EnemyCtrl != null)
+        {
+            enemyCtrl = this.abstractModel.EnemyCtrl;
+        }
+        else 
+        {
+            playerCtrl = this.abstractModel.PlayerCtrl;
+        }
+
+        Debug.Log("LoadObjCtrl");
+    }
+    protected void LoadSkillCtrl()
+    {
+        if (skillCtrl != null) return;
+        
+        this.skillCtrl = transform.parent.GetComponent<SkillCtrl>();
+    }
+}

@@ -3,6 +3,25 @@ using UnityEngine;
 
 public class ObjRageSkill : AbstractCtrl
 {
+    public enum RageActivationType
+    {
+        None,
+        DurationBased,
+        HitBased,
+    }
+
+    public enum RageType
+    {
+        NormalRage,
+        AttackAxe,
+    }
+
+    [SerializeField] private RageActivationType rageActivationType = RageActivationType.DurationBased;
+    public RageActivationType RageActType => rageActivationType;
+
+    [SerializeField] private RageType currentRageType = RageType.NormalRage;
+    public RageType CurrentRageType => currentRageType;
+
     [SerializeField] private float rageDamageMultiplier;
     public float RageDamageMultiplier => rageDamageMultiplier;
     [SerializeField] private float rageSpeedMultiplier;
@@ -11,7 +30,6 @@ public class ObjRageSkill : AbstractCtrl
     public float RageDuration => rageDuration;
     [SerializeField] private float rageHP;
     public float RageHP => rageHP;
-    [SerializeField]
 
     private bool isRageActive = false;
     public bool IsRageActive { get { return isRageActive; } set { value = isRageActive; } }
@@ -20,96 +38,101 @@ public class ObjRageSkill : AbstractCtrl
 
     [SerializeField] GameObject _furyFlash;
     public GameObject FuryFlash => _furyFlash;
+    [SerializeField]
+    private int hitCounter = 0; // Bộ đếm hit
+
     protected override void OnEnable()
     {
         base.OnEnable();
-
-        // Đăng ký sự kiện
         this.ObjectCtrl.ObjectDamageReceiver.OnTakeDamage += OnTakeDamage;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-
-        // Hủy đăng ký sự kiện
         this.ObjectCtrl.ObjectDamageReceiver.OnTakeDamage -= OnTakeDamage;
     }
 
     protected override void Start()
     {
         base.Start();
-        rageStrategy = new HPBasedRageStrategy();
+        SetRageStrategy();
     }
-
+    private void SetRageStrategy()
+    {
+        rageStrategy = rageActivationType switch
+        {
+            RageActivationType.DurationBased => new HPBasedRageStrategy(),
+            RageActivationType.HitBased => new HitBasedRageStrategy(),
+            _ => null
+        };
+    }
     private void OnTakeDamage()
     {
-        if (!isRageActive && this.ObjectCtrl.ObjectDamageReceiver.IsHP <= this.ObjectCtrl.ObjectDamageReceiver.IsMaxHP * rageHP)
+        if (rageActivationType == RageActivationType.HitBased)
         {
+            hitCounter++;
 
+            Debug.Log("OnTake Damage: " + hitCounter);
+
+            if (hitCounter >= 5)
+            {
+                rageStrategy.ActivateRage(this.ObjectCtrl, this);
+                hitCounter = 0; // Reset lại bộ đếm sau khi kích hoạt Rage
+                isRageActive = false; //Not For Single Use
+            }
+        }
+        else if (!isRageActive && this.ObjectCtrl.ObjectDamageReceiver.IsHP <= this.ObjectCtrl.ObjectDamageReceiver.IsMaxHP * rageHP)
+        {
             rageStrategy.ActivateRage(this.ObjectCtrl, this);
-
-            //this.objCtrl.AbstractModel.IsRage = true;
         }
     }
-
-    public void Activate() //Call In Strategy
+    public void Activate()
     {
         if (isRageActive) return;
         isRageActive = true;
-        // Kiểm tra nếu đang trong trạng thái Stun
+
         if (this.objCtrl.AbstractModel.IsStun)
         {
-            // Chờ cho đến khi trạng thái Stun kết thúc
             StartCoroutine(WaitForStunToEndAndActivateFury());
             return;
         }
 
-        // Kích hoạt Fury ngay nếu không bị Stun
         ActivateFury();
     }
 
     private IEnumerator WaitForStunToEndAndActivateFury()
     {
-        // Chờ đến khi isStun trở thành false
         while (this.objCtrl.AbstractModel.IsStun)
         {
-            yield return null; // Chờ 1 frame rồi kiểm tra lại
+            yield return null;
         }
 
-        // Khi Stun kết thúc, kích hoạt Fury
         ActivateFury();
     }
 
     private void ActivateFury()
     {
-        Debug.Log("ActivateFury");
+        this.objCtrl.AbstractModel.SetRageState(currentRageType); //Repair Not useful
 
-        // Fury Gain
         this.objCtrl.AbstractModel.IsFuryGain = true;
 
-        // VFX
-        _furyFlash.SetActive(true);
 
-        // Chuyển sang trạng thái Rage
-        this.objCtrl.AbstractModel.SetRageState();
+        if (rageActivationType != RageActivationType.DurationBased) return;
 
-        // Bắt đầu đếm thời gian Rage
+        Debug.Log("ActivateFury");
+
+
+        if (_furyFlash != null)
+            _furyFlash.SetActive(true);
+
         StartCoroutine(RageDurationTimer());
     }
 
-
     private IEnumerator RageDurationTimer()
     {
-        //if (this.objCtrl.ObjectDamageReceiver.IsDead)
-        //{
-        //    this.objCtrl.AbstractModel.IsRage = false;
-        //    yield break;
-        //}
-
         yield return new WaitForSeconds(rageDuration);
 
-        // Phục hồi giá trị ban đầu
         ObjectCtrl.DamageSender.Damage = this.enemyCtrl.EnemySO.basePointsAttack;
 
         if (ObjectCtrl is EnemyCtrl enemy)
@@ -118,15 +141,17 @@ public class ObjRageSkill : AbstractCtrl
         }
 
         this.objCtrl.AbstractModel.IsRage = false;
-        //VFX
-        _furyFlash.SetActive(false);
 
+        if (_furyFlash != null)
+            _furyFlash.SetActive(false);
 
         Debug.Log("Finall Rage Timer");
     }
+
     public void SetRage(bool active)
     {
-        _furyFlash.SetActive(active);
+        if (_furyFlash != null)
+            _furyFlash.SetActive(active);
         isRageActive = active;
     }
 }

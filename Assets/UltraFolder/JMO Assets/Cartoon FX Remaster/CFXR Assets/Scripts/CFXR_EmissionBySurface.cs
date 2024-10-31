@@ -44,7 +44,7 @@ namespace CartoonFX
         {
             CalculateAndUpdateEmission();
 
-            if (!System.Array.Exists(Selection.gameObjects, item => item == this.gameObject))
+            if (!System.Array.Exists(Selection.gameObjects, item => item == gameObject))
             {
                 DetachFromEditor();
             }

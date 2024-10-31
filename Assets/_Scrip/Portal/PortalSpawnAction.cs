@@ -13,16 +13,20 @@ public class PortalSpawnAction : PortalSpawnManagerAbstract
         {
             // Lấy portal đầu tiên và spawn
             Portals portal = this.PortalSpawns[0];
-            Transform transform = portalSpawnManagerCtrl.SpawnPoints.GetRandomIsEmpty();
+
+            Transform newPortal = portalSpawnManagerCtrl.SpawnPoints.GetRandomIsEmpty();
+
+            LandIndexScript landIndexScript = newPortal.GetComponentInChildren<LandIndexScript>();
 
             // Spawn portalPrefab dựa trên độ hiếm (rarityPortal)
-            Transform portalPrefab = PortalSpawner.Instance.Spawn(LevelPortal(portal.rarityPortal), transform.position, Quaternion.identity);
+            Transform portalPrefab = PortalSpawner.Instance.Spawn(LevelPortal(portal.rarityPortal), newPortal.position, Quaternion.identity);
 
             PortalCtrl portalCtrl = portalPrefab.gameObject.GetComponent<PortalCtrl>();
 
             if (portalCtrl.Abilities.AbilitySummon is AbilitySummonPortal abilitySummonPortal)
             {
                 abilitySummonPortal.Portal = portal;
+                abilitySummonPortal.LandIndex = landIndexScript.LandIndex;
             }
 
             portalSpawnManagerCtrl.AbilitySummons.Add(portalCtrl.Abilities.AbilitySummon);
@@ -30,7 +34,7 @@ public class PortalSpawnAction : PortalSpawnManagerAbstract
             portalPrefab.gameObject.SetActive(true);
 
             // Đánh dấu điểm spawn đã được sử dụng
-            transform.GetComponentInChildren<TileSpawn>().IsEmpty = true;
+            newPortal.GetComponentInChildren<TileSpawn>().IsEmpty = true;
 
             // Loại bỏ portal đã spawn khỏi danh sách
             RemovePortalFromSpawns();

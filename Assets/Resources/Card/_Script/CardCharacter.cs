@@ -47,6 +47,7 @@ namespace UIGameDataManager
 
         public RarityCard rarityCard;
         public AttackType attackTypeCard;
+        //public AttackTypeAnimation attackType;
         public GameObject characterVisualsPrefab;
 
         public CardCharacter(string Name, float CardRefresh, int Price, Sprite Frame, Sprite Background, Sprite Avatar, Stats stats,

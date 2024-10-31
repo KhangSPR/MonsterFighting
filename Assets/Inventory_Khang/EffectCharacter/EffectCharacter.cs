@@ -37,8 +37,37 @@ public class EffectCharacter : MonoBehaviour
         
         _spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
 
-        SetSpriteRenderer();
+        //SetSpriteRenderer();
     }
+
+    private Dictionary<SpriteRenderer, int> _initialSortingOrders = new Dictionary<SpriteRenderer, int>();
+
+    public void SetOrderLayerRenderer(int landIndex)
+    {
+        SetSpriteRenderer();
+
+        string layerName = "Land" + landIndex;
+
+        for (int i = 0; i < _frontSpriteRenderers.Count; i++)
+        {
+            var renderer = _frontSpriteRenderers[i];
+
+            // Nếu SpriteRenderer không bật, lưu lại sortingOrder ban đầu và thiết lập sorting layer
+            if (!renderer.enabled)
+            {
+                if (!_initialSortingOrders.ContainsKey(renderer))
+                {
+                    _initialSortingOrders[renderer] = renderer.sortingOrder;
+                }
+            }
+
+            // Thiết lập sortingLayerName cho renderer
+            renderer.sortingLayerName = layerName;
+            //Debug.Log($"Set sorting layer {layerName} for {renderer.name}");
+        }
+    }
+
+
     private void SetSpriteRenderer()
     {
         Transform Font = transform.Find("Textures/Font");
@@ -60,7 +89,7 @@ public class EffectCharacter : MonoBehaviour
 
         if (Font != null)
         {
-            _frontSpriteRenderers = new List<SpriteRenderer>(Font.GetComponentsInChildren<SpriteRenderer>());
+            _frontSpriteRenderers.AddRange(Font.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Font");
 
@@ -68,7 +97,8 @@ public class EffectCharacter : MonoBehaviour
 
         if (Middle != null)
         {
-            _middleSpriteRenderers = new List<SpriteRenderer>(Middle.GetComponentsInChildren<SpriteRenderer>());
+            //_middleSpriteRenderers = new List<SpriteRenderer>(Middle.GetComponentsInChildren<SpriteRenderer>());
+            _middleSpriteRenderers.AddRange(Font.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Midle");
 
@@ -76,7 +106,8 @@ public class EffectCharacter : MonoBehaviour
 
         if (Back != null)
         {
-            _backSpriteRenderers = new List<SpriteRenderer>(Back.GetComponentsInChildren<SpriteRenderer>());
+            //_backSpriteRenderers = new List<SpriteRenderer>(Back.GetComponentsInChildren<SpriteRenderer>());
+            _backSpriteRenderers.AddRange(Font.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Back");
 
@@ -101,7 +132,10 @@ public class EffectCharacter : MonoBehaviour
         Debug.Log("Set Material: " + material.name);
         foreach (var spriteRenderer in _frontSpriteRenderers)
         {
-            spriteRenderer.material = material;
+            if (spriteRenderer.enabled)
+            {
+                spriteRenderer.material = material;
+            }
         }
     }
     public void SetMaterialDissolv()

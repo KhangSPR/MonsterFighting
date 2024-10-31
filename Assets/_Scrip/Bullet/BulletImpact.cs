@@ -10,6 +10,9 @@ public abstract class BulletImpact : BulletAbstract
     [SerializeField] protected CircleCollider2D circleCollider2D;
     [SerializeField] protected Rigidbody2D _rigidbody;
 
+    // Thêm biến để kiểm tra đã gửi sát thương hay chưa
+    public bool hasDealtDamage = false;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -33,67 +36,68 @@ public abstract class BulletImpact : BulletAbstract
         this._rigidbody.isKinematic = true;
         Debug.Log(transform.name + ": LoadRigibody", gameObject);
     }
+
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
+        // Kiểm tra xem đã gây sát thương chưa, nếu rồi thì return luôn
+        if (hasDealtDamage) return;
+
+        if (other.name == "CanAttack" || other.name== "ObjMelee") return;
+
         BulletCtrl bulletCtrl = GetBulletCtrl(); // Lấy bulletCtrl từ lớp con
         if (bulletCtrl == null)
         {
             return; // Nếu bulletCtrl bị null, không thực hiện bất kỳ hành động nào
         }
+
         if (bulletCtrl.Shooter != null)
         {
             if (bulletCtrl.Shooter.CompareTag("Enemy"))
             {
-                // If the shooter is an enemy, and the other object's tag is "Player",
-                // apply damage to the player
                 if (other.transform.parent.CompareTag("Player") || other.transform.parent.CompareTag("Castle"))
                 {
-                    bulletCtrl.DamageSender.Send(other.transform);
-                    //this.CreateImpactFX(other);
+                    if (bulletCtrl.ObjectCtrl is EnemyCtrl enemyCtrl)
+                    {
+                        if (enemyCtrl.ObjLand.LandIndex != other.transform.parent.GetComponent<ObjectCtrl>().ObjLand.LandIndex) return;
+
+                        if (enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
+                        {
+                            bulletCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.ListObjAttacks[0]);
+                            hasDealtDamage = true; // Đánh dấu đã gây sát thương
+                            Debug.Log("Send Bullet Enemy");
+                        }
+                    }
                 }
             }
             else if (bulletCtrl.Shooter.CompareTag("Player"))
             {
-                // If the shooter is a player, and the other object's tag is "Enemy",
-                // apply damage to the enemy
                 if (other.transform.parent.CompareTag("Enemy"))
                 {
-                    bulletCtrl.DamageSender.Send(other.transform);
-                    //this.CreateImpactFX(other);
+                    if (bulletCtrl.ObjectCtrl is PlayerCtrl playerCtrl)
+                    {
+                        if (playerCtrl.ObjLand.LandIndex != other.transform.parent.GetComponent<ObjectCtrl>().ObjLand.LandIndex) return;
+
+
+                        if (playerCtrl.PlayerAttack.ListObjAttacks.Count > 0)
+                        {
+                            bulletCtrl.DamageSender.Send(playerCtrl.PlayerAttack.ListObjAttacks[0]);
+                            hasDealtDamage = true; // Đánh dấu đã gây sát thương
+                            Debug.Log("Send Bullet Player");
+                        }
+                    }
                 }
             }
             else if (bulletCtrl.Shooter.CompareTag("Castle"))
             {
-                if (other.transform.parent.CompareTag("Enemy"))
+                if (bulletCtrl.ObjectCtrl is EnemyCtrl enemyCtrl)
                 {
-                    bulletCtrl.DamageSender.Send(other.transform);
-                    //this.CreateImpactFX(other);
+                    if (enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
+                    {
+                        bulletCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.ListObjAttacks[0]);
+                        hasDealtDamage = true; // Đánh dấu đã gây sát thương
+                    }
                 }
             }
         }
     }
 }
-/*
-protected virtual void CreateImpactFX(Collider other)
-{
-    string fxName = this.GetImpactFX();
-
-    Vector3 hitPos = transform.position;
-    Quaternion hitRot = transform.rotation;
-    Transform fxImpact = FXSpawner.Instance.Spawn(fxName, hitPos, hitRot);
-    fxImpact.gameObject.SetActive(true);
-
-    //fxImpact.parent = other.transform.parent;
-    //Debug.LogError("stop");
-
-    //Trung Nghia Nguyen
-    //Vector3 dir = Vector3.Normalize(hitPos);
-    //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-    //Quaternion rotate = Quaternion.Euler(0, 0, angle + 90f);
-    //fxImpact.rotation = rotate;
-}
-
-protected virtual string GetImpactFX()
-{
-    return FXSpawner.impact1;
-}*/

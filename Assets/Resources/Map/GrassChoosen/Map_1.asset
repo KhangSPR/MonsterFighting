@@ -24,13 +24,13 @@ MonoBehaviour:
     Waves:
     - waveRandom:
         enemyRanDoms:
-        - TimeFirstSpawn: 4
+        - TimeFirstSpawn: 3
           EnemyType:
           - rarity: 0
-            name: Grassland Rabbit
+            name: Goblin Venomorb
             countEnemy: 0
-            timerMin: 3
-            timerMax: 5
+            timerMin: 2
+            timerMax: 4
             skillType: []
             Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
         Portals:
@@ -42,14 +42,12 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 0
-            name: Goblin Venomorb
+            name: Grassland Pig
             countEnemy: 1
-            timerMin: 4
-            timerMax: 6
-            skillType:
-            - id: 3
-              skill: 7
-            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
+            timerMin: 3
+            timerMax: 4
+            skillType: []
+            Sprite: {fileID: 0}
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 3
@@ -63,10 +61,11 @@ MonoBehaviour:
             Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
         Portals:
         - rarityPortal: 0
-          countPortal: 0
+          countPortal: 2
           DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
           - 2
+          - 5
           hasBoss: 0
           enemyTypes:
           - rarity: 0
@@ -137,8 +136,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -155,8 +153,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     - waveRandom:
         enemyRanDoms:
         - TimeFirstSpawn: 4
@@ -211,8 +208,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -229,8 +225,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 10
@@ -292,8 +287,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -310,8 +304,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     - waveRandom:
         enemyRanDoms:
         - TimeFirstSpawn: 4
@@ -366,8 +359,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -384,8 +376,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     - waveRandom:
         enemyRanDoms:
         - TimeFirstSpawn: 4
@@ -440,8 +431,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -458,8 +448,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     - waveRandom:
         enemyRanDoms:
         - TimeFirstSpawn: 4
@@ -514,8 +503,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -532,8 +520,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 15

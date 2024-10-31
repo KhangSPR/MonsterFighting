@@ -58,11 +58,14 @@ public class PlayerModel : AbstractModel
         switch (currentState)
         {
             case State.Idle:
+                if (this.effectCharacter.Vfx_Stun.activeSelf)
+                    this.effectCharacter.Vfx_Stun.SetActive(false);
                 PlayAnimation("Attack", false);
                 PlayAnimation("Idle", true);
                 PlayAnimation("Skill1", false);
                 PlayAnimation("Skill2", false);
                 PlayAnimation("Stun", false);
+                PlayAnimation("Melee", false);
 
 
                 isAttacking = false;
@@ -71,14 +74,19 @@ public class PlayerModel : AbstractModel
             case State.Attack:
                 if (!isAttacking && currentDelay <= 0)
                 {
+                    if (this.effectCharacter.Vfx_Stun.activeSelf)
+                        this.effectCharacter.Vfx_Stun.SetActive(false);
                     PlayAnimation("Attack", true);
                     PlayAnimation("Idle", false);
                     PlayAnimation("Skill1", false);
                     PlayAnimation("Skill2", false);
                     PlayAnimation("Stun", false);
+                    PlayAnimation("Melee", false);
 
                     isAttacking = true;
                     isAnimationAttackComplete = false;
+                    isAnimationAttackCheckFinish = false; //Apply to animation attack defaut 
+       
                 }
                 break;
             case State.Skill1:
@@ -86,6 +94,7 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Idle", false);
                 PlayAnimation("Attack", false);
                 PlayAnimation("Skill2", false);
+                PlayAnimation("Melee", false);
 
                 isAttacking = false;
 
@@ -95,6 +104,7 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Idle", false);
                 PlayAnimation("Attack", false);
                 PlayAnimation("Skill1", false);
+                PlayAnimation("Melee", false);
 
                 isAttacking = false;
 
@@ -106,9 +116,27 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Stun", true);
                 PlayAnimation("Idle", false);
                 PlayAnimation("Attack", false);
+                PlayAnimation("Melee", false);
 
 
                 isAttacking = false;
+                break;
+            case State.MeleeWitch:
+                if (!isAttacking && currentDelay <= 0)
+                {
+                    if (this.effectCharacter.Vfx_Stun.activeSelf)
+                        this.effectCharacter.Vfx_Stun.SetActive(false);
+                    PlayAnimation("Attack", false);
+                    PlayAnimation("Idle", false);
+                    PlayAnimation("Skill1", false);
+                    PlayAnimation("Skill2", false);
+                    PlayAnimation("Stun", false);
+                    PlayAnimation("Melee", true);
+
+                    isAttacking = true;
+                    isAnimationAttackComplete = false;
+                    //isAnimationAttackCheckFinish = false;
+                }
                 break;
         }
         // Nếu đang ở trạng thái skill, không thực hiện các hành động khác
@@ -119,7 +147,7 @@ public class PlayerModel : AbstractModel
 
 
         // Gọi skill nếu có đủ điều kiện
-        if (this.playerCtrl.PlayerAttack.canAttack)
+        if (this.playerCtrl.PlayerAttack.CheckCanAttack)
         {
             shouldAttack = true;
         }
@@ -129,8 +157,14 @@ public class PlayerModel : AbstractModel
 
             return;
         }
-
-        if (shouldAttack)
+        //Animation Attack - Idle
+        // Check Melee attack
+        if (this.objCtrl.ObjMelee != null && this.objCtrl.ObjMelee.CheckCanAttack)
+        {
+            currentState = State.MeleeWitch;
+            Debug.Log("Call Melee Attack");
+        }
+        else if (shouldAttack && currentState != State.MeleeWitch) // Default attack if not Melee
         {
             currentState = State.Attack;
         }
@@ -139,14 +173,32 @@ public class PlayerModel : AbstractModel
             currentState = State.Idle;
         }
 
-        // Sau khi tấn công hoàn tất
+        // Common handling for animation after the attack is complete
         if (isAttacking && isAnimationAttackComplete)
         {
-            this.AttackType();
+            // Chọn loại hoạt ảnh dựa trên trạng thái tấn công hiện tại
+            if (currentState == State.MeleeWitch && isAnimationAttackCheckFinish) // True nếu đang trong AnimationMelee
+            {
+                attackTypeAnimation = AttackTypeAnimation.Animation;
+                this.SetDelayCharacter(playerCtrl.CharacterStatsFake.AttackSpeedMelee);
+            }
+            else if (currentState != State.MeleeWitch) // Chỉ thực hiện khi trạng thái không vừa chuyển từ MeleeWitch
+            {
+                attackTypeAnimation = this.currentAttackTypeAnimation;
+                this.SetDelayCharacter(playerCtrl.CharacterStatsFake.AttackSpeed);
+            }
+
             isAnimationAttackComplete = false;
-            currentDelay = delayAttack; // Thời gian chờ sau khi tấn công
+
+            //previousState = currentState;
+
             currentState = State.Idle;
+
+            currentDelay = delayAttack; 
+
+            this.AttackType();
         }
+
     }
 
 }

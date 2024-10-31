@@ -27,7 +27,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 6
           EnemyType:
           - rarity: 0
-            name: Goblin Green
+            name: Goblin Venomorb
             countEnemy: 1
             timerMin: 3
             timerMax: 4
@@ -43,8 +43,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
@@ -64,8 +63,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -295,8 +293,7 @@ MonoBehaviour:
             skillType:
             - id: 0
               skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5,
-              type: 3}
+            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
       waveFinal:
         enemyRanDoms: []
         Portals: []

@@ -81,11 +81,11 @@ public class TextDamage : SaiMonoBehaviour
             {
                 transform.position = hitPos;
                 text.color = color;
-                Debug.Log("On Start at : " + hitPos);
+                //Debug.Log("On Start at : " + hitPos);
             })
             .OnComplete(() =>
             {
-                Debug.Log("On Complete at:" + (transform.position.y + textMoveDistance));
+                //Debug.Log("On Complete at:" + (transform.position.y + textMoveDistance));
                 transform.position = hitPos;
                 gameObject.SetActive(false);
             })

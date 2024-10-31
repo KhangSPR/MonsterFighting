@@ -8,7 +8,7 @@ public class MagicVortex : ISkill
     public void ExecuteSkill(ObjectCtrl objectCtrl, float damage)
     {
         PlayerCtrl playerCtrl = (PlayerCtrl)objectCtrl;
-        var canAttackList = playerCtrl.PlayerAttack.CanAttack;
+        var canAttackList = playerCtrl.PlayerAttack.ListObjAttacks;
         int count = Mathf.Min(MaxTargets, canAttackList.Count);
 
         for (int i = 0; i < count; i++)

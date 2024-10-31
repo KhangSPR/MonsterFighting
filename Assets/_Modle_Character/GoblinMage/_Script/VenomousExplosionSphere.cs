@@ -5,7 +5,9 @@ public class VenomousExplosionSphere : ISkill
 {
     public void ExecuteSkill(ObjectCtrl objectCtrl, float damage)
     {
-        Transform newFXSkill = FXSpawner.Instance.Spawn(FXSpawner.VenomousExplosionSphere, objectCtrl.TransformSkill.position, UnityEngine.Quaternion.Euler(-90f, 0f, 0f));
+        EnemyCtrl enemyCtrl = objectCtrl as EnemyCtrl;
+
+        Transform newFXSkill = FXSpawner.Instance.Spawn(FXSpawner.VenomousExplosionSphere, enemyCtrl.EnemyAttack.ListObjAttacks[0].position, UnityEngine.Quaternion.Euler(-90f, 0f, 0f));
 
         VenomousExplosionSphereCtrl iskill = newFXSkill.GetComponent<VenomousExplosionSphereCtrl>();
 

@@ -33,22 +33,10 @@ public class BulletDespawn : DespawnByTime
          BulletSpawner.Instance.Despawn(transform.parent);
         //}
     }
-    protected override bool canDespawn()
-    {
+    //protected override bool canDespawn()
+    //{
 
-        //Can be initialized by going to transform and then canceling
-        if (bulletCtrl.ObjectCtrl != null && bulletCtrl.ObjectCtrl is PlayerCtrl)
-        {
-            PlayerCtrl playerCtrl = (PlayerCtrl)bulletCtrl.ObjectCtrl;
-            if (playerCtrl.PlayerAttack.CanAttack.Count == 0) return canDespawnFlag = true;
-            else return canDespawnFlag = false;
-        }
-        else if (bulletCtrl.ObjectCtrl != null && bulletCtrl.ObjectCtrl is EnemyCtrl)
-        {
-            EnemyCtrl enemyCtrl = (EnemyCtrl)bulletCtrl.ObjectCtrl;
-            if (enemyCtrl.EnemyAttack.CanAtacck.Count == 0) return canDespawnFlag = true;
-            else return canDespawnFlag = false;
-        }
-        return canDespawnFlag = false;
-    }
+    //    //Can be initialized by going to transform and then canceling
+    //    return canDespawnFlag = false;
+    //}
 }

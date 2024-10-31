@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UIGameDataManager;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class ObjectCtrl : SaiMonoBehaviour
@@ -31,6 +32,14 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
 
     [SerializeField] protected Transform transformSkill;
     public Transform TransformSkill => transformSkill;
+    [SerializeField] protected ObjMelee objMelee;
+    public ObjMelee ObjMelee => objMelee;
+    [SerializeField] protected ObjAttack objAttack;
+    public ObjAttack ObjAttack => objAttack;
+    [SerializeField] protected ObjLand objLand;
+    public ObjLand ObjLand => objLand;
+    [SerializeField] protected Transform targetPostion;
+    public Transform TargetPosition => targetPostion;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -45,6 +54,34 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         this.loadObjRageSkill();
         this.LoadBulletShooter();
         this.LoadTransformSkill();
+        this.LoadTObjMelee();
+        this.LoadObjAttack();
+        this.LoadObjLand();
+        this.LoadTargetBullet();
+    }
+    protected virtual void LoadTargetBullet()
+    {
+        if (targetPostion != null) return;
+        targetPostion = transform.Find("Modle/TargetBullet");
+        Debug.Log(gameObject.name + ": LoadTargetBullet" + gameObject);
+    }
+    protected virtual void LoadObjLand()
+    {
+        if (this.objLand != null) return;
+        this.objLand = transform.GetComponentInChildren<ObjLand>();
+        Debug.Log(gameObject.name + ": LoadObjLand" + gameObject);
+    }
+    protected virtual void LoadObjAttack()
+    {
+        if (this.objAttack != null) return;
+        this.objAttack = transform.GetComponentInChildren<ObjAttack>();
+        Debug.Log(gameObject.name + ": LoadObjAttack" + gameObject);
+    }
+    protected virtual void LoadTObjMelee()
+    {
+        if (this.objMelee != null) return;
+        this.objMelee = transform.GetComponentInChildren<ObjMelee>();
+        Debug.Log(gameObject.name + ": LoadTObjMelee" + gameObject);
     }
     protected virtual void LoadTransformSkill()
     {
@@ -97,7 +134,7 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
     protected virtual void loadReceiver()
     {
         if (this.Receiver != null) return;
-        this.Receiver = transform.GetComponentInChildren<ObjectDamageReceiver>();
+        this.Receiver = transform.Find("Modle").GetComponentInChildren<ObjectDamageReceiver>();
         Debug.Log(gameObject.name + ": loadloadReceiver" + gameObject);
     }
     protected virtual void loadModle()

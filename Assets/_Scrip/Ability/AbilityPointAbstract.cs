@@ -5,11 +5,9 @@ using UnityEngine;
 public abstract class AbilityPointAbstract : SaiMonoBehaviour
 {
     [Header("Ability ObjectCtrl")]
-    [SerializeField] protected SpawnPoints spawnPoints;
-    public SpawnPoints SpawnPoints => spawnPoints;
+    [SerializeField] protected BaseSpawnPoints spawnPoints;
+    public BaseSpawnPoints SpawnPoints => spawnPoints;
 
-    [SerializeField] protected SpawnEnemyPoints spawnEnemyPoints;
-    public SpawnEnemyPoints SpawnEnemyPoints => spawnEnemyPoints;
 
     [SerializeField] protected Abilities abilities;
     public Abilities Abilities => abilities;
@@ -17,23 +15,14 @@ public abstract class AbilityPointAbstract : SaiMonoBehaviour
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        this.LoadSpawnPoints();
-        this.LoadSpawnOutSizePoints();
+        this.LoadSBaseSpawnPoints();
         this.loadAbilities();
 
     }
-
-    public void LoadSpawnPoints()
+    public void LoadSBaseSpawnPoints()
     {
         if (this.spawnPoints != null) return;
-        this.spawnPoints = transform.GetComponentInChildren<SpawnPoints>();
-        Debug.Log(gameObject.name + ": loadSpawnPoints" + gameObject);
-    }
-
-    public void LoadSpawnOutSizePoints()
-    {
-        if (this.spawnEnemyPoints != null) return;
-        this.spawnEnemyPoints = transform.GetComponentInChildren<SpawnEnemyPoints>();
+        this.spawnPoints = transform.GetComponentInChildren<BaseSpawnPoints>();
         Debug.Log(gameObject.name + ": LoadSpawnOutSizePoints" + gameObject);
     }
     protected virtual void loadAbilities()

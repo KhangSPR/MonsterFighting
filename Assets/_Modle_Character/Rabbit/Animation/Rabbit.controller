@@ -191,7 +191,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Moving
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Rage
+    m_ConditionEvent: NormalRage
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4240823813199027882}
@@ -306,7 +306,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Rage
+    m_ConditionEvent: NormalRage
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Attack
@@ -659,7 +659,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Rage
+  - m_Name: NormalRage
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -728,7 +728,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Rage
+    m_ConditionEvent: NormalRage
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Attack
@@ -803,7 +803,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Rage
+    m_ConditionEvent: NormalRage
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Attack
@@ -873,7 +873,7 @@ AnimatorStateMachine:
     m_Position: {x: 960, y: -470, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8246823735664569390}
-    m_Position: {x: 730, y: -200, z: 0}
+    m_Position: {x: 730, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7647964583295330023}
     m_Position: {x: 1050, y: -160, z: 0}
@@ -882,13 +882,13 @@ AnimatorStateMachine:
     m_Position: {x: 970, y: -640, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7832435109327880966}
-    m_Position: {x: 410, y: -590, z: 0}
+    m_Position: {x: 460, y: -560, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 38932339282675627}
-    m_Position: {x: 130, y: -440, z: 0}
+    m_Position: {x: 230, y: -390, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8572259795754411446}
-    m_Position: {x: 560, y: 130, z: 0}
+    m_Position: {x: 610, y: 120, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -1029,7 +1029,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Rage
+    m_ConditionEvent: NormalRage
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Attack
@@ -1142,7 +1142,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Rage
+    m_ConditionEvent: NormalRage
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Attack2
@@ -1239,7 +1239,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Rage
+    m_ConditionEvent: NormalRage
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Attack
@@ -1301,7 +1301,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Idle
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: Rage
+    m_ConditionEvent: NormalRage
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Attack
@@ -1475,7 +1475,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Rage
+    m_ConditionEvent: NormalRage
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Attack

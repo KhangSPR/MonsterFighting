@@ -26,6 +26,8 @@ public class EnemySO : ScriptableObject
     public float basePointsAttackSpeed; //Delay Attack
     public float basePointsCurrentMana;
     public float basePointsSpeedMove;
+    public float attackSpeed;
+    public float attackSpeedMelee;
     [Space]
     [Space]
     [Header("Item Drop")]
