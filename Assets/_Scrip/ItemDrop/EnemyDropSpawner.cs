@@ -7,6 +7,8 @@ public class EnemyDropSpawner : Spawner
     public static string DefaultDropItem = "ItemGem"; // Item 1
     public static string BossDropItem = "ItemGemBoss"; // Item 1
     public static string WolfFangs = "ItemWolfFangs"; // Item 1
+    public static string Slime = "ItemSlime"; // Item 1
+
 
 
     int[] itemsValue = new int[] { 1, 3, 5, 7, 10 };
@@ -42,6 +44,8 @@ public class EnemyDropSpawner : Spawner
                 return BossDropItem;
             case ItemDropType.WolfFangs:
                 return WolfFangs;
+            case ItemDropType.Slime:
+                return Slime;
             default:
                 return DefaultDropItem;
         }

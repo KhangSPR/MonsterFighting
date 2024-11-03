@@ -62,7 +62,7 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
         if (damageReceiver == null || damageReceiver.IsDead)
             return;
 
-        DamageSender.SendFXImpact(damageReceiver);
+        DamageSender.SendFXImpact(damageReceiver, objectCtrl);
         sendDameFisrt = true;
 
         StartCoroutine(StopAction());

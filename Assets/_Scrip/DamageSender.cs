@@ -33,13 +33,13 @@ public class DamageSender : AbstractCtrl
 
         Debug.Log("Default Spawner Sender");
     }
-    public virtual void SendFXImpact(DamageReceiver damageReceiver)
+    public virtual void SendFXImpact(DamageReceiver damageReceiver, ObjectCtrl objectCtrl)
     {
         //DamageReceiver damageReceiver = obj.GetComponent<DamageReceiver>();
 
         this.Send(damageReceiver);
 
-        FXSpawner.Instance.SendFXText(damage, skillType, damageReceiver.transform.parent, Quaternion.identity);
+        FXSpawner.Instance.SendFXText(damage, skillType, objectCtrl.TargetPosition, Quaternion.identity);
 
         Debug.Log("FX Spawner Sender");
 

@@ -13,12 +13,17 @@ public class ObjModleAbstact : SaiMonoBehaviour
     public PlayerCtrl PlayerCtrl => playerCtrl;
     [SerializeField] protected SkillCtrl skillCtrl;
     public SkillCtrl SkillCtrl => skillCtrl;
+    [SerializeField] protected ObjectCtrl objectCtrl;
+    public ObjectCtrl ObjectCtrl => objectCtrl;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadAbstractModel();
         this.LoadSkillCtrl();
+        this.LoadObjCtrl();
     }
+        
     protected void LoadAbstractModel()
     {
         if (abstractModel != null) return;
@@ -27,13 +32,9 @@ public class ObjModleAbstact : SaiMonoBehaviour
     }
     protected void LoadObjCtrl()
     {
-        if (abstractModel == null)
-        {
-            Debug.LogError("Need Preload AbstractModel");
-            return;
-        }
+        this.objectCtrl = this.abstractModel.ObjectCtrl;
 
-        if(this.abstractModel.EnemyCtrl != null)
+        if (this.abstractModel.EnemyCtrl != null)
         {
             enemyCtrl = this.abstractModel.EnemyCtrl;
         }

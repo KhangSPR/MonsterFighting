@@ -47,10 +47,12 @@ public class ObjectDamageReceiver : DamageReceiverByType
     }
     protected virtual void CreateTextPointFX(int point, Vector3 hitPos, Medicine medicineType)
     {
+        string damageNumber = LargeNumber.ToString(point);;
+
         string fxName = "TextDamage";
         Transform fxObj = FXSpawner.Instance.Spawn(fxName, hitPos, Quaternion.identity);
         TextDamage textDamage = fxObj.GetComponent<TextDamage>();
-        textDamage.DoAnimation(point, medicineType);
+        textDamage.DoAnimation(damageNumber, medicineType);
         fxObj.gameObject.SetActive(true);
     }
     protected void AddPointType(int amount, Medicine medicineType)

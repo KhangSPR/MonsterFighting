@@ -38,8 +38,6 @@ public abstract class AbstractModel : AbstractCtrl
     [SerializeField]
     protected bool isAnimationAttackComplete = false;
     [SerializeField]
-    protected bool isAnimationAttackCheckFinish = false; //Obj Melee
-    [SerializeField]
     protected bool isAnimationDeadComplete = false;
     [SerializeField]
     protected float delayAttack;
@@ -68,7 +66,8 @@ public abstract class AbstractModel : AbstractCtrl
     [SerializeField]
     protected bool hasAttack2 = false;
     //protected State previousState;
-
+    [SerializeField]
+    protected bool activeAttack = false;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -179,10 +178,12 @@ public abstract class AbstractModel : AbstractCtrl
         base.Update();
         this.CheckDelay();
     }
-    public void OnAttackAnimationEndEvent()
+    [SerializeField]
+    protected bool comPleteStateTransition = false;
+    public void OnComPleteStateTransition()
     {
-        this.isAnimationAttackCheckFinish = true;
-    }
+        this.comPleteStateTransition = true;
+    }    
     public void OnAttackAnimationEnd()
     {
         this.isAnimationAttackComplete = true;
@@ -284,6 +285,7 @@ public abstract class AbstractModel : AbstractCtrl
         this.boxCollider.enabled = true;
         this.circleCollider.enabled = true;
         this._rigidbody.simulated = true;
+        this.animator.enabled = true;
     }
     protected virtual void SetFalseAnimation()
     {
@@ -304,6 +306,12 @@ public abstract class AbstractModel : AbstractCtrl
     }
     [SerializeField]
     protected Vector3 deadPosition;
+    protected bool isSetActiveModle = false;
+    public void SetEventActiveModle()
+    {
+        this.isSetActiveModle = true;
+    }
+
     //Rage Skill
     public void SetRageState(ObjRageSkill.RageType rageType)
     {

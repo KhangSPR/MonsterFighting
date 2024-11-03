@@ -5,6 +5,7 @@ public enum ItemDropType
     Crystalline,
     MagicalCrystal,
     WolfFangs,
+    Slime
 
 }
 [Serializable]

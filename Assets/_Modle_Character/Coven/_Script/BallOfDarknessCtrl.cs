@@ -26,7 +26,7 @@ public class BallOfDarknessCtrl : SkillCtrl, IDarkable
 
 
         //Add Skill
-        this.DamageSender.SendFXImpact(damageReceiver);
+        this.DamageSender.SendFXImpact(damageReceiver, objectCtrl);
 
 
         //Debug.Log("Call Skill Colider");

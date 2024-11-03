@@ -51,7 +51,7 @@ public class VenomousExplosionSphereCtrl : SkillCtrl
         {
             // Gọi hiệu ứng stun và impact
             objectCtrl.ObjectDamageReceiver.StartStun();
-            this.DamageSender.SendFXImpact(damageReceiver);
+            this.DamageSender.SendFXImpact(damageReceiver, objectCtrl);
 
         }
         else

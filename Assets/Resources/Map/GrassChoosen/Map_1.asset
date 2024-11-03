@@ -27,8 +27,17 @@ MonoBehaviour:
         - TimeFirstSpawn: 3
           EnemyType:
           - rarity: 0
-            name: Goblin Venomorb
-            countEnemy: 0
+            name: Grassland Slime
+            countEnemy: 2
+            timerMin: 2
+            timerMax: 4
+            skillType: []
+            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - rarity: 0
+            name: Grassland Rabbit
+            countEnemy: 1
             timerMin: 2
             timerMax: 4
             skillType: []
@@ -39,10 +48,10 @@ MonoBehaviour:
           DelaySpawnFirstEnemy: 3
           spawnTimeInSeconds:
           - 2
-          hasBoss: 0
+          hasBoss: 1
           enemyTypes:
           - rarity: 0
-            name: Grassland Pig
+            name: Goblin Venomorb
             countEnemy: 1
             timerMin: 3
             timerMax: 4
@@ -53,26 +62,48 @@ MonoBehaviour:
         - TimeFirstSpawn: 3
           EnemyType:
           - rarity: 0
-            name: Grassland Rabbit
+            name: Grassland Wolf
             countEnemy: 1
             timerMin: 4
             timerMax: 6
             skillType: []
             Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
+          - rarity: 0
+            name: Grassland Bat
+            countEnemy: 1
+            timerMin: 2
+            timerMax: 3
+            skillType: []
+            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - rarity: 0
+            name: Grassland Pig
+            countEnemy: 1
+            timerMin: 2
+            timerMax: 3
+            skillType: []
+            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
         Portals:
-        - rarityPortal: 0
-          countPortal: 2
+        - rarityPortal: 1
+          countPortal: 1
           DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
           - 2
-          - 5
           hasBoss: 0
           enemyTypes:
           - rarity: 0
-            name: Grassland Wolf
+            name: Goblin Venomorb
             countEnemy: 1
             timerMin: 3
             timerMax: 5
+            skillType: []
+            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
+          - rarity: 0
+            name: Goblin Boss
+            countEnemy: 1
+            timerMin: 13
+            timerMax: 20
             skillType: []
             Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
     Reward:

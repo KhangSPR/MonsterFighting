@@ -27,19 +27,19 @@ public class TextDamage : SaiMonoBehaviour
         if (this.text == null) Debug.LogWarning(transform.name + ": LoadText", gameObject);
     }
 
-    public void DoAnimation(double value, object type)
+    public void DoAnimation(string message, object type)
     {
         this.hitPos = transform.position;
-        SetPont(value, type);
+        SetPont(message, type);
         SetTextAnimationParameter(typeAnimation);
 
         Color color = type is SkillType skillType ? GetTextColorByType(skillType) : GetTextColorByType2((Medicine)type);
         AnimateText(color);
     }
 
-    private void SetPont(double damage, object type)
+    private void SetPont(string damageNumber, object type)
     {
-        string damageNumber = LargeNumber.ToString(damage);;
+        //string damageNumber = LargeNumber.ToString(damage);;
 
         if (type is SkillType skillType)
         {
@@ -103,7 +103,8 @@ public class TextDamage : SaiMonoBehaviour
         return type switch
         {
             SkillType.Fire => Color.red,
-            SkillType.Glace => Color.cyan,
+            SkillType.Glace => new Color32(128, 175, 255, 255),
+            SkillType.Miss => new Color32(0, 191, 255, 255),
             SkillType.Stone => Color.gray + Color.red + Color.yellow,
             SkillType.Poison => new Color32(50, 205, 50, 255), // LimeGreen - mã hex: #32CD32
             SkillType.Electric => Color.yellow,

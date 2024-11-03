@@ -10,12 +10,14 @@ public class EffectCharacter : MonoBehaviour
     [SerializeField] private List<SpriteRenderer> _frontSpriteRenderers;
     [SerializeField] private List<SpriteRenderer> _middleSpriteRenderers;
     [SerializeField] private List<SpriteRenderer> _backSpriteRenderers;
+    [SerializeField]
     private bool _fadeCharacter = false;
     public bool FadeCharacter => _fadeCharacter;
 
     [Space(3)]
     [Header("Effect Dead")]
     [SerializeField] GameObject _VFX_Dissolve;
+    public GameObject VFX_Dissolve => _VFX_Dissolve;
     [SerializeField] Material[] materials; // Các vật liệu sử dụng để dissolve
     [SerializeField] float dissolveTime;
 
@@ -34,7 +36,7 @@ public class EffectCharacter : MonoBehaviour
 
     private void Awake()
     {
-        
+
         _spriteRenderers = new List<SpriteRenderer>(GetComponentsInChildren<SpriteRenderer>());
 
         //SetSpriteRenderer();
@@ -67,47 +69,69 @@ public class EffectCharacter : MonoBehaviour
         }
     }
 
+    private Transform fontTransfrom;
+    public Transform FontTransfrom => fontTransfrom;
+    private Transform midleTransfrom;
+    public Transform MidleTransfrom => midleTransfrom;
+    private Transform backTransfrom;
+    public Transform BackTransfrom => backTransfrom;
+    public void SetActiveModle(bool active)
+    {
+        if(fontTransfrom!= null)
+        {
+            fontTransfrom.gameObject.SetActive(active);
+        }
+        if (midleTransfrom != null)
+        {
+            midleTransfrom.gameObject.SetActive(active);
+        }
+        if(backTransfrom!=null)
+        {
+            backTransfrom.gameObject.SetActive(active); 
+        }
 
+    }
     private void SetSpriteRenderer()
     {
-        Transform Font = transform.Find("Textures/Font");
-        Transform Middle = transform.Find("Textures/Midle");
-        Transform Back = transform.Find("Textures/Back");
-        if(Font== null)
+        fontTransfrom = transform.Find("Textures/Font");
+        midleTransfrom = transform.Find("Textures/Midle");
+        backTransfrom = transform.Find("Textures/Back");
+
+        if(fontTransfrom== null)
         {
-            Font = transform.Find("Character/Font");
+            fontTransfrom = transform.Find("Character/Font");
         }
-        if (Middle == null)
+        if (midleTransfrom == null)
         {
-            Middle = transform.Find("Character/Midle");
+            midleTransfrom = transform.Find("Character/Midle");
         }
-        if (Back == null)
+        if (backTransfrom == null)
         {
-            Back = transform.Find("Character/Back");
+            backTransfrom = transform.Find("Character/Back");
         }
         //Character -- Co the gan luon khoi can auto
 
-        if (Font != null)
+        if (fontTransfrom != null)
         {
-            _frontSpriteRenderers.AddRange(Font.GetComponentsInChildren<SpriteRenderer>());
+            _frontSpriteRenderers.AddRange(fontTransfrom.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Font");
 
         }
 
-        if (Middle != null)
+        if (midleTransfrom != null)
         {
             //_middleSpriteRenderers = new List<SpriteRenderer>(Middle.GetComponentsInChildren<SpriteRenderer>());
-            _middleSpriteRenderers.AddRange(Font.GetComponentsInChildren<SpriteRenderer>());
+            _middleSpriteRenderers.AddRange(fontTransfrom.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Midle");
 
         }
 
-        if (Back != null)
+        if (backTransfrom != null)
         {
             //_backSpriteRenderers = new List<SpriteRenderer>(Back.GetComponentsInChildren<SpriteRenderer>());
-            _backSpriteRenderers.AddRange(Font.GetComponentsInChildren<SpriteRenderer>());
+            _backSpriteRenderers.AddRange(fontTransfrom.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Back");
 

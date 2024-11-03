@@ -94,7 +94,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         {
             yield return wait;
             DeductHealth(damagePerTick);
-            FXSpawner.Instance.SendFXText(damagePerSecond, skillType, transform, Quaternion.identity);
+                FXSpawner.Instance.SendFXText(damagePerSecond, skillType,objectCtrl.TargetPosition , Quaternion.identity);
 
             Debug.Log("Darking");
         }

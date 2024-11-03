@@ -34,13 +34,26 @@ public class FXSpawner : Spawner
     }
     protected virtual void CreateTextDamageFX(int dame, Vector3 hitPos, SkillType skillType)
     {
+        string damageNumber = LargeNumber.ToString(dame);;
+
         string fxName = this.GetTextDamageFX();
         Transform fxObj = Spawn(fxName, hitPos, Quaternion.identity);
         TextDamage textDamage = fxObj.GetComponent<TextDamage>();
-        textDamage.DoAnimation(dame, skillType);
+        textDamage.DoAnimation(damageNumber, skillType);
         fxObj.gameObject.SetActive(true);
     }
-
+    public void SendFXTextMessage(string message, SkillType skillType, Transform hitPos, Quaternion rotation)
+    {
+        this.CreateTextMessageFX(message, hitPos.position, skillType);
+    }
+    protected virtual void CreateTextMessageFX(string message, Vector3 hitPos, SkillType skillType)
+    {
+        string fxName = this.GetTextDamageFX();
+        Transform fxObj = Spawn(fxName, hitPos, Quaternion.identity);
+        TextDamage textDamage = fxObj.GetComponent<TextDamage>();
+        textDamage.DoAnimation(message, skillType);
+        fxObj.gameObject.SetActive(true);
+    }
     protected virtual string GetTextDamageFX()
     {
         return textDamage;

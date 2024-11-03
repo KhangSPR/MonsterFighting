@@ -4,29 +4,53 @@ using UnityEngine;
 public class EnemyModel : AbstractModel
 {
     protected bool isVFXCalled = false;
+    [SerializeField] Transform targetDead;
     protected override void AnimationLoading()
     {
         if (this.objCtrl.ObjectDamageReceiver.IsDead)
         {
-            Debug.Log("Play Animation Dead");
+            if (targetDead != null) // Kiểm tra xem targetDead có giá trị hợp lệ không
+            {
+                this.Dead();
 
-            deadPosition = transform.position;
+                if (this.effectCharacter.FadeCharacter)
+                {
+                    Debug.Log("Dead Position X: " + deadPosition.x);
 
-            this.animator.Play("Dead");
+                    targetDead.position = new Vector3(deadPosition.x, transform.position.y, transform.position.z);
+                    Debug.Log("TargetDead Position Set To: " + targetDead.position);
 
-            transform.position = deadPosition;
+                    isSetActiveModle = true;
+                }
+            }
+            if(isSetActiveModle) this.effectCharacter.ResetAlpha();
 
+            if (this.effectCharacter.FadeCharacter) return;
+
+
+            Debug.Log("IS Dead Play Animation");
             this.DisablePhysics();
             this.SetFalseAnimation();
+            this.animator.Play("Dead");
+
+
 
             if (!isAnimationDeadComplete) return;
+            //Haven't VFXDissolve
+            if (this.effectCharacter.VFX_Dissolve == null)
+            {
+                animator.enabled = false;
+
+                this.isSetActiveModle = false;
+                this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
+                return;
+            }
 
             if (!isVFXCalled)
             {
                 this.effectCharacter.CallVFXDeadEnemy();
                 isVFXCalled = true;
             }
-
             if (this.effectCharacter.IsDissolveComplete)
             {
                 Debug.Log("isDissolveComplete");
@@ -38,8 +62,8 @@ public class EnemyModel : AbstractModel
                     animator.Rebind();
 
                     this.effectCharacter.SetDissolveCompleteFalse();
-                    isVFXCalled = false;
-
+                    this.isVFXCalled = false;
+                    this.isSetActiveModle = false;
                     this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
 
                     Debug.Log("Call 1 Lan");
@@ -235,6 +259,8 @@ public class EnemyModel : AbstractModel
                     PlayAnimation("Skill2", false);
                     PlayAnimation("Melee", false);
 
+
+                    deadPosition = transform.position;
 
                     isAttacking = true;
                     isAnimationAttackComplete = false;
@@ -458,7 +484,7 @@ public class EnemyModel : AbstractModel
         if (isAttacking && isAnimationAttackComplete)
         {
             // Lựa chọn loại animation dựa trên trạng thái tấn công hiện tại
-            if (currentState == State.MeleeWitch && isAnimationAttackCheckFinish)
+            if (currentState == State.MeleeWitch)
             {
                 attackTypeAnimation = AttackTypeAnimation.Animation;
                 this.SetDelayCharacter(enemyCtrl.EnemySO.attackSpeedMelee); // Delay dựa trên tốc độ cận chiến
@@ -472,17 +498,25 @@ public class EnemyModel : AbstractModel
 
                 this.SetDelayCharacter(enemyCtrl.EnemySO.attackSpeed); // Delay dựa trên tốc độ tấn công
             }
-
-            isAnimationAttackComplete = false; // Reset trạng thái hoàn thành animation
-            currentState = State.Idle; // Trạng thái tiếp theo là Idle
-            Debug.Log("Idle isAnimationAttackComplete");
-
-            currentDelay = delayAttack; // Đặt thời gian chờ sau khi tấn công
-
-            if (!enemyCtrl.EnemyAttack.ListObjAttacks[0].GetComponent<PlayerCtrl>().ObjectDamageReceiver.IsDead && enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
+            if (!activeAttack)
             {
                 this.AttackType();
+                Debug.Log("Attack Type Action");
             }
+            activeAttack = true;
+
+            if (comPleteStateTransition)
+            {
+                activeAttack = false;
+                isAnimationAttackComplete = false;
+                currentState = State.Idle;
+
+                currentDelay = delayAttack;
+            }
+            //if (!enemyCtrl.EnemyAttack.ListObjAttacks[0].GetComponent<PlayerCtrl>().ObjectDamageReceiver.IsDead && enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
+            //{
+            //    this.AttackType();
+            //}
 
         }
         //// Nếu trạng thái là Idle và có delay tấn công

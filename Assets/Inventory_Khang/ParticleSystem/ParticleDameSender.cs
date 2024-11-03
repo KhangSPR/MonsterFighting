@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class ParticleDameSender : DamageSender
@@ -22,11 +23,13 @@ public class ParticleDameSender : DamageSender
     }
     protected virtual void CreateTextDamageFX(Vector3 hitPos)
     {
+        string damageNumber = LargeNumber.ToString(this.Damage); ;
+
         Debug.Log("Create Text FX");
         string fxName = this.GetTextDamageFX();
         Transform fxObj = FXSpawner.Instance.Spawn(fxName, hitPos, Quaternion.identity);
         TextDamage textDamage = fxObj.GetComponent<TextDamage>();
-        textDamage.DoAnimation(this.Damage, skillType);
+        textDamage.DoAnimation(damageNumber, skillType);
         fxObj.gameObject.SetActive(true);
     }
 
