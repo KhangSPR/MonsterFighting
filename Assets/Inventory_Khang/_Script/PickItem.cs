@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class PickItem : MonoBehaviour, ISerializationCallbackReceiver
@@ -14,6 +13,6 @@ public class PickItem : MonoBehaviour, ISerializationCallbackReceiver
     public void OnBeforeSerialize()
     {
         GetComponent<SpriteRenderer>().sprite = itemObject.Sprite;
-        EditorUtility.SetDirty(GetComponent<SpriteRenderer>());
+        //EditorUtility.SetDirty(GetComponent<SpriteRenderer>());
     }
 }

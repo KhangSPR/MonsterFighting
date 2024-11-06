@@ -6,7 +6,6 @@ public class PortalSpawnAction : PortalSpawnManagerAbstract
 {
     public Portals[] PortalSpawns;
     //public Portals[] PortalSpawns => portalSpawns;
-
     public void SpawnAction()
     {
         if (PortalSpawns.Length > 0)

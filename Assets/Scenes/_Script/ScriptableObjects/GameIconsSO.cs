@@ -30,7 +30,7 @@ namespace UIGameDataManager
     public struct AttackTypeIcon
     {
         public Sprite icon;
-        public AttackType attackType;
+        public AttackCategory attackType;
     }
 
     //[Serializable]
@@ -100,7 +100,7 @@ namespace UIGameDataManager
             return match.icon;
         }
         // get attackTypeIcon
-        public Sprite GetAttackTypeIcon(AttackType attackType)
+        public Sprite GetAttackTypeIcon(AttackCategory attackType)
         {
             if (attackTypeIcons == null || attackTypeIcons.Count == 0)
                 return null;

@@ -7,7 +7,7 @@ using UnityEngine;
 public class GuildMoreStatsAbilitySO : GuildDefaultStatsSO
 {
     [Header("Character Class")]
-    public AttackType characterClass; // Class của nhân vật
+    public AttackCategory characterClass; // Class của nhân vật
 
     public override void ApplyMoreStats(GameObject character)
     {
@@ -23,11 +23,11 @@ public class GuildMoreStatsAbilitySO : GuildDefaultStatsSO
         // Chọn chiến lược tăng chỉ số dựa trên characterClass
         switch (characterClass)
         {
-            case AttackType.Warrior:
+            case AttackCategory.Warrior:
                 return new WarriorStatIncreaseStrategy();
-            case AttackType.Archer:
+            case AttackCategory.Archer:
                 return new ArcherStatIncreaseStrategy();
-            case AttackType.Wizard:
+            case AttackCategory.Wizard:
                 return new WizardStatIncreaseStrategy();
             default:
                 Debug.LogWarning("Class không được hỗ trợ!");

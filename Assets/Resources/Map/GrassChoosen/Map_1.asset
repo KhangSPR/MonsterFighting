@@ -27,58 +27,19 @@ MonoBehaviour:
         - TimeFirstSpawn: 3
           EnemyType:
           - rarity: 0
-            name: Grassland Slime
-            countEnemy: 2
-            timerMin: 2
-            timerMax: 4
-            skillType: []
-            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
-        - TimeFirstSpawn: 4
-          EnemyType:
-          - rarity: 0
-            name: Grassland Rabbit
-            countEnemy: 1
-            timerMin: 2
-            timerMax: 4
-            skillType: []
-            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
-        Portals:
-        - rarityPortal: 0
-          countPortal: 1
-          DelaySpawnFirstEnemy: 3
-          spawnTimeInSeconds:
-          - 2
-          hasBoss: 1
-          enemyTypes:
-          - rarity: 0
-            name: Goblin Venomorb
-            countEnemy: 1
-            timerMin: 3
-            timerMax: 4
-            skillType: []
-            Sprite: {fileID: 0}
-      waveFinal:
-        enemyRanDoms:
-        - TimeFirstSpawn: 3
-          EnemyType:
-          - rarity: 0
             name: Grassland Wolf
             countEnemy: 1
-            timerMin: 4
-            timerMax: 6
-            skillType: []
-            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
-          - rarity: 0
-            name: Grassland Bat
-            countEnemy: 1
             timerMin: 2
-            timerMax: 3
+            timerMax: 4
             skillType: []
             Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
+        Portals: []
+      waveFinal:
+        enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
-            name: Grassland Pig
+            name: Grassland Slime
             countEnemy: 1
             timerMin: 2
             timerMax: 3
@@ -92,13 +53,6 @@ MonoBehaviour:
           - 2
           hasBoss: 0
           enemyTypes:
-          - rarity: 0
-            name: Goblin Venomorb
-            countEnemy: 1
-            timerMin: 3
-            timerMax: 5
-            skillType: []
-            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
           - rarity: 0
             name: Goblin Boss
             countEnemy: 1
@@ -118,8 +72,8 @@ MonoBehaviour:
         - TimeFirstSpawn: 4
           EnemyType:
           - rarity: 0
-            name: Goblin Green
-            countEnemy: 4
+            name: Grassland Rabbit
+            countEnemy: 1
             timerMin: 1
             timerMax: 2
             skillType:
@@ -128,15 +82,14 @@ MonoBehaviour:
             Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         Portals:
         - rarityPortal: 0
-          countPortal: 2
+          countPortal: 1
           DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
           - 8
-          - 12
           hasBoss: 0
           enemyTypes:
           - rarity: 0
-            name: Goblin Green
+            name: Grassland Wolf
             countEnemy: 3
             timerMin: 2
             timerMax: 4
@@ -149,7 +102,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
-            name: Goblin Green
+            name: Goblin Venomorb
             countEnemy: 2
             timerMin: 3
             timerMax: 5
@@ -157,71 +110,27 @@ MonoBehaviour:
             - id: 0
               skill: None
             Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
-        - TimeFirstSpawn: 1
-          EnemyType:
-          - rarity: 1
-            name: Skeleton Magic
-            countEnemy: 1
-            timerMin: 3
-            timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
-        Portals:
-        - rarityPortal: 0
-          countPortal: 1
-          DelaySpawnFirstEnemy: 3
-          spawnTimeInSeconds:
-          - 2
-          hasBoss: 0
-          enemyTypes:
-          - rarity: 1
-            name: Skeleton Magic
-            countEnemy: 1
-            timerMin: 5
-            timerMax: 7
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
+        Portals: []
     - waveRandom:
         enemyRanDoms:
         - TimeFirstSpawn: 4
           EnemyType:
           - rarity: 0
-            name: Goblin Green
-            countEnemy: 4
+            name: Grassland Slime
+            countEnemy: 3
             timerMin: 1
             timerMax: 2
             skillType:
             - id: 0
               skill: None
             Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
-        Portals:
-        - rarityPortal: 0
-          countPortal: 2
-          DelaySpawnFirstEnemy: 2
-          spawnTimeInSeconds:
-          - 8
-          - 12
-          hasBoss: 0
-          enemyTypes:
-          - rarity: 0
-            name: Goblin Green
-            countEnemy: 3
-            timerMin: 2
-            timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
+        Portals: []
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
-            name: Goblin Green
+            name: Grassland Bat
             countEnemy: 2
             timerMin: 3
             timerMax: 5
@@ -232,7 +141,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 1
           EnemyType:
           - rarity: 1
-            name: Skeleton Magic
+            name: Grassland Pig
             countEnemy: 1
             timerMin: 3
             timerMax: 5
@@ -249,7 +158,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 1
-            name: Skeleton Magic
+            name: Goblin Boss
             countEnemy: 1
             timerMin: 5
             timerMax: 7

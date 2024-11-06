@@ -1,5 +1,4 @@
 ﻿// Object damage receiver class
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 public class ObjectDamageReceiver : DamageReceiverByType

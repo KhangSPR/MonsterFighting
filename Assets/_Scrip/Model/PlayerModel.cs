@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UIGameDataMap;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerModel : AbstractModel
 {
@@ -66,6 +61,7 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Melee", false);
 
                 isAttacking = false;
+                //activeAttack = false;
                 break;
 
             case State.Attack:

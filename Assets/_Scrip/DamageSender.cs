@@ -1,6 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+public enum AttackType
+{
+    Default,      // Đánh thường
+    Burn,         // Do đốt cháy
+    Skill         // Do kỹ năng
+}
 public class DamageSender : AbstractCtrl
 {
     [SerializeField]
@@ -9,6 +15,8 @@ public class DamageSender : AbstractCtrl
 
     [SerializeField] protected SkillType skillType;
     public SkillType SkillType => skillType;  // Sửa lỗi ở đây
+    [SerializeField] protected AttackType attackType;
+    public AttackType AttackType => attackType;
 
     protected override void Start()
     {
@@ -46,7 +54,7 @@ public class DamageSender : AbstractCtrl
     }
     public virtual void Send(DamageReceiver damageReceiver)
     {
-        damageReceiver.DeductHealth(this.damage);
+        damageReceiver.DeductHealth(this.damage, attackType);
 
         Debug.Log("Send" + this.damage);
     }

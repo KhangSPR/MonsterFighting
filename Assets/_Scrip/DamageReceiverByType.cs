@@ -84,7 +84,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         yield return new WaitForSeconds(time);
         stopEffect();
     }
-        private IEnumerator ApplyEffect(int damagePerSecond, Func<bool> condition, SkillType skillType)
+    private IEnumerator ApplyEffect(int damagePerSecond, Func<bool> condition, SkillType skillType)
     {
         float interval = 1f / damagePerSecond;
         WaitForSeconds wait = new WaitForSeconds(interval);
@@ -93,7 +93,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         while (condition())
         {
             yield return wait;
-            DeductHealth(damagePerTick);
+            DeductHealth(damagePerTick, AttackType.Burn);
                 FXSpawner.Instance.SendFXText(damagePerSecond, skillType,objectCtrl.TargetPosition , Quaternion.identity);
 
             Debug.Log("Darking");
@@ -300,7 +300,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         while (isBurning && elapsedTime < duration)
         {
             yield return wait;
-            DeductHealth(damagePerSecond);
+            DeductHealth(damagePerSecond, AttackType.Burn);
             FXSpawner.Instance.SendFXText(damagePerSecond, skillType,transform,Quaternion.identity);
             elapsedTime += 0.5f;
         }
@@ -338,7 +338,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         while (isTwitching && elapsedTime < duration)
         {
             yield return wait;
-            DeductHealth(damagePerSecond);
+            DeductHealth(damagePerSecond, AttackType.Burn);
             FXSpawner.Instance.SendFXText(damagePerSecond, skillType, transform, Quaternion.identity);
             elapsedTime += 0.5f;
         }
@@ -371,7 +371,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         while (isPoition && elapsedTime < duration)
         {
             yield return wait;
-            DeductHealth(damagePerSecond);
+            DeductHealth(damagePerSecond, AttackType.Burn);
             if(playerCtrl!=null)
             {
                 FXSpawner.Instance.SendFXText(damagePerSecond, skillType, playerCtrl.TargetPosition, Quaternion.identity);

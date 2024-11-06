@@ -8,7 +8,7 @@ public class WizardStatIncreaseStrategy : _IStatIncreaseStrategy
     private float increasePercentage = 0.30f; // Tăng 30% sức mạnh phép thuật
 
 
-    public void IncreaseStats(GameObject parent, AttackType attackType)
+    public void IncreaseStats(GameObject parent, AttackCategory attackType)
     {
         if (parent != null)
         {

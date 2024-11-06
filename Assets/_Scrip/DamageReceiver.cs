@@ -55,7 +55,7 @@ public abstract class DamageReceiver : ObjModleAbstact
         isHP = Mathf.Min(isHP + amount, isMaxHP);
     }
 
-    public virtual void DeductHealth(int amount)
+    public virtual void DeductHealth(int amount, AttackType attackType)
     {
 
         Debug.Log("DeductHealth + " + transform.parent.name);
@@ -71,7 +71,8 @@ public abstract class DamageReceiver : ObjModleAbstact
         //Debug.Log(amount);
         isHP -= amount;
 
-        OnTakeDamage?.Invoke();
+        if(attackType == AttackType.Default)
+            OnTakeDamage?.Invoke();
 
         CheckIfDead();
     }

@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea1a29aed6a305469a422ea36e08d53, type: 3}
   m_Name: Grassland Wolf
   m_EditorClassIdentifier: 
-  basePointsAttack: 11
-  basePointsLife: 90
-  basePointsAttackSpeed: 2
+  basePointsAttack: 15
+  basePointsLife: 111
+  basePointsAttackSpeed: 1
   basePointsCurrentMana: 45
   basePointsSpeedMove: 1.2
+  attackSpeed: 1
+  attackSpeedMelee: 1
   itemDrop:
   - itemDropType: 1
     minDrop: 1
@@ -26,3 +28,5 @@ MonoBehaviour:
     minDrop: 1
     maxDrop: 1
     spawnRate: 1500
+  skill1: {fileID: 0}
+  skill2: {fileID: 0}

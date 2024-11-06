@@ -4,13 +4,12 @@ using UnityEngine;
 
 namespace UIGameDataManager
 {
-    public enum AttackType
+    public enum AttackCategory
     {
         ALL,
         Warrior,       // Close-range physical attacks
         Archer,      // Attacks from a distance
         Wizard,       // Magical attacks
-        Animation,
         //Stealth,     // Sneaky and stealthy attacks
 
         // Add more types as needed
@@ -46,13 +45,13 @@ namespace UIGameDataManager
         public SkillSO skill2;
 
         public RarityCard rarityCard;
-        public AttackType attackTypeCard;
+        public AttackCategory attackTypeCard;
         //public AttackTypeAnimation attackType;
         public GameObject characterVisualsPrefab;
 
         public CardCharacter(string Name, float CardRefresh, int Price, Sprite Frame, Sprite Background, Sprite Avatar, Stats stats,
                              string BioTitle, string Bio, SkillSO Skill1, SkillSO Skill2,
-                             RarityCard CardRare, AttackType CardAttack,
+                             RarityCard CardRare, AttackCategory CardAttack,
                              GameObject CharacterVisualsPrefab) : base(Name, CardRefresh, Price, Frame, Background, Avatar)
         {
             _characterStats = stats;
@@ -72,7 +71,7 @@ namespace UIGameDataManager
             this.skill2 = (rarityCard == RarityCard.D || rarityCard == RarityCard.C) ? null : skill2;
         }
 
-        public AttackType GetAttackType()
+        public AttackCategory GetAttackType()
         {
             return attackTypeCard;
         }

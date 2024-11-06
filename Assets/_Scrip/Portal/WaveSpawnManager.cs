@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UIGameDataMap;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class WaveSpawnManager : SaiMonoBehaviour
@@ -50,6 +48,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
         get { return waves; }
         set { waves = value; }
     }
+    [SerializeField]
     private Wave currentWave;
     public Wave CurrentWave
     {
@@ -158,6 +157,16 @@ public class WaveSpawnManager : SaiMonoBehaviour
         // Assign the spawning portals to the list
         portalsSpawning = mapSO.GetPortalsSpawning(waves[currentWaveIndex]).ToList();
 
+        //No Portal Wave
+        if (portalsSpawning.Count > 0)
+        {
+            hasPortalAbilitySummons = true;
+        }
+        else
+        {
+            hasPortalAbilitySummons = false;
+        }
+
         // Update spawn timers or other related actions
         portalTimer.UpdateTimeSpawns(false);
 
@@ -179,6 +188,8 @@ public class WaveSpawnManager : SaiMonoBehaviour
 
         // Assign the portals to the list
         portalsWave = mapSO.GetPortalsWave(waves[currentWaveIndex]).ToList();
+
+        //No Portal Wave
 
         // Update the portal spawn action
         this.portalSpawnAction.PortalSpawns = portalsWave.ToArray();
@@ -238,13 +249,14 @@ public class WaveSpawnManager : SaiMonoBehaviour
     [SerializeField]
     private bool checkOneWave = false;
     private bool stopLoadingWaves = false;
+    [SerializeField] bool hasPortalAbilitySummons = false;
     public bool IsFinalWave()
     {
         return currentWaveIndex == waves.Length-1;
     }
     private void WaveFinallyGame()
     {
-        if (checkOneWave || (IsFinalWave() && abilitySummons.Count <= 0))
+        if (checkOneWave  || IsFinalWave() && abilitySummons.Count <0)
         {
             StartCoroutine(InvokeAllPortalsSpawnedAfterDelay(2f));
 
@@ -307,12 +319,18 @@ public class WaveSpawnManager : SaiMonoBehaviour
             }
             else
             {
+                // Update current wave
+                currentWave = waves[currentWaveIndex];
+
                 LoadCurrentSpawningPortal();
 
                 Debug.Log("Spawning Complete");
             }
+            if(abilitySummons != null)
+            {
+                abilitySummons.Clear();
+            }
 
-            abilitySummons.Clear();
             portalsSpawnType = !portalsSpawnType;
 
         }
@@ -320,19 +338,38 @@ public class WaveSpawnManager : SaiMonoBehaviour
 
     private bool OnALLEnemysSpawnedPortal()
     {
-        if (abilitySummons == null) return false;
+        //if (abilitySummons == null)
+        //{
+        //    Debug.Log("abilitySummons is null, returning true.");
+        //    return false;
+        //}
+        //Debug.Log($"abilitySummons count: {abilitySummons.Count}");
 
-        if (abilitySummons.Count <= 0) return false;
-        
+        //if (abilitySummons.Count <= 0)
+        //{
+        //    Debug.Log("abilitySummons count is 0 or less, returning false.");
+        //    return false;
+        //}
+
         foreach (var ability in abilitySummons)
         {
+            Debug.Log($"Checking ability: {ability}");
+
             if (!ability.CheckAllEnemyDead)
             {
+                Debug.Log("An enemy is not dead, returning false.");
                 return false;
             }
         }
+        if(!hasPortalAbilitySummons)
+        {
+            return true;
+        }
+
+        Debug.Log("All enemies are dead, returning true.");
         return true;
     }
+
 
     private bool OnALLEnemysSpawned()
     {

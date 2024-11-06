@@ -6,7 +6,7 @@ public class WarriorStatIncreaseStrategy : _IStatIncreaseStrategy
 {
     private float increasePercentage = 0.25f; // Tăng 25% sức tấn công
 
-    public void IncreaseStats(GameObject parent, AttackType attackType)
+    public void IncreaseStats(GameObject parent, AttackCategory attackType)
     {
         if (parent != null)
         {

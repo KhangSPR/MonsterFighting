@@ -3,5 +3,5 @@ using UnityEngine;
 
 public interface _IStatIncreaseStrategy
 {
-    void IncreaseStats(GameObject parent, AttackType attackType);
+    void IncreaseStats(GameObject parent, AttackCategory attackType);
 }

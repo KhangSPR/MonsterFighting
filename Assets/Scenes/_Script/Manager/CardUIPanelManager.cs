@@ -30,12 +30,12 @@ namespace UIGameDataManager
 
         private int CardCount = 0;
 
-        private Dictionary<int, AttackType> AttacktypesTower = new Dictionary<int, AttackType>()
+        private Dictionary<int, AttackCategory> AttacktypesTower = new Dictionary<int, AttackCategory>()
         {
-            { 0, AttackType.ALL },
-            { 1, AttackType.Warrior },
-            { 2, AttackType.Archer },
-            { 3, AttackType.Wizard }
+            { 0, AttackCategory.ALL },
+            { 1, AttackCategory.Warrior },
+            { 2, AttackCategory.Archer },
+            { 3, AttackCategory.Wizard }
         };
 
 
@@ -90,7 +90,7 @@ namespace UIGameDataManager
                 UpdateCards(objLoading, selectedType);
             }
         }
-        private void UpdateCards(int objLoading, AttackType attackType)
+        private void UpdateCards(int objLoading, AttackCategory attackType)
         {
             switch (objLoading)
             {

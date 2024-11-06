@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using static ObjRageSkill;
 
 public class EnemyModel : AbstractModel
 {
@@ -9,7 +10,7 @@ public class EnemyModel : AbstractModel
     {
         if (this.objCtrl.ObjectDamageReceiver.IsDead)
         {
-            if (targetDead != null) // Kiểm tra xem targetDead có giá trị hợp lệ không
+            if (targetDead != null && this.isRage) // Kiểm tra xem targetDead có giá trị hợp lệ không
             {
                 this.Dead();
 
@@ -17,7 +18,7 @@ public class EnemyModel : AbstractModel
                 {
                     Debug.Log("Dead Position X: " + deadPosition.x);
 
-                    targetDead.position = new Vector3(deadPosition.x, transform.position.y, transform.position.z);
+                    targetDead.position = new Vector3(Mathf.Abs(deadPosition.x), transform.position.y, transform.position.z);
                     Debug.Log("TargetDead Position Set To: " + targetDead.position);
 
                     isSetActiveModle = true;
@@ -39,10 +40,15 @@ public class EnemyModel : AbstractModel
             //Haven't VFXDissolve
             if (this.effectCharacter.VFX_Dissolve == null)
             {
-                animator.enabled = false;
+                this.Dead();
 
-                this.isSetActiveModle = false;
-                this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
+                if (this.effectCharacter.FadeCharacter)
+                {
+                    animator.Rebind();
+
+                    this.isSetActiveModle = false;
+                    this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
+                }
                 return;
             }
 
@@ -221,7 +227,9 @@ public class EnemyModel : AbstractModel
                     PlayAnimation("Fury", true);
                 }
                 else
+                {
                     PlayAnimation("Fury", false);
+                }
 
                 PlayAnimation("Moving", false);
                 PlayAnimation("Skill1", false);
@@ -263,7 +271,7 @@ public class EnemyModel : AbstractModel
                     deadPosition = transform.position;
 
                     isAttacking = true;
-                    isAnimationAttackComplete = false;
+                    comPleteStateTransition = false;
 
 
                 }
@@ -272,7 +280,6 @@ public class EnemyModel : AbstractModel
                     currentState = State.Idle;
 
                 }
-                isAttacking = false;
 
                 break;
             case State.Fury:
@@ -339,7 +346,7 @@ public class EnemyModel : AbstractModel
 
 
                     isAttacking = true;
-                    isAnimationAttackComplete = false;
+                    comPleteStateTransition = false;
                 }
                 break;
             case State.Horn:
@@ -371,7 +378,7 @@ public class EnemyModel : AbstractModel
 
 
                     isAttacking = true;
-                    isAnimationAttackComplete = false;
+                    comPleteStateTransition = false;
 
 
                 }
@@ -441,6 +448,29 @@ public class EnemyModel : AbstractModel
             else
             {
                 Debug.LogWarning($"Giá trị {rageTypeName} không tồn tại trong State.");
+            }
+
+
+
+            // Xử lý chung cho animation sau khi hoàn thành tấn công
+            if (isAttacking && isAnimationAttackComplete)
+            {
+                if (!activeAttack)
+                {
+                    this.AttackType();
+                    Debug.Log("Attack Type Action Rage " + transform.parent);
+                }
+                activeAttack = true;
+
+                if (comPleteStateTransition)
+                {
+                    activeAttack = false;
+                    isAnimationAttackComplete = false;
+                    currentState = State.Idle;
+
+                    currentDelay = delayAttack;
+                }
+
             }
             return;
         }
@@ -513,17 +543,7 @@ public class EnemyModel : AbstractModel
 
                 currentDelay = delayAttack;
             }
-            //if (!enemyCtrl.EnemyAttack.ListObjAttacks[0].GetComponent<PlayerCtrl>().ObjectDamageReceiver.IsDead && enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
-            //{
-            //    this.AttackType();
-            //}
 
         }
-        //// Nếu trạng thái là Idle và có delay tấn công
-        //if (currentState == State.Idle && currentDelay > 0)
-        //{
-        //    currentState = State.Idle;
-        //}
-
     }
 }

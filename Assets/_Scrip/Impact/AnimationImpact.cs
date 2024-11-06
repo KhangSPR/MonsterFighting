@@ -95,7 +95,7 @@ public class AnimationImpact : SaiMonoBehaviour
 
             if (enemyCtrl.TargetSkill.listSkillCtrl.Count > 0)
             {
-                enemyCtrl.TargetSkill.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage);
+                enemyCtrl.TargetSkill.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
                 Debug.Log("Skill Effect");
                 damageSent = true;
                 gameObject.SetActive(false);

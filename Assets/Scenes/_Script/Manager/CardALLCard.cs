@@ -71,7 +71,7 @@ public class CardALLCard : ScriptableObject
     {
         return listCardCharacter;
     }
-    public List<CardCharacter> GetCharacterAttackType(AttackType attackType)
+    public List<CardCharacter> GetCharacterAttackType(AttackCategory attackType)
     {
         return listCardCharacter.Where(x => x.GetAttackType() == attackType).ToList();
     }

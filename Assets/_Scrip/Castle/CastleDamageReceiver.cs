@@ -41,10 +41,10 @@ public class CastleDamageReceiver : DamageReceiver
             this.isMaxHP = GameManager.Instance.max_hp;
         }
     }
-    public override void DeductHealth(int Deduct)
+    public override void DeductHealth(int Deduct, AttackType attackType)
     {
         GameManager.Instance.Castle_On_Damage(Deduct);
-        base.DeductHealth(Deduct);
+        base.DeductHealth(Deduct, attackType);
     }
     #region FX On Dead -----------------------------------------------------------------------------------------
 
