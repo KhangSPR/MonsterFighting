@@ -77,6 +77,12 @@ public class PlayerModel : AbstractModel
                     PlayAnimation("Melee", false);
 
                     isAttacking = true;
+
+                    if (activeAttack && !comPleteStateTransition)
+                    {
+                        activeAttack = false;
+                        isAnimationAttackComplete = false;
+                    }
                     comPleteStateTransition = false;
                 }
                 break;

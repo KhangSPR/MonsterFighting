@@ -180,13 +180,14 @@ public class EnemyModel : AbstractModel
 
 
                     isAttacking = true;
-                    isAnimationAttackComplete = false;
+                    if (activeAttack && !comPleteStateTransition)
+                    {
+                        activeAttack = false;
+                        isAnimationAttackComplete = false;
+                    }
+                    comPleteStateTransition = false;
 
                     Debug.Log("Goi Attack");
-                }
-                else
-                {
-                    currentState = State.Idle;
                 }
                 break;
 
@@ -270,9 +271,13 @@ public class EnemyModel : AbstractModel
 
                     deadPosition = transform.position;
 
+                    if (isAnimationAttackComplete)
+                    {
+                        isAnimationAttackComplete = false;
+                    }
+
                     isAttacking = true;
                     comPleteStateTransition = false;
-
 
                 }
                 else

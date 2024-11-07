@@ -15,6 +15,8 @@ public abstract class SkillCtrl : SaiMonoBehaviour
     public FxDespawn FxDespawn => fxDespawn;
     [SerializeField] protected FXDamageReceiver fxDamageReceiver;
     public FXDamageReceiver FXDamageReceiver => fxDamageReceiver;
+    [SerializeField] protected FXImpact fXImpact;
+    public FXImpact FXImpact => fXImpact;
 
     protected override void LoadComponents()
     {
@@ -22,6 +24,14 @@ public abstract class SkillCtrl : SaiMonoBehaviour
         this.LoadDamageSender();
         this.LoadFXDeSpawn();
         this.LoadFXDamageReceiver();
+        this.LoadFXImpact();
+    }
+    protected void LoadFXImpact()
+    {
+        if (this.fXImpact != null) return;
+        this.fXImpact = transform.GetComponentInChildren<FXImpact>();
+
+        Debug.Log("LoadFXImpact");
     }
     protected void LoadFXDeSpawn()
     {

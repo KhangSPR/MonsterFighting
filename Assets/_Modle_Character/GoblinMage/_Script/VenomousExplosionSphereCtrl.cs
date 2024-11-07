@@ -19,10 +19,14 @@ public class VenomousExplosionSphereCtrl : SkillCtrl
         timer = 0f;
         stopActionSkill = false;
     }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        this.fXImpact.ClearCollider();
 
+    }
     public override void SkillAction()
     {
-        
     }
 
     protected override void Update()

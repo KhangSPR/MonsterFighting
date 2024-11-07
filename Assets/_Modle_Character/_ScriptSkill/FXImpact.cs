@@ -6,29 +6,17 @@ using UnityEngine;
 public class FXImpact : SkillAbstract
 {
     [Header("FX Impact")]
-    //[SerializeField] protected CircleCollider2D circleCollider;
     [SerializeField] protected Rigidbody2D _rigidbody;
 
     // Set to store collided ObjectCtrl objects
     private HashSet<ObjectCtrl> collidedObjectsEnemy = new HashSet<ObjectCtrl>();
     private HashSet<ObjectCtrl> collidedObjectsPlayer = new HashSet<ObjectCtrl>();
 
-
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        //this.LoadCircleCollider2D();
         this.LoadRigidbody2D();
     }
-
-    //protected virtual void LoadCircleCollider2D()
-    //{
-    //    if (this.circleCollider != null) return;
-    //    this.circleCollider = GetComponent<CircleCollider2D>();
-    //    this.circleCollider.isTrigger = true;
-    //    Debug.Log(transform.name + ": LoadCollider", gameObject);
-    //}
-
     protected virtual void LoadRigidbody2D()
     {
         if (this._rigidbody != null) return;
@@ -120,5 +108,10 @@ public class FXImpact : SkillAbstract
 
             }
         }
+    }
+    public void ClearCollider()
+    {
+        collidedObjectsEnemy.Clear();
+        collidedObjectsPlayer.Clear();
     }
 }
