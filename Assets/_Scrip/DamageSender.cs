@@ -35,6 +35,30 @@ public class DamageSender : AbstractCtrl
         if (damageReceiver == null) return;
         this.Send(damageReceiver);
 
+        if(obj.name=="Castle")
+        {
+            if(damageReceiver.IsDead && !GameManager.Instance.IsCastleDead)
+            {
+                this.enemyCtrl.EnemyAttack.OnDeadCastle();
+
+                Debug.Log("Enemy Attack: " + transform.parent.name);
+
+                GameManager.Instance.IsCastleDead = true; // Call One
+
+                GameManager.Instance.CurrentModleCall = transform.parent;
+
+                GameManager.Instance.SetAnimatorEnabled();
+
+                Debug.Log("Castle: "+ damageReceiver.IsDead);
+
+                if(damageReceiver is CastleDamageReceiver castleDamageReceiver)
+                {
+                    castleDamageReceiver.BoxCollider.enabled = false;
+                }
+            }
+
+            return;
+        }
         Transform targetPosition = obj.GetComponent<ObjectCtrl>().TargetPosition;
 
         FXSpawner.Instance.SendFXText(damage, skillType, targetPosition, Quaternion.identity);

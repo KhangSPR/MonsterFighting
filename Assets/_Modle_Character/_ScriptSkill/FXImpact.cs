@@ -56,7 +56,7 @@ public class FXImpact : SkillAbstract
             }
             else if (this.skillCtrl.ObjectCtrl.transform.CompareTag("Enemy"))
             {
-                if (collision.transform.parent.CompareTag("Castle") || collision.transform.parent.CompareTag("Player"))
+                if (collision.transform.parent.CompareTag("Player"))
                 {
                     // Get ObjectCtrl from the parent object
                     ObjectCtrl objectCtrl = collision.transform.parent.GetComponent<ObjectCtrl>();
@@ -72,6 +72,13 @@ public class FXImpact : SkillAbstract
                         // Call SkillCollider and send damage
                         this.skillCtrl.SkillColider(objectCtrl);
                     }
+                }
+                else if(collision.transform.parent.CompareTag("Castle"))
+                {
+                    CastleCtrl castleCtrl = collision.transform.parent.GetComponent<CastleCtrl>();
+
+                    this.skillCtrl.SkillColliderCastle(castleCtrl);
+
                 }
             }
 

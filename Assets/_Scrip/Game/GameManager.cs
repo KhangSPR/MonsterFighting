@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UIGameDataManager;
 using UIGameDataMap;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -92,6 +93,8 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Header("StarCondition")]
     public Slider slider_star;
+    [SerializeField] RectTransform fxHolder;
+    [SerializeField] UILevelStarConditionCtrl levelStarConditionCtrl;
     private bool FlagHPStar = true;
     private int star;
     public int Star => star;
@@ -104,7 +107,34 @@ public class GameManager : SaiMonoBehaviour
     private LevelSettings currentLevelSettings;
     public LevelSettings CurrentLevelSettings => currentLevelSettings;
 
+    #region Castle Dead -- Display
+    //Castle Is Dead
+    private bool isCastleDead = false;
+    public bool IsCastleDead { get { return isCastleDead; } set { isCastleDead = value; } }
+    [SerializeField] protected SpriteRenderer wallCity;
+    public void SetLayerWallCity()
+    {
+        this.wallCity.sortingLayerName = "fx"; //Repair
+    }
+    private List<Transform> allModleSpawn = new List<Transform>();
+    public List<Transform> AllModleSpawn { get { return allModleSpawn; } set { allModleSpawn = value; } }
+    private Transform currentModleCall;
+    public Transform CurrentModleCall { get { return currentModleCall; } set { currentModleCall = value; } }
 
+    public void SetAnimatorEnabled()
+    {
+        foreach (Transform t in allModleSpawn)
+        {
+            if (!t.gameObject.activeSelf || t == currentModleCall) continue;
+
+            t.GetComponentInChildren<Animator>().enabled = false;
+        }
+    }
+
+    //Camera Move Left
+    [SerializeField] protected CameraMoveLeft cameraMoveLeft;
+    public CameraMoveLeft CameraMoveLeft => cameraMoveLeft; 
+    #endregion
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -125,14 +155,7 @@ public class GameManager : SaiMonoBehaviour
     protected override void Update()
     {
         base.Update();
-        //if(Input.GetKeyDown(KeyCode.T)) {
-        //    foreach(var item in currentLevelSettings.starConditions)
-        //    {
-        //        HpPercentageCondition hp = item as HpPercentageCondition;
 
-        //        Debug.Log("HP: " + hp.RequiredHpPercentage);
-        //    }
-        //}
     }
     protected override void Start()
     {
@@ -164,34 +187,7 @@ public class GameManager : SaiMonoBehaviour
         Debug.Log("Set 1 lan");
     }    
     #endregion
-    //protected override void Update()
-    //{
-    //    base.Update();
-    //    var mapSO = GameDataManager.Instance.currentMapSO;
-    //    var condition = mapSO.GetStarsCondition(mapSO.difficult);
-    //    KeepHpCondition keepHpCondition = condition as KeepHpCondition;
-    //    if (keepHpCondition != null)
-    //    {
-    //        keepHpCondition.currentHpValue = current_hp;
-    //        keepHpCondition.currentThreshold = keepHpCondition.currentHpValue;
-    //    }
-    //}
-    //public void CheckStars()
-    //{
-    //    var mapSO = GameDataManager.Instance.currentMapSO;
-    //    var oldStarsCount = mapSO.GetStarsCount(mapSO.difficult);
-    //    var condition = mapSO.GetStarsCondition(mapSO.difficult);
-    //    KeepHpCondition keepHpCondition = condition as KeepHpCondition;
-    //    if (keepHpCondition != null)
-    //    {
-    //        Debug.Log("keepHpCondition :" + keepHpCondition.threshold3);
-    //        keepHpCondition.currentHpValue = current_hp;
-    //        var newStarsCount = keepHpCondition.CheckThreshold();
-    //        if (oldStarsCount < newStarsCount) mapSO.SetStarsCount(mapSO.difficult, (int)newStarsCount);
-    //        mapSO.GetStarsCondition(mapSO.difficult).CheckFirstTimeFullStars(mapSO.GetStarsCount(mapSO.difficult) >= 3);
-    //    }
 
-    //}
     #region Guild Defaut and StarCondition HP
 
     //Guild ------------------------------------------------------------------------------
@@ -218,7 +214,7 @@ public class GameManager : SaiMonoBehaviour
         //StarCondition
         currentLevelSettings.CheckStarCondition();
 
-        UpdateCurrentHpUI(); GameLoss(current_hp);
+        UpdateCurrentHpUI(); 
     }
     
     void OnUpdateCurrentHpPercentage()
@@ -232,7 +228,61 @@ public class GameManager : SaiMonoBehaviour
         float hpPercentage = GetCurrentHpPercentage();
 
         slider_star.value = hpPercentage;
+
+        if(!fxHolder.gameObject.activeSelf)
+        {
+            fxHolder.gameObject.SetActive(true);
+        }
+        //FX Holder Slider
+        fxHolder.localPosition = CalculateUIPosition(hpPercentage);
+
+        Debug.Log("OnUpdateCurrentHpPercentage: "+ slider_star.value);
+
+        UpdateEmptyStarCondition(hpPercentage);
+
+        //Effect Screen Damage
+        EffectsScreenManager.Instance.ScreenDamageEffect(hpPercentage/100f);
+        EffectsScreenManager.Instance.object_ShakeTransfrom.ShakeAndRecover();
+
     }
+    // Update Empty Star Condition
+    private void UpdateEmptyStarCondition(float percent)
+    {
+        float[] percentStars = GetCurrentHpPercentageArrays();
+        for (int i = 2; i >= 0; i--)
+        {
+            if (percentStars[i] > percent)
+            {
+                TargetStar targetStar = this.levelStarConditionCtrl.StarsShow[i].GetComponent<TargetStar>();
+
+                if (targetStar != null)
+                {
+                    if (targetStar.activeArray)
+                    {
+                        targetStar.SetActiveImage(this.levelStarConditionCtrl.EmptySpriteRenderer);
+
+                        targetStar.activeArray = false;
+                    }
+                }
+
+                Debug.Log("UpdateEmptyStarCondition: " + percentStars[i] + "---" + percent);
+            }
+        }
+    }
+
+
+    private Vector3 CalculateUIPosition(float percentage)
+    {
+        float minX = -385 / 2f;
+        float maxX = 385 / 2f;
+
+        float positionXTarget = Mathf.Lerp(minX, maxX, percentage/100f);
+
+        Debug.Log("Position FX: " + positionXTarget);
+
+        return new Vector3(positionXTarget, fxHolder.localPosition.y, fxHolder.localPosition.z);
+    }
+
     private float GetCurrentHpPercentage()
     {
         if (max_hp <= 0)
@@ -244,6 +294,7 @@ public class GameManager : SaiMonoBehaviour
 
         return currentHpPercentage;
     }
+    //HP Condition Percent
     public float[] GetCurrentHpPercentageArrays()
     {
         float[] Percentage = new float[3];
@@ -456,24 +507,17 @@ public class GameManager : SaiMonoBehaviour
         MapManager.Instance.SetReward();
         //fade.gameObject.SetActive(true);
     }
-    private void GameLoss(int current_hp)
+    public void GameLoss()
     {
-        Debug.Log("Current Hp = " + current_hp);
-        if (current_hp <= 0)
+        Debug.Log("You Lose !!");
+
+        var dropItemHolder = EnemyDropSpawner.Instance.holder;
+
+        foreach (Transform item in dropItemHolder)
         {
-            Debug.Log("You Lose !!");
-            RectTransform UILost = Map_UI_Manager.GetComponent<Map_Ui_Manager>().UILose;
-            Map_UI_Manager.GetComponent<Map_Ui_Manager>().OpenRectransform(UILost);
-
-            var dropItemHolder = EnemyDropSpawner.Instance.holder;
-
-            foreach (Transform item in dropItemHolder)
-            {
-                Destroy(item.gameObject);
-            }
-            Map_UI_Manager.GetComponent<Map_Ui_Manager>().UILose.gameObject.SetActive(true);
-
+            Destroy(item.gameObject);
         }
+        Map_UI_Manager.GetComponent<Map_Ui_Manager>().UILose.gameObject.SetActive(true);
     }
     private void SetStarConditionTypeMap()
     {

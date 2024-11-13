@@ -101,7 +101,8 @@ public abstract class DamageReceiver : ObjModleAbstact
     }
     public void HandleSlashDamage()
     {
-        AbstractModel.DameFlash.CallDamageFlash();
+        if(AbstractModel !=null)
+            AbstractModel.DameFlash.CallDamageFlash();
     }
     public abstract void OnDead();
 

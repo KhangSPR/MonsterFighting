@@ -16,6 +16,7 @@ public class EnemyNameAndCount
 public abstract class AbilitySummon : ActiveAbility
 {
     [Header("List Enemies")]
+    [SerializeField]
     protected List<EnemyNameAndCount> nameEnemyandCount = new List<EnemyNameAndCount>();
 
     [Header("Minion Count")]
@@ -48,7 +49,6 @@ public abstract class AbilitySummon : ActiveAbility
 
     protected virtual Transform Summon(Transform spawnPos)
     {
-
         Transform minionPrefab = this.spawner.GetPrefabByName(namePrefab);
         if (minionPrefab == null)
         {
@@ -95,14 +95,21 @@ public abstract class AbilitySummon : ActiveAbility
     protected void SetNameSpawn()
     {
         List<EnemyNameAndCount> validEnemies = new List<EnemyNameAndCount>();
+
         foreach (var enemyInfo in nameEnemyandCount)
         {
             if (enemyInfo.spawnCount < enemyInfo.max)
             {
                 validEnemies.Add(enemyInfo);
+
+                Debug.Log("validEnemies: " + validEnemies.Count);
+
             }
+
+            Debug.Log("nameEnemyandCount: "+ nameEnemyandCount.Count);
         }
 
+        // Kiểm tra nếu không có enemy hợp lệ nào
         if (validEnemies.Count == 0)
         {
             Debug.LogError("No valid enemies to spawn.");
@@ -115,6 +122,7 @@ public abstract class AbilitySummon : ActiveAbility
         randomEnemy.spawnCount++;
         namePrefab = randomEnemy.name;
     }
+
 
     protected void AddSummon(Transform minion)
     {

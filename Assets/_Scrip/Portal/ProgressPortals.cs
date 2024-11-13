@@ -81,7 +81,7 @@ public class ProgressPortals : PortalSpawnManagerAbstract
             Debug.Log($"Percentage[{i}]: {displayPercentage[i]}");
         }
     }
-
+    //Progess 
 
     private void InitializeUIPercentageMarkers()
     {
@@ -89,6 +89,8 @@ public class ProgressPortals : PortalSpawnManagerAbstract
         {
             Vector3 newPos = CalculateUIPosition(percentage);
             CreateFlagAnimationAtPosition(newPos);
+
+            Debug.Log("displayPercentage: " + percentage);
         }
 
         targetUI.gameObject.SetActive(true);

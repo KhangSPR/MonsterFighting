@@ -6,10 +6,6 @@ public class EnemySpawner : Spawner
 {
     private static EnemySpawner instance;
     public static EnemySpawner Instance => instance;
-    public static string shieldSkeleton = "Shield Skeleton"; // bullet 1
-    public static string archerySkeleton = "Archery Skeleton";
-    //public static string bulletOne = "Bullet_1"; // bullet 1
-    //public static string bulletOne = "Bullet_1"; // bullet 1
     protected override void Awake()
     {
         base.Awake();
@@ -20,6 +16,9 @@ public class EnemySpawner : Spawner
     {
         Transform newEnemy = base.Spawn(prefab, spawnPos, rotation);
         //this.AddHPObj(newEnemy);
+
+        //Add All Spawn Enemy
+        GameManager.Instance.AllModleSpawn.Add(newEnemy);
 
         return newEnemy;
     }

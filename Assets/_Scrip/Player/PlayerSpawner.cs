@@ -12,5 +12,14 @@ public class PlayerSpawner : Spawner
         //if (PlayerSpawner.instance != null) Debug.LogError("Onlly 1 PlayerSpawner Warning");
         PlayerSpawner.instance = this;
     }
+    public override Transform Spawn(Transform prefab, Vector3 spawnPos, Quaternion rotation)
+    {
+        Transform newEnemy = base.Spawn(prefab, spawnPos, rotation);
+        //this.AddHPObj(newEnemy);
 
+        //Add All Spawn Enemy
+        GameManager.Instance.AllModleSpawn.Add(newEnemy);
+
+        return newEnemy;
+    }
 }

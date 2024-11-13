@@ -60,5 +60,9 @@ public abstract class SkillCtrl : SaiMonoBehaviour
         this.objectCtrl = objectCtrl;
     }
     public abstract void SkillColider(ObjectCtrl objectCtrl);
+    public virtual void SkillColliderCastle(CastleCtrl castleCtrl)
+    {
+
+    }
     public abstract void SkillAction();
 }

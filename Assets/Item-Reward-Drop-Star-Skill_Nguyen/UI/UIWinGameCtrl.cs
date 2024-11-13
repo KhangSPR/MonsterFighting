@@ -25,7 +25,7 @@ public class UIWinGameCtrl : MonoBehaviour
     [SerializeField] List<Transform> _VFXStar;
 
 
-    [SerializeField] private _Object_Shake _object_Shake;
+    [SerializeField] private Object_ShakeRectTransfrom _object_Shake;
     //[SerializeField] Transform TargetSword;
 
     MapDifficulty mapDifficulty;

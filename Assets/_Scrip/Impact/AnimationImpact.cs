@@ -52,7 +52,25 @@ public class AnimationImpact : SaiMonoBehaviour
     {
         if (damageSent) return;
 
-        if (other.name == "CanAttack" || other.name == "ObjMelee") return;
+        if(enemyCtrl!=null)
+        {
+            if (other.transform.parent.CompareTag("Castle"))
+            {
+                if (enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
+                {
+                    enemyCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.ListObjAttacks[0]);
+                }
+
+                Debug.Log("Parent Collider: " + other.transform.parent.name);
+
+                damageSent = true;
+                gameObject.SetActive(false);
+
+                return;
+            }
+        }
+
+        if (other.name == "CanAttack" || other.name == "ObjMelee" || other.transform.parent.parent.name== "TileTower") return;
 
 
         // Nếu không có FXDamageReceiver, xử lý theo logic khác
@@ -88,19 +106,16 @@ public class AnimationImpact : SaiMonoBehaviour
             if (otherObjectCtrl == null || enemyCtrl.ObjLand.LandIndex != otherObjectCtrl.ObjLand.LandIndex)
             {
                 Debug.Log("Animation Impact other enemyCtrl: " + other.name);
+
                 return;
             }
-
-
 
             if (enemyCtrl.TargetSkill.listSkillCtrl.Count > 0)
             {
                 enemyCtrl.TargetSkill.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
                 Debug.Log("Skill Effect");
-                damageSent = true;
-                gameObject.SetActive(false);
             }
-            else if (other.transform.parent.CompareTag("Player") || other.transform.parent.CompareTag("Castle"))
+            else if (other.transform.parent.CompareTag("Player"))
             {
                 if (enemyCtrl.ObjMelee != null && enemyCtrl.ObjMelee.ListObjAttacks.Count > 0)
                 {
@@ -119,11 +134,11 @@ public class AnimationImpact : SaiMonoBehaviour
                     Debug.Log("Send " + targetsToSend + " Player(s)");
                 }
 
-                damageSent = true;
-                gameObject.SetActive(false);
-
                 Debug.Log("Animation Impact");
             }
+
+            damageSent = true;
+            gameObject.SetActive(false);
         }
     }
 

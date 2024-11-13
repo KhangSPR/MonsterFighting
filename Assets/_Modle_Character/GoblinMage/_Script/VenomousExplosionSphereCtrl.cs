@@ -36,7 +36,22 @@ public class VenomousExplosionSphereCtrl : SkillCtrl
         timer += Time.deltaTime;
         if (timer >= timeDuration) stopActionSkill = true;
     }
+    public override void SkillColliderCastle(CastleCtrl castleCtrl)
+    {
+        base.SkillColliderCastle(castleCtrl);
+        DamageReceiver damageReceiver = castleCtrl.GetComponentInChildren<DamageReceiver>();
 
+        if (damageReceiver == null)
+        {
+            Debug.Log("Null: DamageReceiver");
+            return;
+        }
+
+        if (damageReceiver.IsDead) return;
+
+        this.DamageSender.Send(damageReceiver);
+
+    }
     public override void SkillColider(ObjectCtrl objectCtrl)
     {
         DamageReceiver damageReceiver = objectCtrl.GetComponentInChildren<DamageReceiver>();

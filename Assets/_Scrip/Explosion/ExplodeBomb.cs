@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using EZCameraShake;
 
 public class ExplodeBomb : MonoBehaviour
 {
@@ -48,7 +47,7 @@ public class ExplodeBomb : MonoBehaviour
         if (NewBreack == null) return;
         NewBreack.gameObject.SetActive(true);
 
-        CameraShaker.Instance.ShakeOnce(4, 4, 0.1f, 1f);
+        //CameraShaker.Instance.ShakeOnce(4, 4, 0.1f, 1f);
 
         Transform Newexplosion = FXSpawner.Instance.Spawn(FXSpawner.ImpactOne, transform.position, transform.rotation);
         if (Newexplosion == null) return;

@@ -54,12 +54,24 @@ public abstract class BulletImpact : BulletAbstract
         {
             if (bulletCtrl.Shooter.CompareTag("Enemy"))
             {
-                if (other.transform.parent.CompareTag("Player") || other.transform.parent.CompareTag("Castle"))
+                if (other.transform.parent.CompareTag("Player"))
                 {
                     if (bulletCtrl.ObjectCtrl is EnemyCtrl enemyCtrl)
                     {
-                        if (enemyCtrl.ObjLand.LandIndex != other.transform.parent.GetComponent<ObjectCtrl>().ObjLand.LandIndex) return;
+                        if (enemyCtrl.ObjLand.LandIndex != other.transform.parent.GetComponent<ObjectCtrl>().ObjLand.LandIndex && !other.transform.parent.CompareTag("Castle")) return;
 
+                        if (enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
+                        {
+                            bulletCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.ListObjAttacks[0]);
+                            hasDealtDamage = true; // Đánh dấu đã gây sát thương
+                            Debug.Log("Send Bullet Enemy");
+                        }
+                    }
+                }
+                else if (other.transform.parent.CompareTag("Castle"))
+                {
+                    if (bulletCtrl.ObjectCtrl is EnemyCtrl enemyCtrl)
+                    {
                         if (enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
                         {
                             bulletCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.ListObjAttacks[0]);

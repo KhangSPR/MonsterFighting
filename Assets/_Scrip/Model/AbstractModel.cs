@@ -279,6 +279,7 @@ public abstract class AbstractModel : AbstractCtrl
         this.boxCollider.enabled = false;
         this.circleCollider.enabled = false;
         this._rigidbody.simulated = false;
+        this.shadowObj.SetActive(true);
     }
     protected virtual void EnablePhysics()
     {
@@ -464,6 +465,6 @@ public abstract class AbstractModel : AbstractCtrl
         }
     }
 
-
+    [SerializeField] protected GameObject shadowObj;
 }
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using static ObjRageSkill;
 
 public class EnemyModel : AbstractModel
 {
@@ -8,6 +7,8 @@ public class EnemyModel : AbstractModel
     [SerializeField] Transform targetDead;
     protected override void AnimationLoading()
     {
+        if (!animator.enabled) return;
+
         if (this.objCtrl.ObjectDamageReceiver.IsDead)
         {
             if (targetDead != null && this.isRage) // Kiểm tra xem targetDead có giá trị hợp lệ không
@@ -37,6 +38,11 @@ public class EnemyModel : AbstractModel
 
 
             if (!isAnimationDeadComplete) return;
+
+            if(shadowObj.activeSelf)
+            {
+                shadowObj.SetActive(false);
+            }
             //Haven't VFXDissolve
             if (this.effectCharacter.VFX_Dissolve == null)
             {

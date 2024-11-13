@@ -23,6 +23,9 @@ public class EnemyCtrl : ObjectCtrl
     public TargetSkill TargetSkill => targetSkill;
     [SerializeField] protected HornSpawnerCtrl enemySpawnCtrl;
     public HornSpawnerCtrl EnemySpawnCtrl => enemySpawnCtrl;
+    [SerializeField] protected ObjMoveInTheCity objMoveIntheCity;
+    public ObjMoveInTheCity ObjMoveIntheCity => objMoveIntheCity;
+    
     protected override string GetObjectTypeString()
     {
         return ObjectType.Enemy.ToString();
@@ -88,6 +91,13 @@ public class EnemyCtrl : ObjectCtrl
         this.loadObjAppearBigger();
         this.loadTargetSkill();
         this.loadEnemySpawnCtrl();
+        this.loadObjMoveIntheCity();
+    }
+    protected virtual void loadObjMoveIntheCity()
+    {
+        if (this.objMoveIntheCity != null) return;
+        this.objMoveIntheCity = transform.GetComponentInChildren<ObjMoveInTheCity>();
+        Debug.Log(gameObject.name + ": loadObjMoveIntheCity" + gameObject);
     }
     protected virtual void loadEnemySpawnCtrl()
     {

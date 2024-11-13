@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class UIInGame : MonoBehaviour
 {
-    [SerializeField] UILoseGameController uiloseGameController;
-    public UILoseGameController UILoseGameController => uiloseGameController;
+    [SerializeField] UILoseGameCtrl uiloseGameController;
+    public UILoseGameCtrl UILoseGameController => uiloseGameController;
 
     [SerializeField] UIWinGameCtrl uIWinGameController;
     public UIWinGameCtrl UIWinGameController => uIWinGameController;

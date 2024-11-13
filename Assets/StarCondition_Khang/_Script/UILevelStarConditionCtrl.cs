@@ -11,11 +11,12 @@ public class UILevelStarConditionCtrl : MonoBehaviour
     [SerializeField] TMP_Text DesStar_3;
     [SerializeField] GameObject PanelUI;
     [SerializeField] GameObject Button;
-    [SerializeField] private StarHolderCondition starHolderCondition;
-    [SerializeField] private Transform StarShowUI;
-    [SerializeField] private GameObject StarsShow;
+    [SerializeField] private GameObject[] starsShow;
+    public GameObject[] StarsShow => starsShow;
+    public RectTransform targetUI;
 
-    
+    [SerializeField] SpriteRenderer emptySpriteRenderer;
+    public SpriteRenderer EmptySpriteRenderer => emptySpriteRenderer;
     //Animation
     [SerializeField] private RectTransform fade;
 
@@ -83,41 +84,49 @@ public class UILevelStarConditionCtrl : MonoBehaviour
         DesStar_2.text = conditions.Length > 1 ? conditions[1].Trim() : string.Empty;
         DesStar_3.text = conditions.Length > 2 ? conditions[2].Trim() : string.Empty;
     }
-
+    // Update Star - 0 -> 1 -> 2
     private void UpdateStarsBasedOnHpPercentage()
     {
         float[] starThresholds = GameManager.Instance.GetCurrentHpPercentageArrays();
 
-        // Xóa các sao cũ
-        foreach (Transform child in StarShowUI)
-        {
-            Destroy(child.gameObject);
-        }
-        int i = 0;
         // Tạo sao mới dựa trên phần trăm HP
+        int i = 0;
         foreach (float thresholdPercentage in starThresholds)
         {
-            int roundedPercentage = Mathf.RoundToInt(thresholdPercentage / 10f);
+            Vector3 newPos = CalculateUIPosition(thresholdPercentage);
+            CreateFlagAnimationAtPosition(newPos,i);
 
-            // Lấy Transform từ GetPosition
-            Transform positionTransform = GetPosition(roundedPercentage);
-
-            if (positionTransform != null)
-            {
-                GameObject star = Instantiate(StarsShow, positionTransform.position, Quaternion.identity, StarShowUI);
-
-            }
+            Debug.Log("starThresholds :" + thresholdPercentage);
             i++;
         }
+        targetUI.gameObject.SetActive(true);
+    }
+    private Vector3 CalculateUIPosition(float percentage)
+    {
+        float minX = -370 / 2f;
+        float maxX = 370 / 2f;
+
+        // Kiểm tra giá trị của minX và maxX
+        Debug.Log("minX: " + minX);
+        Debug.Log("maxX: " + maxX);
+
+        // Kiểm tra giá trị của percentage
+        Debug.Log("Percentage: " + percentage);
+
+        // Tính toán vị trí dựa trên percentage
+        float positionXTarget = Mathf.Lerp(minX, maxX, percentage / 100f);
+
+        // Kiểm tra giá trị của positionXTarget
+        Debug.Log("Vector Target (X): " + positionXTarget);
+
+        return new Vector3(positionXTarget, targetUI.localPosition.y, targetUI.localPosition.z);
     }
 
-    private Transform GetPosition(int index)
+
+    private void CreateFlagAnimationAtPosition(Vector3 position, int i)
     {
-        // Đảm bảo index nằm trong phạm vi hợp lệ
-        if (index >= 0 && index < starHolderCondition.StartHolderConition.Count)
-        {
-            return starHolderCondition.StartHolderConition[index];
-        }
-        return null;
+        starsShow[i].transform.localPosition = position;
+
+        starsShow[i].SetActive(true);
     }
 }

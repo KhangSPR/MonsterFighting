@@ -4,6 +4,8 @@ public class PlayerModel : AbstractModel
 {
     protected override void AnimationLoading()
     {
+        if (!animator.enabled) return;
+
         // Kiểm tra nếu nhân vật đang chết
         if (this.objCtrl.ObjectDamageReceiver.IsDead)
         {
@@ -14,6 +16,11 @@ public class PlayerModel : AbstractModel
             this.SetFalseAnimation();
 
             if (!isAnimationDeadComplete) return;
+
+            if (shadowObj.activeSelf)
+            {
+                shadowObj.SetActive(false);
+            }
 
             this.Dead();
 
