@@ -30,6 +30,8 @@ public class BulletDespawn : DespawnByTime
         //    // Thực hiện các xử lý tương ứng ở đây
          bulletCtrl.ObjectCtrl = null;
 
+        this.ResetTimer();
+
          BulletSpawner.Instance.Despawn(transform.parent);
         //}
     }

@@ -53,13 +53,26 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
 
     protected virtual void HandleCollisionEnter<T>(Collider2D collision, int damagePerSecond, Action<int> startEffect)
     {
+        if (collision.transform.parent == null)
+        {
+            //Debug.LogWarning($"HandleCollisionEnter: Parent of {collision.gameObject.name} is null.");
+            return;
+        }
+
         var components = collision.transform.parent.GetComponents<MonoBehaviour>();
         foreach (var component in components)
         {
             if (component is T)
             {
                 Debug.Log("Interface được tìm thấy");
-                startEffect(damagePerSecond);
+                if (startEffect != null)
+                {
+                    startEffect(damagePerSecond);
+                }
+                else
+                {
+                    Debug.LogError("startEffect is null.");
+                }
                 break;
             }
         }
@@ -67,13 +80,25 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
 
     protected virtual void HandleCollisionExit<T>(Collider2D collision, float exitTime, Action stopEffect)
     {
+        if (collision.transform.parent == null)
+        {
+            //Debug.LogWarning($"HandleCollisionExit: Parent of {collision.gameObject.name} is null.");
+            return;
+        }
+
         var components = collision.transform.parent.GetComponents<MonoBehaviour>();
         foreach (var component in components)
         {
             if (component is T)
             {
-                //StartCoroutine(CountDownAndStopEffect(exitTime, stopEffect));
-                CoroutineManager.Instance.StartGlobalCoroutine(CountDownAndStopEffect(exitTime, stopEffect));
+                if (CoroutineManager.Instance != null)
+                {
+                    CoroutineManager.Instance.StartGlobalCoroutine(CountDownAndStopEffect(exitTime, stopEffect));
+                }
+                else
+                {
+                    Debug.LogError("CoroutineManager.Instance is null.");
+                }
                 break;
             }
         }

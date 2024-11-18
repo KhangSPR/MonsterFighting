@@ -7,6 +7,6 @@ public class TargetSkill : EnemyAbstract
     //[SerializeField] private bool isSkill = false;
     //public bool IsSkill { get { return isSkill; } set { isSkill = value; } }
 
-    public List<SkillCtrl> listSkillCtrl;
+    public List<SkillCtrl> listSkillCtrl = new List<SkillCtrl>();
 
 }

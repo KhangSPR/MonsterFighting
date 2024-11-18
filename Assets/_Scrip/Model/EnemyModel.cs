@@ -145,6 +145,14 @@ public class EnemyModel : AbstractModel
 
                     //Debug.Log("Move Animation");
                 }
+                if(!comPleteStateTransition && activeAttack)
+                {
+                    activeAttack = false;
+                    isAnimationAttackComplete = false;
+
+                    Debug.Log("State.Move ");
+                }
+
                 break;
 
             case State.Attack:
@@ -444,6 +452,8 @@ public class EnemyModel : AbstractModel
 
         if (shouldAttack && CallAnimationSkill()) // Gọi hàm và kiểm tra điều kiện
         {
+
+            Debug.Log("Name Obj: " + transform.parent.name);
             return;
         }
         if (IsRage && shouldAttack && !IsStun) //IsRage Call Animation Fury Event
@@ -524,6 +534,8 @@ public class EnemyModel : AbstractModel
         // Xử lý chung cho animation sau khi hoàn thành tấn công
         if (isAttacking && isAnimationAttackComplete)
         {
+            Debug.Log("Xu ly AttackType");
+
             // Lựa chọn loại animation dựa trên trạng thái tấn công hiện tại
             if (currentState == State.MeleeWitch)
             {

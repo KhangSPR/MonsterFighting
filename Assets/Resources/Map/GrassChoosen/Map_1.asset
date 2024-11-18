@@ -27,27 +27,13 @@ MonoBehaviour:
         - TimeFirstSpawn: 1
           EnemyType:
           - rarity: 0
-            name: Grassland Pig
+            name: Goblin Venomorb
             countEnemy: 1
             timerMin: 2
             timerMax: 4
             skillType: []
             Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
-        Portals:
-        - rarityPortal: 0
-          countPortal: 1
-          DelaySpawnFirstEnemy: 3
-          spawnTimeInSeconds:
-          - 2
-          hasBoss: 0
-          enemyTypes:
-          - rarity: 0
-            name: Goblin Boss
-            countEnemy: 1
-            timerMin: 3
-            timerMax: 5
-            skillType: []
-            Sprite: {fileID: 0}
+        Portals: []
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2

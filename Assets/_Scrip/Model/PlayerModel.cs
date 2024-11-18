@@ -49,10 +49,16 @@ public class PlayerModel : AbstractModel
                     Debug.Log("Set Active VFX to true");
                 }
             }
-
+            if(IsHit)
+            {
+                isHit = false;
+            }
             Debug.Log("Call Stun");
         }
-
+        if(isHit && !isStun)
+        {
+            currentState = State.Hit;
+        }
         bool shouldAttack = false;
 
         switch (currentState)
@@ -66,11 +72,34 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Skill2", false);
                 PlayAnimation("Stun", false);
                 PlayAnimation("Melee", false);
+                PlayAnimation("Deff", false);
 
                 isAttacking = false;
+                ResetTrigger("Upper");
+                ResetTrigger("Lower");
                 //activeAttack = false;
                 break;
+            case State.Deff:
+                if (this.effectCharacter.Vfx_Stun.activeSelf)
+                    this.effectCharacter.Vfx_Stun.SetActive(false);
+                PlayAnimation("Deff", true);
+                PlayAnimation("Idle", false);
+                PlayAnimation("Skill1", false);
+                PlayAnimation("Stun", false);
+                PlayAnimation("Hit", false);
 
+                ResetTrigger("Upper");
+                ResetTrigger("Lower");
+
+                break;
+            case State.Hit: //apply to shield
+                if (this.effectCharacter.Vfx_Stun.activeSelf)
+                    this.effectCharacter.Vfx_Stun.SetActive(false);
+                PlayAnimation("Hit", true);
+                ResetTrigger("Upper");
+                ResetTrigger("Lower");
+
+                break;
             case State.Attack:
                 if (!isAttacking && currentDelay <= 0)
                 {
@@ -82,6 +111,8 @@ public class PlayerModel : AbstractModel
                     PlayAnimation("Skill2", false);
                     PlayAnimation("Stun", false);
                     PlayAnimation("Melee", false);
+                    PlayAnimation("Deff", false);
+
 
                     isAttacking = true;
 
@@ -100,6 +131,9 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Attack", false);
                 PlayAnimation("Skill2", false);
                 PlayAnimation("Melee", false);
+                PlayAnimation("Deff", false);
+                ResetTrigger("Upper");
+                ResetTrigger("Lower");
 
                 isAttacking = false;
                 break;
@@ -110,6 +144,7 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Attack", false);
                 PlayAnimation("Skill1", false);
                 PlayAnimation("Melee", false);
+
 
                 isAttacking = false;
                 break;
@@ -122,6 +157,12 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Idle", false);
                 PlayAnimation("Attack", false);
                 PlayAnimation("Melee", false);
+                PlayAnimation("Deff", false);
+
+                ResetTrigger("Upper");
+                ResetTrigger("Lower");
+                PlayAnimation("Hit", false);
+
 
                 isAttacking = false;
                 break;
@@ -148,7 +189,6 @@ public class PlayerModel : AbstractModel
         {
             return;
         }
-
         if (this.playerCtrl.PlayerAttack.CheckCanAttack)
         {
             shouldAttack = true;
@@ -167,6 +207,14 @@ public class PlayerModel : AbstractModel
 
             Debug.Log("Call Melee Attack");
         }
+        else if (shouldAttack && attackTypeAnimation == AttackTypeAnimation.Deff)
+        {
+            currentState = State.Deff;
+            isHit = false;
+            this.ActivateTrigger("Upper");
+
+            Debug.Log("ActivateTrigger Upper");
+        }
         else if (shouldAttack && currentState != State.MeleeWitch)
         {
             StartStateTransition(State.Attack);
@@ -174,8 +222,21 @@ public class PlayerModel : AbstractModel
         else
         {
             currentState = State.Idle;
+
+            Debug.Log("ActivateTrigger Lower");
         }
 
+        if (attackTypeAnimation == AttackTypeAnimation.Deff)
+        {
+            if (currentState == State.Idle || currentState == State.Skill1)
+            {
+                this.ActivateTrigger("Lower");
+
+                Debug.Log("Trigger Active");
+            }
+        }
+
+        //Deff No Call
         if (isAttacking && isAnimationAttackComplete)
         {
             Debug.Log("State Current: " + currentState);

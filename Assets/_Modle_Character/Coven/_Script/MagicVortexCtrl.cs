@@ -83,11 +83,11 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
         targetBottom = null;
         sendDameFisrt = false;
 
-        if (enemyCtrl != null && enemyCtrl.TargetSkill != null)
+        if (enemyCtrl != null && enemyCtrl.TargetSkillScript != null)
         {
-            enemyCtrl.TargetSkill.listSkillCtrl.RemoveAt(0);
+            enemyCtrl.TargetSkillScript.listSkillCtrl.RemoveAt(0);
 
-            if (enemyCtrl.EnemyAttack.ListObjAttacks.Count <= 0 && enemyCtrl.TargetSkill.listSkillCtrl.Count <= 0)
+            if (enemyCtrl.EnemyAttack.ListObjAttacks.Count <= 0 && enemyCtrl.TargetSkillScript.listSkillCtrl.Count <= 0)
                 enemyCtrl.EnemyAttack.CheckCanAttack = false;
         }
     }

@@ -16,4 +16,6 @@ public enum State
     MeleeWitch,
     Horn,
     HitRage,
+    Deff,
+    Hit
 }

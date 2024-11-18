@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class SkillCtrl : SaiMonoBehaviour
 {
     //Obj Spawn Skill
+    [SerializeField]
     protected ObjectCtrl objectCtrl;
 
     public ObjectCtrl ObjectCtrl => objectCtrl;

@@ -30,8 +30,8 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
 
     public BulletShooter BulletShooter => bulletShooter;
 
-    [SerializeField] protected Transform transformSkill;
-    public Transform TransformSkill => transformSkill;
+    [SerializeField] protected Transform targetSkill;
+    public Transform TargetSkill => targetSkill;
     [SerializeField] protected ObjMelee objMelee;
     public ObjMelee ObjMelee => objMelee;
     [SerializeField] protected ObjAttack objAttack;
@@ -58,6 +58,13 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         this.LoadObjAttack();
         this.LoadObjLand();
         this.LoadTargetBullet();
+        this.LoadTargetSkill();
+    }
+    protected virtual void LoadTargetSkill()
+    {
+        if (targetSkill != null) return;
+        targetSkill = transform.Find("TargetSkill");
+        Debug.Log(gameObject.name + ": LoadTargetSkill" + gameObject);
     }
     protected virtual void LoadTargetBullet()
     {
@@ -85,8 +92,8 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
     }
     protected virtual void LoadTransformSkill()
     {
-        if (transformSkill != null) return;
-        this.transformSkill = transform.Find("TargetSkill");
+        if (targetSkill != null) return;
+        this.targetSkill = transform.Find("TargetSkill");
         Debug.Log(gameObject.name + ": LoadTransformSkill" + gameObject);
     }
     protected virtual void LoadBulletShooter()

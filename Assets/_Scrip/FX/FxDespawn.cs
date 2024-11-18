@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,10 @@ public enum FXType
 public class FxDespawn : DespawnByTime
 {
     [SerializeField] private FXType fxType;
+
+    public event Action OnFXSkill;
+    public float delayTimerTrigger = 0f;
+
     protected override bool canDespawn()
     {
         if (fxType == FXType.effect)
@@ -20,7 +25,25 @@ public class FxDespawn : DespawnByTime
     }
     protected override void deSpawnObjParent()
     {
-        Debug.Log("Despawn");
+        this.FXSkill();
+
+        StartCoroutine(DestroyFragmentsAfterDelay(delayTimerTrigger));
+
+        Debug.Log("Despawn: " + transform.parent.name);
+
+    }
+    public virtual void FXSkill()
+    {
+        OnFXSkill?.Invoke();
+    }
+    private IEnumerator DestroyFragmentsAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        this.ResetTimer();
+
         FXSpawner.Instance.Despawn(transform.parent);
+
+
     }
 }

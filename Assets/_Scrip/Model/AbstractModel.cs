@@ -10,6 +10,7 @@ public enum AttackTypeAnimation
     BulletDefault,
     BulletPX,
     Animation,
+    Deff,
 }
 
 [RequireComponent(typeof(CircleCollider2D))]
@@ -26,6 +27,7 @@ public abstract class AbstractModel : AbstractCtrl
     [SerializeField] protected State currentState;
     [SerializeField] protected Animator animator;
     [SerializeField] protected AttackTypeAnimation attackTypeAnimation;
+    public AttackTypeAnimation AttackTypeAnimation => attackTypeAnimation;
     protected AttackTypeAnimation currentAttackTypeAnimation;
     [SerializeField] protected AnimationImpact animationImpact;
     [SerializeField] protected DameFlash dameFlash;
@@ -294,6 +296,7 @@ public abstract class AbstractModel : AbstractCtrl
         this.isRage = false;
         this.isFuryGain = false;
         this.IsHorn = false;
+        this.isHit = false;
         this.hasAxeFisrtActive = false;
     }
     protected void Dead()
@@ -382,6 +385,32 @@ public abstract class AbstractModel : AbstractCtrl
     [SerializeField]
     protected bool isVfxStunActive = false;
 
+    //Reset Animation
+    [SerializeField] protected bool isHit = false;
+    public bool IsHit { get { return isHit; } set { isHit = value; } }
+    public void OnIsHitFalse()
+    {
+        isHit = false;
+        PlayAnimation("Hit", false);
+
+    }
+    protected void ActivateTrigger(string triggerName)
+    {
+        animator.SetTrigger(triggerName);
+    }
+    //Shield Animation -> Shield
+    protected void RestartAnimation(string animationName)
+    {
+        if (animator != null)
+        {
+            animator.Play(animationName, 0, 0f);
+        }
+    }
+    protected void ResetTrigger(string triggerName)
+    {
+        animator.ResetTrigger(triggerName);
+    }
+
     ////////////////////////////////////////////////////////////////////////-----------------------------------------------------------------------
     /// <summary>
     /// 
@@ -423,25 +452,38 @@ public abstract class AbstractModel : AbstractCtrl
 
     private bool TryUseAvailableSkill()
     {
-        // Kiểm tra Skill2 trước
-        if (Skill2 != null && Skill2.unlockSkill && Skill2.CanUseSkill(ObjectCtrl.ObjMana, ObjectCtrl.transform.position, ObjectCtrl.ObjAttack.ListObjAttacks[0].position))
+        // Kiểm tra nếu danh sách ListObjAttacks hợp lệ và có ít nhất 1 phần tử
+        if (ObjectCtrl.ObjAttack.ListObjAttacks == null || ObjectCtrl.ObjAttack.ListObjAttacks.Count == 0)
         {
-            CallSkill(Skill2, State.Skill2);  // Gọi hàm CallSkill
+            //Debug.LogError("ListObjAttacks không hợp lệ hoặc rỗng.: "+transform.parent.name);
+
+            return false;
+        }
+
+        // Kiểm tra Skill2 trước
+        if (Skill2 != null && Skill2.unlockSkill &&
+            Skill2.CanUseSkill(ObjectCtrl.ObjMana,
+                               ObjectCtrl.transform.position,
+                               ObjectCtrl.ObjAttack.ListObjAttacks[0].position))
+        {
+            CallSkill(Skill2, State.Skill2); // Gọi hàm CallSkill
             return true;
         }
 
         // Kiểm tra Skill1
-        if (Skill1 != null && Skill1.CanUseSkill(ObjectCtrl.ObjMana, ObjectCtrl.transform.position, ObjectCtrl.ObjAttack.ListObjAttacks[0].position))
+        if (Skill1 != null &&
+            Skill1.CanUseSkill(ObjectCtrl.ObjMana,
+                               ObjectCtrl.transform.position,
+                               ObjectCtrl.ObjAttack.ListObjAttacks[0].position))
         {
-            CallSkill(Skill1, State.Skill1);  // Gọi hàm CallSkill
-
+            CallSkill(Skill1, State.Skill1); // Gọi hàm CallSkill
             Debug.Log("CallSkill 1");
-
             return true;
         }
 
         return false;
     }
+
 
     // Hàm gọi skill với thông tin kỹ năng và trạng thái
     private void CallSkill(SkillCharacter skill, State state)

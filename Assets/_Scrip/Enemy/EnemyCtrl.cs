@@ -19,8 +19,8 @@ public class EnemyCtrl : ObjectCtrl
     public EnemyDropItem EnemyDropItem => enemyDropItem;
     [SerializeField] protected ObjAppearBigger objAppearBigger;
     public ObjAppearBigger ObjAppearBigger => objAppearBigger;
-    [SerializeField] protected TargetSkill targetSkill;
-    public TargetSkill TargetSkill => targetSkill;
+    [SerializeField] protected TargetSkill targetSkillScript;
+    public TargetSkill TargetSkillScript => targetSkillScript;
     [SerializeField] protected HornSpawnerCtrl enemySpawnCtrl;
     public HornSpawnerCtrl EnemySpawnCtrl => enemySpawnCtrl;
     [SerializeField] protected ObjMoveInTheCity objMoveIntheCity;
@@ -113,8 +113,8 @@ public class EnemyCtrl : ObjectCtrl
     }
     protected virtual void loadTargetSkill()
     {
-        if (this.targetSkill != null) return;
-        this.targetSkill = transform.GetComponentInChildren<TargetSkill>();
+        if (this.targetSkillScript != null) return;
+        this.targetSkillScript = transform.GetComponentInChildren<TargetSkill>();
         Debug.Log(gameObject.name + ": loadTargetSkill" + gameObject);
     }
     protected virtual void loadObjMovement()

@@ -42,6 +42,11 @@ public abstract class BulletImpact : BulletAbstract
         // Kiểm tra xem đã gây sát thương chưa, nếu rồi thì return luôn
         if (hasDealtDamage) return;
 
+        if (other.transform.parent == null)
+        {
+            return;
+        }
+
         if (other.name == "CanAttack" || other.name== "ObjMelee") return;
 
         BulletCtrl bulletCtrl = GetBulletCtrl(); // Lấy bulletCtrl từ lớp con
@@ -75,6 +80,19 @@ public abstract class BulletImpact : BulletAbstract
                         if (enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
                         {
                             bulletCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.ListObjAttacks[0]);
+                            hasDealtDamage = true; // Đánh dấu đã gây sát thương
+                            Debug.Log("Send Bullet Enemy");
+                        }
+                    }
+                }
+                else if(other.transform.parent.CompareTag("Skill"))
+                {
+                    if (bulletCtrl.ObjectCtrl is EnemyCtrl enemyCtrl)
+                    {
+                        if (enemyCtrl.TargetSkillScript.listSkillCtrl.Count > 0)
+                        {
+                            enemyCtrl.TargetSkillScript.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
+                            bulletCtrl.BulletDespawn.ResetCanDespawnFlag();
                             hasDealtDamage = true; // Đánh dấu đã gây sát thương
                             Debug.Log("Send Bullet Enemy");
                         }

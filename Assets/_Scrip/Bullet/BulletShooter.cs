@@ -111,6 +111,11 @@ public abstract class BulletShooter : AbstractCtrl
         if (transformParent.tag == "Enemy")
         {
             TakePosition = enemyCtrl.EnemyAttack.GetTransFromFirstAttack().position;
+
+            if(TakePosition== null)
+            {
+                return;
+            }
         }
         else
         {

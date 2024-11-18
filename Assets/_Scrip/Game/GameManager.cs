@@ -130,10 +130,6 @@ public class GameManager : SaiMonoBehaviour
             t.GetComponentInChildren<Animator>().enabled = false;
         }
     }
-
-    //Camera Move Left
-    [SerializeField] protected CameraMoveLeft cameraMoveLeft;
-    public CameraMoveLeft CameraMoveLeft => cameraMoveLeft; 
     #endregion
     protected override void OnEnable()
     {

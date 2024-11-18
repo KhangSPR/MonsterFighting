@@ -74,6 +74,15 @@ public abstract class DamageReceiver : ObjModleAbstact
         if(attackType == AttackType.Default)
             OnTakeDamage?.Invoke();
 
+        if(abstractModel!= null)
+        {
+            if(this.abstractModel.AttackTypeAnimation == AttackTypeAnimation.Deff)
+            {
+                if (!this.abstractModel.IsHit)
+                    this.abstractModel.IsHit = true;
+            }
+        }
+
         CheckIfDead();
     }
     protected virtual void CheckIfDead()

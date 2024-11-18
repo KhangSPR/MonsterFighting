@@ -11,9 +11,9 @@ public class ObjectDamageReceiver : DamageReceiverByType
         this.AbstractModel.DameFlash.StopCoroutieSlash();
         if (this.enemyCtrl)
         {
-            if (enemyCtrl.TargetSkill.listSkillCtrl.Count <= 0) return;
+            if (enemyCtrl.TargetSkillScript.listSkillCtrl.Count <= 0) return;
 
-            foreach (SkillCtrl scrSkill in enemyCtrl.TargetSkill.listSkillCtrl)
+            foreach (SkillCtrl scrSkill in enemyCtrl.TargetSkillScript.listSkillCtrl)
             {
                 scrSkill.FxDespawn.ResetCanDespawnFlag();
             }

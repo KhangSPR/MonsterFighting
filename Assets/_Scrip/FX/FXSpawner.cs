@@ -15,6 +15,8 @@ public class FXSpawner : Spawner
     public static string stun = "Stun";
     public static string BallOfDarkness = "Ball Of Darkness";
     public static string VenomousExplosionSphere = "Venomous Explosion Sphere";
+    public static string VirtualShield = "Virtual Shield";
+
 
     public static FXSpawner Instance { get => instance; }
     protected override void Awake()

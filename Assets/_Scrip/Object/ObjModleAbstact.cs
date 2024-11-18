@@ -33,6 +33,7 @@ public class ObjModleAbstact : SaiMonoBehaviour
     protected void LoadObjCtrl()
     {
         if (transform.parent.name == "Castle") return;
+        if (skillCtrl != null) return;
 
         this.objectCtrl = this.abstractModel.ObjectCtrl;
 

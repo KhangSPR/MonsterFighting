@@ -10,6 +10,7 @@ namespace UIGameDataManager
         Warrior,       // Close-range physical attacks
         Archer,      // Attacks from a distance
         Wizard,       // Magical attacks
+        Tank
         //Stealth,     // Sneaky and stealthy attacks
 
         // Add more types as needed

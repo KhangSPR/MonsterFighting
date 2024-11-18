@@ -101,6 +101,16 @@ public class AnimationImpact : SaiMonoBehaviour
         }
         else if (enemyCtrl != null)
         {
+            if (enemyCtrl.TargetSkillScript.listSkillCtrl.Count > 0)
+            {
+                enemyCtrl.TargetSkillScript.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
+                Debug.Log("Skill Effect");
+
+                damageSent = true;
+                gameObject.SetActive(false);
+                return;
+            }
+
             var otherObjectCtrl = other.transform.parent.GetComponent<ObjectCtrl>();
 
             if (otherObjectCtrl == null || enemyCtrl.ObjLand.LandIndex != otherObjectCtrl.ObjLand.LandIndex)
@@ -110,11 +120,6 @@ public class AnimationImpact : SaiMonoBehaviour
                 return;
             }
 
-            if (enemyCtrl.TargetSkill.listSkillCtrl.Count > 0)
-            {
-                enemyCtrl.TargetSkill.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
-                Debug.Log("Skill Effect");
-            }
             else if (other.transform.parent.CompareTag("Player"))
             {
                 if (enemyCtrl.ObjMelee != null && enemyCtrl.ObjMelee.ListObjAttacks.Count > 0)
