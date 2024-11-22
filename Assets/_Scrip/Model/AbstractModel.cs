@@ -281,7 +281,7 @@ public abstract class AbstractModel : AbstractCtrl
         this.boxCollider.enabled = false;
         this.circleCollider.enabled = false;
         this._rigidbody.simulated = false;
-        this.shadowObj.SetActive(true);
+        this.shadowObj.SetActive(false);
     }
     protected virtual void EnablePhysics()
     {
@@ -289,7 +289,21 @@ public abstract class AbstractModel : AbstractCtrl
         this.circleCollider.enabled = true;
         this._rigidbody.simulated = true;
         this.animator.enabled = true;
+        this.shadowObj.SetActive(true);
+
     }
+    //protected void SetFadeObjShadow()
+    //{
+    //    if(!shadowObj.activeSelf)
+    //    {
+    //        this.shadowObj.SetActive(true);
+
+    //    }
+
+    //    SpriteRenderer spriteRenderer = shadowObj.GetComponent<SpriteRenderer>();
+
+    //    spriteRenderer.color = new Color(0, 0, 0, 90 / 255f);
+    //}
     protected virtual void SetFalseAnimation()
     {
         this.isStun = false;
@@ -439,6 +453,14 @@ public abstract class AbstractModel : AbstractCtrl
     protected virtual bool CallAnimationSkill()
     {
         if (skillEnable) return false;
+        
+        if(this.objCtrl.ObjDetectAllies!=null)
+        {
+            if (this.objCtrl.ObjDetectAllies.isDetectAllies)
+            {
+                return false;
+            }
+        }
 
         // Kiểm tra và gọi kỹ năng nếu đủ điều kiện
         if (TryUseAvailableSkill())

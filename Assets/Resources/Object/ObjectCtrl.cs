@@ -40,6 +40,9 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
     public ObjLand ObjLand => objLand;
     [SerializeField] protected Transform targetPostion;
     public Transform TargetPosition => targetPostion;
+
+    [SerializeField] protected ObjDetectAllies objDetectAllies;
+    public ObjDetectAllies ObjDetectAllies => objDetectAllies;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -59,6 +62,13 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         this.LoadObjLand();
         this.LoadTargetBullet();
         this.LoadTargetSkill();
+        this.LoadObjDetectAllies();
+    }
+    protected virtual void LoadObjDetectAllies()
+    {
+        if (objDetectAllies != null) return;
+        this.objDetectAllies = transform.GetComponentInChildren<ObjDetectAllies>();
+        Debug.Log(gameObject.name + ": LoadObjDetectAllies" + gameObject);
     }
     protected virtual void LoadTargetSkill()
     {

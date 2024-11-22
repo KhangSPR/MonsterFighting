@@ -17,11 +17,6 @@ public class PlayerModel : AbstractModel
 
             if (!isAnimationDeadComplete) return;
 
-            if (shadowObj.activeSelf)
-            {
-                shadowObj.SetActive(false);
-            }
-
             this.Dead();
 
             if (this.effectCharacter.FadeCharacter)
@@ -52,12 +47,17 @@ public class PlayerModel : AbstractModel
             if(IsHit)
             {
                 isHit = false;
+
+                Debug.Log("Log false");
+
             }
             Debug.Log("Call Stun");
         }
-        if(isHit && !isStun)
+        if(isHit && !isStun &&  !skillEnable)
         {
             currentState = State.Hit;
+
+            Debug.Log("Log Hit");
         }
         bool shouldAttack = false;
 
@@ -187,6 +187,11 @@ public class PlayerModel : AbstractModel
 
         if (skillEnable)
         {
+            if(attackTypeAnimation == AttackTypeAnimation.Deff)
+            {
+                this.ActivateTrigger("Lower");
+                this.IsHit = false;
+            }
             return;
         }
         if (this.playerCtrl.PlayerAttack.CheckCanAttack)

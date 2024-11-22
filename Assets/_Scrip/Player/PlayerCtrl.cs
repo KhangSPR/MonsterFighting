@@ -22,8 +22,11 @@ public class PlayerCtrl : ObjectCtrl
         base.OnEnable();
 
         if(abstractModel != null)
-            this.abstractModel.SetOnDeadAnimation();
+        {
 
+            this.abstractModel.SetOnDeadAnimation();
+            Debug.Log("SetOnDeadAnimation Player");
+        }
     }
     private void InitCharacterStats()
     {

@@ -181,7 +181,7 @@ public class EffectCharacter : MonoBehaviour
     // Hàm để bắt đầu quá trình fade nhân vật
     public void StartFadeOut()
     {
-        foreach (var spriteRenderer in _spriteRenderers)
+        foreach (var spriteRenderer in _frontSpriteRenderers)
         {
             Color color = spriteRenderer.color;
             spriteRenderer.color = new Color(color.r, color.g, color.b, 0f); // Đặt alpha về 0
@@ -192,7 +192,7 @@ public class EffectCharacter : MonoBehaviour
     // Hàm để reset alpha (hiển thị lại nhân vật)
     public void ResetAlpha()
     {
-        foreach (var spriteRenderer in _spriteRenderers)
+        foreach (var spriteRenderer in _frontSpriteRenderers)
         {
             Color color = spriteRenderer.color;
             spriteRenderer.color = new Color(color.r, color.g, color.b, 1f); // Đặt alpha về 1

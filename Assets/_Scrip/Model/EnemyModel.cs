@@ -39,10 +39,6 @@ public class EnemyModel : AbstractModel
 
             if (!isAnimationDeadComplete) return;
 
-            if(shadowObj.activeSelf)
-            {
-                shadowObj.SetActive(false);
-            }
             //Haven't VFXDissolve
             if (this.effectCharacter.VFX_Dissolve == null)
             {

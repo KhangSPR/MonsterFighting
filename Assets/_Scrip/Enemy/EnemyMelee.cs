@@ -6,7 +6,7 @@ public class EnemyMelee : ObjMelee
 {
     protected override void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform.parent.tag == "Player"/* || other.transform.parent.tag == "Castle"*/)
+        if (other.transform.parent != null && other.transform.parent.tag == "Player"/* || other.transform.parent.tag == "Castle"*/)
         {
             if (!other.transform.parent.GetComponent<ObjectCtrl>().ObjLand.CampareLand(objCtrl.ObjLand.LandIndex))
                 return;
@@ -22,7 +22,7 @@ public class EnemyMelee : ObjMelee
 
     protected override void OnTriggerExit2D(Collider2D other)
     {
-        if (listObjAttacks.Contains(other.transform.parent))
+        if (other.transform.parent != null && listObjAttacks.Contains(other.transform.parent))
         {
             listObjAttacks.Remove(other.transform.parent);
 
