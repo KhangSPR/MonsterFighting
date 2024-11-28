@@ -41,6 +41,7 @@ public abstract class AbstractModel : AbstractCtrl
     protected bool isAnimationAttackComplete = false;
     [SerializeField]
     protected bool isAnimationDeadComplete = false;
+    public bool IsAnimationDeadComplete => isAnimationDeadComplete;
     [SerializeField]
     protected float delayAttack;
     public float DelayAttack => delayAttack;
@@ -100,9 +101,42 @@ public abstract class AbstractModel : AbstractCtrl
     {
         this.currentAttackTypeAnimation = this.attackTypeAnimation;
     }
+    protected void ActivateTrigger(string triggerName)
+    {
+        if (!HasParameter(animator, triggerName))
+        {
+            return;
+        }
+
+        animator.SetTrigger(triggerName);
+    }
+    protected void ResetTrigger(string triggerName)
+    {
+        if (!HasParameter(animator, triggerName))
+        {
+            return;
+        }
+
+        animator.ResetTrigger(triggerName);
+    }
     protected virtual void LoaHasAttack2()
     {
         hasAttack2 = HasParameter(animator, "Attack2");
+    }
+    //Check Animation Current IS ?
+    protected bool IsAnimationPlaying(string animationName, int layerIndex = 0)
+    {
+        if (animator == null)
+        {
+            Debug.LogWarning("Animator không được gán!");
+            return false;
+        }
+
+        // Lấy trạng thái hiện tại của layer
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(layerIndex);
+
+        // Kiểm tra nếu trạng thái khớp với tên animation
+        return stateInfo.IsName(animationName);
     }
     private bool HasParameter(Animator animator, string paramName)
     {
@@ -408,10 +442,6 @@ public abstract class AbstractModel : AbstractCtrl
         PlayAnimation("Hit", false);
 
     }
-    protected void ActivateTrigger(string triggerName)
-    {
-        animator.SetTrigger(triggerName);
-    }
     //Shield Animation -> Shield
     protected void RestartAnimation(string animationName)
     {
@@ -419,10 +449,6 @@ public abstract class AbstractModel : AbstractCtrl
         {
             animator.Play(animationName, 0, 0f);
         }
-    }
-    protected void ResetTrigger(string triggerName)
-    {
-        animator.ResetTrigger(triggerName);
     }
 
     ////////////////////////////////////////////////////////////////////////-----------------------------------------------------------------------

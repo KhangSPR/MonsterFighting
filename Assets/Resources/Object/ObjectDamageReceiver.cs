@@ -23,8 +23,9 @@ public class ObjectDamageReceiver : DamageReceiverByType
     public override void ReBorn()
     {
         this.LoadObjCtrl();
-        isMaxHP = PlayerCtrl?.CharacterStatsFake.Life
-                  ?? EnemyCtrl?.EnemySO.basePointsLife
+
+        isMaxHP = PlayerCtrl?.CharacterStatsFake?.Life
+                  ?? EnemyCtrl?.EnemySO?.basePointsLife
                   ?? isMaxHP;
 
         base.ReBorn();

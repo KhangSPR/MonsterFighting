@@ -23,6 +23,9 @@ public class EnemyDeSpawn : DespawnByTime
 
         //Drop Item : rate, itemType, min max count
         enemyCtrl.EnemyDropItem.DropItem();
+   
+        //Drop Coin:
+        enemyCtrl.EnemyDropCoin.DropCoin();
     }
 
 }

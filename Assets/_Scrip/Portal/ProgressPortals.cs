@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ProgressPortals : PortalSpawnManagerAbstract
 {
     [Header("Slider")]
-    [SerializeField] Slider progress; // Thanh trượt
+    [SerializeField] UnityEngine.UI.Slider progress; // Thanh trượt
 
     [Header("Enemy Info")]
     [SerializeField] int enemyMax;  // Tổng số lượng kẻ thù

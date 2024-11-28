@@ -52,7 +52,10 @@ public class AnimationImpact : SaiMonoBehaviour
     {
         if (damageSent) return;
 
-        if(enemyCtrl!=null)
+        if (other.transform.parent == null) return;
+
+
+        if (enemyCtrl!=null)
         {
             if (other.transform.parent.CompareTag("Castle"))
             {

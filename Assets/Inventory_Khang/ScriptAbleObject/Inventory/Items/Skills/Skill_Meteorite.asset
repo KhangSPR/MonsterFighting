@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63f7a581ad78ca44af66aa2976f3de5, type: 3}
   m_Name: Skill_Meteorite
   m_EditorClassIdentifier: 
+  IsUsed: 0
   Id: 4
   Sprite: {fileID: -1376439096, guid: 0561c597bb704da4f9c9332106b883cb, type: 3}
   type: 0
@@ -24,6 +25,5 @@ MonoBehaviour:
   particleCount: 20
   coolDown: 5
   skillType: 1
-  gameobjectVFX: {fileID: 6012103894789160089, guid: ec9183537de5494468ec473d463ca55b,
-    type: 3}
+  gameobjectVFX: {fileID: 6012103894789160089, guid: ec9183537de5494468ec473d463ca55b, type: 3}
   positionSpawn: 5

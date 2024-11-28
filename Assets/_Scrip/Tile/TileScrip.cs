@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class TileScrip : SaiMonoBehaviour
 {
@@ -10,6 +9,7 @@ public abstract class TileScrip : SaiMonoBehaviour
         get { return isEmpty; }
         set { isEmpty = value; }
     }
+    [SerializeField]
     protected GameObject newObjSet;
 
     protected override void Start()
@@ -18,8 +18,6 @@ public abstract class TileScrip : SaiMonoBehaviour
         isEmpty = true;
     }
 
-    protected abstract void OnMouseOver();
-    protected abstract void OnMouseExit();
 
     protected virtual void Place(Transform towerTransform, int landIndex)
     {

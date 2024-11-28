@@ -7,7 +7,6 @@ public class Hover : SaiMonoBehaviour
     private static Hover _instance;
     public static Hover Instance => _instance;
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -20,15 +19,19 @@ public class Hover : SaiMonoBehaviour
         base.Start();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
-    protected override void Update()
+    public void FollowMouse(bool active)
     {
-        base.Update();
-        FollowMouse();
-    }
+        if (spriteRenderer == null) return;
 
-    private void FollowMouse()
-    {
+        if (!active)
+        {
+            spriteRenderer.enabled = false;
+        }
+        else
+        {
+            spriteRenderer.enabled = true;
+
+        }
         if (spriteRenderer.enabled)
         {
             Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -40,11 +43,13 @@ public class Hover : SaiMonoBehaviour
     {
         spriteRenderer.sprite = sprite;
         spriteRenderer.enabled = true;
+
     }
 
     public void Deactivate()
     {
         spriteRenderer.sprite = null;  // Set sprite to null when deactivating
         spriteRenderer.enabled = false;
+
     }
 }

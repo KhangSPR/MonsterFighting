@@ -26,7 +26,8 @@ MonoBehaviour:
         enemyRanDoms:
         - TimeFirstSpawn: 1
           EnemyType:
-          - rarity: 0
+          - rarity: 1
+            typeEnemy: 0
             name: Goblin Venomorb
             countEnemy: 1
             timerMin: 2
@@ -39,6 +40,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Grassland Slime
             countEnemy: 1
             timerMin: 2
@@ -54,6 +56,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 0
+            typeEnemy: 1
             name: Goblin Boss
             countEnemy: 1
             timerMin: 13
@@ -72,6 +75,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 4
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Grassland Rabbit
             countEnemy: 2
             timerMin: 1
@@ -89,6 +93,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 0
+            typeEnemy: 0
             name: Grassland Wolf
             countEnemy: 3
             timerMin: 2
@@ -102,6 +107,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Venomorb
             countEnemy: 2
             timerMin: 3
@@ -116,6 +122,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 4
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Grassland Slime
             countEnemy: 3
             timerMin: 1
@@ -130,6 +137,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Grassland Bat
             countEnemy: 2
             timerMin: 3
@@ -141,6 +149,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 1
           EnemyType:
           - rarity: 1
+            typeEnemy: 0
             name: Grassland Pig
             countEnemy: 1
             timerMin: 3
@@ -158,6 +167,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 1
+            typeEnemy: 0
             name: Goblin Boss
             countEnemy: 1
             timerMin: 5
@@ -178,6 +188,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 4
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 4
             timerMin: 1
@@ -196,6 +207,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 3
             timerMin: 2
@@ -209,6 +221,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 2
             timerMin: 3
@@ -220,6 +233,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 1
           EnemyType:
           - rarity: 1
+            typeEnemy: 0
             name: Skeleton Magic
             countEnemy: 1
             timerMin: 3
@@ -237,6 +251,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 1
+            typeEnemy: 0
             name: Skeleton Magic
             countEnemy: 1
             timerMin: 5
@@ -250,6 +265,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 4
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 4
             timerMin: 1
@@ -268,6 +284,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 3
             timerMin: 2
@@ -281,6 +298,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 2
             timerMin: 3
@@ -292,6 +310,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 1
           EnemyType:
           - rarity: 1
+            typeEnemy: 0
             name: Skeleton Magic
             countEnemy: 1
             timerMin: 3
@@ -309,6 +328,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 1
+            typeEnemy: 0
             name: Skeleton Magic
             countEnemy: 1
             timerMin: 5
@@ -322,6 +342,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 4
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 4
             timerMin: 1
@@ -340,6 +361,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 3
             timerMin: 2
@@ -353,6 +375,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 2
             timerMin: 3
@@ -364,6 +387,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 1
           EnemyType:
           - rarity: 1
+            typeEnemy: 0
             name: Skeleton Magic
             countEnemy: 1
             timerMin: 3
@@ -381,6 +405,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 1
+            typeEnemy: 0
             name: Skeleton Magic
             countEnemy: 1
             timerMin: 5
@@ -394,6 +419,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 4
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 4
             timerMin: 1
@@ -412,6 +438,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 3
             timerMin: 2
@@ -425,6 +452,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 2
           EnemyType:
           - rarity: 0
+            typeEnemy: 0
             name: Goblin Green
             countEnemy: 2
             timerMin: 3
@@ -436,6 +464,7 @@ MonoBehaviour:
         - TimeFirstSpawn: 1
           EnemyType:
           - rarity: 1
+            typeEnemy: 0
             name: Skeleton Magic
             countEnemy: 1
             timerMin: 3
@@ -453,6 +482,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - rarity: 1
+            typeEnemy: 0
             name: Skeleton Magic
             countEnemy: 1
             timerMin: 5

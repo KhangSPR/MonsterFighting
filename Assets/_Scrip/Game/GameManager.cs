@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UIGameDataManager;
 using UIGameDataMap;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class GameManager : SaiMonoBehaviour
 {
@@ -84,7 +83,7 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Space]
     [Header("HP Play")]
-    public Slider slider_maxhp;
+    public UnityEngine.UI.Slider slider_maxhp;
     [Min(1)] public int max_hp;
     [ReadOnlyInspector, SerializeField] private int current_hp;
 
@@ -92,7 +91,7 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Space]
     [Header("StarCondition")]
-    public Slider slider_star;
+    public UnityEngine.UI.Slider slider_star;
     [SerializeField] RectTransform fxHolder;
     [SerializeField] UILevelStarConditionCtrl levelStarConditionCtrl;
     private bool FlagHPStar = true;
@@ -106,31 +105,29 @@ public class GameManager : SaiMonoBehaviour
     //LevelSettings Game Play
     private LevelSettings currentLevelSettings;
     public LevelSettings CurrentLevelSettings => currentLevelSettings;
-
-    #region Castle Dead -- Display
-    //Castle Is Dead
-    private bool isCastleDead = false;
-    public bool IsCastleDead { get { return isCastleDead; } set { isCastleDead = value; } }
-    [SerializeField] protected SpriteRenderer wallCity;
-    public void SetLayerWallCity()
+    #region Click Hover UI
+    [Space]
+    [Space]
+    [Header("Click Hover UI")]
+    [SerializeField]
+    private bool isClickHover = false;
+    public bool IsClickHover { get { return isClickHover; } set { isClickHover = value; } }
+    [SerializeField]
+    private bool isClickTile = false;
+    public bool IsClickTile { get { return isClickTile; } set { isClickTile = value; } }
+    [SerializeField] private TMP_Text removeTxt;
+    int currentRemove = 2;
+    public int CurrentRemove
     {
-        this.wallCity.sortingLayerName = "fx"; //Repair
-    }
-    private List<Transform> allModleSpawn = new List<Transform>();
-    public List<Transform> AllModleSpawn { get { return allModleSpawn; } set { allModleSpawn = value; } }
-    private Transform currentModleCall;
-    public Transform CurrentModleCall { get { return currentModleCall; } set { currentModleCall = value; } }
-
-    public void SetAnimatorEnabled()
-    {
-        foreach (Transform t in allModleSpawn)
+        get { return currentRemove; }
+        set
         {
-            if (!t.gameObject.activeSelf || t == currentModleCall) continue;
+            removeTxt.text = "X" + value.ToString();
+            currentRemove = value;
 
-            t.GetComponentInChildren<Animator>().enabled = false;
         }
     }
-    #endregion
+    #endregion 
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -146,11 +143,6 @@ public class GameManager : SaiMonoBehaviour
 
         LevelSettings.HpPercentage -= OnUpdateCurrentHpPercentage;
 
-
-    }
-    protected override void Update()
-    {
-        base.Update();
 
     }
     protected override void Start()
@@ -175,13 +167,41 @@ public class GameManager : SaiMonoBehaviour
         // Xử lý tại đây khi game bị tắt
         HandleEscape();
     }
+    #region Castle Dead -- Display
+    //Castle Is Dead
+    [Space]
+    [Space]
+    [Header("Castle Dead Event")]
+    [SerializeField]
+    private bool isCastleDead = false;
+    public bool IsCastleDead { get { return isCastleDead; } set { isCastleDead = value; } }
+    [SerializeField] protected SpriteRenderer wallCity;
+    public void SetLayerWallCity()
+    {
+        this.wallCity.sortingLayerName = "fx"; //Repair
+    }
+    private List<Transform> allModleSpawn = new List<Transform>();
+    public List<Transform> AllModleSpawn { get { return allModleSpawn; } set { allModleSpawn = value; } }
+    private Transform currentModleCall;
+    public Transform CurrentModleCall { get { return currentModleCall; } set { currentModleCall = value; } }
+    public void SetAnimatorEnabled()
+    {
+        foreach (Transform t in allModleSpawn)
+        {
+            if (!t.gameObject.activeSelf || t == currentModleCall) continue;
+
+            t.GetComponentInChildren<Animator>().enabled = false;
+        }
+    }
+    #endregion
+
     #region Level Settings
     void OnSetLevelSettings(LevelSettings levelSettings)
     {
         currentLevelSettings = levelSettings;
 
         Debug.Log("Set 1 lan");
-    }    
+    }
     #endregion
 
     #region Guild Defaut and StarCondition HP
@@ -210,9 +230,9 @@ public class GameManager : SaiMonoBehaviour
         //StarCondition
         currentLevelSettings.CheckStarCondition();
 
-        UpdateCurrentHpUI(); 
+        UpdateCurrentHpUI();
     }
-    
+
     void OnUpdateCurrentHpPercentage()
     {
         if (FlagHPStar)
@@ -225,19 +245,19 @@ public class GameManager : SaiMonoBehaviour
 
         slider_star.value = hpPercentage;
 
-        if(!fxHolder.gameObject.activeSelf)
+        if (!fxHolder.gameObject.activeSelf)
         {
             fxHolder.gameObject.SetActive(true);
         }
         //FX Holder Slider
         fxHolder.localPosition = CalculateUIPosition(hpPercentage);
 
-        Debug.Log("OnUpdateCurrentHpPercentage: "+ slider_star.value);
+        Debug.Log("OnUpdateCurrentHpPercentage: " + slider_star.value);
 
         UpdateEmptyStarCondition(hpPercentage);
 
         //Effect Screen Damage
-        EffectsScreenManager.Instance.ScreenDamageEffect(hpPercentage/100f);
+        EffectsScreenManager.Instance.ScreenDamageEffect(hpPercentage / 100f);
         EffectsScreenManager.Instance.object_ShakeTransfrom.ShakeAndRecover();
 
     }
@@ -272,7 +292,7 @@ public class GameManager : SaiMonoBehaviour
         float minX = -385 / 2f;
         float maxX = 385 / 2f;
 
-        float positionXTarget = Mathf.Lerp(minX, maxX, percentage/100f);
+        float positionXTarget = Mathf.Lerp(minX, maxX, percentage / 100f);
 
         Debug.Log("Position FX: " + positionXTarget);
 
@@ -324,6 +344,7 @@ public class GameManager : SaiMonoBehaviour
             this.clickBtn = button as MachineBtn;
 
             Hover.Instance.Activate(button.Sprite);
+            isClickTile = true;
         }
         else if (button is CardButton && costManager.Currency >= button.Price)
         {
@@ -361,6 +382,7 @@ public class GameManager : SaiMonoBehaviour
     }
     public void HandleEscape()
     {
+        isClickTile = false;
         Hover.Instance.Deactivate();
         this.clickBtn = null;
         if (cardBtn != null)
@@ -373,6 +395,7 @@ public class GameManager : SaiMonoBehaviour
     {
         if (button is CardButton)
         {
+            isClickTile = true;
             Hover.Instance.Activate(button.Sprite);
 
             this.clickBtn = button as CardButton;

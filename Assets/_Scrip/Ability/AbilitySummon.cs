@@ -6,6 +6,8 @@ using UnityEngine;
 [System.Serializable]
 public class EnemyNameAndCount
 {
+    public TypeEnemy typeEnemy;
+    public Rarity rarityEnemy;
     public string name;
     public int max;
     public int spawnCount;
@@ -32,6 +34,10 @@ public abstract class AbilitySummon : ActiveAbility
     [Header("Ability Land")]
     [SerializeField] protected int landIndex;
     public int LandIndex { get { return landIndex; } set { landIndex = value; } }
+
+    //Coin // Type Enemy
+    protected Rarity rarityEnemy;
+    protected TypeEnemy typeEnemy;
     protected override void Start()
     {
         base.Start();
@@ -67,6 +73,9 @@ public abstract class AbilitySummon : ActiveAbility
 
         EnemyCtrl enemyCtrl = minion.GetComponent<EnemyCtrl>();
 
+        //Drop Coin
+        enemyCtrl.EnemyDropCoin.SetCoinRarity(rarityEnemy);
+        enemyCtrl.EnemyDropCoin.SetTypeEnemy(typeEnemy);
 
         enemyCtrl.ObjAppearBigger.CheckCallAppearing = true;
         enemyCtrl.ObjLand.SetLand(landIndex);
@@ -121,31 +130,15 @@ public abstract class AbilitySummon : ActiveAbility
         delay = Random.Range(randomEnemy.radomMin, randomEnemy.radomMax);
         randomEnemy.spawnCount++;
         namePrefab = randomEnemy.name;
+        //Rarirty Drop Coin
+        rarityEnemy = randomEnemy.rarityEnemy;
+        typeEnemy = randomEnemy.typeEnemy;
     }
 
 
     protected void AddSummon(Transform minion)
     {
         this.minions.Add(minion);
-    }
-
-    List<EnemyNameAndCount> ListNameAndCountEnemy(Portals portals)
-    {
-        List<EnemyNameAndCount> enemyNameAndCount = new List<EnemyNameAndCount>();
-
-        foreach (EnemyType enemyType in portals.enemyTypes)
-        {
-            EnemyNameAndCount enemy = new EnemyNameAndCount
-            {
-                name = enemyType.name,
-                max = enemyType.countEnemy,
-                radomMin = enemyType.timerMin,
-                radomMax = enemyType.timerMax
-            };
-            enemyNameAndCount.Add(enemy);
-        }
-
-        return enemyNameAndCount;
     }
     protected virtual void CheckMinions()
     {

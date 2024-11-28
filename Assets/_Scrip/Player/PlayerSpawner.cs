@@ -14,12 +14,26 @@ public class PlayerSpawner : Spawner
     }
     public override Transform Spawn(Transform prefab, Vector3 spawnPos, Quaternion rotation)
     {
-        Transform newEnemy = base.Spawn(prefab, spawnPos, rotation);
-        //this.AddHPObj(newEnemy);
+        Transform newPlayer = base.Spawn(prefab, spawnPos, rotation);
+        this.AddHPObj(newPlayer);
 
         //Add All Spawn Enemy
-        GameManager.Instance.AllModleSpawn.Add(newEnemy);
+        GameManager.Instance.AllModleSpawn.Add(newPlayer);
 
-        return newEnemy;
+        return newPlayer;
+    }
+    protected virtual void AddHPObj(Transform newEnemy)
+    {
+        PlayerCtrl newPlayerCtrl = newEnemy.GetComponent<PlayerCtrl>();
+        Transform newHPBar = BarSpawner.Instance.Spawn(BarSpawner.HPBar, newEnemy.position, Quaternion.identity);
+
+
+        CharacterBar hpBar = newHPBar.GetComponent<CharacterBar>();
+
+        hpBar.SetObjectCtrl(newPlayerCtrl);
+        hpBar.SetFollowTarget(newPlayerCtrl.TargetBar);
+
+        newHPBar.transform.gameObject.SetActive(true);
+
     }
 }

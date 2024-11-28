@@ -61,106 +61,111 @@ public class SelectManager : SaiMonoBehaviour
             }
         }
     }
-
-    private void TryInstantiateSkill()
+    protected void TryInstantiateSkill()
     {
         if (_item is SkillObject skillObject)
         {
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = 10f; // Adjust depth as needed
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            worldPosition.y = skillObject.positionSpawn;
-
-            GameObject VFX = Instantiate(skillObject.gameobjectVFX, worldPosition, Quaternion.identity);
-
-
-            if (VFX.TryGetComponent(out ParticleCtrl particleCtrl))
-            {
-                particleCtrl.particleDamesender.Damage = skillObject.damage;
-            }
-
-            if (VFX.GetComponentInChildren<ParticleSystem>() is ParticleSystem particleSystem)
-            {
-                var emission = particleSystem.emission;
-                emission.rateOverTime = 0;
-
-                StartCoroutine(EmitParticlesAndDestroy(particleSystem, skillObject.particleCount, skillObject.timeSpawn, VFX));
-            }
-            Debug.Log($"Spawn VFX Skill at Y = {worldPosition.y}");
-
-            if (settingsMenu.TryGetComponent(out TimeObject timeSkill))
-            {
-                timeSkill._Time = skillObject.coolDown;
-                timeSkill.ImageRefresh.cooldownDuration = skillObject.coolDown;
-                timeSkill.ImageRefresh.StartCooldown();
-            }
-
-            VFX.SetActive(true);
+            HandleSkillObject(skillObject);
         }
         else if (_item is MedicineObject medicineObject)
         {
-            Collider2D medicineCollider = _objMedicine.GetComponent<Collider2D>();
-
-            if (medicineCollider == null)
-            {
-                Debug.LogWarning("Collider2D không gắn trên _objMedicine.");             
-            }
-
-            // Tạo một mảng để lưu các collider bị va chạm
-            Collider2D[] colliders = new Collider2D[5]; // Có thể thay đổi kích thước tùy theo nhu cầu
-            ContactFilter2D contactFilter = new ContactFilter2D();
-            contactFilter.useTriggers = true; // Nếu bạn sử dụng các trigger colliders
-
-            // Kiểm tra va chạm
-            int hitCount = Physics2D.OverlapCollider(medicineCollider, contactFilter, colliders);
-
-            for (int i = 0; i < hitCount; i++)
-            {
-                Collider2D hitCollider = colliders[i];
-                TargetVFX targetScript = hitCollider.GetComponent<TargetVFX>();
-
-                if (targetScript != null)
-                {
-                    Debug.Log("Đã va chạm với đối tượng có script TargetVFX.");
-
-                    // Lấy vị trí của đối tượng mà _objMedicine va chạm
-                    Vector3 targetPosition = hitCollider.transform.parent.position;
-
-                    // Instantiate VFX tại vị trí của đối tượng mà _objMedicine va chạm
-                    GameObject VFX = Instantiate(medicineObject.gameobjectVFX, targetPosition, Quaternion.identity);
-
-
-                    if (VFX.GetComponent<ParticleSystem>() is ParticleSystem particleSystem)
-                    {
-                        var emission = particleSystem.emission;
-                        emission.rateOverTime = 0;
-
-                        StartCoroutine(DestroyAfterDelay(VFX, 1f));
-                    }
-
-                    VFX.SetActive(true);
-
-                    if (settingsMenu.TryGetComponent(out TimeObject timeSkill))
-                    {
-                        timeSkill._Time = medicineObject.coolDown;
-                        timeSkill.ImageRefresh.cooldownDuration = medicineObject.coolDown;
-                        timeSkill.ImageRefresh.StartCooldown();
-                    }
-
-                    targetScript.PlayerCtrl.ObjectDamageReceiver.AddPoint(medicineObject.addPoint, medicineObject.medicineType);
-                }
-            }
+            HandleMedicineObject(medicineObject);
         }
-
 
         settingsMenu?.ToggleSelect();
     }
-    private IEnumerator DestroyAfterDelay(GameObject VFX, float delay)
+    protected void HandleSkillObject(SkillObject skillObject)
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = 10f; // Adjust depth as needed
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        worldPosition.y = skillObject.positionSpawn;
+
+        Transform newSkill = SkillSpawner.Instance.Spawn(SkillSpawner.Instance.GetSkillType(skillObject.skillType), worldPosition, Quaternion.identity);
+
+        if (newSkill.gameObject.TryGetComponent(out ParticleCtrl particleCtrl))
+        {
+            particleCtrl.particleDamesender.Damage = skillObject.damage;
+        }
+
+        if (newSkill.gameObject.GetComponentInChildren<ParticleSystem>() is ParticleSystem particleSystem)
+        {
+            var emission = particleSystem.emission;
+            emission.rateOverTime = 0;
+
+            StartCoroutine(EmitParticlesAndDestroy(particleSystem, skillObject.particleCount, skillObject.timeSpawn, newSkill));
+        }
+        Debug.Log($"Spawn VFX Skill at Y = {worldPosition.y}");
+
+        if (settingsMenu.TryGetComponent(out TimeObject timeSkill))
+        {
+            timeSkill._Time = skillObject.coolDown;
+            timeSkill.ImageRefresh.cooldownDuration = skillObject.coolDown;
+            timeSkill.ImageRefresh.StartCooldown();
+        }
+
+        newSkill.gameObject.SetActive(true);
+    }
+    protected void HandleMedicineObject(MedicineObject medicineObject)
+    {
+        Collider2D medicineCollider = _objMedicine.GetComponent<Collider2D>();
+
+        if (medicineCollider == null)
+        {
+            Debug.LogWarning("Collider2D không gắn trên _objMedicine.");
+        }
+
+        // Tạo một mảng để lưu các collider bị va chạm
+        Collider2D[] colliders = new Collider2D[5]; // Có thể thay đổi kích thước tùy theo nhu cầu
+        ContactFilter2D contactFilter = new ContactFilter2D();
+        contactFilter.useTriggers = true; // Nếu bạn sử dụng các trigger colliders
+
+        // Kiểm tra va chạm
+        int hitCount = Physics2D.OverlapCollider(medicineCollider, contactFilter, colliders);
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            Collider2D hitCollider = colliders[i];
+            MedicineTarget targetScript = hitCollider.GetComponent<MedicineTarget>();
+
+            if (targetScript != null)
+            {
+                Debug.Log("Đã va chạm với đối tượng có script TargetVFX.");
+
+                // Lấy vị trí của đối tượng mà _objMedicine va chạm
+                Vector3 targetPosition = targetScript.transform.position;
+
+                Transform newSkill = SkillSpawner.Instance.Spawn(SkillSpawner.Instance.GetMedicineType(medicineObject.medicineType), targetPosition, Quaternion.identity);
+
+
+
+                if (newSkill.gameObject.GetComponent<ParticleSystem>() is ParticleSystem particleSystem)
+                {
+                    var emission = particleSystem.emission;
+                    emission.rateOverTime = 0;
+
+                    StartCoroutine(DestroyAfterDelay(newSkill, 1f));
+                }
+
+                newSkill.gameObject.SetActive(true);
+
+                if (settingsMenu.TryGetComponent(out TimeObject timeSkill))
+                {
+                    timeSkill._Time = medicineObject.coolDown;
+                    timeSkill.ImageRefresh.cooldownDuration = medicineObject.coolDown;
+                    timeSkill.ImageRefresh.StartCooldown();
+                }
+
+                targetScript.PlayerCtrl.ObjectDamageReceiver.AddPoint(medicineObject.addPoint, medicineObject.medicineType);
+            }
+        }
+    }
+    private IEnumerator DestroyAfterDelay(Transform VFX, float delay)
     {
         yield return new WaitForSeconds(delay + 1f); // Thêm 1 giây chờ
-        Destroy(VFX);
+        SkillSpawner.Instance.Despawn(VFX);
     }
-    private IEnumerator EmitParticlesAndDestroy(ParticleSystem particleSystem, int totalParticles, float duration, GameObject VFX)
+    private IEnumerator EmitParticlesAndDestroy(ParticleSystem particleSystem, int totalParticles, float duration, Transform VFX)
     {
         float particlesPerSecond = totalParticles / duration;
         float interval = 1f / particlesPerSecond;
@@ -175,7 +180,8 @@ public class SelectManager : SaiMonoBehaviour
         yield return new WaitForSeconds(Mathf.Max(0, duration - (totalParticles * interval)));
         yield return new WaitForSeconds(5f);
 
-        Destroy(VFX);
+
+        SkillSpawner.Instance.Despawn(VFX);
     }
     public void ActiveSkill()
     {

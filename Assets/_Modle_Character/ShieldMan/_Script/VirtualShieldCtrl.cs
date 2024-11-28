@@ -1,6 +1,5 @@
 ﻿using DG.Tweening; // Đảm bảo đã import DoTween
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class VirtualShieldCtrl : SkillCtrl, ITrapHpSkill
@@ -11,22 +10,27 @@ public class VirtualShieldCtrl : SkillCtrl, ITrapHpSkill
     public float moveRange = 0.2f; // Khoảng cách di chuyển
     public float moveSpeed = 1f;  // Tốc độ di chuyển
 
-    private Vector3 startPosition;
+    private Tween moveTween; // Biến lưu tween
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        startPosition = transform.position;
-        this.SkillAction();
-        //Event
+        SkillAction();
+        // Event
         this.fxDespawn.OnFXSkill += Trigger;
     }
+
     protected override void OnDisable()
     {
         base.OnDisable();
+
+        // Hủy event
         this.fxDespawn.OnFXSkill -= Trigger;
 
+        // Dừng hiệu ứng di chuyển
+        StopMoveUpDown();
     }
+
     public override void SkillAction()
     {
         // Logic cho skill
@@ -41,20 +45,30 @@ public class VirtualShieldCtrl : SkillCtrl, ITrapHpSkill
     private void MoveUpDown()
     {
         // Di chuyển lên và xuống nhẹ nhàng, tạo hiệu ứng mượt mà
-        transform.DOMoveY(startPosition.y + moveRange, moveSpeed)
+        moveTween = transform.DOMoveY(transform.position.y + moveRange, moveSpeed)
             .SetLoops(-1, LoopType.Yoyo) // Lặp lại vô hạn, kiểu Yoyo (di chuyển lên rồi xuống)
             .SetEase(Ease.InOutSine) // Dùng easing InOutSine cho chuyển động nhẹ nhàng
-            .OnKill(() => Debug.Log("Animation finished")); // Callback khi tween hoàn thành
-    } 
+            .OnKill(() => Debug.Log("Animation stopped")); // Callback khi tween bị kill
+    }
 
-    //Skill Virtual Shield
+    private void StopMoveUpDown()
+    {
+        // Dừng tween hiện tại nếu đang chạy
+        if (moveTween != null && moveTween.IsActive())
+        {
+            moveTween.Kill(); // Dừng tween
+            moveTween = null;
+        }
+    }
+
+    // Skill Virtual Shield
     [SerializeField] FragmentFadingArray fragmentFadingArray;
     public void Trigger()
     {
         fragmentFadingArray.TriggerFading();
-
-        this.OnSkillCompleteSkill();
+        OnSkillCompleteSkill();
     }
+
     protected void OnSkillCompleteSkill()
     {
         this.objectCtrl.AbstractModel.OnSkillEnabeleComplete();

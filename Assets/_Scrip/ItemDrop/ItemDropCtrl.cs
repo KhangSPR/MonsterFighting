@@ -14,7 +14,7 @@ public abstract class ItemDropCtrl : MonoBehaviour
         ItemDropAnimation();
         if (!hasBeenPickedUp) // Chỉ gọi Invoke nếu vật phẩm chưa được nhặt
         {
-            Invoke("ItemPickupAnimation", Random.Range(3, 6));
+            Invoke("ItemPickupAnimation", Random.Range(2f, 3f));
         }
     }
     private void OnDisable()
@@ -27,10 +27,10 @@ public abstract class ItemDropCtrl : MonoBehaviour
         transform.DOKill(); // Hủy tất cả Tween trên Transform này
     }
 
-    protected void OnMouseDown()
-    {
-        ItemPickupAnimation();
-    }
+    //protected void OnMouseDown()
+    //{
+    //    ItemPickupAnimation();
+    //}
 
     public void ItemDropAnimation()
     {
@@ -54,32 +54,11 @@ public abstract class ItemDropCtrl : MonoBehaviour
         float angle = Random.Range(-90f, 90f);
         Vector3 firstTarget = transform.position + new Vector3(Mathf.Sin(angle), Mathf.Cos(angle)) * scale;
 
-        if (Map_Ui_Manager.instance == null)
-        {
-            Debug.LogError("Map_Ui_Manager instance is null");
-            return;
-        }
-
-        if (Map_Ui_Manager.instance.UI_Top_left == null)
-        {
-            Debug.LogError("UI_Top_left is null");
-            return;
-        }
 
         UITopLeft uiTopLeft = Map_Ui_Manager.instance.UI_Top_left.GetComponent<UITopLeft>();
-        if (uiTopLeft == null)
-        {
-            Debug.LogError("UITopLeft component is null");
-            return;
-        }
 
-        if (uiTopLeft.TransformsResources == null || uiTopLeft.TransformsResources.Length <= 1)
-        {
-            Debug.LogError("TransformsResources is null hoặc không chứa đủ phần tử");
-            return;
-        }
 
-        Transform target = uiTopLeft.TransformsResources[1];
+        Transform target = uiTopLeft.TransformsResources[0];
         Debug.Log(target);
 
         isAnimationProcess = true;

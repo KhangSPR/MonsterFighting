@@ -57,6 +57,12 @@ public class PlayerModel : AbstractModel
         {
             currentState = State.Hit;
 
+            if(IsAnimationPlaying("Stun"))
+            {
+                isHit = false;
+                this.ActivateTrigger("Upper");
+            }
+
             Debug.Log("Log Hit");
         }
         bool shouldAttack = false;
@@ -88,6 +94,7 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Stun", false);
                 PlayAnimation("Hit", false);
 
+
                 ResetTrigger("Upper");
                 ResetTrigger("Lower");
 
@@ -96,6 +103,7 @@ public class PlayerModel : AbstractModel
                 if (this.effectCharacter.Vfx_Stun.activeSelf)
                     this.effectCharacter.Vfx_Stun.SetActive(false);
                 PlayAnimation("Hit", true);
+
                 ResetTrigger("Upper");
                 ResetTrigger("Lower");
 
@@ -163,7 +171,6 @@ public class PlayerModel : AbstractModel
                 ResetTrigger("Lower");
                 PlayAnimation("Hit", false);
 
-
                 isAttacking = false;
                 break;
 
@@ -210,7 +217,7 @@ public class PlayerModel : AbstractModel
         {
             currentState = State.MeleeWitch;
 
-            Debug.Log("Call Melee Attack");
+            //Debug.Log("Call Melee Attack");
         }
         else if (shouldAttack && attackTypeAnimation == AttackTypeAnimation.Deff)
         {
@@ -218,7 +225,7 @@ public class PlayerModel : AbstractModel
             isHit = false;
             this.ActivateTrigger("Upper");
 
-            Debug.Log("ActivateTrigger Upper");
+            //Debug.Log("ActivateTrigger Upper");
         }
         else if (shouldAttack && currentState != State.MeleeWitch)
         {
@@ -228,7 +235,7 @@ public class PlayerModel : AbstractModel
         {
             currentState = State.Idle;
 
-            Debug.Log("ActivateTrigger Lower");
+            //Debug.Log("ActivateTrigger Lower");
         }
 
         if (attackTypeAnimation == AttackTypeAnimation.Deff)
@@ -237,7 +244,7 @@ public class PlayerModel : AbstractModel
             {
                 this.ActivateTrigger("Lower");
 
-                Debug.Log("Trigger Active");
+                //Debug.Log("Trigger Active");
             }
         }
 

@@ -43,6 +43,7 @@ public class DisplayInventory : MonoBehaviour
     //    }
     //}
 
+
     [ContextMenu("CreateDisplay")]
     public void CreateDisplay()
     {
@@ -69,14 +70,43 @@ public class DisplayInventory : MonoBehaviour
 
             if (slot.ID >= 0)
             {
-                obj.GetComponent<ItemTooltip>().ItemObject = inventory.database.GetItem[slot.item.Id];
+                ItemObject itemObject = inventory.database.GetItem[slot.item.Id];
+
+                obj.GetComponent<ItemTooltip>().ItemObject = itemObject;
                 obj.transform.Find("Icon").GetComponent<Image>().sprite = inventory.database.GetItem[slot.item.Id].Sprite;
                 obj.transform.Find("Count").GetComponent<TMP_Text>().text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
+                //Craft, Medicine, Skill
+
+                if (itemObject is not ItemCraftObject)
+                {
+                    if(itemObject.IsUsed)
+                    {
+                        obj.transform.Find("Lable").GetComponent<Image>().color = new Color(1f, 1f, 1f, 225 / 255f); // RGBA (1, 1, 1, 1)
+                        obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().text = "CANCEL";
+                        obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().color = new Color(1f, 1f, 1f, 1f);
+                    }
+                    else
+                    {
+                        obj.transform.Find("Lable").GetComponent<Image>().color = Color.green;
+                        obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().text = "<color=white>USE</color> <color=green>" + InventoryManager.Instance.CurrentQuantityItem + "</color>" + "<color=white>/"+InventoryManager.Instance.LimitedQuantityItem+"</color>";
+                    }
+
+                }
+                else
+                {
+                    obj.transform.Find("Lable").GetComponent<Image>().color = new Color(178 / 255f, 112 / 255f, 0f, 225 / 255f);
+                    obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().text = "CRAFT";
+                    obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().color = new Color(1f, 165 / 255f, 0f, 1f);
+
+                }
             }
             else
             {
+                obj.GetComponent<Button>().enabled = false;
                 obj.transform.Find("Icon").GetComponent<Image>().color = new Color(1, 1, 1, 0);
                 obj.transform.Find("Count").GetComponent<TMP_Text>().text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
+
+                //Empty Item
             }
 
             itemDisplayed.Add(obj, slot);

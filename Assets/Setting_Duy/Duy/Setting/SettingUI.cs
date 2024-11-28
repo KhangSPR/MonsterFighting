@@ -11,9 +11,9 @@ public class SettingUI : MonoBehaviour
 
     [Header("Setting Element")]
     public Toggle MusicMuteToggle;
-    public Slider MusicVolumeSlider;
+    public UnityEngine.UI.Slider MusicVolumeSlider;
     public Toggle SFXMuteToggle;
-    public Slider SFXVolumeSlider;
+    public UnityEngine.UI.Slider SFXVolumeSlider;
     public TextMeshProUGUI GraphicText;
     public Button NextGraphic;
     public Button PreviousGraphic;

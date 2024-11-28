@@ -31,7 +31,7 @@ public class SettingsMenu : MonoBehaviour
     [Space]
     [Header("MainSelect")]
     [SerializeField] Button mainButton;
-    [SerializeField] Image mainIcon; 
+    [SerializeField] Image mainIcon;
     [SerializeField] Image mainIconDefault;
     [SerializeField] Image frameButton;
     public Image FrameButton { get { return frameButton; } set { frameButton = value; } }
@@ -50,13 +50,15 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] Vector2 mainButtonPosition;
     int itemsCount;
 
-    public InventoryType ItemType;
+    //public InventoryType ItemType;
 
     [SerializeField] TimeObject timeObject;
 
     void Start()
     {
-        InventoryManager.Instance.CreateDisplayPlayByType(ItemType, Holder, Prefab);
+        //InGame Inventory
+
+        InventoryManager.Instance.CreateDisplayPlayByType(Holder, Prefab);
 
         itemsCount = transform.childCount - 1;
         menuItems = new SettingsMenuItem[itemsCount];
@@ -86,15 +88,16 @@ public class SettingsMenu : MonoBehaviour
             Debug.Log("ActiveSelf True");
             mainIcon.sprite = mainIconDefault.sprite;
             mainButtonImage.DOColor(collapsedColor, 0f);
+            ItemObject itemObject = SelectManager.Instance.ItemObject;
+            if (itemObject != null)
+            {
+                Debug.Log("itemObject: " + itemObject.type);
+
+                HandleOnItemSelectDeActive(itemObject);
+
+            }
+
             SelectManager.Instance.ItemObject = null;
-            if (ItemType == InventoryType.Skill)
-            {
-                SelectManager.Instance.DeactivateSkill();
-            }
-            if (ItemType == InventoryType.Medicine)
-            {
-                SelectManager.Instance.DeactivateMedicine();
-            }
         }
         CollapseMenuItems();
         timeObject.ImageRefresh.StartCooldown();
@@ -109,10 +112,10 @@ public class SettingsMenu : MonoBehaviour
     }
     public void ToggleMenu()
     {
-        
+
         SelectManager.Instance.SettingsMenu = this;
 
-        if (timeObject.ImageRefresh.isCoolingDown) return; 
+        if (timeObject.ImageRefresh.isCoolingDown) return;
 
         isExpanded = !isExpanded;
 
@@ -121,15 +124,13 @@ public class SettingsMenu : MonoBehaviour
             Debug.Log("ActiveSelf True");
             mainIcon.sprite = mainIconDefault.sprite;
             mainButtonImage.DOColor(collapsedColor, 0f);
+            ItemObject itemObject = SelectManager.Instance.ItemObject;
+            if (itemObject != null)
+            {
+                HandleOnItemSelectDeActive(itemObject);
+            }
+
             SelectManager.Instance.ItemObject = null;
-            if (ItemType == InventoryType.Skill)
-            {
-                SelectManager.Instance.DeactivateSkill(); //
-            }
-            if (ItemType == InventoryType.Medicine)
-            {
-                SelectManager.Instance.DeactivateMedicine(); //
-            }
         }
 
         if (isExpanded)
@@ -175,24 +176,42 @@ public class SettingsMenu : MonoBehaviour
     {
         isExpanded = false;
 
-        Debug.Log("isExpanded: "+ isExpanded);
+        Debug.Log("isExpanded: " + isExpanded);
 
         mainIcon.sprite = selectedItem.icon.sprite;
 
         mainButtonImage.DOColor(expandedColor, colorChangeDuration);
-        if(ItemType == InventoryType.Skill)
-        {
-            SelectManager.Instance.ActiveSkill(); //
-        }
-        if(ItemType == InventoryType.Medicine)
-        {
-            SelectManager.Instance.ActiveMedicine(); //
 
-        }
-        SelectManager.Instance.ItemObject = selectedItem.SkillComponent.ItemObject;
+        ItemObject itemObject = selectedItem.SkillComponent.ItemObject;
+
+        HandleOnItemSelectActive(itemObject);
+
+        SelectManager.Instance.ItemObject = itemObject;
 
     }
-
+    //Handle Active Deactive Skill - Medicine
+    protected void HandleOnItemSelectActive(ItemObject itemObject)
+    {
+        if(itemObject.type == InventoryType.Skill)
+        {
+            SelectManager.Instance.ActiveSkill();
+        }
+        if(itemObject.type == InventoryType.Medicine)
+        {
+            SelectManager.Instance.ActiveMedicine();
+        }
+    }
+    protected void HandleOnItemSelectDeActive(ItemObject itemObject)
+    {
+        if (itemObject.type == InventoryType.Skill)
+        {
+            SelectManager.Instance.DeactivateSkill(); //
+        }
+        if (itemObject.type == InventoryType.Medicine)
+        {
+            SelectManager.Instance.DeactivateMedicine(); //
+        }
+    }
     void OnDestroy()
     {
         mainButton.onClick.RemoveListener(ToggleMenu);

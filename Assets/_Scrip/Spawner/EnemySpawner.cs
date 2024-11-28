@@ -25,10 +25,10 @@ public class EnemySpawner : Spawner
     protected virtual void AddHPObj(Transform newEnemy)
     {
         ObjectCtrl newObjectCtrl =  newEnemy.GetComponent<ObjectCtrl>();
-        Transform newHPBar = HPBarSpawner.Instance.Spawn(HPBarSpawner.HPBar, newEnemy.position, Quaternion.identity);
+        Transform newHPBar = BarSpawner.Instance.Spawn(BarSpawner.HPBar, newEnemy.position, Quaternion.identity);
 
 
-        HPBar hpBar = newHPBar.GetComponent<HPBar>();
+        CharacterBar hpBar = newHPBar.GetComponent<CharacterBar>();
 
         hpBar.SetObjectCtrl(newObjectCtrl);
         hpBar.SetFollowTarget(newEnemy);

@@ -302,8 +302,8 @@ public class WaveSpawnManager : SaiMonoBehaviour
         bool abilitySummonPortal = OnALLEnemysSpawnedPortal();
         bool abilitySummonEnemy = OnALLEnemysSpawned();
 
-        Debug.Log("Load abilitySummonPortal: " + abilitySummonPortal);
-        Debug.Log("Load abilitySummonEnemy: " + abilitySummonEnemy);
+        //Debug.Log("Load abilitySummonPortal: " + abilitySummonPortal);
+        //Debug.Log("Load abilitySummonEnemy: " + abilitySummonEnemy);
 
         if (abilitySummonPortal && abilitySummonEnemy)
         {
@@ -357,7 +357,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
 
             if (!ability.CheckAllEnemyDead)
             {
-                Debug.Log("An enemy is not dead, returning false.");
+                //Debug.Log("An enemy is not dead, returning false.");
                 return false;
             }
         }
@@ -366,7 +366,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
             return true;
         }
 
-        Debug.Log("All enemies are dead, returning true.");
+        //Debug.Log("All enemies are dead, returning true.");
         return true;
     }
 

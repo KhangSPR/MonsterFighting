@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CostManager : SaiMonoBehaviour
 {
-    const float k_LerpTime = 0.6f;
-    const float autoIncreaseDuration = 10f; // Thời gian tự động tăng vàng trong giây
+    const float k_LerpTime = 0.5f;
+    const float autoIncreaseDuration = 30f; // Thời gian tự động tăng vàng trong giây
 
     private static CostManager instance;
     public static CostManager Instance => instance;
@@ -33,7 +34,6 @@ public class CostManager : SaiMonoBehaviour
         get { return currency; }
         set
         {
-
             StartCoroutine(LerpRoutine(currencyTxt, (uint)currency, (uint)value, k_LerpTime));
             currencyTxt.text = value.ToString();
             currency = value;
@@ -75,7 +75,7 @@ public class CostManager : SaiMonoBehaviour
     protected override void Start()
     {
         base.Start();
-        StartAutoIncreaseCurrency();
+        //StartAutoIncreaseCurrency();
     }
 
     // Coroutine để tự động tăng vàng liên tục
@@ -114,6 +114,7 @@ public class CostManager : SaiMonoBehaviour
         }
         label.text = endValue.ToString();
     }
+    //Receiver Item
     public void ReceiverItemDisplay(ItemDropType itemDropType, int count)
     {
         switch (itemDropType)

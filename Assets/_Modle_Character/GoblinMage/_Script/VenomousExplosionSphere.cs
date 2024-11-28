@@ -7,7 +7,13 @@ public class VenomousExplosionSphere : ISkill
     {
         EnemyCtrl enemyCtrl = objectCtrl as EnemyCtrl;
 
-        Transform newFXSkill = FXSpawner.Instance.Spawn(FXSpawner.VenomousExplosionSphere, enemyCtrl.EnemyAttack.ListObjAttacks[0].position, UnityEngine.Quaternion.Euler(-90f, 0f, 0f));
+        Transform targetPosition = enemyCtrl.EnemyAttack.ListObjAttacks[0];
+
+        if (enemyCtrl.EnemyAttack.ListObjAttacks[0].name == "Castle")
+        {
+            targetPosition = enemyCtrl.EnemyAttack.ListObjAttacks[0].Find("TargetPosition");
+        }
+        Transform newFXSkill = FXSpawner.Instance.Spawn(FXSpawner.VenomousExplosionSphere, targetPosition.position, UnityEngine.Quaternion.Euler(-90f, 0f, 0f));
 
         VenomousExplosionSphereCtrl iskill = newFXSkill.GetComponent<VenomousExplosionSphereCtrl>();
 

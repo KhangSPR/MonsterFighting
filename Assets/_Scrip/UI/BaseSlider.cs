@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public abstract class BaseSlider : SaiMonoBehaviour
 {
     [Header("Base Slider")]
-    [SerializeField] protected Slider slider;
+    [SerializeField] protected UnityEngine.UI.Slider slider;
     protected override void Start()
     {
         base.Start();
@@ -22,7 +22,7 @@ public abstract class BaseSlider : SaiMonoBehaviour
     protected virtual void LoadSlider()
     {
         if (this.slider != null) return;
-        this.slider = GetComponent<Slider>();
+        this.slider = GetComponent<UnityEngine.UI.Slider>();
         Debug.LogWarning(transform.name + ": LoadSlider", gameObject);
     }
     protected virtual void AddOnClickEnvent()

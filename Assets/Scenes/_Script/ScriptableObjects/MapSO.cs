@@ -126,6 +126,7 @@ namespace UIGameDataMap
                 enemy.max = enemyType.countEnemy;
                 enemy.radomMin = enemyType.timerMin;
                 enemy.radomMax = enemyType.timerMax;
+                enemy.rarityEnemy = enemyType.rarity;
                 enemyNameAndCount.Add(enemy);
             }
 
@@ -159,6 +160,7 @@ namespace UIGameDataMap
                 enemy.max = enemyType.countEnemy;
                 enemy.radomMin = enemyType.timerMin;
                 enemy.radomMax = enemyType.timerMax;
+                enemy.rarityEnemy = enemyType.rarity;
                 enemyNameAndCount.Add(enemy);
             }
 
@@ -169,6 +171,7 @@ namespace UIGameDataMap
     public class EnemyType
     {
         public Rarity rarity;
+        public TypeEnemy typeEnemy;
         public string name;
         public int countEnemy;
 
@@ -185,7 +188,12 @@ namespace UIGameDataMap
         public int id;
         public string skill;
     }
+    public enum TypeEnemy
+    {
+        Default, //Enemy Default
+        Boss, //Enemy Boss
 
+    }
     public enum RarityPortal
     {
         Common,   // Phổ biến

@@ -92,6 +92,10 @@ public class EnemyModel : AbstractModel
                 //currentState = State.StunAxe;
 
                 //Debug.Log("Skill ! Enable Stun");
+                if(danceEnable)
+                {
+                    danceEnable = false;
+                }    
             }
             else
             {

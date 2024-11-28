@@ -10,12 +10,13 @@ public class PlayerCtrl : ObjectCtrl
     public PlayerAttack PlayerAttack => playerAttack;
     [SerializeField] protected PlayerShooter playerShooter;
     public PlayerShooter PlayerShooter => playerShooter;
-    [SerializeField] protected TargetVFX targetVFX;
-    public TargetVFX TargetVFX => targetVFX;
+    [SerializeField] protected MedicineTarget targetVFX;
+    public MedicineTarget TargetVFX => targetVFX;
     private Vector3Int cellPosition;
     StatsFake characterStatsFake;
     public StatsFake CharacterStatsFake => characterStatsFake;
-
+    [SerializeField] protected Transform targetBar;
+    public Transform TargetBar => targetBar;
 
     protected override void OnEnable()
     {
@@ -114,8 +115,14 @@ public class PlayerCtrl : ObjectCtrl
         LoadPlayerAttack();
         LoadPlayerShooter();
         loadTargetVFX();
+        this.LoadTargetBar();
     }
-
+    protected virtual void LoadTargetBar()
+    {
+        if (targetBar != null) return;
+        targetBar = transform.Find("Modle/TargetBar");
+        Debug.Log(gameObject.name + ": LoadTargetBar" + gameObject);
+    }
     protected virtual void LoadPlayerAttack()
     {
         if (playerAttack != null) return;
@@ -125,7 +132,7 @@ public class PlayerCtrl : ObjectCtrl
     protected virtual void loadTargetVFX()
     {
         if (targetVFX != null) return;
-        targetVFX = transform.GetComponentInChildren<TargetVFX>();
+        targetVFX = transform.GetComponentInChildren<MedicineTarget>();
         Debug.Log(gameObject.name + ": loadTargetVFX" + gameObject);
     }
 

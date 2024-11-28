@@ -17,6 +17,8 @@ public class EnemyCtrl : ObjectCtrl
     public EnemySO EnemySO => enemySO;
     [SerializeField] protected EnemyDropItem enemyDropItem;
     public EnemyDropItem EnemyDropItem => enemyDropItem;
+    [SerializeField] protected EnemyDropCoin enemyDropCoin;
+    public EnemyDropCoin EnemyDropCoin => enemyDropCoin;
     [SerializeField] protected ObjAppearBigger objAppearBigger;
     public ObjAppearBigger ObjAppearBigger => objAppearBigger;
     [SerializeField] protected TargetSkill targetSkillScript;
@@ -92,6 +94,13 @@ public class EnemyCtrl : ObjectCtrl
         this.loadTargetSkill();
         this.loadEnemySpawnCtrl();
         this.loadObjMoveIntheCity();
+        this.loadEnemyDropCoin();
+    }
+    protected virtual void loadEnemyDropCoin()
+    {
+        if (this.enemyDropCoin != null) return;
+        this.enemyDropCoin = transform.GetComponentInChildren<EnemyDropCoin>();
+        Debug.Log(gameObject.name + ": loadEnemyDropCoin" + gameObject);
     }
     protected virtual void loadObjMoveIntheCity()
     {

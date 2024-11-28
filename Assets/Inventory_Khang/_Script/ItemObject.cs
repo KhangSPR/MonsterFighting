@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum InventoryType
@@ -24,6 +22,7 @@ public enum ItemRarity
 }
 public abstract class ItemObject : ScriptableObject
 {
+    public bool IsUsed;
     public int Id;
     public Sprite Sprite;
     public InventoryType type;
@@ -31,7 +30,6 @@ public abstract class ItemObject : ScriptableObject
     [TextArea(15, 20)]
     public string description;
     public ItemRarity itemRarity;
-    //public ItemBuff[] buff;
     public Item CreateItem()
     {
         Item newItem = new Item(this);
@@ -44,23 +42,32 @@ public class Item
     public string Name;
     public int Id;
     public InventoryType type;
-    //public ItemBuff[] buffs;
+    public bool IsUsed;
+
     public Item(ItemObject item)
     {
         Name = item.name;
         Id = item.Id;
         type = item.type;
-        //buffs = new ItemBuff[item.buff.Length];
-        //for (int i = 0; i < buffs.Length; i++)
-        //{
-        //    buffs[i] = new ItemBuff(item.buff[i].min, item.buff[i].max)
-        //    {
-        //        attributes = item.buff[i].attributes
-        //    };
-        //}
+        IsUsed = item.IsUsed;
+
     }
 
 }
+
+#region Comment
+//public ItemBuff[] buff;
+
+//public ItemBuff[] buffs;
+
+//buffs = new ItemBuff[item.buff.Length];
+//for (int i = 0; i < buffs.Length; i++)
+//{
+//    buffs[i] = new ItemBuff(item.buff[i].min, item.buff[i].max)
+//    {
+//        attributes = item.buff[i].attributes
+//    };
+//}
 //[System.Serializable]
 //public class ItemBuff
 //{
@@ -78,3 +85,4 @@ public class Item
 //        value = UnityEngine.Random.Range(min, max);
 //    }
 //}
+#endregion

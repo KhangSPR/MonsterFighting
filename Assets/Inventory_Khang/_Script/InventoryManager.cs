@@ -11,6 +11,30 @@ public class InventoryManager : MonoBehaviour
     public InventoryObject inventory;
     public DisplayInventory displayInventory;
 
+    //Limited Quantity
+    private int limitedQuantityItem = 5;
+    public int LimitedQuantityItem => limitedQuantityItem;
+    private int currentQuantityItem = 0;
+    public int CurrentQuantityItem
+    {
+        get { return currentQuantityItem; }
+        set
+        {
+            if (value > limitedQuantityItem)
+            {
+                currentQuantityItem = limitedQuantityItem;
+            }
+            else if (value < 0)
+            {
+                currentQuantityItem = 0;
+            }
+            else
+            {
+                currentQuantityItem = value;
+            }
+        }
+    }
+
 
     private static InventoryManager instance;
     public static InventoryManager Instance => instance;
@@ -47,35 +71,39 @@ public class InventoryManager : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
+
         inventory.Save();
         inventory.Container.Items = new InventorySlot[40];
     }
-    public void CreateDisplayPlayByType(InventoryType type, Transform Holder, GameObject prefab)
+    //Create Item InGame
+    public void CreateDisplayPlayByType(Transform Holder, GameObject prefab)
     {
         // Xóa các đối tượng con cũ trong Holder
         foreach (Transform child in Holder)
         {
             Destroy(child.gameObject);
         }
+        var sortedItems = inventory.Container.Items;
 
-        // Lọc các mục có type đúng
-        List<InventorySlot> filteredSlots = inventory.Container.Items
-            .Where(slot => slot.item != null && slot.item.type == type)
-            .ToList();
-
-        // Hiển thị các mục đã lọc
-        foreach (var slot in filteredSlots)
+        foreach (var inventorySlot in sortedItems)
         {
-            if(slot.ID >= 0 )
-            {
-                var obj = Instantiate(prefab, Holder.position, Quaternion.identity, Holder);
-                obj.transform.GetComponent<SkillComponent>().ItemObject = inventory.database.GetItem[slot.item.Id];
-                obj.transform.Find("Icon").GetComponent<Image>().sprite = inventory.database.GetItem[slot.item.Id].Sprite;
-                obj.transform.Find("Count").GetComponent<TMP_Text>().text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
-            }
-        }
+            InventorySlot slot = inventorySlot;
 
-        // In ra số lượng các mục đã lọc
-        Debug.Log("CreateDisplayPlayByType: " + filteredSlots.Count);
+            // Hiển thị các mục đã lọc
+            foreach (var databaseItem in inventory.database.Items)
+            {
+                if(slot.ID >=0)
+                {
+                    if (databaseItem.IsUsed && databaseItem.Id == slot.item.Id)
+                    {
+                        var obj = Instantiate(prefab, Holder.position, Quaternion.identity, Holder);
+                        obj.transform.GetComponent<SkillComponent>().ItemObject = databaseItem;
+                        obj.transform.Find("Icon").GetComponent<Image>().sprite = databaseItem.Sprite;
+                        obj.transform.Find("Count").GetComponent<TMP_Text>().text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
+                    }
+                }
+            }
+
+        }
     }
 }
