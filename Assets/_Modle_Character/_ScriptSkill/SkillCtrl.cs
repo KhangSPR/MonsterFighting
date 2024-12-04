@@ -18,6 +18,15 @@ public abstract class SkillCtrl : SaiMonoBehaviour
     public FXDamageReceiver FXDamageReceiver => fxDamageReceiver;
     [SerializeField] protected FXImpact fXImpact;
     public FXImpact FXImpact => fXImpact;
+    protected override void Update()
+    {
+        base.Update();
+
+        if (objectCtrl?.gameObject.activeSelf == false)
+        {
+            PlayerSpawner.Instance.Despawn(objectCtrl.transform);
+        }
+    }
 
     protected override void LoadComponents()
     {

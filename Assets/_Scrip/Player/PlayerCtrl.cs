@@ -10,14 +10,13 @@ public class PlayerCtrl : ObjectCtrl
     public PlayerAttack PlayerAttack => playerAttack;
     [SerializeField] protected PlayerShooter playerShooter;
     public PlayerShooter PlayerShooter => playerShooter;
-    [SerializeField] protected MedicineTarget targetVFX;
-    public MedicineTarget TargetVFX => targetVFX;
     private Vector3Int cellPosition;
     StatsFake characterStatsFake;
     public StatsFake CharacterStatsFake => characterStatsFake;
     [SerializeField] protected Transform targetBar;
     public Transform TargetBar => targetBar;
-
+    [SerializeField] protected ObjTile objTile;
+    public ObjTile ObjTile => objTile;  
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -112,10 +111,16 @@ public class PlayerCtrl : ObjectCtrl
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        LoadPlayerAttack();
-        LoadPlayerShooter();
-        loadTargetVFX();
+        this.LoadPlayerAttack();
+        this.LoadPlayerShooter();
         this.LoadTargetBar();
+        this.LoadObjTile();
+    }
+    protected virtual void LoadObjTile()
+    {
+        if (objTile != null) return;
+        objTile = transform.GetComponentInChildren<ObjTile>();
+        Debug.Log(gameObject.name + ": LoadObjTile" + gameObject);
     }
     protected virtual void LoadTargetBar()
     {
@@ -129,13 +134,6 @@ public class PlayerCtrl : ObjectCtrl
         playerAttack = transform.GetComponentInChildren<PlayerAttack>();
         Debug.Log(gameObject.name + ": loadPlayerAttack" + gameObject);
     }
-    protected virtual void loadTargetVFX()
-    {
-        if (targetVFX != null) return;
-        targetVFX = transform.GetComponentInChildren<MedicineTarget>();
-        Debug.Log(gameObject.name + ": loadTargetVFX" + gameObject);
-    }
-
     protected virtual void LoadPlayerShooter()
     {
         if (playerShooter != null) return;

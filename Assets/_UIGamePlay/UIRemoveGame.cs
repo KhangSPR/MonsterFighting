@@ -16,16 +16,15 @@ public class UIRemoveGame : UIAbstractGame
         }
         transform.GetComponent<Button>().onClick.AddListener(OnClickUIRemove);
     }
-    protected override void HandleClickRemoveMove()
+    protected override void HandleClickUI()
     {
-        if (!GameManager.Instance.IsClickHover) return;
+        if (!GameManager.Instance.AreFlagsSet(GameStateFlags.ClickHoverRemove)) return;
+        if (GameManager.Instance.AreFlagsSet(GameStateFlags.ClickSetting)) return;
+
         if (ObjParabolicMovement.gameObject.activeSelf)
         {
-            GameManager.Instance.IsClickHover = false;
-            _ImgUIRemove.DOColor(collapsedColor, colorChangeDuration);
+            ToggleExitUI();
             Hover.Instance.Deactivate();
-            GameManager.Instance.IsClickTile = false;
-
         }
 
         if (Input.GetMouseButtonDown(0)) // Bắt đầu drag
@@ -42,37 +41,49 @@ public class UIRemoveGame : UIAbstractGame
 
             isDragging = false;
         }
-
-        if (isDragging)
+        if(isDragging)
         {
+            _IconUI.enabled = false;
+        }
+        else
+        {
+            _IconUI.enabled = true;
 
-            Debug.Log("DetectHover");
         }
         Hover.Instance.FollowMouse(isDragging);
     }
 
     protected override void HandleObjectCollider()
     {
-        Collider2D medicineCollider = Hover.Instance.GetComponent<Collider2D>();
-
-        if (medicineCollider == null)
+        // Lấy Collider của Hover
+        Collider2D hoverCollider = Hover.Instance.GetComponent<Collider2D>();
+        if (hoverCollider == null)
         {
-            Debug.LogWarning("Collider2D không gắn trên _objMedicine.");
+            Debug.LogWarning("Hover.Instance không có Collider2D!");
+            return;
         }
 
-        // Tạo một mảng để lưu các collider bị va chạm
-        Collider2D[] colliders = new Collider2D[5]; // Có thể thay đổi kích thước tùy theo nhu cầu
-        ContactFilter2D contactFilter = new ContactFilter2D();
-        contactFilter.useTriggers = true; // Nếu bạn sử dụng các trigger colliders
+        // Reset collider để bảo đảm trạng thái chính xác
+        hoverCollider.enabled = false;
+        hoverCollider.enabled = true;
 
-        // Kiểm tra va chạm
-        int hitCount = Physics2D.OverlapCollider(medicineCollider, contactFilter, colliders);
+        // Tạo mảng để lưu các collider bị va chạm
+        Collider2D[] colliders = new Collider2D[10];
+        ContactFilter2D contactFilter = new ContactFilter2D
+        {
+            useLayerMask = true,
+            useTriggers = true
+        };
+        contactFilter.SetLayerMask(LayerMask.GetMask("ObjUI"));
+
+        int hitCount = Physics2D.OverlapCollider(hoverCollider, contactFilter, colliders);
+
+        Debug.Log($"Đã phát hiện {hitCount} collider va chạm.");
 
         for (int i = 0; i < hitCount; i++)
         {
             Collider2D hitCollider = colliders[i];
-
-            if (hitCollider.transform.name == "ObjRemove")
+            if (hitCollider != null && hitCollider.name == "ObjUI")
             {
                 Transform hitColider = hitCollider.transform;
 
@@ -87,12 +98,12 @@ public class UIRemoveGame : UIAbstractGame
 
                 ObjParabolicMovement.gameObject.SetActive(true);
 
-                isExpanded = false;
             }
         }
     }
     public void OnClickUIRemove()
     {
+        if (GameManager.Instance.AreFlagsSet(GameStateFlags.ClickInventory | GameStateFlags.ClickTile | GameStateFlags.ClickHoverMove | GameStateFlags.StarCondition)) return;
         if (ObjParabolicMovement.gameObject.activeSelf) return;
         if (GameManager.Instance.CurrentRemove <= 0) return;
 
@@ -100,18 +111,31 @@ public class UIRemoveGame : UIAbstractGame
 
         if (isExpanded)
         {
-            GameManager.Instance.IsClickHover = true;
+            GameManager.Instance.SetFlag(GameStateFlags.ClickHoverRemove, true);
             _ImgUIRemove.DOColor(expandedColor, colorChangeDuration);
-            Hover.Instance.Activate(_spriteRemove);
+            Hover.Instance.Activate(_spriteUI);
+            Hover.Instance.transform.position = transform.position;
+
         }
         else
         {
-            GameManager.Instance.IsClickHover = false;
+            GameManager.Instance.SetFlag(GameStateFlags.ClickHoverRemove, false);
             _ImgUIRemove.DOColor(collapsedColor, colorChangeDuration);
             Hover.Instance.Deactivate();
+            _IconUI.enabled = true;
+
             //GameManager.Instance.IsClickTile = false;
         }
         Debug.Log("OnClick UI Remove: " + isExpanded);
+    }
+
+    public override void ToggleExitUI()
+    {
+
+        _ImgUIRemove.DOColor(collapsedColor, colorChangeDuration);
+        GameManager.Instance.SetFlag(GameStateFlags.ClickHoverRemove, false);
+        isExpanded = false;
+
     }
 }
 

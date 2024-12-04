@@ -59,4 +59,18 @@ public class ObjMoveInTheCity : AbstractCtrl
         GameManager.Instance.GameLoss();
 
     }
+    public void OnDeadBulletEnemy()
+    {
+        StartCoroutine(DelayedBulletEnemy());
+    }
+    private IEnumerator DelayedBulletEnemy()
+    {
+        // Đợi 3 giây trước khi gọi SetLayerWallCity
+        yield return new WaitForSeconds(2f);
+
+        //GameManager.Instance.CameraMoveLeft.isMoveLeft = true;
+
+        GameManager.Instance.GameLoss();
+
+    }
 }

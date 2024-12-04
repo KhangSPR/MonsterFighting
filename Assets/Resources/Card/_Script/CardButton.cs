@@ -38,6 +38,7 @@ public class CardButton : BaseBtn
 
     private void OnButtonClick()
     {
+        if (GameManager.Instance.AreFlagsSet(GameStateFlags.ClickInventory | GameStateFlags.ClickHoverRemove | GameStateFlags.ClickHoverMove | GameStateFlags.StarCondition)) return;
         if (cardRefresh.isCoolingDown) return;
 
         GameManager.Instance.PickButton(this, cardRefresh);

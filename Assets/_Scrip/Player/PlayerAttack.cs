@@ -7,8 +7,16 @@ public class PlayerAttack : ObjAttack
 
         if (other.transform.parent != null && other.transform.parent.tag == "Enemy")
         {
-            if (!other.transform.parent.GetComponent<ObjectCtrl>().ObjLand.CampareLand(objCtrl.ObjLand.LandIndex))
+            ObjectCtrl objectCtrl = other.transform.parent.GetComponent<ObjectCtrl>();
+
+
+            if (!objectCtrl.ObjLand.CampareLand(objCtrl.ObjLand.LandIndex))
                 return;
+
+            if (objectCtrl.ObjectDamageReceiver.IsDead)
+            {
+                return;
+            }
 
             checkCanAttack = true;
 

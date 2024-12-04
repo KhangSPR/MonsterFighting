@@ -32,6 +32,8 @@ public class Hover : SaiMonoBehaviour
             spriteRenderer.enabled = true;
 
         }
+
+        Debug.Log("FollowMouse " + active);
         if (spriteRenderer.enabled)
         {
             Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -45,7 +47,10 @@ public class Hover : SaiMonoBehaviour
         spriteRenderer.enabled = true;
 
     }
-
+    public void Hide()
+    {
+        spriteRenderer.enabled = !spriteRenderer.enabled;
+    }
     public void Deactivate()
     {
         spriteRenderer.sprite = null;  // Set sprite to null when deactivating

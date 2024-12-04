@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GridHoverEffect : MonoBehaviour
 {
@@ -20,12 +21,17 @@ public class GridHoverEffect : MonoBehaviour
 
     private SpriteRenderer[,] grid; // Lưu các ô trong ma trận
 
-
+    [SerializeField]
     private bool isDragging = false; // Trạng thái kéo chuột
+    [SerializeField]
     private int lastHoveredRow = -1; // Hàng cuối cùng được hover
+    [SerializeField]
     private int lastHoveredCol = -1; // Cột cuối cùng được hover
 
     [SerializeField] Transform ObjTilePrefab;
+
+
+    public static event Action UIMoveGame;
 
     void Start()
     {
@@ -37,7 +43,9 @@ public class GridHoverEffect : MonoBehaviour
     }
     void Update()
     {
-        if (!GameManager.Instance.IsClickTile) return;
+        if (!GameManager.Instance.AreFlagsSet(GameStateFlags.ClickTile)) return;
+        if (GameManager.Instance.AreFlagsSet(GameStateFlags.ClickSetting)) return;
+        CheckMouseOutsideTiles();
         // Kiểm tra trạng thái chuột kéo
         if (Input.GetMouseButtonDown(0)) // Bắt đầu drag
         {
@@ -48,13 +56,25 @@ public class GridHoverEffect : MonoBehaviour
         {
             if (isDragging && lastHoveredRow >= 0 && lastHoveredCol >= 0)
             {
+                GameObject droppedCell = grid[lastHoveredRow, lastHoveredCol].gameObject;
+
                 if (GameManager.Instance.ClickBtn != null && isHit)
                 {
-                    GameObject droppedCell = grid[lastHoveredRow, lastHoveredCol].gameObject;
-
                     droppedCell.GetComponent<TileTower>().IsActive();
 
+                    isHit = false;
+
                     Debug.Log("droppedCell");
+                }
+                else if(isHit && GameManager.Instance.AreFlagsSet(GameStateFlags.ClickHoverMove))
+                {
+                    droppedCell.GetComponent<TileTower>().IsSwap(GameManager.Instance.ObjSwapMove);
+
+                    Debug.Log("Swap: " + GameManager.Instance.ObjSwapMove);
+                    UIMoveGame?.Invoke();
+
+                    isHit = false;
+
                 }
             }
 
@@ -113,6 +133,44 @@ public class GridHoverEffect : MonoBehaviour
     }
     [SerializeField]
     bool isHit = false; // Cờ để kiểm tra nếu có va chạm hợp lệ
+    void CheckMouseOutsideTiles()
+    {
+        // Sử dụng raycast để kiểm tra va chạm với các tile
+        RaycastHit2D[] hits = Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+        // Kiểm tra nếu không có tile nào bị hit
+        bool isHoveringTile = false;
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            GameObject hoveredCell = hit.collider.gameObject;
+
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    if (grid[row, col].gameObject == hoveredCell)
+                    {
+                        isHoveringTile = true; // Xác nhận chuột đang hover trên tile
+                        break;
+                    }
+                }
+
+                if (isHoveringTile)
+                    break;
+            }
+
+            if (isHoveringTile)
+                break;
+        }
+
+        // Nếu chuột không trên tile, đặt isHit = false
+        if (!isHoveringTile)
+        {
+            isHit = false;
+            ResetGridColors(); // Reset lại màu grid nếu muốn
+        }
+    }
 
     // Phát hiện ô được hover khi drag
     void DetectHover()

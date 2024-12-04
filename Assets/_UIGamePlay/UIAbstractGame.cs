@@ -11,8 +11,9 @@ public abstract class UIAbstractGame : SaiMonoBehaviour
     [Header("Button Colors")]
     [SerializeField] protected Color expandedColor;
     [SerializeField] protected Color collapsedColor;
-    [SerializeField] protected Sprite _spriteRemove;
+    [SerializeField] protected Sprite _spriteUI;
     [SerializeField] protected Image _ImgUIRemove;
+    [SerializeField] protected Image _IconUI;
 
     [SerializeField]
     protected bool isDragging = false;
@@ -24,8 +25,10 @@ public abstract class UIAbstractGame : SaiMonoBehaviour
     {
         base.Update();
 
-        this.HandleClickRemoveMove();
+        this.HandleClickUI();
     }
-    protected abstract void HandleClickRemoveMove();
+    protected abstract void HandleClickUI();
     protected abstract void HandleObjectCollider();
+    public abstract void ToggleExitUI();
+
 }

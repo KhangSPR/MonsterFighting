@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEditor.Rendering;
 
 public class DisplayInventory : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class DisplayInventory : MonoBehaviour
     [Space]
     [SerializeField] Transform holderInventory;
     [SerializeField] GameObject prefabItem;
-
+    [SerializeField] List<ItemTooltip> itemTooltips = new List<ItemTooltip>();
     private void OnEnable()
     {
         CreateDisplay();
@@ -24,7 +25,10 @@ public class DisplayInventory : MonoBehaviour
     {
         //UpdateSlots();
     }
-
+    private void OnDisable()
+    {
+        this.itemTooltips.Clear();
+    }
     //public void UpdateSlots()
     //{
     //    foreach (KeyValuePair<GameObject, InventorySlot> _slot in itemDisplayed)
@@ -43,7 +47,23 @@ public class DisplayInventory : MonoBehaviour
     //    }
     //}
 
-
+    public void ResetDisplayItem()
+    {
+        foreach(var item in itemTooltips)
+        {
+            if (item.ItemObject.IsUsed)
+            {
+                item.LableItem.GetComponent<Image>().color = new Color(1f, 1f, 1f, 225 / 255f); // RGBA (1, 1, 1, 1)
+                item.LableItem.GetComponentInChildren<TMP_Text>().text = "CANCEL";
+                item.LableItem.GetComponentInChildren<TMP_Text>().color = new Color(1f, 1f, 1f, 1f);
+            }
+            else
+            {
+                item.LableItem.GetComponent<Image>().color = Color.green;
+                item.LableItem.GetComponentInChildren<TMP_Text>().text = "<color=white>USE</color> <color=green>" + InventoryManager.Instance.CurrentQuantityItem + "</color>" + "<color=white>/" + InventoryManager.Instance.LimitedQuantityItem + "</color>";
+            }
+        }
+    }
     [ContextMenu("CreateDisplay")]
     public void CreateDisplay()
     {
@@ -72,14 +92,20 @@ public class DisplayInventory : MonoBehaviour
             {
                 ItemObject itemObject = inventory.database.GetItem[slot.item.Id];
 
-                obj.GetComponent<ItemTooltip>().ItemObject = itemObject;
+                ItemTooltip itemTooltip = obj.GetComponent<ItemTooltip>();
+
+                itemTooltip.ItemObject = itemObject;
                 obj.transform.Find("Icon").GetComponent<Image>().sprite = inventory.database.GetItem[slot.item.Id].Sprite;
                 obj.transform.Find("Count").GetComponent<TMP_Text>().text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
                 //Craft, Medicine, Skill
 
                 if (itemObject is not ItemCraftObject)
                 {
-                    if(itemObject.IsUsed)
+                    //Add List Lable Item Tool Tip
+                    itemTooltip.DisplayInventory = this;
+                    this.itemTooltips.Add(itemTooltip);
+
+                    if (itemObject.IsUsed)
                     {
                         obj.transform.Find("Lable").GetComponent<Image>().color = new Color(1f, 1f, 1f, 225 / 255f); // RGBA (1, 1, 1, 1)
                         obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().text = "CANCEL";

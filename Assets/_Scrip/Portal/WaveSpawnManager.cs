@@ -119,6 +119,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
         // Initialize the first wave
         UpdateFirstWave();
 
+        
         InvokeRepeating(nameof(LoadWaveTypeCurrentNext), 2f, 1f);
 
 
@@ -299,6 +300,8 @@ public class WaveSpawnManager : SaiMonoBehaviour
 
     public void LoadWaveTypeCurrentNext()
     {
+        if (GameManager.Instance.IsDefeadted || GameManager.Instance.IsGameWin) return;
+
         bool abilitySummonPortal = OnALLEnemysSpawnedPortal();
         bool abilitySummonEnemy = OnALLEnemysSpawned();
 

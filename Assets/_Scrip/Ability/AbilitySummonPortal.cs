@@ -57,7 +57,7 @@ public class AbilitySummonPortal : AbilitySummon
     {
         if (minionCount >= minionLimit)
         {
-            Debug.Log("Return Sumoning");
+            //Debug.Log("Return Sumoning");
 
             return;
         }

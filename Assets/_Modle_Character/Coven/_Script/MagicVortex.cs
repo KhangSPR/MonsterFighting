@@ -33,8 +33,17 @@ public class MagicVortex : ISkill
 
             targetSkill.listSkillCtrl.Add(iskill);
 
-            if (targetSkill.listSkillCtrl.Count > 1)
-                targetSkill.StartCoroutine(WaitForSkillCompletion(targetSkill));
+            //int countTarget = 0;
+            //for (int j = 0; i < targetSkill.listSkillCtrl.Count; j++)
+            //{
+            //    if (targetSkill.listSkillCtrl[i] as MagicVortexCtrl)
+            //    {
+            //        countTarget += 1;
+            //    }
+            //}
+
+            //if (countTarget > 1)
+            //    targetSkill.StartCoroutine(WaitForSkillCompletion(targetSkill));
 
             if (iskill != null)
             {
@@ -48,12 +57,39 @@ public class MagicVortex : ISkill
 
     private IEnumerator WaitForSkillCompletion(TargetSkill targetSkill)
     {
-        MagicVortexCtrl firstSkillCtrl = targetSkill.listSkillCtrl[0] as MagicVortexCtrl;
+        if (targetSkill.listSkillCtrl == null || targetSkill.listSkillCtrl.Count == 0)
+        {
+            Debug.LogWarning("TargetSkill does not have any skills in listSkillCtrl.");
+            yield break; // Kết thúc coroutine nếu danh sách trống
+        }
+
+        MagicVortexCtrl firstSkillCtrl = null;
+        for (int i = 0; i< targetSkill.listSkillCtrl.Count; i++)
+        {
+            if (targetSkill.listSkillCtrl[i] as MagicVortexCtrl)
+            {
+                firstSkillCtrl = targetSkill.listSkillCtrl[i] as MagicVortexCtrl;
+
+                break;
+            }
+        }
+        if(firstSkillCtrl == null)
+        {
+            Debug.LogWarning("firstSkillCtrl is null.");
+            yield break;
+        }
 
         yield return new WaitUntil(() => firstSkillCtrl.IsSkillActionComplete);
 
-        firstSkillCtrl.FxDespawn.ResetCanDespawnFlag();
+        if (firstSkillCtrl.FxDespawn != null)
+        {
+            firstSkillCtrl.FxDespawn.ResetCanDespawnFlag();
+        }
+        else
+        {
+            Debug.LogWarning("FxDespawn is null in firstSkillCtrl.");
+        }
 
-        Debug.Log("WaitForSkillCompletion");
     }
+
 }

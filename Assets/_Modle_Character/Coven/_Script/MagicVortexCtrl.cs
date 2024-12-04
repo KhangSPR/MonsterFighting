@@ -18,11 +18,14 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
 
     protected override void Update()
     {
+        base.Update();
+
         if (targetBottom != null)
         {
             pos = targetBottom.position;
             transform.position = Vector3.MoveTowards(transform.position, pos, speedMove * Time.deltaTime);
         }
+        
     }
 
     protected override void OnDisable()
@@ -85,7 +88,17 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
 
         if (enemyCtrl != null && enemyCtrl.TargetSkillScript != null)
         {
-            enemyCtrl.TargetSkillScript.listSkillCtrl.RemoveAt(0);
+            //for (int i = 0; i < enemyCtrl.TargetSkillScript.listSkillCtrl.Count; i++)
+            //{
+            //    if (enemyCtrl.TargetSkillScript.listSkillCtrl[i] is MagicVortexCtrl magicVortexCtrl)
+            //    {
+            //        if(this == magicVortexCtrl)
+            //        {
+            //            enemyCtrl.TargetSkillScript.listSkillCtrl.RemoveAt(i);
+            //            return;
+            //        }
+            //    }
+            //}
 
             if (enemyCtrl.EnemyAttack.ListObjAttacks.Count <= 0 && enemyCtrl.TargetSkillScript.listSkillCtrl.Count <= 0)
                 enemyCtrl.EnemyAttack.CheckCanAttack = false;

@@ -28,7 +28,7 @@ public class BulletDespawn : DespawnByTime
         //{
         //    // BulletCtrl không phải là kiểu BulletExplodeCtrl (có thể là Regular)
         //    // Thực hiện các xử lý tương ứng ở đây
-         bulletCtrl.ObjectCtrl = null;
+        bulletCtrl.ObjectCtrl = null;
 
         this.ResetTimer();
 

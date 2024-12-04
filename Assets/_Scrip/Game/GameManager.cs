@@ -4,7 +4,17 @@ using TMPro;
 using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
-
+[Flags]
+public enum GameStateFlags
+{
+    None = 0,
+    ClickHoverMove = 1 << 0,
+    ClickHoverRemove = 1 << 1,
+    ClickTile = 1 << 2,
+    ClickInventory = 1 << 3,
+    StarCondition = 1 << 4,
+    ClickSetting = 1 << 5,
+}
 public class GameManager : SaiMonoBehaviour
 {
     private static GameManager instance;
@@ -43,11 +53,20 @@ public class GameManager : SaiMonoBehaviour
     {
         this.settingUI.OpenSettingUI();
         this.TogglePauseGame();
+
+
+        Hover.Instance.Hide();
+        SetFlag(GameStateFlags.ClickSetting, true);
+
     }
     public void CloseSetting()
     {
         this.settingUI.CloseSettingUI();
         this.TogglePauseGame();
+
+        Hover.Instance.Hide();
+        SetFlag(GameStateFlags.ClickSetting, false);
+
     }
     public void SaveSetting()
     {
@@ -67,9 +86,6 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Header("UI Play")]
     [SerializeField] public Map_Ui_Manager Map_UI_Manager;
-
-    //Envent
-    public bool OnFinish;
 
     [Space]
     [Space]
@@ -109,14 +125,41 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Space]
     [Header("Click Hover UI")]
-    [SerializeField]
-    private bool isClickHover = false;
-    public bool IsClickHover { get { return isClickHover; } set { isClickHover = value; } }
-    [SerializeField]
-    private bool isClickTile = false;
-    public bool IsClickTile { get { return isClickTile; } set { isClickTile = value; } }
+    private GameStateFlags gameStateFlags = GameStateFlags.None;
+
+    public bool AreFlagsSet(GameStateFlags flagsToCheck)
+    {
+        return (gameStateFlags & flagsToCheck) != 0;
+    }
+    private void ResetAllFlagsWithLogic()
+    {
+        foreach (GameStateFlags flag in Enum.GetValues(typeof(GameStateFlags)))
+        {
+            if (flag != GameStateFlags.None)
+            {
+                SetFlag(flag, false);
+            }
+        }
+    }
+
+    public void SetFlag(GameStateFlags flag, bool value)
+    {
+        if (value)
+        {
+            gameStateFlags |= flag;
+        }
+        else
+        {
+            gameStateFlags &= ~flag;
+        }
+    }
     [SerializeField] private TMP_Text removeTxt;
     int currentRemove = 2;
+
+    private GameObject objSwapMove;
+    public GameObject ObjSwapMove { get { return objSwapMove; } set { objSwapMove = value; } }
+
+
     public int CurrentRemove
     {
         get { return currentRemove; }
@@ -124,6 +167,19 @@ public class GameManager : SaiMonoBehaviour
         {
             removeTxt.text = "X" + value.ToString();
             currentRemove = value;
+
+        }
+    }
+    [SerializeField] private TMP_Text moveTxt;
+
+    int currentMove = 2;
+    public int CurrentMove
+    {
+        get { return currentMove; }
+        set
+        {
+            moveTxt.text = "X" + value.ToString();
+            currentMove = value;
 
         }
     }
@@ -344,7 +400,7 @@ public class GameManager : SaiMonoBehaviour
             this.clickBtn = button as MachineBtn;
 
             Hover.Instance.Activate(button.Sprite);
-            isClickTile = true;
+            SetFlag(GameStateFlags.ClickTile, true);
         }
         else if (button is CardButton && costManager.Currency >= button.Price)
         {
@@ -382,7 +438,7 @@ public class GameManager : SaiMonoBehaviour
     }
     public void HandleEscape()
     {
-        isClickTile = false;
+        SetFlag(GameStateFlags.ClickTile, false);
         Hover.Instance.Deactivate();
         this.clickBtn = null;
         if (cardBtn != null)
@@ -395,7 +451,7 @@ public class GameManager : SaiMonoBehaviour
     {
         if (button is CardButton)
         {
-            isClickTile = true;
+            SetFlag(GameStateFlags.ClickTile, true);
             Hover.Instance.Activate(button.Sprite);
 
             this.clickBtn = button as CardButton;
@@ -490,9 +546,16 @@ public class GameManager : SaiMonoBehaviour
 
     #region Game ReSult
     //Game Result--------------------------------------------------------------------------------
+    private bool isDefeadted = false;
+    public bool IsDefeadted => isDefeadted;
+    private bool isGameWin = false;
+    public bool IsGameWin => isGameWin;
+
     private void GameWin()
     {
         if (isGameSpeeded) Time.timeScale = 1;
+
+        isGameWin = true;
         //Set Star Type
         SetStarConditionTypeMap();
 
@@ -528,6 +591,10 @@ public class GameManager : SaiMonoBehaviour
     }
     public void GameLoss()
     {
+        if (isGameSpeeded) Time.timeScale = 1;
+
+        isDefeadted = true;
+
         Debug.Log("You Lose !!");
 
         var dropItemHolder = EnemyDropSpawner.Instance.holder;

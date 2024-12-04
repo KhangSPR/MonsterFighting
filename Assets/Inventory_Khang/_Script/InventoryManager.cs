@@ -14,6 +14,7 @@ public class InventoryManager : MonoBehaviour
     //Limited Quantity
     private int limitedQuantityItem = 5;
     public int LimitedQuantityItem => limitedQuantityItem;
+    [SerializeField]
     private int currentQuantityItem = 0;
     public int CurrentQuantityItem
     {
@@ -34,7 +35,27 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+    public void SetCurrentQuantityItem(InventoryObject inventoryObject)
+    {
+        if (inventoryObject == null) return;
 
+        var sortedItems = inventory.Container.Items;
+
+        for (int i = 0; i < sortedItems.Length; i++)
+        {
+            InventorySlot slot = sortedItems[i];
+
+
+            if (slot.ID >= 0)
+            {
+                if (slot.item.IsUsed)
+                {
+                    if (currentQuantityItem > 5) return;
+                    currentQuantityItem++;
+                }
+            }
+        }
+    }
 
     private static InventoryManager instance;
     public static InventoryManager Instance => instance;
@@ -51,6 +72,9 @@ public class InventoryManager : MonoBehaviour
     {
         inventory.Load();
         inventory.Load();
+
+        //Quantity Item
+        this.SetCurrentQuantityItem(inventory);
     }
     private void Update()
     {

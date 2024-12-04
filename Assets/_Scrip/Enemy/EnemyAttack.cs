@@ -8,7 +8,6 @@ public class EnemyAttack : ObjAttack
     {
         if (other.transform.parent == null) return; // Kiểm tra parent có tồn tại không
 
-
         if (other.transform.parent.tag == "Skill")
         {
             checkCanAttack = true;
@@ -27,8 +26,15 @@ public class EnemyAttack : ObjAttack
 
         if (other.transform.parent.tag == "Player")
         {
-            if (!other.transform.parent.GetComponent<ObjectCtrl>().ObjLand.CampareLand(objCtrl.ObjLand.LandIndex))
+            ObjectCtrl objectCtrl = other.transform.parent.GetComponent<ObjectCtrl>();
+
+            if (!objectCtrl.ObjLand.CampareLand(objCtrl.ObjLand.LandIndex))
                 return;
+
+            if (objectCtrl.ObjectDamageReceiver.IsDead)
+            {
+                return;
+            }
 
             checkCanAttack = true;
 
@@ -125,21 +131,14 @@ public class EnemyAttack : ObjAttack
             return targetTransfrom;
         return null;
     }
-    protected void CheckDeadCastle(CastleCtrl castleCtrl)
+    public void OnDeadCastle(bool isRange)
     {
-        if (castleCtrl.CastleDamageReceiver.IsDead)
-        {
-            //Obj Move In The City 
-            this.OnDeadCastle();
-        }
-    }
-    public void OnDeadCastle()
-    {
+
         //Obj Move In The City 
         this.enemyCtrl.ObjMovement.MoveSpeed = 0f;
         this.listObjAttacks.Clear();
         this.checkCanAttack = false;
-        this.enemyCtrl.ObjMoveIntheCity.IsMoveInTheCity = true;
+        this.enemyCtrl.ObjMoveIntheCity.IsMoveInTheCity = isRange;
 
         Debug.Log("OnDeadCastle");
     }

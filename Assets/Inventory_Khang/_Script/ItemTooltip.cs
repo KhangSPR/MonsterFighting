@@ -11,7 +11,10 @@ public class ItemTooltip : MonoBehaviour
     public ItemReward ItemReward { get { return itemReward; } set { itemReward = value; } }
 
     [SerializeField] GameObject _lableItem;
+    public GameObject LableItem => _lableItem;
     [SerializeField] Button _lableButton;
+    private DisplayInventory _displayInventory;
+    public DisplayInventory DisplayInventory { get { return _displayInventory; } set { _displayInventory = value; } }
     public void SetLableItem(bool active)
     {
         _lableItem.SetActive(active);
@@ -34,24 +37,33 @@ public class ItemTooltip : MonoBehaviour
     protected void HandlerOnPointerClickItem()
     {
         Debug.Log("Button clicked!");
+        
 
         if (itemObject is not ItemCraftObject)
         {
             if (itemObject.IsUsed)
             {
+                InventoryManager.Instance.CurrentQuantityItem -= 1;
+
                 _lableItem.transform.GetComponent<Image>().color = Color.green;
                 _lableItem.transform.Find("Text").GetComponent<TMP_Text>().text = "<color=white>USE</color> <color=green>" + InventoryManager.Instance.CurrentQuantityItem + "</color>" + "<color=white>/" + InventoryManager.Instance.LimitedQuantityItem + "</color>";
                 itemObject.IsUsed  = !itemObject.IsUsed;
 
+                _displayInventory.ResetDisplayItem();
                 Debug.Log("Swap1 ");
             }
             else
             {
+                if (InventoryManager.Instance.CurrentQuantityItem >= 5) return;
+
+                InventoryManager.Instance.CurrentQuantityItem += 1;
+
                 itemObject.IsUsed = !itemObject.IsUsed;
                 _lableItem.transform.GetComponent<Image>().color = new Color(1f, 1f, 1f, 225 / 255f); // RGBA (1, 1, 1, 1)
                 _lableItem.transform.Find("Text").GetComponent<TMP_Text>().text = "CANCEL";
                 _lableItem.transform.Find("Text").GetComponent<TMP_Text>().color = new Color(1f, 1f, 1f, 1f);
-                InventoryManager.Instance.CurrentQuantityItem -= 1;
+
+                _displayInventory.ResetDisplayItem();
 
                 Debug.Log("Swap2");
 

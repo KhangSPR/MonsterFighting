@@ -21,7 +21,7 @@ public class SettingsMenuItem : MonoBehaviour
         img = GetComponent<Image>();
         rectTrans = GetComponent<RectTransform>();
 
-        settingsMenu = rectTrans.parent.GetComponent<SettingsMenu>();
+        settingsMenu = rectTrans.parent.parent.GetComponent<SettingsMenu>();
 
         //add click listener
         button = GetComponent<Button>();

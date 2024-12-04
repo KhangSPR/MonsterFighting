@@ -39,19 +39,19 @@ public class DamageSender : AbstractCtrl
         {
             if(damageReceiver.IsDead && !GameManager.Instance.IsCastleDead)
             {
-                if(this is BulletDameSender dameSender)
+                if (this is BulletDameSender bullet)
                 {
-                    EnemyCtrl enemyCtrl = (EnemyCtrl)dameSender.bulletCtrl.ObjectCtrl;
 
-                    if (enemyCtrl != null)
-                    {
-                        enemyCtrl.EnemyAttack.OnDeadCastle();
-                    }
+
+                    EnemyCtrl enemyCtrl = (EnemyCtrl)bullet.bulletCtrl.ObjectCtrl;
+
+                    enemyCtrl.ObjMoveIntheCity.OnDeadBulletEnemy();
+
+                    enemyCtrl.EnemyAttack.OnDeadCastle(false);
                 }
-
-                if(this.enemyCtrl!= null)
+                if (this.enemyCtrl!= null)
                 {
-                    this.enemyCtrl.EnemyAttack.OnDeadCastle();
+                    this.enemyCtrl.EnemyAttack.OnDeadCastle(true);
                 }
 
                 Debug.Log("Enemy Attack: " + transform.parent.name);
