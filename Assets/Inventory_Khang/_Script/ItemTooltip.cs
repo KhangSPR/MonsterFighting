@@ -71,6 +71,9 @@ public class ItemTooltip : MonoBehaviour
         }
         else
         {
+            _displayInventory.OnButtonClick();
+
+
             Debug.Log("Button clicked ItemCraftObject!");
         }
     }

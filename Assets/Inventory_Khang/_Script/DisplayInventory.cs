@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEditor.Rendering;
+using DG.Tweening;
 
 public class DisplayInventory : MonoBehaviour
 {
@@ -49,7 +50,7 @@ public class DisplayInventory : MonoBehaviour
 
     public void ResetDisplayItem()
     {
-        foreach(var item in itemTooltips)
+        foreach (var item in itemTooltips)
         {
             if (item.ItemObject.IsUsed)
             {
@@ -98,11 +99,11 @@ public class DisplayInventory : MonoBehaviour
                 obj.transform.Find("Icon").GetComponent<Image>().sprite = inventory.database.GetItem[slot.item.Id].Sprite;
                 obj.transform.Find("Count").GetComponent<TMP_Text>().text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
                 //Craft, Medicine, Skill
+                itemTooltip.DisplayInventory = this;
 
                 if (itemObject is not ItemCraftObject)
                 {
                     //Add List Lable Item Tool Tip
-                    itemTooltip.DisplayInventory = this;
                     this.itemTooltips.Add(itemTooltip);
 
                     if (itemObject.IsUsed)
@@ -114,7 +115,7 @@ public class DisplayInventory : MonoBehaviour
                     else
                     {
                         obj.transform.Find("Lable").GetComponent<Image>().color = Color.green;
-                        obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().text = "<color=white>USE</color> <color=green>" + InventoryManager.Instance.CurrentQuantityItem + "</color>" + "<color=white>/"+InventoryManager.Instance.LimitedQuantityItem+"</color>";
+                        obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().text = "<color=white>USE</color> <color=green>" + InventoryManager.Instance.CurrentQuantityItem + "</color>" + "<color=white>/" + InventoryManager.Instance.LimitedQuantityItem + "</color>";
                     }
 
                 }
@@ -208,4 +209,38 @@ public class DisplayInventory : MonoBehaviour
                 return InventoryType.Skill;
         }
     }
+    #region MoveOnButtonClick Craft
+    [Space]
+    [Space]
+    [Header("Move On Click Craft")]
+    public RectTransform transform1; // Đối tượng đầu tiên
+    public RectTransform transform2; // Đối tượng thứ hai
+    public CanvasGroup canvas1;
+
+
+    public float duration = 0.4f;    // Thời gian di chuyển
+
+    public void OnButtonClick()
+    {
+        // Di chuyển transform1 từ vị trí hiện tại tới -300 từ phải qua trái
+        transform1.DOAnchorPosX(-300, duration).SetEase(Ease.InOutQuad);
+
+        transform2.gameObject.SetActive(true);
+
+        // Di chuyển transform2 từ vị trí hiện tại tới 500 từ trái qua phải
+        transform2.DOAnchorPosX(500, duration).SetEase(Ease.InOutQuad);
+
+        canvas1.DOFade(1, 0.5f).SetEase(Ease.InOutQuad);
+
+    }
+    public void OnClickComPact()
+    {
+        transform2.DOAnchorPosX(0, duration)
+            .SetEase(Ease.InOutQuad);
+
+        transform1.DOAnchorPosX(0, duration).SetEase(Ease.InOutQuad);
+
+        canvas1.DOFade(0, 0.5f).OnComplete(() => canvas1.gameObject.SetActive(false));
+    }
+    #endregion
 }
