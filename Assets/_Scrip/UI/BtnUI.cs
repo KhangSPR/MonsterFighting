@@ -12,7 +12,7 @@ public class BtnUI : SaiMonoBehaviour
 
     [SerializeField] Transform[] transfromCurrent;
     [SerializeField] Transform[] transfromGoto;
-
+    [SerializeField] Animator animator;
     // biến chứa hàm được truyền vào ở đây
     public void OnClickButton()
     {
@@ -58,4 +58,12 @@ public class BtnUI : SaiMonoBehaviour
             if (panelGoto != null) rect.gameObject.SetActive(true);
         }
     }
+    public void PlayAnimationByName(string nameAnimation)
+    {
+        if (animator == null) return;
+
+        // Đặt animation về trạng thái ban đầu trước khi phát lại
+        animator.Play(nameAnimation, -1, 0f);
+    }
+
 }

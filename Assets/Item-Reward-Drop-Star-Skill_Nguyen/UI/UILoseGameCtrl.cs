@@ -53,7 +53,7 @@ public class UILoseGameCtrl : MonoBehaviour
             .WaitForCompletion();
 
         // Thực hiện di chuyển sau khi thu nhỏ xong
-        yield return headSkull.DOMove(headSkull.transform.position + headSkull.up * 2.3f, 0.3f)
+        yield return headSkull.DOMove(headSkull.transform.position + headSkull.up * 2.7f, 0.3f)
             .SetEase(Ease.Linear)
             .SetDelay(0.2f)
             .WaitForCompletion();

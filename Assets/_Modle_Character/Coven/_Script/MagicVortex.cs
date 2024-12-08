@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MagicVortex : ISkill
@@ -31,19 +33,15 @@ public class MagicVortex : ISkill
             MagicVortexCtrl iskill = newFXSkill.GetComponent<MagicVortexCtrl>();
             TargetSkill targetSkill = objEnemy.GetComponentInChildren<TargetSkill>();
 
-            targetSkill.listSkillCtrl.Add(iskill);
+            if (targetSkill.listSkillCtrl.Any(skill => skill is MagicVortexCtrl))
+            {
+                CancelExistingMagicVortex(targetSkill.listSkillCtrl);
+            }
+            else
+            {
+                targetSkill.listSkillCtrl.Add(iskill);
+            }
 
-            //int countTarget = 0;
-            //for (int j = 0; i < targetSkill.listSkillCtrl.Count; j++)
-            //{
-            //    if (targetSkill.listSkillCtrl[i] as MagicVortexCtrl)
-            //    {
-            //        countTarget += 1;
-            //    }
-            //}
-
-            //if (countTarget > 1)
-            //    targetSkill.StartCoroutine(WaitForSkillCompletion(targetSkill));
 
             if (iskill != null)
             {
@@ -54,42 +52,18 @@ public class MagicVortex : ISkill
             }
         }
     }
-
-    private IEnumerator WaitForSkillCompletion(TargetSkill targetSkill)
+    public void CancelExistingMagicVortex(List<SkillCtrl> listSkillCtrl)
     {
-        if (targetSkill.listSkillCtrl == null || targetSkill.listSkillCtrl.Count == 0)
+        // Lặp qua danh sách để tìm và xóa tất cả các instance của MagicVortexCtrl
+        for (int i = listSkillCtrl.Count - 1; i >= 0; i--) // Duyệt ngược để tránh lỗi khi xóa phần tử
         {
-            Debug.LogWarning("TargetSkill does not have any skills in listSkillCtrl.");
-            yield break; // Kết thúc coroutine nếu danh sách trống
-        }
-
-        MagicVortexCtrl firstSkillCtrl = null;
-        for (int i = 0; i< targetSkill.listSkillCtrl.Count; i++)
-        {
-            if (targetSkill.listSkillCtrl[i] as MagicVortexCtrl)
+            if (listSkillCtrl[i] is MagicVortexCtrl)
             {
-                firstSkillCtrl = targetSkill.listSkillCtrl[i] as MagicVortexCtrl;
-
-                break;
+                listSkillCtrl.RemoveAt(i); // Xóa phần tử nếu là MagicVortexCtrl
+                //listSkillCtrl[i].gameObject.SetActive(false);
             }
         }
-        if(firstSkillCtrl == null)
-        {
-            Debug.LogWarning("firstSkillCtrl is null.");
-            yield break;
-        }
-
-        yield return new WaitUntil(() => firstSkillCtrl.IsSkillActionComplete);
-
-        if (firstSkillCtrl.FxDespawn != null)
-        {
-            firstSkillCtrl.FxDespawn.ResetCanDespawnFlag();
-        }
-        else
-        {
-            Debug.LogWarning("FxDespawn is null in firstSkillCtrl.");
-        }
-
     }
+
 
 }

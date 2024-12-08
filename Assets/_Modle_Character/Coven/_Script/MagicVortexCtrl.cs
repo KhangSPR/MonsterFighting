@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
@@ -88,20 +89,24 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
 
         if (enemyCtrl != null && enemyCtrl.TargetSkillScript != null)
         {
-            //for (int i = 0; i < enemyCtrl.TargetSkillScript.listSkillCtrl.Count; i++)
-            //{
-            //    if (enemyCtrl.TargetSkillScript.listSkillCtrl[i] is MagicVortexCtrl magicVortexCtrl)
-            //    {
-            //        if(this == magicVortexCtrl)
-            //        {
-            //            enemyCtrl.TargetSkillScript.listSkillCtrl.RemoveAt(i);
-            //            return;
-            //        }
-            //    }
-            //}
+            RemoveMagicVortexCtrl(enemyCtrl.TargetSkillScript.listSkillCtrl);
+
 
             if (enemyCtrl.EnemyAttack.ListObjAttacks.Count <= 0 && enemyCtrl.TargetSkillScript.listSkillCtrl.Count <= 0)
                 enemyCtrl.EnemyAttack.CheckCanAttack = false;
         }
     }
+    public void RemoveMagicVortexCtrl(List<SkillCtrl> listSkillCtrl)
+    {
+        // Duyệt qua danh sách để tìm instance của MagicVortexCtrl
+        for (int i = 0; i < listSkillCtrl.Count; i++)
+        {
+            if (listSkillCtrl[i] is MagicVortexCtrl magicVortexCtrl && this == magicVortexCtrl)
+            {
+                listSkillCtrl.RemoveAt(i); // Xóa phần tử tại vị trí tìm được
+                return; // Thoát khỏi hàm sau khi xóa
+            }
+        }
+    }
+
 }

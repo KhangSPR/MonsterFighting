@@ -84,17 +84,17 @@ public class UIWinGameCtrl : MonoBehaviour
         Shield.gameObject.SetActive(true);
         Sword1.gameObject.SetActive(true);
 
-        yield return Sword1.DOMove(Sword1.transform.position - Sword1.up * 10.5f, 0.3f).SetEase(Ease.Linear).WaitForCompletion();
+        yield return Sword1.DOMove(Sword1.transform.position - Sword1.up * 11.5f, 0.3f).SetEase(Ease.Linear).WaitForCompletion();
 
         _object_Shake._Shake(true);
-        yield return Sword1.DOMove(Sword1.transform.position + Sword1.up * 2f, 0.15f).SetEase(Ease.Linear).WaitForCompletion();
+        yield return Sword1.DOMove(Sword1.transform.position + Sword1.up * 1.6f, 0.16f).SetEase(Ease.Linear).WaitForCompletion();
 
         _object_Shake._Shake(false);
         Sword2.gameObject.SetActive(true);
-        yield return Sword2.DOMove(Sword2.transform.position - Sword2.up * 10.5f, 0.3f).SetEase(Ease.Linear).WaitForCompletion();
+        yield return Sword2.DOMove(Sword2.transform.position - Sword2.up * 11.5f, 0.3f).SetEase(Ease.Linear).WaitForCompletion();
 
         _object_Shake._Shake(true);
-        yield return Sword2.DOMove(Sword2.transform.position + Sword2.up * 2f, 0.15f).SetEase(Ease.Linear).WaitForCompletion();
+        yield return Sword2.DOMove(Sword2.transform.position + Sword2.up * 1.6f, 0.16f).SetEase(Ease.Linear).WaitForCompletion();
 
         _object_Shake._Shake(false);
         foreach (Transform vfxWing in _VFXWing)
