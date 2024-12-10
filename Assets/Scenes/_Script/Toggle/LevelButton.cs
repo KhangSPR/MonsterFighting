@@ -136,6 +136,7 @@ namespace UIGameDataMap
 
             Debug.Log("Click");
 
+            MapManager.Instance.SetCurrentMapSO(mapDataSO);
 
             // Add ObjectAttack to the ObjectAttackManager
             if (ObjectAttack != null)

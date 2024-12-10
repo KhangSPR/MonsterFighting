@@ -26,43 +26,58 @@ MonoBehaviour:
         enemyRanDoms:
         - TimeFirstSpawn: 1
           EnemyType:
-          - rarity: 1
-            typeEnemy: 0
-            name: Goblin Venomorb
+          - enemyTypeSO: {fileID: 11400000, guid: d91c1754633e5064f94734ae237557b8, type: 2}
             countEnemy: 1
             timerMin: 2
             timerMax: 4
-            skillType: []
-            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
-        Portals: []
+          - enemyTypeSO: {fileID: 11400000, guid: 137c601c0a916c141bb3bd2de309c970, type: 2}
+            countEnemy: 1
+            timerMin: 2
+            timerMax: 4
+        Portals:
+        - rarityPortal: 0
+          countPortal: 2
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          - 4
+          hasBoss: 0
+          enemyTypes:
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 4
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 4
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Grassland Slime
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
             countEnemy: 1
             timerMin: 2
             timerMax: 3
-            skillType: []
-            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
         Portals:
         - rarityPortal: 1
           countPortal: 1
           DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
           - 2
-          hasBoss: 0
+          hasBoss: 1
           enemyTypes:
-          - rarity: 0
-            typeEnemy: 1
-            name: Goblin Boss
+          - enemyTypeSO: {fileID: 11400000, guid: 48772571bc560154f9d8054c4a43d66c, type: 2}
             countEnemy: 1
             timerMin: 13
             timerMax: 20
-            skillType: []
-            Sprite: {fileID: 21300000, guid: 40da7eed4070c0c4194d6c7f2bd5a9f0, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 5
@@ -74,16 +89,10 @@ MonoBehaviour:
         enemyRanDoms:
         - TimeFirstSpawn: 4
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Grassland Rabbit
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
             countEnemy: 2
             timerMin: 1
             timerMax: 2
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -92,72 +101,42 @@ MonoBehaviour:
           - 8
           hasBoss: 0
           enemyTypes:
-          - rarity: 0
-            typeEnemy: 0
-            name: Grassland Wolf
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
             countEnemy: 3
             timerMin: 2
             timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Venomorb
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
             countEnemy: 2
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         Portals: []
     - waveRandom:
         enemyRanDoms:
         - TimeFirstSpawn: 4
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Grassland Slime
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
             countEnemy: 3
             timerMin: 1
             timerMax: 2
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         Portals: []
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Grassland Bat
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
             countEnemy: 2
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         - TimeFirstSpawn: 1
           EnemyType:
-          - rarity: 1
-            typeEnemy: 0
-            name: Grassland Pig
+          - enemyTypeSO: {fileID: 11400000, guid: 137c601c0a916c141bb3bd2de309c970, type: 2}
             countEnemy: 1
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -166,16 +145,10 @@ MonoBehaviour:
           - 2
           hasBoss: 0
           enemyTypes:
-          - rarity: 1
-            typeEnemy: 0
-            name: Goblin Boss
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
             countEnemy: 1
             timerMin: 5
             timerMax: 7
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 10
@@ -187,16 +160,10 @@ MonoBehaviour:
         enemyRanDoms:
         - TimeFirstSpawn: 4
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
             countEnemy: 4
             timerMin: 1
             timerMax: 2
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 2
@@ -206,42 +173,24 @@ MonoBehaviour:
           - 12
           hasBoss: 0
           enemyTypes:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
             countEnemy: 3
             timerMin: 2
             timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
             countEnemy: 2
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         - TimeFirstSpawn: 1
           EnemyType:
-          - rarity: 1
-            typeEnemy: 0
-            name: Skeleton Magic
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
             countEnemy: 1
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -250,32 +199,20 @@ MonoBehaviour:
           - 2
           hasBoss: 0
           enemyTypes:
-          - rarity: 1
-            typeEnemy: 0
-            name: Skeleton Magic
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
             countEnemy: 1
             timerMin: 5
             timerMax: 7
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     - waveRandom:
         enemyRanDoms:
         - TimeFirstSpawn: 4
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
             countEnemy: 4
             timerMin: 1
             timerMax: 2
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         Portals:
-        - rarityPortal: 0
+        - rarityPortal: 2
           countPortal: 2
           DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
@@ -283,76 +220,46 @@ MonoBehaviour:
           - 12
           hasBoss: 0
           enemyTypes:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
             countEnemy: 3
             timerMin: 2
             timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
             countEnemy: 2
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         - TimeFirstSpawn: 1
           EnemyType:
-          - rarity: 1
-            typeEnemy: 0
-            name: Skeleton Magic
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
             countEnemy: 1
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
-        - rarityPortal: 0
+        - rarityPortal: 1
           countPortal: 1
           DelaySpawnFirstEnemy: 3
           spawnTimeInSeconds:
           - 2
           hasBoss: 0
           enemyTypes:
-          - rarity: 1
-            typeEnemy: 0
-            name: Skeleton Magic
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
             countEnemy: 1
             timerMin: 5
             timerMax: 7
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     - waveRandom:
         enemyRanDoms:
         - TimeFirstSpawn: 4
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
             countEnemy: 4
             timerMin: 1
             timerMax: 2
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         Portals:
-        - rarityPortal: 0
+        - rarityPortal: 1
           countPortal: 2
           DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
@@ -360,42 +267,24 @@ MonoBehaviour:
           - 12
           hasBoss: 0
           enemyTypes:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
             countEnemy: 3
             timerMin: 2
             timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
             countEnemy: 2
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         - TimeFirstSpawn: 1
           EnemyType:
-          - rarity: 1
-            typeEnemy: 0
-            name: Skeleton Magic
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
             countEnemy: 1
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
         - rarityPortal: 0
           countPortal: 1
@@ -404,32 +293,20 @@ MonoBehaviour:
           - 2
           hasBoss: 0
           enemyTypes:
-          - rarity: 1
-            typeEnemy: 0
-            name: Skeleton Magic
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
             countEnemy: 1
             timerMin: 5
             timerMax: 7
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     - waveRandom:
         enemyRanDoms:
         - TimeFirstSpawn: 4
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
             countEnemy: 4
             timerMin: 1
             timerMax: 2
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         Portals:
-        - rarityPortal: 0
+        - rarityPortal: 2
           countPortal: 2
           DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
@@ -437,60 +314,36 @@ MonoBehaviour:
           - 12
           hasBoss: 0
           enemyTypes:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 48772571bc560154f9d8054c4a43d66c, type: 2}
             countEnemy: 3
             timerMin: 2
             timerMax: 4
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
-          - rarity: 0
-            typeEnemy: 0
-            name: Goblin Green
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
             countEnemy: 2
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: 1042776168, guid: b87aa82444002d84d82339453253c286, type: 3}
         - TimeFirstSpawn: 1
           EnemyType:
-          - rarity: 1
-            typeEnemy: 0
-            name: Skeleton Magic
+          - enemyTypeSO: {fileID: 11400000, guid: d91c1754633e5064f94734ae237557b8, type: 2}
             countEnemy: 1
             timerMin: 3
             timerMax: 5
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
         Portals:
-        - rarityPortal: 0
+        - rarityPortal: 1
           countPortal: 1
           DelaySpawnFirstEnemy: 3
           spawnTimeInSeconds:
           - 2
           hasBoss: 0
           enemyTypes:
-          - rarity: 1
-            typeEnemy: 0
-            name: Skeleton Magic
+          - enemyTypeSO: {fileID: 11400000, guid: 48772571bc560154f9d8054c4a43d66c, type: 2}
             countEnemy: 1
             timerMin: 5
             timerMax: 7
-            skillType:
-            - id: 0
-              skill: None
-            Sprite: {fileID: -1664031221, guid: 7bd0dcc3c144a4b41be9f86e02f104c5, type: 3}
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 15

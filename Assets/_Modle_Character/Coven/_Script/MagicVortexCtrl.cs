@@ -13,7 +13,7 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
     private Vector3 pos;
 
     private bool sendDameFisrt = false;
-    private EnemyCtrl enemyCtrl;
+    public EnemyCtrl enemyCtrl;
 
     public bool IsSkillActionComplete { get; private set; }
 
@@ -44,8 +44,6 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
     private IEnumerator DelaySkillAction()
     {
         yield return new WaitForSeconds(0.6f);
-
-        enemyCtrl = (EnemyCtrl)objectCtrl;
 
         if (enemyCtrl == null)
         {

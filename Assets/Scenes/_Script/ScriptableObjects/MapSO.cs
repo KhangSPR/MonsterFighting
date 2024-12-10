@@ -122,15 +122,30 @@ namespace UIGameDataMap
             foreach (EnemyType enemyType in portals.enemyTypes)
             {
                 EnemyNameAndCount enemy = new EnemyNameAndCount();
-                enemy.name = enemyType.name;
+                enemy.name = enemyType.enemyTypeSO.name;
                 enemy.max = enemyType.countEnemy;
                 enemy.radomMin = enemyType.timerMin;
                 enemy.radomMax = enemyType.timerMax;
-                enemy.rarityEnemy = enemyType.rarity;
+                enemy.rarityEnemy = enemyType.enemyTypeSO.rarity;
                 enemyNameAndCount.Add(enemy);
             }
 
             return enemyNameAndCount;
+        }
+        public Color GetColorForRarityPortal(RarityPortal rarity)
+        {
+            return rarity switch
+            {
+                RarityPortal.Common => Color.white,
+                RarityPortal.Rare => new Color(0.164f, 1f, 0.898f),
+                RarityPortal.Epic => new Color(255f / 255f, 18f / 255f, 128f / 255f),
+                RarityPortal.Legendary => Color.yellow,
+                _ => Color.gray
+            };
+        }
+        public int GetIndexRarity(RarityPortal rarity)
+        {
+            return (int)rarity;
         }
     }
     [Serializable]
@@ -156,11 +171,11 @@ namespace UIGameDataMap
             foreach (EnemyType enemyType in enemyRandom.EnemyType)
             {
                 EnemyNameAndCount enemy = new EnemyNameAndCount();
-                enemy.name = enemyType.name;
+                enemy.name = enemyType.enemyTypeSO.name;
                 enemy.max = enemyType.countEnemy;
                 enemy.radomMin = enemyType.timerMin;
                 enemy.radomMax = enemyType.timerMax;
-                enemy.rarityEnemy = enemyType.rarity;
+                enemy.rarityEnemy = enemyType.enemyTypeSO.rarity;
                 enemyNameAndCount.Add(enemy);
             }
 
@@ -170,23 +185,23 @@ namespace UIGameDataMap
     [Serializable]
     public class EnemyType
     {
-        public Rarity rarity;
-        public TypeEnemy typeEnemy;
-        public string name;
+        public EnemyTypeSO enemyTypeSO;
         public int countEnemy;
 
         [Header("Timer")]
         public float timerMin;
         public float timerMax;
-        public SkillType[] skillType;
-        public Sprite Sprite;
-    }
-
-    [Serializable]
-    public class SkillType
-    {
-        public int id;
-        public string skill;
+        public Color GetColorForRarityEnemy(Rarity rarity)
+        {
+            return rarity switch
+            {
+                Rarity.Common => Color.white,
+                Rarity.Rare => new Color(0.164f, 1f, 0.898f),
+                Rarity.Epic => new Color(255f / 255f, 18f / 255f, 128f / 255f),
+                Rarity.Legendary => Color.yellow,
+                _ => Color.gray
+            };
+        }
     }
     public enum TypeEnemy
     {
@@ -300,7 +315,18 @@ namespace UIGameDataMap
         }
         public void SetStarsCount(Difficult difficult, int starsCount)
         {
-            DifficultyMap[(int)difficult].stars = starsCount;
+            if (CheckSmallerStar(starsCount, difficult))
+            {
+                DifficultyMap[(int)difficult].stars = starsCount;
+            }
+        }
+        private bool CheckSmallerStar(int starsCount, Difficult difficult)
+        {
+            if(starsCount  <= DifficultyMap[(int)difficult].stars)
+            {
+                return false;
+            }
+            return true;
         }
         public int SumStarsMapDifficult(MapDifficulty[] DifficultyMap)
         {
@@ -314,35 +340,6 @@ namespace UIGameDataMap
         public StarsCondition GetStarsCondition(Difficult difficult)
         {
             return DifficultyMap[(int)difficult].starsCondition;
-        }
-
-        public Color GetColorForRarity(Rarity rarity)
-        {
-            return rarity switch
-            {
-                Rarity.Common => Color.white,
-                Rarity.Rare => new Color(0.164f, 1f, 0.898f),
-                Rarity.Epic => new Color(255f / 255f, 18f / 255f, 128f / 255f),
-                Rarity.Legendary => Color.yellow,
-                _ => Color.gray
-            };
-        }
-
-        public int GetIndexRarity(RarityPortal rarity)
-        {
-            return (int)rarity;
-        }
-
-        public Color GetColorForRarityPortal(RarityPortal rarity)
-        {
-            return rarity switch
-            {
-                RarityPortal.Common => Color.white,
-                RarityPortal.Rare => new Color(0.164f, 1f, 0.898f),
-                RarityPortal.Epic => new Color(255f / 255f, 18f / 255f, 128f / 255f),
-                RarityPortal.Legendary => Color.yellow,
-                _ => Color.gray
-            };
         }
         #region Wave-Portal-Enemy
         //Get Sum Wave

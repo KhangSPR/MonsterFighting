@@ -70,6 +70,7 @@ public abstract class BulletImpact : BulletAbstract
                             bulletCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.ListObjAttacks[0]);
                             hasDealtDamage = true; // Đánh dấu đã gây sát thương
                             Debug.Log("Send Bullet Enemy");
+
                         }
                     }
                 }
@@ -91,7 +92,25 @@ public abstract class BulletImpact : BulletAbstract
                     {
                         if (enemyCtrl.TargetSkillScript.listSkillCtrl.Count > 0)
                         {
-                            enemyCtrl.TargetSkillScript.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
+                            if(bulletCtrl is BulletRegularCtrl regularCtrl)
+                            {
+                                SkillCtrl skill = regularCtrl.ObjLookAtTargetSetter.target.GetComponent<SkillCtrl>();
+
+                                if(skill is MagicVortexCtrl magicVortex)
+                                {
+                                    magicVortex.FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
+                                }
+                                else
+                                {
+                                    enemyCtrl.TargetSkillScript.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
+                                }
+                            }
+                            else
+                            {
+                                //Arrow
+                            }
+
+
                             bulletCtrl.BulletDespawn.ResetCanDespawnFlag();
                             hasDealtDamage = true; // Đánh dấu đã gây sát thương
                             Debug.Log("Send Bullet Enemy");

@@ -36,10 +36,14 @@ public class MagicVortex : ISkill
             if (targetSkill.listSkillCtrl.Any(skill => skill is MagicVortexCtrl))
             {
                 CancelExistingMagicVortex(targetSkill.listSkillCtrl);
+
+                Debug.Log("CancelExistingMagicVortex");
             }
             else
             {
                 targetSkill.listSkillCtrl.Add(iskill);
+                Debug.Log("ADd TargetSkill");
+
             }
 
 
@@ -47,8 +51,9 @@ public class MagicVortex : ISkill
             {
                 iskill.DamageSender.Damage = (int)damage;
                 iskill.targetBottom = targetSkill.transform;
-                iskill.SetObjectCtrl(targetSkill.EnemyCtrl);
+                iskill.SetObjectCtrl(objectCtrl);
                 iskill.SkillAction();
+                iskill.enemyCtrl = (EnemyCtrl)objCtrl;
             }
         }
     }

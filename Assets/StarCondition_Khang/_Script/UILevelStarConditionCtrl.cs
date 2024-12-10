@@ -61,7 +61,7 @@ public class UILevelStarConditionCtrl : MonoBehaviour
 
         CloseMenuExit();
     }
-
+    //Slider Star Condition
     public void ActiveLevelConditionUI()
     {
         UpdateStarsBasedOnHpPercentage();

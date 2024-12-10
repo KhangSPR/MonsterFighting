@@ -1,26 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UIGameDataMap;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Portal : MonoBehaviour
 {
-    [SerializeField] MapSO mapSO;
-    public MapSO MapSO { get { return mapSO; } set { mapSO = value; } }
-
-    [SerializeField] int portalsIndex;
-
-    public int PortalsIndex { get { return portalsIndex; } set { portalsIndex = value; } }
-
-    MapDifficulty mapDifficulty;
-    public MapDifficulty MapDifficulty { get { return mapDifficulty; } set { mapDifficulty = value; } }
-
+    public Portals portals;
     private void Start()
     {
-        if (mapSO != null)
+        if (portals != null)
         {
-            Tooltip_PortalsMap.AddTooltip(transform, mapSO, mapDifficulty, portalsIndex);
+            Tooltip_PortalsMap.AddTooltip(transform, portals);
         }
     }
     public void SetObjPortal(Portals portal)
@@ -29,15 +21,15 @@ public class Portal : MonoBehaviour
         var mainModule = _Electricity.main;
 
         // Thay ??i thu?c tính startColor thông qua MainModule
-        mainModule.startColor = mapSO.GetColorForRarityPortal(portal.rarityPortal);
+        mainModule.startColor = portal.GetColorForRarityPortal(portal.rarityPortal);
 
         ParticleSystem _Particle = transform.Find("Particle").GetComponent<ParticleSystem>();
 
         var mainParticle = _Particle.main;
 
-        mainParticle.startColor = mapSO.GetColorForRarityPortal(portal.rarityPortal);
+        mainParticle.startColor = portal.GetColorForRarityPortal(portal.rarityPortal);
 
         Image _meterial = transform.Find("Circle").GetComponent<Image>();
-        _meterial.material = LevelUIManager.Instance.Materials[mapSO.GetIndexRarity(portal.rarityPortal)];
+        _meterial.material = LevelUIManager.Instance.Materials[portal.GetIndexRarity(portal.rarityPortal)];
     }
 }

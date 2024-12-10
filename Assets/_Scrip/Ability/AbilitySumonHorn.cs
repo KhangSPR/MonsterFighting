@@ -76,7 +76,7 @@ public class AbilitySumonHorn : AbilitySummon
         foreach (EnemyType enemyType in enemyTypes)
         {
             EnemyNameAndCount enemy = new EnemyNameAndCount();
-            enemy.name = enemyType.name;
+            enemy.name = enemyType.enemyTypeSO.name;
             enemy.max = enemyType.countEnemy;
             enemy.radomMin = enemyType.timerMin;
             enemy.radomMax = enemyType.timerMax;

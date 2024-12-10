@@ -58,6 +58,7 @@ namespace UIGameDataMap
                 _mapSOCurrent.Unlocked = true;
             }
         }
+        [SerializeField]
         private Difficult difficult;
         public Difficult Difficult
         {

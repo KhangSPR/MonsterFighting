@@ -52,6 +52,8 @@ public class EnemyCtrl : ObjectCtrl
         }
 
         this.abstractModel.EffectCharacter.SetOrderLayerRenderer(objLand.LandIndex);
+
+        this.targetSkillScript.listSkillCtrl.Clear();
     }
     protected override void OnDisable()
     {

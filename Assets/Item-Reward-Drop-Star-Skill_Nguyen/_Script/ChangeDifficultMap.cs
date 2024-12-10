@@ -42,6 +42,8 @@ public class ChangeDifficultMap : MonoBehaviour
 
             Debug.Log("Set Difficult");
             MapManager.Instance.Difficult = mapDifficulty.difficult;
+
+            MapManager.Instance.SetCurrentMapSO(mapSO);
         }
     }
 }

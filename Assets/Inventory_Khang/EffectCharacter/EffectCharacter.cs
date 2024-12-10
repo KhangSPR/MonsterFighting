@@ -68,11 +68,13 @@ public class EffectCharacter : MonoBehaviour
             //Debug.Log($"Set sorting layer {layerName} for {renderer.name}");
         }
     }
-
+    [SerializeField]
     private Transform fontTransfrom;
     public Transform FontTransfrom => fontTransfrom;
+    [SerializeField]
     private Transform midleTransfrom;
     public Transform MidleTransfrom => midleTransfrom;
+    [SerializeField]
     private Transform backTransfrom;
     public Transform BackTransfrom => backTransfrom;
     public void SetActiveModle(bool active)
@@ -93,24 +95,6 @@ public class EffectCharacter : MonoBehaviour
     }
     private void SetSpriteRenderer()
     {
-        fontTransfrom = transform.Find("Textures/Font");
-        midleTransfrom = transform.Find("Textures/Midle");
-        backTransfrom = transform.Find("Textures/Back");
-
-        if(fontTransfrom== null)
-        {
-            fontTransfrom = transform.Find("Character/Font");
-        }
-        if (midleTransfrom == null)
-        {
-            midleTransfrom = transform.Find("Character/Midle");
-        }
-        if (backTransfrom == null)
-        {
-            backTransfrom = transform.Find("Character/Back");
-        }
-        //Character -- Co the gan luon khoi can auto
-
         if (fontTransfrom != null)
         {
             _frontSpriteRenderers.AddRange(fontTransfrom.GetComponentsInChildren<SpriteRenderer>());
@@ -122,7 +106,7 @@ public class EffectCharacter : MonoBehaviour
         if (midleTransfrom != null)
         {
             //_middleSpriteRenderers = new List<SpriteRenderer>(Middle.GetComponentsInChildren<SpriteRenderer>());
-            _middleSpriteRenderers.AddRange(fontTransfrom.GetComponentsInChildren<SpriteRenderer>());
+            _middleSpriteRenderers.AddRange(midleTransfrom.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Midle");
 
@@ -131,7 +115,7 @@ public class EffectCharacter : MonoBehaviour
         if (backTransfrom != null)
         {
             //_backSpriteRenderers = new List<SpriteRenderer>(Back.GetComponentsInChildren<SpriteRenderer>());
-            _backSpriteRenderers.AddRange(fontTransfrom.GetComponentsInChildren<SpriteRenderer>());
+            _backSpriteRenderers.AddRange(backTransfrom.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Back");
 
@@ -144,12 +128,49 @@ public class EffectCharacter : MonoBehaviour
         SetMaterialsToValue(1);
         elapsedTime = dissolveTime;
         isDissolveComplete = false;
+        if(transform.parent.CompareTag("Enemy"))
+        {
+            Init();
+        }    
     }
     private void Update()
     {
         // Kiểm tra và xử lý quá trình dissolve nếu đang diễn ra
         HandleDissolve();
+
     }
+    [SerializeField] private Material[] _materialsFont;
+
+    [SerializeField] private Material[] _materialsMidle;
+
+    [SerializeField] private Material[] _materialsBack;
+
+    private void Init()
+    {
+        if (materials.Length <= 0) return;
+
+        _materialsFont = new Material[_frontSpriteRenderers.Count];
+        _materialsMidle = new Material[_middleSpriteRenderers.Count];
+        _materialsBack = new Material[_backSpriteRenderers.Count];
+
+        // Tạo material riêng biệt cho mỗi SpriteRenderer
+        for (int i = 0; i < _materialsFont.Length; i++)
+        {
+            _materialsFont[i] = materials[0];
+        }
+        for (int i = 0; i < _materialsMidle.Length; i++)
+        {
+            _materialsMidle[i] = _middleSpriteRenderers[i].material;
+        }
+        for (int i = 0; i < _materialsBack.Length; i++)
+        {
+            _materialsBack[i] = _backSpriteRenderers[i].material;
+        }
+
+        Debug.Log("Initialized materials for dissolve effect");
+    }
+
+
     // Hàm để set material cho nhân vật
     public void SetMaterial(Material material)
     {
@@ -162,21 +183,30 @@ public class EffectCharacter : MonoBehaviour
             }
         }
     }
+
     public void SetMaterialDissolv()
     {
-        foreach (var spriteRenderer in _frontSpriteRenderers)
+        // Set material dissolve cho lớp Font
+        for (int i = 0; i < _frontSpriteRenderers.Count; i++)
         {
-            spriteRenderer.material = materials[0];
+            _frontSpriteRenderers[i].material = _materialsFont[i];
         }
-        foreach (var spriteRenderer in _middleSpriteRenderers)
+
+        // Set material dissolve cho lớp Midle
+        for (int i = 0; i < _middleSpriteRenderers.Count; i++)
         {
-            spriteRenderer.material = materials[1];
+            _middleSpriteRenderers[i].material = _materialsMidle[i];
         }
-        foreach (var spriteRenderer in _backSpriteRenderers)
+
+        // Set material dissolve cho lớp Back
+        for (int i = 0; i < _backSpriteRenderers.Count; i++)
         {
-            spriteRenderer.material = materials[2];
+            _backSpriteRenderers[i].material = _materialsBack[i];
         }
+
+        Debug.Log("Materials set for dissolve effect");
     }
+
 
     // Hàm để bắt đầu quá trình fade nhân vật
     public void StartFadeOut()
@@ -205,16 +235,20 @@ public class EffectCharacter : MonoBehaviour
     public void CallVFXDeadEnemy()
     {
         if (isDecreasing) return;
-        //if (!isDissolveComplete) return;
 
+        // Gọi hàm để set đúng material dissolve cho các lớp font, middle, back
         SetMaterialDissolv();
-        // Bắt đầu quá trình tan biến (dissolve)
-        SetMaterialsToValue(1);
+
+        // Đặt material ban đầu cho hiệu ứng dissolve
+        SetMaterialsToValue(1.0f);
         elapsedTime = 0;
         isDecreasing = true;
 
         SetVFX_Dissolve(true);
+        Debug.Log("Started Dissolve Effect");
     }
+
+
 
     // Handling the dissolution process
     private void HandleDissolve()
@@ -231,30 +265,38 @@ public class EffectCharacter : MonoBehaviour
             float currentValue = Mathf.Lerp(1.0f, 0.0f, elapsedTime / dissolveTime);
 
             SetMaterialsToValue(currentValue);
-            //Debug.Log("Dissolving... CurrentValue: " + currentValue);
 
             if (elapsedTime >= dissolveTime)
             {
-                // Quá trình dissolve hoàn tất
-                SetMaterialsToValue(0);
+                SetMaterialsToValue(0.0f);
                 elapsedTime = 0;
                 isDecreasing = false;
-
                 isDissolveComplete = true;
+
                 Debug.Log("Dissolve Complete");
             }
         }
     }
 
 
+
     // Hàm để đặt giá trị dissolve vào các material
     private void SetMaterialsToValue(float value)
     {
-        for (int i = 0; i < materials.Length; i++)
+        foreach (var material in _materialsFont)
         {
-            materials[i].SetFloat("_Dissolve_Amount", value);
+            material.SetFloat("_Dissolve_Amount", value);
+        }
+        foreach (var material in _materialsMidle)
+        {
+            material.SetFloat("_Dissolve_Amount", value);
+        }
+        foreach (var material in _materialsBack)
+        {
+            material.SetFloat("_Dissolve_Amount", value);
         }
     }
+
     public void SetDissolveCompleteFalse()
     {
         isDissolveComplete = false;

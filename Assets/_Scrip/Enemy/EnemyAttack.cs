@@ -17,6 +17,11 @@ public class EnemyAttack : ObjAttack
             if (!this.enemyCtrl.TargetSkillScript.listSkillCtrl.Contains(skillCtrl))
             {
                 this.enemyCtrl.TargetSkillScript.listSkillCtrl.Add(skillCtrl);
+                if(skillCtrl is VirtualShieldCtrl virtualShieldCtrl)
+                {
+                    virtualShieldCtrl.enemyCtrls.Add(enemyCtrl);
+
+                }
                 Debug.Log("Add Skill");
             }
 
@@ -86,7 +91,7 @@ public class EnemyAttack : ObjAttack
             {
                 if (this.enemyCtrl.TargetSkillScript.listSkillCtrl.Contains(skillCtrl))
                 {
-                    this.enemyCtrl.TargetSkillScript.listSkillCtrl.Remove(skillCtrl);
+                    //this.enemyCtrl.TargetSkillScript.listSkillCtrl.Remove(skillCtrl);
 
                     if (this.enemyCtrl.TargetSkillScript.listSkillCtrl.Count == 0)
                     {
@@ -103,34 +108,45 @@ public class EnemyAttack : ObjAttack
 
     public override Transform GetTransFromFirstAttack()
     {
-        Transform targetTransfrom;
+        // Nếu danh sách kỹ năng của đối tượng mục tiêu không rỗng
+        if (this.enemyCtrl.TargetSkillScript.listSkillCtrl.Count > 0)
+        {
+            foreach (SkillCtrl skillCtrl in this.enemyCtrl.TargetSkillScript.listSkillCtrl)
+            {
+                // Kiểm tra xem kỹ năng có phải là MagicVortexCtrl không
+                if (skillCtrl is MagicVortexCtrl)
+                {
+                    return skillCtrl.transform;
+                }
+            }
+            // Nếu không có MagicVortexCtrl, trả về kỹ năng đầu tiên
+            return this.enemyCtrl.TargetSkillScript.listSkillCtrl[0].transform;
+        }
+
+        // Nếu danh sách tấn công không rỗng
         if (listObjAttacks.Count > 0)
         {
+            Transform targetTransform = null;
+
+            // Lấy ObjectCtrl từ đối tượng đầu tiên
             ObjectCtrl objectCtrl = listObjAttacks[0].GetComponent<ObjectCtrl>();
-            if(objectCtrl != null)
+            if (objectCtrl != null)
             {
-                targetTransfrom = objectCtrl.TargetPosition;
+                targetTransform = objectCtrl.TargetPosition;
             }
             else
             {
-                targetTransfrom = listObjAttacks[0].Find("TargetPosition"); // Apply Castle
+                // Nếu không có ObjectCtrl, tìm Transform "TargetPosition"
+                targetTransform = listObjAttacks[0].Find("TargetPosition");
             }
-        }
-        else if(this.enemyCtrl.TargetSkillScript.listSkillCtrl.Count>0)
-        {
-            targetTransfrom = this.enemyCtrl.TargetSkillScript.listSkillCtrl[0].transform;
 
-            Debug.Log("Get Target Skill Position");
-        }
-        else
-        {
-            targetTransfrom = null;
+            return targetTransform;
         }
 
-        if (targetTransfrom != null)
-            return targetTransfrom;
+        // Trường hợp không tìm thấy mục tiêu
         return null;
     }
+
     public void OnDeadCastle(bool isRange)
     {
 

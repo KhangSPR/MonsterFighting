@@ -38,10 +38,10 @@ public class CoinsHandler : MonoBehaviour
         coroutine = StartCoroutine(UpdateEffect());
 
 
-        //if (!hasBeenPickedUp) // Chỉ gọi Invoke nếu vật phẩm chưa được nhặt
-        //{
-        //    Invoke("ItemPickupAnimation", Random.Range(2f, 3f));
-        //}
+        if (!hasBeenPickedUp) // Chỉ gọi Invoke nếu vật phẩm chưa được nhặt
+        {
+            Invoke("ItemPickupAnimation", Random.Range(2f, 3f));
+        }
     }
 
     private void OnDisable()

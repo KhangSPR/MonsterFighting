@@ -48,6 +48,11 @@ public class Tooltip_PortalsMap : MonoBehaviour
     //[SerializeField] MapSO MapSO;
     private void Awake()
     {
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
+
         instance = this;
 
         backgroundRectTransform = transform.Find("Background").GetComponent<RectTransform>();
@@ -94,43 +99,31 @@ public class Tooltip_PortalsMap : MonoBehaviour
 
     //    Update();
     //}
-    private void ShowTooltip(MapSO mapSO,MapDifficulty mapDifficulty, int portalsIndex)
+    private void ShowTooltip(Portals portals)
     {
-        //Portals[] portalsLst = mapSO.GetPortals(mapDifficulty.difficult);
-
-        // Lấy các wave từ MapSO theo độ khó
-        Wave[] waves = mapSO.GetWaves(mapDifficulty.difficult);
-
-        // Khởi tạo danh sách portals
-        List<Portals> portalsList = new List<Portals>();
-
-        // Duyệt qua từng wave để lấy portals và thêm vào danh sách
-        foreach (var wave in waves)
-        {
-            Portals[] portalsFromWave = mapSO.GetPortalsWave(wave);
-            if (portalsFromWave != null)
-            {
-                portalsList.AddRange(portalsFromWave); // Thêm tất cả portals vào danh sách
-            }
-        }
         gameObject.SetActive(true);
         transform.SetAsLastSibling();
 
-        Portals portals = portalsList[portalsIndex];
+        // Tạo phần văn bản và phần rarity
+        string portalText = "Portal ";
+        string rarityText = portals.rarityPortal.ToString();
 
+        // Gán phần văn bản cố định "Portal"
+        power.text = portalText + rarityText;
 
-        power.text = portals.rarityPortal.ToString();
-        power.color = mapSO.GetColorForRarityPortal(portals.rarityPortal); //Change Color
+        // Thay đổi màu của phần rarity (được gán sau dấu cách)
+        power.color = portals.GetColorForRarityPortal(portals.rarityPortal);
+
 
 
         checkHasBoss.SetActive(portals.hasBoss);
 
-        LoadEnemys(mapSO, portals);
+        LoadEnemys(portals);
 
 
         Update();
-    }
-    private void LoadEnemys(MapSO mapSO, Portals portals)
+    }        
+    private void LoadEnemys(Portals portals)
     {
         foreach (Transform child in Holder)
         {
@@ -140,22 +133,16 @@ public class Tooltip_PortalsMap : MonoBehaviour
         foreach (EnemyType enemy in portals.enemyTypes)
         {
             GameObject enemyObject = Instantiate(EnemyPrefab, Holder);
-
             //Setting
-            enemyObject.transform.Find("Img/avatar").GetComponent<Image>().sprite = enemy.Sprite;
+            enemyObject.transform.Find("Img/avatar").GetComponent<Image>().sprite = enemy.enemyTypeSO.sprite;
             enemyObject.transform.Find("Img/Count").GetComponent<Text>().text = "x" + enemy.countEnemy.ToString();
 
-            enemyObject.transform.Find("Info/Rarity").GetComponent<TMP_Text>().text = enemy.rarity.ToString();
-            enemyObject.transform.Find("Info/Rarity").GetComponent<TMP_Text>().color = mapSO.GetColorForRarity(enemy.rarity);
-            if(enemy.skillType.Length > 0)
-            {
-                enemyObject.transform.Find("Info/Des").GetComponent<Text>().text = "Name: " + enemy.name + "\nSkill: " + enemy.skillType[0].skill;
-            }
-            enemyObject.transform.Find("Info/Des").GetComponent<Text>().color = mapSO.GetColorForRarity(enemy.rarity);
-
+            enemyObject.transform.Find("Info/Name").GetComponent<TMP_Text>().text = enemy.enemyTypeSO.name.ToString();
+            enemyObject.transform.Find("Info/Name").GetComponent<TMP_Text>().color = enemy.GetColorForRarityEnemy(enemy.enemyTypeSO.rarity);
+            enemyObject.transform.Find("Info/Des").GetComponent<TMP_Text>().text = "+ " + enemy.enemyTypeSO.attackType.ToString() + "\n+ " + enemy.enemyTypeSO.skillDes.ToString();
             //scale
-            HolderScale.sizeDelta += new Vector2(0f, 100f);
-            HolderScale.localPosition -= new Vector3(0f, 50f, 0f);
+            HolderScale.sizeDelta += new Vector2(0f, 135f);
+            HolderScale.localPosition -= new Vector3(0f, 55f, 0f);
 
 
             index++;
@@ -166,25 +153,25 @@ public class Tooltip_PortalsMap : MonoBehaviour
         gameObject.SetActive(false);
 
         //Return Scale
-        HolderScale.sizeDelta = new Vector2(300f, 25f);
-        HolderScale.localPosition = new Vector3(180f, -110f, 0f);
+        HolderScale.sizeDelta = new Vector2(490f, 25f);
+        HolderScale.localPosition = new Vector3(275f, -130f, 0f);
     }
 
-    public static void ShowTooltip_Static(MapSO mapSO, MapDifficulty mapDifficulty, int portalsIndex)
+    public static void ShowTooltip_Static(Portals portals)
     {
-        instance.ShowTooltip(mapSO, mapDifficulty, portalsIndex);
+        instance.ShowTooltip(portals);
     }
 
     public static void HideTooltip_Static()
     {
         instance.HideTooltip();
     }
-    public static void AddTooltip(Transform transform, MapSO mapSO, MapDifficulty mapDifficulty, int portalsIndex)
+    public static void AddTooltip(Transform transform, Portals portals)
     {
         if (transform.GetComponent<Button_UI>() != null)
         {
-            transform.GetComponent<Button_UI>().MouseOverOnceTooltipFunc = () => Tooltip_PortalsMap.ShowTooltip_Static(mapSO, mapDifficulty, portalsIndex);
-            transform.GetComponent<Button_UI>().MouseOutOnceTooltipFunc = () => Tooltip_PortalsMap.HideTooltip_Static();
+            transform.GetComponent<Button_UI>().MouseOverOnceTooltipFunc = () => ShowTooltip_Static(portals);
+            transform.GetComponent<Button_UI>().MouseOutOnceTooltipFunc = () => HideTooltip_Static();
         }
     }
 
