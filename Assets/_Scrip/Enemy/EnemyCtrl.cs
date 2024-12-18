@@ -108,13 +108,13 @@ public class EnemyCtrl : ObjectCtrl
     {
         if (this.objMoveIntheCity != null) return;
         this.objMoveIntheCity = transform.GetComponentInChildren<ObjMoveInTheCity>();
-        Debug.Log(gameObject.name + ": loadObjMoveIntheCity" + gameObject);
+        //Debug.Log(gameObject.name + ": loadObjMoveIntheCity" + gameObject);
     }
     protected virtual void loadEnemySpawnCtrl()
     {
         if (this.enemySpawnCtrl != null) return;
         this.enemySpawnCtrl = transform.GetComponentInChildren<HornSpawnerCtrl>();
-        Debug.Log(gameObject.name + ": loadEnemySpawnCtrl" + gameObject);
+        //Debug.Log(gameObject.name + ": loadEnemySpawnCtrl" + gameObject);
     }
     protected virtual void loadObjAppearBigger()
     {

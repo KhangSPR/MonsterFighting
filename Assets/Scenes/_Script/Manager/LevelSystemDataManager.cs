@@ -278,7 +278,7 @@ public class LevelSystemDataManager : MonoBehaviour
 
                 }
 
-                Debug.Log("starConditions count: " + (levelSettings?.starConditions.Count ?? 0));
+                //Debug.Log("starConditions count: " + (levelSettings?.starConditions.Count ?? 0));
             }
             levelSettings.levelName = des;
 

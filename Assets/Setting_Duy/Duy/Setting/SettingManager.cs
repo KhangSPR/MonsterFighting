@@ -15,7 +15,10 @@ public class SettingManager : MonoBehaviour
             instance = this;
         }
     }
-
+    private void Start()
+    {
+        SaveManager.OnGameDataLoaded += LoadSetting;
+    }
     private void OnEnable(){
         SaveManager.OnGameDataLoaded += LoadSetting;
     }
@@ -28,10 +31,15 @@ public class SettingManager : MonoBehaviour
         currentSettings = data.settings;
         Debug.Log("Load Setting");
     }
-
+    public void SetMusicMute(bool mute)
+    {
+        currentSettings.starPoint = mute;
+    }
     public void SaveSetting(){
         GameDataManager.Instance.GameData.settings = currentSettings;
         GameDataManager.Instance.SaveManager.SaveGame();
+        Debug.Log("GameDataManager: " + currentSettings.starPoint +"Setting: "+ currentSettings.musicMute);
+
         Debug.Log("Save Setting");
     }
     

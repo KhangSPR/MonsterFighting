@@ -38,6 +38,7 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Header("Game Play")]
     [SerializeField] private bool isGamePaused = false;
+    public bool IsGamePaused => isGamePaused;
     [SerializeField] private bool isGameSpeeded = false;
     [SerializeField] private bool readyTimer = false;
     public bool ReadyTimer { get { return readyTimer; } set { readyTimer = value; } }
@@ -72,7 +73,10 @@ public class GameManager : SaiMonoBehaviour
     {
         SettingManager.Instance.SaveSetting();
     }
-
+    private void OnDestroy()
+    {
+        SaveSetting();
+    }
     #endregion
 
     [Space]

@@ -523,7 +523,7 @@ public class EnemyModel : AbstractModel
             {
                 currentState = State.Idle;
 
-                Debug.Log("Idle ShouldAttack");
+                //Debug.Log("Idle ShouldAttack");
             }
 
         }
@@ -534,7 +534,7 @@ public class EnemyModel : AbstractModel
         // Xử lý chung cho animation sau khi hoàn thành tấn công
         if (isAttacking && isAnimationAttackComplete)
         {
-            Debug.Log("Xu ly AttackType");
+            //Debug.Log("Xu ly AttackType");
 
             // Lựa chọn loại animation dựa trên trạng thái tấn công hiện tại
             if (currentState == State.MeleeWitch)
@@ -554,7 +554,7 @@ public class EnemyModel : AbstractModel
             if (!activeAttack)
             {
                 this.AttackType();
-                Debug.Log("Attack Type Action");
+                //Debug.Log("Attack Type Action");
             }
             activeAttack = true;
 

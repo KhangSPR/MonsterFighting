@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d695234038a81594da2dc84a902f7d40, type: 3}
-  m_Name: Bat
+  m_Script: {fileID: 11500000, guid: 27b071b3c18ae5b42bb4a91c653cd023, type: 3}
+  m_Name: Lv2 2
   m_EditorClassIdentifier: 
-  rarity: 0
-  typeEnemy: 0
-  enemyName: Grassland Bat
-  attackType: Long-range attack
-  skillDes: Sound Wave
-  sprite: {fileID: -932182922, guid: a9882934888c093478fff1ce99ff17ff, type: 3}
+  id: 1
+  typeQuest: 0
+  questInfoSO: {fileID: 11400000, guid: f8a973eb1dfadf044a291c4f9f45758f, type: 2}
+  requiredLevel: 2
+  LVType: 1

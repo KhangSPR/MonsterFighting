@@ -16,11 +16,11 @@ MonoBehaviour:
   boss: 0
   mapZone: I
   mapType: 0
-  Unlocked: 1
+  Unlocked: 0
   DifficultyMap:
-  - stars: 3
+  - stars: 0
     difficult: 0
-    isReceivedReWard: 1
+    isReceivedReWard: 0
     Waves:
     - waveRandom:
         enemyRanDoms:
@@ -58,6 +58,17 @@ MonoBehaviour:
             countEnemy: 2
             timerMin: 3
             timerMax: 4
+        - rarityPortal: 2
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - enemyTypeSO: {fileID: 11400000, guid: 48772571bc560154f9d8054c4a43d66c, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 4
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
@@ -81,9 +92,9 @@ MonoBehaviour:
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 5
-  - stars: 3
+  - stars: 0
     difficult: 1
-    isReceivedReWard: 1
+    isReceivedReWard: 0
     Waves:
     - waveRandom:
         enemyRanDoms:
@@ -152,9 +163,9 @@ MonoBehaviour:
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 10
-  - stars: 3
+  - stars: 0
     difficult: 2
-    isReceivedReWard: 1
+    isReceivedReWard: 0
     Waves:
     - waveRandom:
         enemyRanDoms:

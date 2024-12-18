@@ -111,11 +111,11 @@ public abstract class AbilitySummon : ActiveAbility
             {
                 validEnemies.Add(enemyInfo);
 
-                Debug.Log("validEnemies: " + validEnemies.Count);
+                //Debug.Log("validEnemies: " + validEnemies.Count);
 
             }
 
-            Debug.Log("nameEnemyandCount: "+ nameEnemyandCount.Count);
+            //Debug.Log("nameEnemyandCount: "+ nameEnemyandCount.Count);
         }
 
         // Kiểm tra nếu không có enemy hợp lệ nào
@@ -148,14 +148,14 @@ public abstract class AbilitySummon : ActiveAbility
         if (CheckTypeAbility())
         {
 
-            Debug.Log("1 Check" + transform.parent.parent.name);
+            //Debug.Log("1 Check" + transform.parent.parent.name);
             Active();
 
             this.checkALLEnemyDead = true;
         }
         else
         {
-            Debug.Log("2 Check");
+            //Debug.Log("2 Check");
 
 
             this.checkALLEnemyDead = false;

@@ -63,7 +63,13 @@ public class Tooltip_PortalsMap : MonoBehaviour
     {
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent.GetComponent<RectTransform>(), Input.mousePosition, uiCamera, out localPoint);
+
+
+        localPoint.y += 100f;
+        localPoint.x -= 550f;
+
         transform.localPosition = localPoint;
+
 
 
         Vector2 anchoredPosition = transform.GetComponent<RectTransform>().anchoredPosition;
@@ -79,26 +85,6 @@ public class Tooltip_PortalsMap : MonoBehaviour
         transform.GetComponent<RectTransform>().anchoredPosition = anchoredPosition;
 
     }
-
-    //private void ShowTooltip(MapSO mapSO, int portalsIndex)
-    //{
-    //    gameObject.SetActive(true);
-    //    transform.SetAsLastSibling();
-
-    //    //Portals portals = mapSO.portals[portalsIndex];
-
-
-    //    //power.text = portals.rarityPortal.ToString();
-    //    //power.color = mapSO.GetColorForRarityPortal(portals.rarityPortal); //Change Color
-
-
-    //    //checkHasBoss.SetActive(portals.hasBoss);
-
-    //    //LoadEnemys(mapSO, portals);
-
-
-    //    Update();
-    //}
     private void ShowTooltip(Portals portals)
     {
         gameObject.SetActive(true);

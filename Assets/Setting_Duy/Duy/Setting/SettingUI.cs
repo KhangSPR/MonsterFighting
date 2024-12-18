@@ -15,6 +15,8 @@ public class SettingUI : MonoBehaviour
     public Toggle SFXMuteToggle;
     public UnityEngine.UI.Slider SFXVolumeSlider;
     public Image LocaleImage;
+    //Star
+    public Toggle StarToggle;
     public Button NextLocale;
     public Button PreviousLocale;
     public RectTransform fade;
@@ -28,6 +30,8 @@ public class SettingUI : MonoBehaviour
         SFXVolumeSlider?.onValueChanged.AddListener((float volume) => AudioManager.Instance.SetSFXVolume(volume));
         MusicMuteToggle?.onValueChanged.AddListener((bool mute) => AudioManager.Instance.SetMusicMute(mute));
         SFXMuteToggle?.onValueChanged.AddListener((bool mute) => AudioManager.Instance.SetSFXMute(mute));
+        StarToggle?.onValueChanged.AddListener((bool mute) => SettingManager.Instance.SetMusicMute(mute));
+        //Star
         // graphic
         // localization
         NextLocale?.onClick.AddListener(() => LocalizationManager.Instance.NextLocale());
@@ -43,6 +47,8 @@ public class SettingUI : MonoBehaviour
         SFXVolumeSlider.value = settings.sfxVolume;
         MusicMuteToggle.isOn = settings.musicMute;
         SFXMuteToggle.isOn = settings.sfxMute;
+        if(StarToggle!= null)
+            StarToggle.isOn = settings.starPoint;
         LocalizationManager.Instance.ChangeLocale(settings.localeID);
     }
     public void LoadUIFromInGameSetting(Settings settings)

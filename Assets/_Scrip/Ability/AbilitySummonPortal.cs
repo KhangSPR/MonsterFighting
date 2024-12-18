@@ -73,19 +73,19 @@ public class AbilitySummonPortal : AbilitySummon
     {
         if (objAppearSmall == null)
         {
-            Debug.Log("Return false: objAppearSmall is null");
+            //Debug.Log("Return false: objAppearSmall is null");
             return false;
         }
 
         if (minionCount < minionLimit)
         {
-            Debug.Log("Return false: objectIsEnabled is false and minionCount is less than minionLimit");
+            //Debug.Log("Return false: objectIsEnabled is false and minionCount is less than minionLimit");
             return false;
         }
 
         if (minions.Count > 0)
         {
-            Debug.Log("Return false: minions count is greater than 0");
+            //Debug.Log("Return false: minions count is greater than 0");
             return false;
         }
 
@@ -93,11 +93,11 @@ public class AbilitySummonPortal : AbilitySummon
 
         if (this.objAppearSmall.Appeared)
         {
-            Debug.Log("Load Spawner");
+            //Debug.Log("Load Spawner");
             PortalSpawner.Instance.Despawn(transform.parent.parent);
         }
 
-        Debug.Log("Return true");
+        //Debug.Log("Return true");
         return true;
     }
 

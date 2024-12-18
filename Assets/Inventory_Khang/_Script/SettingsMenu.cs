@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -156,7 +157,7 @@ public class SettingsMenu : UIAbstractGame
 
     protected override void HandleClickUI()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !GameManager.Instance.IsGamePaused)
         {
             if (!IsPointerOverUIElement(frameButton) && !isSelectItem)
             {
@@ -384,6 +385,11 @@ public class SettingsMenu : UIAbstractGame
 
 
         SkillSpawner.Instance.Despawn(VFX);
+    }
+
+    internal void OnItemClick(int index)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

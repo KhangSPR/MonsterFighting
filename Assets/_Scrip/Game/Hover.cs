@@ -33,7 +33,7 @@ public class Hover : SaiMonoBehaviour
 
         }
 
-        Debug.Log("FollowMouse " + active);
+        //Debug.Log("FollowMouse " + active);
         if (spriteRenderer.enabled)
         {
             Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);

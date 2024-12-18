@@ -356,7 +356,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
 
         foreach (var ability in abilitySummons)
         {
-            Debug.Log($"Checking ability: {ability}");
+            //Debug.Log($"Checking ability: {ability}");
 
             if (!ability.CheckAllEnemyDead)
             {

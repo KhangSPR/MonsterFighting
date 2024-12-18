@@ -223,12 +223,12 @@ public class DisplayInventory : MonoBehaviour
     public void OnButtonClick()
     {
         // Di chuyển transform1 từ vị trí hiện tại tới -300 từ phải qua trái
-        transform1.DOAnchorPosX(-300, duration).SetEase(Ease.InOutQuad);
+        transform1.DOAnchorPosX(-380, duration).SetEase(Ease.InOutQuad);
 
         transform2.gameObject.SetActive(true);
 
         // Di chuyển transform2 từ vị trí hiện tại tới 500 từ trái qua phải
-        transform2.DOAnchorPosX(500, duration).SetEase(Ease.InOutQuad);
+        transform2.DOAnchorPosX(580, duration).SetEase(Ease.InOutQuad);
 
         canvas1.DOFade(1, 0.5f).SetEase(Ease.InOutQuad);
 

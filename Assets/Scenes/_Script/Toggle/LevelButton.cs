@@ -73,6 +73,9 @@ namespace UIGameDataMap
         }
         bool IsLevelUnlocked(int areaIndex, int levelIndex)
         {
+
+            if (levelIndex == 0 && levelIndex == 0) return true;
+
             if (areaIndex < 0 || areaIndex >= MapManager.Instance.MapArrayData.Length)
             {
                 return false; 
@@ -89,19 +92,20 @@ namespace UIGameDataMap
         {
             int levelIndex = GetLevelIndex();
             int areaIndex = GetAreaIndex(areaName);
-            Debug.Log("index level:" + levelIndex);
+            //Debug.Log("index level:" + levelIndex);
             //AreaInfomationSO aiso = LevelSystemDataManager.Instance.DatabaseAreaSO;
             //Debug.Log(aiso);
             //var levelInformation = aiso.areasData.First(data => data.areaName == areaName);
 
             bool isUnlockLevel = IsLevelUnlocked(areaIndex, levelIndex);
 
+            levelInfo = LevelUIManager.Instance.LevelInfo;
+
             //Debug.Log("SetLevelButton " + levelInformation);
             if (isUnlockLevel)
             {
                 SetUnlockedUI();
                 //Set LevelInfo
-                levelInfo = LevelUIManager.Instance.LevelInfo;
                 //Set button
                 mapDataSO = LevelUIManager.Instance.GetMapSO(levelIndex, GetTyMap(areaName)); //Repair
 
@@ -124,7 +128,7 @@ namespace UIGameDataMap
         public void OnClick()                                              //method called by button
         {
             /*LevelSystemManager.Instance.CurrentLevel = levelIndex;*/  //set the CurrentLevel, we subtract 1 as level data array start from 0
-            if (levelInfo == null)
+            if (levelInfo == null || mapDataSO == null)
             {
                 return;
             }

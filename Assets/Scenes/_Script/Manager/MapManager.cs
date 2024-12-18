@@ -39,7 +39,7 @@ namespace UIGameDataMap
         public MapArrayData MapArrayCurrent
         {
             get => mapArrayData[m_ArrayCurrentIndex];
-            set => _mapArrayCurrent = value;
+            //set => _mapArrayCurrent = value;
         }
 
         [SerializeField] private MapSO _mapSOCurrent;

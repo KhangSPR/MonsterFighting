@@ -9,6 +9,7 @@ public class GameData
     public uint ruby = 1499;
 
     public Settings settings;
+    
 
     // constructor, starting values
     public GameData()

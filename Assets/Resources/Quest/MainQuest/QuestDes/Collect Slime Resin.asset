@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f26a3621757be6d4c96580cba73c9a74, type: 3}
+  m_Name: Collect Slime Resin
+  m_EditorClassIdentifier: 
+  nameQuest: Gather Herbs
+  bio: Collect slime resin from the defeated slimes scattered around the area. These
+    resin drops are essential for crafting special items and potions. Defeat slimes,
+    gather the resin, and use it wisely to enhance your abilities or trade with NPCs
+    for valuable rewards.
+  expReward: 5
+  objectives:
+  - objectiveId: 0
+    amount: 5
+    currentAmount: 3
+    requiredText: Collect /5 slime resins.
+    type: 2
+  Reward:
+  - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
+    Count: 5

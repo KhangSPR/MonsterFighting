@@ -9,6 +9,8 @@ public struct Settings
     public bool musicMute;
     public float sfxVolume;
     public bool sfxMute;
+    [UnityEngine.Header("PointStar")]
+    public bool starPoint;
 
     [UnityEngine.Header("LANGUAGE")]
     public int localeID;
@@ -21,6 +23,7 @@ public struct Settings
         if (!sfxVolume.Equals(settings.sfxVolume)) return false;
         if (!sfxMute.Equals(settings.sfxMute)) return false;
         if (!localeID.Equals(settings.localeID)) return false;
+        if(!starPoint.Equals(settings.starPoint)) return false;
         return true;
     }
 }
