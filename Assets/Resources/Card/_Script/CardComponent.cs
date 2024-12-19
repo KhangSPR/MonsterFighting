@@ -2,6 +2,7 @@
 
 public class CardComponent : ScriptableObject
 {
+    public string ID;
     public string nameCard;
     public float cardRefresh;
     public int price;

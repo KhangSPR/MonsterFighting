@@ -182,7 +182,7 @@ namespace UIGameDataMap
                 Destroy(child.gameObject);
             }
 
-            foreach (Resources resource in mapDifficulty.Reward)
+            foreach (Resources resource in mapDifficulty.Reward) //Repair
             {
 
                 GameObject itemObject = Instantiate(ObjItem, HolderItem);

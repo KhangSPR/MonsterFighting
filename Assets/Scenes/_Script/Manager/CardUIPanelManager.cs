@@ -69,13 +69,13 @@ namespace UIGameDataManager
         }
         private void ClearCardALLList()
         {
-            cardManagerALL.listCardCharacter.Clear();
-            cardManagerALL.CardsMachine.Clear();
+            cardManagerALL.CardCharacters.Clear();
+            cardManagerALL.CardMachines.Clear();
         }
 
         public void OnTowerButtonClickedTower(int index)
         {
-            List<CardCharacter> cardCharacters = cardManagerALL.GetCharacterCards();
+            List<CardCharacter> cardCharacters = cardManagerALL.CardCharacters;
             // View card trên PanelCard
             DisplayCardsOnPanelTower(cardCharacters);
 

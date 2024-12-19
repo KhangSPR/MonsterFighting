@@ -12,15 +12,13 @@ public class GuildUICtrl : MonoBehaviour
     [SerializeField] Transform PrefabGuildChoosing;
     [SerializeField] Transform PrefabGuildButton;
 
-    [Space]
-    [Space]
-    [SerializeField] GuildSOManager guildSOManager;
-    public GuildSOManager GuildSOManager => guildSOManager;
     [Header("Script")]
     [SerializeField] Swipe swipe;
     public Swipe Swipe=> swipe;
     [SerializeField] PurchaseGuild purchaseGuild;
     public PurchaseGuild PurchaseGuild => purchaseGuild;
+
+    
     private void OnEnable()
     {
         InstanceGuildChoosing();
@@ -38,7 +36,7 @@ public class GuildUICtrl : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach(GuildSO guildSO in GuildSOManager.listGuilds)
+        foreach(GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
         {
             GameObject newguildChossing = Instantiate(PrefabGuildChoosing.gameObject, GuildChoosing);
 
@@ -54,7 +52,7 @@ public class GuildUICtrl : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach (GuildSO guildSO in GuildSOManager.listGuilds)
+        foreach (GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
         {
             GameObject guildButton = Instantiate(PrefabGuildButton.gameObject, GuildButton);
 
@@ -73,7 +71,7 @@ public class GuildUICtrl : MonoBehaviour
         }
 
         // Duyệt qua các guild trong GuildSOManager.listGuilds
-        foreach (GuildSO guildSO in GuildSOManager.listGuilds)
+        foreach (GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
         {
             // Kiểm tra nếu GuildSO có trong từ điển
             if (guildDictionary.TryGetValue(guildSO, out GuildChoosing guild))

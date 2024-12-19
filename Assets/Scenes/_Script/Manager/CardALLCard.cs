@@ -6,78 +6,55 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CardManagerALLCard", menuName = "Custom/CardManagerALLCard", order = 1)]
 public class CardALLCard : ScriptableObject
 {
-    public List<CardCharacter> listCardCharacter = new List<CardCharacter>();
-    public List<CardMachine> CardsMachine = new List<CardMachine>();
+    List<CardCharacter> cardCharacters = new List<CardCharacter>();
+    public List<CardCharacter> CardCharacters => cardCharacters;
+    List<CardMachine> cardMachines = new List<CardMachine>();
+    public List<CardMachine> CardMachines => cardMachines;
 
-    private void OnEnable()
+    const string resPathCardCharacter = "Card/CardSAOJ/CardCharacter";
+    const string resPathCardMachine = "Card/CardSAOJ/CardMachine";
+
+    public void LoadSumALLCard()
     {
-        // Khi ScriptableObject được kích hoạt hoặc tải lên, gọi hàm để load toàn bộ Card ScriptableObject
         LoadAllCardTowerScriptableObjects();
         LoadAllCardMachineScriptableObjects();
         LoadDataCard();
     }
-    public void LoadAllCardTowerScriptableObjects()
+    private void LoadAllCardTowerScriptableObjects()
     {
-        // Đường dẫn của thư mục chứa các Card ScriptableObject
-        string resPath = "Card/CardSAOJ/CardCharacter";
-
-        // Load tất cả các Card ScriptableObject từ thư mục
-        CardCharacter[] loadedCards = Resources.LoadAll<CardCharacter>(resPath);
-
-
-        // Gán danh sách các Card đã load vào biến allCards
-        listCardCharacter = new List<CardCharacter>(loadedCards);
-
-        // Hiển thị thông báo log (có thể loại bỏ sau khi kiểm tra)
-        Debug.Log("Loaded " + listCardCharacter.Count + " Card ScriptableObjects from " + resPath);
-
-
+        CardCharacter[] loadedCards = Resources.LoadAll<CardCharacter>(resPathCardCharacter);
+        cardCharacters = new List<CardCharacter>(loadedCards);
     }
-    public void LoadAllCardMachineScriptableObjects()
+    private void LoadAllCardMachineScriptableObjects()
     {
-        // Đường dẫn của thư mục chứa các Card ScriptableObject
-        string resPath = "Card/CardSAOJ/CardMachine";
-
-        // Load tất cả các Card ScriptableObject từ thư mục
-        CardMachine[] loadedCards = Resources.LoadAll<CardMachine>(resPath);
-
-        // Gán danh sách các Card đã load vào biến allCards
-        CardsMachine = new List<CardMachine>(loadedCards);
-
-        // Hiển thị thông báo log (có thể loại bỏ sau khi kiểm tra)
-        Debug.Log("Loaded " + listCardCharacter.Count + " Card ScriptableObjects from " + resPath);
-
-
+        CardMachine[] loadedCards = Resources.LoadAll<CardMachine>(resPathCardMachine);
+        cardMachines = new List<CardMachine>(loadedCards);
     }
-    public void LoadDataCard()
+    private void LoadDataCard()
     {
-        listCardCharacter = SortCardCharacterByCost(listCardCharacter);
-        CardsMachine = SortCardMachineByCost(CardsMachine);
+        cardCharacters = SortCardCharacterByCost();
+        cardMachines = SortCardMachineByCost();
     }
-    List<CardCharacter> SortCardCharacterByCost(List<CardCharacter> originalList)
+    List<CardCharacter> SortCardCharacterByCost()
     {
-        return originalList.OrderBy(x => x.price).ToList();
+        return cardCharacters.OrderBy(x => x.price).ToList();
     }
-    List<CardMachine> SortCardMachineByCost(List<CardMachine> originalList)
+    List<CardMachine> SortCardMachineByCost()
     {
-        return originalList.OrderBy(x => x.price).ToList();
+        return cardMachines.OrderBy(x => x.price).ToList();
     }
     //Card Guard
     //List<CardCharacter> SortCardGuardByCost(List<Ca> originalList)
     //{
     //    return originalList.OrderBy(x => x.price).ToList();
     //}
-    public List<CardCharacter> GetCharacterCards()
-    {
-        return listCardCharacter;
-    }
     public List<CardCharacter> GetCharacterAttackType(AttackCategory attackType)
     {
-        return listCardCharacter.Where(x => x.GetAttackType() == attackType).ToList();
+        return CardCharacters.Where(x => x.GetAttackType() == attackType).ToList();
     }
-    public List<CardMachine> GetMachineCards()
+    public List<CardCharacter> GetCardsByGuild(GuildType guildType)
     {
-        return CardsMachine;
+        return cardCharacters.Where(c => c.guildType == guildType).ToList();
     }
 }
 

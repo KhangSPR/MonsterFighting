@@ -28,7 +28,7 @@ public class PanelCardHasSelect : SaiMonoBehaviour
             if (cardHasSelect.CardTower == null)
             {
                 //Check Slot Card
-                if(CardManager.Instance.CardALLCard.listCardCharacter.Count < CardHasSelects.Count)
+                if(CardManager.Instance.CardALLCard.CardCharacters.Count < CardHasSelects.Count)
                 {
                     CardManager.Instance.ButtonCard.ButtonUI.SetConditionToClick(true);
                     return;

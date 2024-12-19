@@ -1,14 +1,8 @@
-﻿using CodeMonkey.Utils;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
+﻿using System.Collections.Generic;
 using TMPro;
 using UIGameDataManager;
-using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
-
 
 public class CardManager : MonoBehaviour
 {
@@ -54,36 +48,26 @@ public class CardManager : MonoBehaviour
         }
         CardManager.instance = this;
 
-        //ClearCardALLList();
+        cardManagerALL.LoadSumALLCard();
+        cardManagerDataPlay.LoadData();
     }
     private void OnApplicationQuit()
     {
-        // Reset the CardManager when the game is about to quit
-
-        //ClearCardALLList();
+        cardManagerDataPlay.SaveData();
     }
-    //public void ClearCardALLList()
-    //{
-    //    cardManagerDataPlay.cardTowers.Clear();
-    //}
-
-
-
     //Take Card Class
     public void RemoveCardFromCardManager(CardCharacter cardTower)
     {
-        CardManager.Instance.CardManagerData.cardCharacter.Remove(cardTower);
-        CardManagerData.SaveData();
+        CardManager.Instance.CardManagerData.CardCharacters.Remove(cardTower);
     }
     public void AddCardToCardManager(CardCharacter cardTower)
     {
-        CardManager.Instance.CardManagerData.cardCharacter.Add(cardTower);
-        CardManagerData.SaveData();
+        CardManager.Instance.CardManagerData.CardCharacters.Add(cardTower);
 
     }
     public bool CheckCardPresenceInCardPlay(CardCharacter card)
     {
-        foreach (CardCharacter cardTower in cardManagerDataPlay.cardCharacter)
+        foreach (CardCharacter cardTower in cardManagerDataPlay.CardCharacters)
         {
             if (cardTower.Equals(card))
             {
@@ -112,7 +96,7 @@ public class CardManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach (CardCharacter card in cardManagerALL.listCardCharacter)
+        foreach (CardCharacter card in cardManagerALL.GetCardsByGuild(GuildManager.Instance.GuildSOManager.GuildJoined.guildType))
         {
             //for (int i = 0; i < 10; i++)
             //{
@@ -196,7 +180,7 @@ public class CardManager : MonoBehaviour
     }
     void TakeCardSelectPlay(CardSelectTower cardSelectTower)
     {
-        foreach (CardCharacter cardTower in cardManagerDataPlay.cardCharacter)
+        foreach (CardCharacter cardTower in cardManagerDataPlay.CardCharacters)
         {
             if (cardSelectTower.CardTower == cardTower)
             {
@@ -209,7 +193,7 @@ public class CardManager : MonoBehaviour
     public void CheckCardIsWorking()
     {
         // Kiểm tra nếu không có dữ liệu trong cardSelectTowers hoặc cardManagerDataPlay.cardTowers
-        if (cardSelectTowers.Count < 1 || cardManagerDataPlay.cardCharacter.Count < 1)
+        if (cardSelectTowers.Count < 1 || cardManagerDataPlay.CardCharacters.Count < 1)
             return;
 
 
@@ -217,10 +201,10 @@ public class CardManager : MonoBehaviour
         foreach (CardHasSelect cardHasSelect in panelCardHasSelect.CardHasSelects)
         {
             // Kiểm tra xem có phải đã đủ dữ liệu trong cardManagerDataPlay.cardTowers hay không
-            if (i >= cardManagerDataPlay.cardCharacter.Count)
+            if (i >= cardManagerDataPlay.CardCharacters.Count)
                 return;
 
-            cardHasSelect.CardTower = cardManagerDataPlay.cardCharacter[i];
+            cardHasSelect.CardTower = cardManagerDataPlay.CardCharacters[i];
             cardHasSelect.SettingCard(cardHasSelect.CardTower);
             for (int j = 0; j < cardSelectTowers.Count; j++)
             {
