@@ -1,16 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class PanelController : MonoBehaviour
 {
-    [SerializeField] GameObject panel;
+    [SerializeField] GameObject[] panels; // Mảng các panel
     [SerializeField] GameObject panelBase;
-    [SerializeField] GameObject CardStats;
+    [SerializeField] GameObject panelGoto;
 
     void Start()
     {
-        // Gán hàm xử lý sự kiện cho Panel
-        AddEventTrigger(panel, EventTriggerType.PointerClick, OnPanelClick);
+        // Gán hàm xử lý sự kiện cho tất cả các panel
+        foreach (GameObject panel in panels)
+        {
+            AddEventTrigger(panel, EventTriggerType.PointerClick, OnPanelClick);
+        }
     }
 
     void Update()
@@ -29,12 +33,19 @@ public class PanelController : MonoBehaviour
                 touchPosition = Input.mousePosition;
             }
 
-            // Kiểm tra nếu không bấm vào Panel
-            if (!IsPointerOverUIObject(panel, touchPosition))
+            // Kiểm tra nếu không bấm vào bất kỳ panel nào trong mảng panels
+            if (!IsPointerOverAnyPanel(panels, touchPosition))
             {
-                if (CardStats.activeSelf == false)
+                if (!panelGoto.activeSelf)
                 {
                     panelBase.SetActive(false);
+                }
+            }
+            else
+            {
+                if (!panelGoto.activeSelf)
+                {
+                    panelGoto.SetActive(true);
                 }
             }
         }
@@ -62,19 +73,25 @@ public class PanelController : MonoBehaviour
         eventData.Use();
     }
 
-    private bool IsPointerOverUIObject(GameObject obj, Vector2 position)
+    private bool IsPointerOverAnyPanel(GameObject[] panelArray, Vector2 position)
     {
         PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current)
         {
             position = position
         };
-        System.Collections.Generic.List<RaycastResult> results = new System.Collections.Generic.List<RaycastResult>();
+        List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
         foreach (RaycastResult result in results)
         {
-            if (result.gameObject == obj)
-                return true;
+            foreach (GameObject panel in panelArray)
+            {
+                if (result.gameObject == panel)
+                {
+                    return true; // Con trỏ đang ở trên một trong các panel
+                }
+            }
         }
-        return false;
+        return false; // Không bấm vào bất kỳ panel nào
     }
 }

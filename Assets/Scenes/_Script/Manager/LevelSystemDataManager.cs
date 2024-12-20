@@ -17,11 +17,6 @@ public class LevelSystemDataManager : MonoBehaviour
 
     private static LevelSystemDataManager instance;                             //instance variable
     public static LevelSystemDataManager Instance { get => instance; }          //instance getter
-
-    private void Start()
-    {
-        LoadAreasData();
-    }
     private void OnApplicationQuit()
     {
         SaveAreasData();
@@ -73,6 +68,8 @@ public class LevelSystemDataManager : MonoBehaviour
             Debug.LogError("Only 1 LevelSystemManager Warning");
         }
         LevelSystemDataManager.instance = this;
+
+        LoadAreasData();
         //LoadAreas();
     }
 

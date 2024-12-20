@@ -176,6 +176,8 @@ namespace UIGameDataMap
                 {
                     if (!level.isUnlocked)
                     {
+                        Debug.Log("LastUnLockArea: " + level.levelIndex);
+
                         firstLockedLevelIndex = level.levelIndex;
                         return firstLockedLevelIndex - 1;
                     }

@@ -333,8 +333,8 @@ namespace UIGameDataManager
 
                 //CardManager Sort
                 //CardManager.Instance.ClearCardALLList();
-                CardManager.Instance.CardALLCard.LoadAllCardTowerScriptableObjects();
-                CardManager.Instance.CardALLCard.LoadDataCard();
+                //CardManager.Instance.CardALLCard.LoadAllCardTowerScriptableObjects();
+                //CardManager.Instance.CardALLCard.LoadDataCard();
 
                 Debug.Log("OnPurchaseItem");
                 //TransactionProcessed?.Invoke(shopItem, screenPos);

@@ -45,6 +45,7 @@ namespace UIGameDataManager
         public SkillSO skill1;
         public SkillSO skill2;
 
+        public GuildType guildType;
         public RarityCard rarityCard;
         public AttackCategory attackTypeCard;
         //public AttackTypeAnimation attackType;

@@ -195,7 +195,7 @@ public class InventorySlot
         amount = _amount;
     }
 
-    public void UpdateSlot(int _id, Item _item, int _amount, bool _isUsed)
+    public void UpdateSlot(int _id, Item _item, int _amount, bool _isUsed) //Repair
     {
         ID = _id;
         item = _item;

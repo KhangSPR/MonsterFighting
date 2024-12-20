@@ -48,9 +48,10 @@ public class PortalHouseBtn : MonoBehaviour
         }
 
         // Kiểm tra nếu danh sách portals trống
-        if (portals == null || portals.Count == 0)
+        if (portals == null || portals.Count == 0) //Repair
         {
-            Debug.LogError("No portals found for the given waves.");
+            //Debug.LogError("No portals found for the given waves.");
+
             return;
         }
         //Debug.Log("CountPortal: " + portals.Count);

@@ -14,7 +14,7 @@ public class ListCardCharacterData : SaiMonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach (CardCharacter cardCharacterData in CardManager.Instance.CardManagerData.cardCharacter)
+        foreach (CardCharacter cardCharacterData in CardManager.Instance.CardManagerData.CardCharacters)
         {
             GameObject newObj = CardSpawner.Instance.Spawn("CardSpawner", transform.position, Quaternion.identity).gameObject;
 
