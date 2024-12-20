@@ -36,7 +36,7 @@ public class StarsUILevel : SaiMonoBehaviour
 
     private void GetMapSO()
     {
-        this.mapSO = levelButton.GetMapDataSO();
+        this.mapSO = levelButton.MapSO;
         if (mapSO != null)
         {
             int totalStars = mapSO.SumStarsMapDifficult(mapSO.DifficultyMap);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DG.Tweening;
+using System.Collections.Generic;
 using TMPro;
 using UIGameDataManager;
 using UnityEngine;
@@ -152,6 +153,7 @@ public class CardManager : MonoBehaviour
                 cardHasSelect.CardTower = cardTower;
                 cardHasSelect.SettingCard(cardTower);
                 cardHasSelect.Card.SetActive(true);
+                cardHasSelect.Card.transform.DOMove(cardHasSelect.Card.transform.position, 0.3f).From(cardSelectTower.transform.position).SetEase(Ease.InOutCirc);
 
                 //Card Check Enough
                 PanelCardHasSelect.CheckForEnoughCard();

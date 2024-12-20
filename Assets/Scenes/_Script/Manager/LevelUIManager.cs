@@ -30,6 +30,8 @@ public class LevelUIManager : MonoBehaviour
             if (mapbtnGameObjects != null && mapbtnGameObjects.Count > MapManager.Instance.MapSOCurrentIndex)
             {
 
+                //Debug.Log("Current Lv " + MapManager.Instance.MapSOCurrentIndex + 1);
+
                 return mapbtnGameObjects[MapManager.Instance.MapSOCurrentIndex];
             }
             else

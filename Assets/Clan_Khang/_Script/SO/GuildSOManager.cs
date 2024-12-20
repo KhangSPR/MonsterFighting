@@ -12,28 +12,18 @@ public class GuildSOManager : ScriptableObject
     public GuildDefaultStatsSO GuildAbilitySO => GuildStatsDefault;
 
     const string resPathGuildSO = "Guild/GuildSO";
+    const string resPathGuildSODefault = "Guild/GuildDefault";
 
-    private void OnEnable()
-    {
-        LoadAllGuildSO();
-        LoadDataCard();
-    }
-
-    private void OnApplicationQuit()
-    {
-        listGuilds.Clear();
-    }
-
-    private void LoadAllGuildSO()
+    public void LoadAllGuildSO()
     {
         listGuilds.Clear();
         GuildSO[] loadGuilds = Resources.LoadAll<GuildSO>(resPathGuildSO);
         listGuilds = new List<GuildSO>(loadGuilds);
 
-        Debug.Log("Loaded " + listGuilds.Count + " Guild ScriptableObjects from " + resPathGuildSO);
+        //GuildStatsDefault = Resources.Load<GuildDefaultStatsSO>(resPathGuildSODefault);
     }
 
-    private void LoadDataCard()
+    public void LoadDataCard()
     {
         // Chỉ sắp xếp danh sách nếu cần thiết (ví dụ: nếu dữ liệu thay đổi thường xuyên)
         listGuilds = SortGuildByID(listGuilds);

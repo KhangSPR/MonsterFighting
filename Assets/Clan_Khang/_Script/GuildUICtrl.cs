@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,16 +37,35 @@ public class GuildUICtrl : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach(GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
+        //foreach(GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
+        //{
+        //    GameObject newguildChossing = Instantiate(PrefabGuildChoosing.gameObject, GuildChoosing);
+
+        //    GuildChoosing guildChoosing = newguildChossing.GetComponent<GuildChoosing>();
+
+        //    guildChoosing.SetUI(guildSO,this);
+        //    swipe.GuildChoosings.Add(guildChoosing);
+        //}
+        foreach (GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
         {
             GameObject newguildChossing = Instantiate(PrefabGuildChoosing.gameObject, GuildChoosing);
 
             GuildChoosing guildChoosing = newguildChossing.GetComponent<GuildChoosing>();
 
-            guildChoosing.SetUI(guildSO,this);
+            guildChoosing.SetUI(guildSO, this);
             swipe.GuildChoosings.Add(guildChoosing);
         }
+        for (int i = 0; i<3;i++)
+        {
+            GameObject newguildChossing = Instantiate(PrefabGuildChoosing.gameObject, GuildChoosing);
+
+            GuildChoosing guildChoosing = newguildChossing.GetComponent<GuildChoosing>();
+
+            guildChoosing.SetUI(GuildSO, this);
+
+        }
     }
+    [SerializeField] GuildSO GuildSO;
     void InstanceGuildButton()
     {
         foreach (Transform child in GuildButton)

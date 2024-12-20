@@ -162,7 +162,7 @@ namespace UIGameDataManager
             {
                 charScreen.SetCurrentIndex(id);
 
-                CardStatsPrefab.SetActive(true);
+                //CardStatsPrefab.SetActive(true);
 
                 //InstanceCardObject();
 

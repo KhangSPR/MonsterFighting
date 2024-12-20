@@ -14,6 +14,18 @@ public class GuildManager : MonoBehaviour
             Debug.LogError("Only 1 GuildManager Warning");
         }
         GuildManager.instance = this;
+
+        guildSOManager.LoadAllGuildSO();
+        guildSOManager.LoadDataCard();
     }
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            PlayerPrefs.DeleteAll();
+            Debug.Log("PlayerPrefs deleted successfully!");
+        }
+    }
+
 
 }

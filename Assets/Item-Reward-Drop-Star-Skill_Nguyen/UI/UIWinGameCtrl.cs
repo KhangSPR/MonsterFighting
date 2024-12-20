@@ -150,6 +150,11 @@ public class UIWinGameCtrl : MonoBehaviour
     {
         if (mapDifficulty.isReceivedReWard) return;
 
+        foreach(Transform item in rewardHolder)
+        {
+            Destroy(item.gameObject);
+        }
+
         Debug.Log("Spawning reward items");
         foreach (var item in mapDifficulty.Reward)
         {
