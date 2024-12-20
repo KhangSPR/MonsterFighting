@@ -55,15 +55,15 @@ public class GuildUICtrl : MonoBehaviour
             guildChoosing.SetUI(guildSO, this);
             swipe.GuildChoosings.Add(guildChoosing);
         }
-        //for (int i = 0; i<3;i++)
-        //{
-        //    GameObject newguildChossing = Instantiate(PrefabGuildChoosing.gameObject, GuildChoosing);
+        for (int i = 0; i<3;i++)
+        {
+            GameObject newguildChossing = Instantiate(PrefabGuildChoosing.gameObject, GuildChoosing);
 
-        //    GuildChoosing guildChoosing = newguildChossing.GetComponent<GuildChoosing>();
+            GuildChoosing guildChoosing = newguildChossing.GetComponent<GuildChoosing>();
 
-        //    guildChoosing.SetUI(GuildSO, this);
+            guildChoosing.SetUI(GuildSO, this);
 
-        //}
+        }
     }
     [SerializeField] GuildSO GuildSO;
     void InstanceGuildButton()
