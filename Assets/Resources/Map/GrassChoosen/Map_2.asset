@@ -26,21 +26,11 @@ MonoBehaviour:
         enemyRanDoms:
         - TimeFirstSpawn: 6
           EnemyType:
-          - enemyTypeSO: {fileID: 0}
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
             countEnemy: 1
             timerMin: 3
             timerMax: 4
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 2
-            timerMin: 3
-            timerMax: 5
-        - TimeFirstSpawn: 2
-          EnemyType:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 1
-            timerMin: 3
-            timerMax: 4
-          - enemyTypeSO: {fileID: 0}
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
             countEnemy: 2
             timerMin: 3
             timerMax: 5
@@ -52,15 +42,15 @@ MonoBehaviour:
           - 8
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 1
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
+            countEnemy: 2
             timerMin: 2
             timerMax: 4
       waveFinal:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
-          - enemyTypeSO: {fileID: 0}
+          - enemyTypeSO: {fileID: 11400000, guid: d91c1754633e5064f94734ae237557b8, type: 2}
             countEnemy: 1
             timerMin: 3
             timerMax: 4
@@ -72,13 +62,15 @@ MonoBehaviour:
           - 1
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 1
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
+            countEnemy: 3
             timerMin: 2
             timerMax: 4
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 5
+    - item: {fileID: 11400000, guid: fa05bb5dc35cee845aebc20b9517cbcc, type: 2}
+      Count: 1
   - stars: 0
     difficult: 1
     isReceivedReWard: 0

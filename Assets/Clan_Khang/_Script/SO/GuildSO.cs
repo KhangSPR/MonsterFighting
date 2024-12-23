@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum GuildType
 {
@@ -13,7 +11,9 @@ public enum GuildType
 public class GuildSO : ScriptableObject
 {
     [Header("public variable")]
-    public int id;
+    public string ID;
+    public int SortOrder; // Biến dùng để sắp xếp
+
     public uint Cost;
     public string GuildName;
     [TextArea] public string GuildDescription;
@@ -24,4 +24,5 @@ public class GuildSO : ScriptableObject
     public GuildType guildType;
 
     public GuildMoreStatsAbilitySO abilitySO;
+
 }

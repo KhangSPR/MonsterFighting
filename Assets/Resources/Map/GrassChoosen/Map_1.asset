@@ -36,10 +36,21 @@ MonoBehaviour:
         - TimeFirstSpawn: 3
           EnemyType:
           - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
-            countEnemy: 3
+            countEnemy: 1
             timerMin: 3
             timerMax: 5
-        Portals: []
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 2
+          spawnTimeInSeconds:
+          - 1
+          hasBoss: 0
+          enemyTypes:
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 4
     Reward:
     - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}
       Count: 5
@@ -64,7 +75,7 @@ MonoBehaviour:
           hasBoss: 0
           enemyTypes:
           - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
-            countEnemy: 7
+            countEnemy: 3
             timerMin: 2
             timerMax: 4
       waveFinal:
@@ -107,8 +118,8 @@ MonoBehaviour:
           - 2
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
-            countEnemy: 1
+          - enemyTypeSO: {fileID: 11400000, guid: 137c601c0a916c141bb3bd2de309c970, type: 2}
+            countEnemy: 2
             timerMin: 5
             timerMax: 7
     Reward:

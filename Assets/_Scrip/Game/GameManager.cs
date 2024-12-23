@@ -94,8 +94,6 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Space]
     [Space]
-    [Header("Guild Play")]
-    public GuildSOManager GuildSOManager;
 
 
     //UI HP
@@ -191,14 +189,15 @@ public class GameManager : SaiMonoBehaviour
     protected override void OnEnable()
     {
         base.OnEnable();
-        WaveSpawnManager.AllPortalsSpawned += GameWin;
         UIChoosingMapLoader.LevelSettingsChanged += OnSetLevelSettings;
         LevelSettings.HpPercentage += OnUpdateCurrentHpPercentage;
+
+        WaveSpawnManager.AllPortalsSpawned -= GameWin;
+        WaveSpawnManager.AllPortalsSpawned += GameWin;
     }
     protected override void OnDisable()
     {
         base.OnDisable();
-        WaveSpawnManager.AllPortalsSpawned -= GameWin;
         UIChoosingMapLoader.LevelSettingsChanged -= OnSetLevelSettings;
 
         LevelSettings.HpPercentage -= OnUpdateCurrentHpPercentage;
@@ -208,9 +207,8 @@ public class GameManager : SaiMonoBehaviour
     protected override void Start()
     {
         base.Start();
-        if (GuildSOManager == null) return;
 
-        GuildSOManager.GuildAbilitySO.ApplyDefaultStats(gameObject);
+        GuildManager.Instance.GuildAbilitySO.ApplyDefaultStats(gameObject);
 
         SetHpInGame();
 
@@ -557,9 +555,13 @@ public class GameManager : SaiMonoBehaviour
 
     private void GameWin()
     {
-        if (isGameSpeeded) Time.timeScale = 1;
+        Debug.Log("GameWin ->>>>>>>");
 
+        if (isGameWin) return;
         isGameWin = true;
+
+
+        if (isGameSpeeded) Time.timeScale = 1;
         //Set Star Type
         SetStarConditionTypeMap();
 
@@ -591,6 +593,9 @@ public class GameManager : SaiMonoBehaviour
         MapManager.Instance.UnLockNextMap();
         MapManager.Instance.SetStarDifficult(star);
         MapManager.Instance.SetReward();
+
+        GameDataManager.Instance.ConsumeEnergy();
+
         //fade.gameObject.SetActive(true);
     }
     public void GameLoss()
@@ -608,6 +613,7 @@ public class GameManager : SaiMonoBehaviour
             Destroy(item.gameObject);
         }
         Map_UI_Manager.GetComponent<Map_Ui_Manager>().UILose.gameObject.SetActive(true);
+
     }
     private void SetStarConditionTypeMap()
     {

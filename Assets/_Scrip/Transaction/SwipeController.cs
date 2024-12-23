@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class SwipeController : MonoBehaviour,IEndDragHandler
@@ -13,11 +14,29 @@ public class SwipeController : MonoBehaviour,IEndDragHandler
     [SerializeField] float tweenTime;
     [SerializeField] LeanTweenType tweenType;
     [SerializeField] float dragThreshould;
+
+    [SerializeField] Tooltip_PortalsMap tooltip_PortalsMap;
+    [SerializeField] Tooltip_Item tooltip_Item;
+    [SerializeField] ScrollRect scrollRect;
+
+
     private void Awake()
     {
+        scrollRect = transform.GetComponent<ScrollRect>();
         currentPage = 0;
         targetPos = levelPagesRect.localPosition;
         dragThreshould = Screen.width / 15;
+    }
+    private void Update()
+    {
+        if (tooltip_PortalsMap.gameObject.activeSelf || tooltip_Item.gameObject.activeSelf)
+        {
+            scrollRect.horizontal = false;
+            return;
+        }
+        
+        if(!scrollRect.horizontal)
+            scrollRect.horizontal = true;
     }
     public void Next()
     {
@@ -44,6 +63,7 @@ public class SwipeController : MonoBehaviour,IEndDragHandler
         float newTargetPosX = ( currentPage ) * pageStep.x;
         Debug.Log(newTargetPosX);
         levelPagesRect.LeanMoveX(newTargetPosX, tweenTime).setEase(tweenType);
+
     }
 
     public void OnEndDrag(PointerEventData eventData)

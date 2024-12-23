@@ -66,7 +66,7 @@ public class Tooltip_PortalsMap : MonoBehaviour
 
 
         localPoint.y += 100f;
-        localPoint.x -= 550f;
+        localPoint.x -= 630f;
 
         transform.localPosition = localPoint;
 

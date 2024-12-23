@@ -24,8 +24,7 @@ public class Swipe : MonoBehaviour
 
     private Tweener scaleTween;
     private Tweener[] colorTweens;
-    private List<GuildChoosing> guildChoosings; // List to store buttons
-    public List<GuildChoosing> GuildChoosings => guildChoosings;
+    public List<GuildChoosing> guildChoosings; // List to store buttons
 
     private void Start()
     {
@@ -183,7 +182,7 @@ public class Swipe : MonoBehaviour
             if (i != btnNumber)
             {
                 guildChoosings[i].TextBlur.BlurTexts();
-                guildChoosings[i].ICON.color = new Color(1, 1, 1, 90 / 255f); 
+                guildChoosings[i].ICON.color = new Color(1, 1, 1, 90 / 255f);
             }
             else
             {

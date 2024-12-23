@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UIGameDataManager;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class HoverOver : SaiMonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
@@ -52,6 +53,8 @@ public class HoverOver : SaiMonoBehaviour, IPointerEnterHandler, IPointerExitHan
         btn.OnClickButton();
 
         Debug.Log("OnPointerDown");
+
+        GameDataManager.Instance.ResourceMapUpdated(); //Update Resource
 
 
     }

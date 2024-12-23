@@ -52,9 +52,18 @@ public class CardManager : MonoBehaviour
         cardManagerALL.LoadSumALLCard();
         cardManagerDataPlay.LoadData();
     }
-    private void OnApplicationQuit()
+
+    private void OnApplicationFocus(bool hasFocus) //APly Android
+    {
+        if (!hasFocus) // Mất tiêu điểm
+        {
+            SaveGameData();
+        }
+    }
+    private void SaveGameData()
     {
         cardManagerDataPlay.SaveData();
+        Debug.Log("Dữ liệu đã được lưu.");
     }
     //Take Card Class
     public void RemoveCardFromCardManager(CardCharacter cardTower)
@@ -97,7 +106,7 @@ public class CardManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach (CardCharacter card in cardManagerALL.GetCardsByGuild(GuildManager.Instance.GuildSOManager.GuildJoined.guildType))
+        foreach (CardCharacter card in cardManagerALL.GetCardsByGuild(GuildManager.Instance.GuildJoined.guildType))
         {
             //for (int i = 0; i < 10; i++)
             //{

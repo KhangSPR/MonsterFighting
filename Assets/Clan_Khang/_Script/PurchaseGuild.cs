@@ -48,7 +48,7 @@ public class PurchaseGuild : MonoBehaviour
         if (guildSO.Cost > GameDataManager.Instance.GameData.badGe) return;
 
         GameDataManager.Instance.GameData.badGe -= guildSO.Cost;
-        GuildManager.Instance.GuildSOManager.IsActiveJoined(guildSO);
+        GuildManager.Instance.IsActiveJoined(guildSO);
 
         CardManager.Instance.CardManagerData.RemoveAllJoinedGuild();
 

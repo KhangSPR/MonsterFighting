@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GuildUICtrl : MonoBehaviour
@@ -10,71 +11,55 @@ public class GuildUICtrl : MonoBehaviour
     [SerializeField] Transform GuildButton;
 
     [Header("Prefab")]
-    [SerializeField] Transform PrefabGuildChoosing;
-    [SerializeField] Transform PrefabGuildButton;
+    [SerializeField] GameObject PrefabGuildChoosing;
+    [SerializeField] GameObject PrefabGuildButton;
 
     [Header("Script")]
     [SerializeField] Swipe swipe;
-    public Swipe Swipe=> swipe;
+    public Swipe Swipe => swipe;
     [SerializeField] PurchaseGuild purchaseGuild;
     public PurchaseGuild PurchaseGuild => purchaseGuild;
-
-    
     private void OnEnable()
     {
+
         InstanceGuildChoosing();
+
         InstanceGuildButton();
 
+
         swipe.UpdateButtonInteractivity();
+
     }
     private void OnDisable()
     {
-        swipe.GuildChoosings.Clear();
+        swipe.guildChoosings.Clear();
     }
     void InstanceGuildChoosing()
     {
-        foreach(Transform child in GuildChoosing)
+        foreach (Transform child in GuildChoosing)
         {
             Destroy(child.gameObject);
         }
-        //foreach(GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
-        //{
-        //    GameObject newguildChossing = Instantiate(PrefabGuildChoosing.gameObject, GuildChoosing);
-
-        //    GuildChoosing guildChoosing = newguildChossing.GetComponent<GuildChoosing>();
-
-        //    guildChoosing.SetUI(guildSO,this);
-        //    swipe.GuildChoosings.Add(guildChoosing);
-        //}
-        foreach (GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
+        foreach (GuildSO guildSO in GuildManager.Instance.Guilds)
         {
-            GameObject newguildChossing = Instantiate(PrefabGuildChoosing.gameObject, GuildChoosing);
+            GameObject newguildChossing = Instantiate(PrefabGuildChoosing, GuildChoosing);
 
             GuildChoosing guildChoosing = newguildChossing.GetComponent<GuildChoosing>();
 
+
             guildChoosing.SetUI(guildSO, this);
-            swipe.GuildChoosings.Add(guildChoosing);
+            swipe.guildChoosings.Add(guildChoosing);
         }
-        //for (int i = 0; i<3;i++)
-        //{
-        //    GameObject newguildChossing = Instantiate(PrefabGuildChoosing.gameObject, GuildChoosing);
-
-        //    GuildChoosing guildChoosing = newguildChossing.GetComponent<GuildChoosing>();
-
-        //    guildChoosing.SetUI(GuildSO, this);
-
-        //}
     }
-    [SerializeField] GuildSO GuildSO;
     void InstanceGuildButton()
     {
         foreach (Transform child in GuildButton)
         {
             Destroy(child.gameObject);
         }
-        foreach (GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
+        foreach (GuildSO guildSO in GuildManager.Instance.Guilds)
         {
-            GameObject guildButton = Instantiate(PrefabGuildButton.gameObject, GuildButton);
+            GameObject guildButton = Instantiate(PrefabGuildButton, GuildButton);
 
             guildButton.GetComponent<ButtonGuild>().SetUI(guildSO, swipe);
         }
@@ -85,13 +70,13 @@ public class GuildUICtrl : MonoBehaviour
         Dictionary<GuildSO, GuildChoosing> guildDictionary = new Dictionary<GuildSO, GuildChoosing>();
 
         // Điền từ điển với các giá trị từ swipe.GuildChoosings
-        foreach (var guild in swipe.GuildChoosings)
+        foreach (var guild in swipe.guildChoosings)
         {
             guildDictionary[guild.GuildSO] = guild;
         }
 
         // Duyệt qua các guild trong GuildSOManager.listGuilds
-        foreach (GuildSO guildSO in GuildManager.Instance.GuildSOManager.listGuilds)
+        foreach (GuildSO guildSO in GuildManager.Instance.Guilds)
         {
             // Kiểm tra nếu GuildSO có trong từ điển
             if (guildDictionary.TryGetValue(guildSO, out GuildChoosing guild))

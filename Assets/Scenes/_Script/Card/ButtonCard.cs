@@ -31,17 +31,6 @@ public class ButtonCard : MonoBehaviour
     void Action()
     {
         Debug.Log("Action");
-        //ShopItemSO shopItemData = clickedButton.gameObject.GetComponent<ShopItemComponent>().ShopItemData;
-
-        // starts a chain of events:
-
-        //      ShopItemComponent (click the button) -->
-        //      ShopController (buy an item) -->
-        //      GameDataManager (verify funds)-->
-        //      MagnetFXController (play effect on UI)
-
-        // notify the ShopController (passes ShopItem data + UI Toolkit screen position)
-        // Chuy?n ??i Vector3 thành Vector2 sau khi th?c hi?n phép c?ng
         Vector2 screenPos = button.gameObject.GetComponent<RectTransform>().position;
 
 
@@ -49,7 +38,5 @@ public class ButtonCard : MonoBehaviour
         Debug.Log(screenPos);
 
         CardClicked?.Invoke(CardManager.Instance.PanelCardHasSelect.CountCardNotSelect(), screenPos);
-
-        //AudioManager.PlayDefaultButtonSound();
     }
 }

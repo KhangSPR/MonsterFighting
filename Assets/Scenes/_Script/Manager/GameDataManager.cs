@@ -3,7 +3,6 @@ using System;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using TMPro;
 
 namespace UIGameDataManager
 {
@@ -12,6 +11,8 @@ namespace UIGameDataManager
     {
         public static event Action<GameData> FundsUpdated;
         public static event Action<GameData> StonesUpdated;
+
+        public static event Action<GameData> ResourcesMapUpdated;
 
 
 
@@ -26,39 +27,14 @@ namespace UIGameDataManager
 
         void Awake()
         {
-            if (GameDataManager.instance != null) Debug.LogError("Onlly 1 GameDataManager Warning");
-            GameDataManager.instance = this;
+            if (instance != null) Debug.LogError("Onlly 1 GameDataManager Warning");
+            instance = this;
 
             m_SaveManager = GetComponent<SaveManager>();
 
 
 
         }
-
-        #region Test Reset Funds
-        /*        bool m_IsGameDataInitialized;*/ //Not
-
-        //void OnEnable()
-        //{
-
-        //    SettingsScreen.ResetPlayerFunds += OnResetFunds;
-        //}
-
-        //void OnDisable()
-        //{ 
-
-        //    SettingsScreen.ResetPlayerFunds -= OnResetFunds;
-        //}
-        //void OnResetFunds()
-        //{
-        //    m_GameData.gold = 0;
-        //    m_GameData.gems = 0;
-        //    m_GameData.lvUpGame = 0;
-        //    //m_GameData.levelUpPotions = 0;
-        //    UpdateFunds();
-        //    UpdatePotions();
-        //}
-        #endregion
         void OnEnable()
         {
             //UpdateEnemyGemsUI();
@@ -79,6 +55,8 @@ namespace UIGameDataManager
         }
         void Start()
         {
+            currentEnergyAmount = CalculateEnergy();
+
             m_SaveManager?.LoadGame();
 
             RemoveItem();
@@ -87,6 +65,115 @@ namespace UIGameDataManager
 
             UpdateFunds();
         }
+        private void OnApplicationFocus(bool hasFocus) // APly Android
+        {
+            if (!hasFocus) // Mất tiêu điểm
+            {
+                PlayerPrefs.SetString(nameof(lastRestoreTime), DateTime.Now.ToString());
+                PlayerPrefs.SetInt(nameof(currentEnergyAmount), currentEnergyAmount);
+                //PlayerPrefs.Save(); // Đảm bảo lưu ngay lập tức
+            }
+        }
+        #region Energy UI ----------------------------------------------------------
+        public event Action OnEnergyChanged; // Sự kiện khi năng lượng thay đổi
+        [SerializeField] int currentEnergyAmount;
+        public int CurrentEnergyAmount => currentEnergyAmount;
+        [SerializeField] int maxEnergyAmount;
+
+        [Tooltip("Restore 1 energy every ... seconds")]
+        [SerializeField] float energyRestoreInterval;
+        [SerializeField]
+        float timeCount;
+
+        DateTime lastRestoreTime;
+
+        private void Update()
+        {
+            RestoreEnergy();
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ConsumeEnergy();
+            }
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                AddEnergy();
+            }
+            //Debug.Log("Time: " + GetEnergyTimer());
+        }
+
+        //private void OnApplicationQuit()
+        //{
+        //    PlayerPrefs.SetString(nameof(lastRestoreTime), DateTime.Now.ToString());
+        //    PlayerPrefs.SetInt(nameof(currentEnergyAmount), currentEnergyAmount);
+        //}
+
+        public void ConsumeEnergy()
+        {
+            Debug.Log("ConsumeEnergy: " + currentEnergyAmount);
+            currentEnergyAmount -= (currentEnergyAmount > 0) ? 1 : 0;
+
+            if (OnEnergyChanged != null)
+            {
+                Debug.Log("Invoking OnEnergyChanged");
+                OnEnergyChanged.Invoke();
+            }
+            else
+            {
+                Debug.LogWarning("No listeners for OnEnergyChanged!");
+            }
+        }
+
+
+        public void AddEnergy()
+        {
+            //Debug.Log("AddEnergy: " + currentEnergyAmount);
+
+            currentEnergyAmount += (currentEnergyAmount < maxEnergyAmount) ? 1 : 0;
+            lastRestoreTime = DateTime.Now;
+            timeCount = energyRestoreInterval;
+
+            OnEnergyChanged?.Invoke();
+        }
+
+        public string GetEnergyTimer()
+        {
+            int minutes = (int)(timeCount / 60);
+            int seconds = (int)(timeCount % 60);
+            return string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
+
+        private void RestoreEnergy()
+        {
+            timeCount = (currentEnergyAmount < maxEnergyAmount) ? timeCount - Time.deltaTime : 0;
+            if (timeCount <= 0)
+            {
+                //Debug.Log("RestoreEnergy: " + currentEnergyAmount);
+
+                AddEnergy();
+            }
+        }
+
+        // Calculate energy from last recovery time
+        private int CalculateEnergy()
+        {
+            int energy = PlayerPrefs.GetInt(nameof(currentEnergyAmount));
+            try
+            {
+                lastRestoreTime = DateTime.Parse(PlayerPrefs.GetString(nameof(lastRestoreTime)));
+            }
+            catch (Exception)
+            {
+                lastRestoreTime = DateTime.Now;
+                return maxEnergyAmount;
+            }
+            float lastRestoreInterval = (float)(DateTime.Now - lastRestoreTime).TotalSeconds;
+            energy += (int)(lastRestoreInterval / energyRestoreInterval);
+            timeCount = energyRestoreInterval - lastRestoreInterval % energyRestoreInterval;
+            lastRestoreTime.AddSeconds(energyRestoreInterval);
+            return (energy > maxEnergyAmount) ? maxEnergyAmount : energy;
+        }
+        #endregion
         void RemoveItem()
         {
             m_GameData.StoneBoss = 0;
@@ -94,6 +181,7 @@ namespace UIGameDataManager
             m_GameData.StoneEnemy = 0;
             
         }
+
         [Header("Test Add Item")]
         public uint ItemADD;
 
@@ -116,6 +204,14 @@ namespace UIGameDataManager
             {
                 FundsUpdated?.Invoke(m_GameData);
                 Debug.Log("Update Funds");
+            }
+        }
+        public void ResourceMapUpdated()
+        {
+            if (m_GameData != null)
+            {
+                ResourcesMapUpdated?.Invoke(m_GameData);
+                Debug.Log("Update Resource Map");
             }
         }
         void UpdateResources()

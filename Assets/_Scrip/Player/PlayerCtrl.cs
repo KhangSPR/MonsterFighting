@@ -44,9 +44,9 @@ public class PlayerCtrl : ObjectCtrl
             }
 
             // Áp dụng thêm các chỉ số từ GuildSOManager (nếu cần)
-            if (GameManager.Instance.GuildSOManager.GuildJoined != null)
+            if (GuildManager.Instance.GuildJoined != null)
             {
-                GameManager.Instance.GuildSOManager.GuildJoined.abilitySO.ApplyMoreStats(gameObject);
+                GuildManager.Instance.GuildJoined.abilitySO.ApplyMoreStats(gameObject);
             }
         }
     }

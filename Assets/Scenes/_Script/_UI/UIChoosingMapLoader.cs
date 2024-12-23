@@ -9,11 +9,21 @@ namespace UIGameDataMap
 
         public static event Action<LevelSettings> LevelSettingsChanged;
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            EnergyUI.OnClickEnergy += LoadMap;
+        }
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            EnergyUI.OnClickEnergy -= LoadMap;
+
+        }
         public void onClickExit()
         {
             Application.Quit();
         }
-
         public void LoadNextLevel() // Apply only for Grass area
         {
             MapManager.Instance.LoadNextMap();

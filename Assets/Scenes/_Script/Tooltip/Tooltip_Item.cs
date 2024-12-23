@@ -37,7 +37,7 @@ public class Tooltip_Item : MonoBehaviour
         RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent.GetComponent<RectTransform>(), Input.mousePosition, uiCamera, out localPoint);
 
         localPoint.y += 100f;
-        localPoint.x -= 550f;
+        localPoint.x -= 630f;
 
         transform.localPosition = localPoint;
 

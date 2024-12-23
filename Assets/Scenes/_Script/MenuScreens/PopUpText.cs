@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using System;
 using UnityEngine.UI;
 
 public class PopUpText : MonoBehaviour
@@ -17,11 +16,17 @@ public class PopUpText : MonoBehaviour
     void OnEnable()
     {
         ButtonCard.CardClicked += OnTransactionFailed;
+        ButtonClan.CardClicked += OnShowNotClanYet;
+        EnergyUI.LevelInfoClicked += OnShowhasEnergy;
     }
 
     void OnDisable()
     {
         ButtonCard.CardClicked -= OnTransactionFailed;
+        ButtonClan.CardClicked -= OnShowNotClanYet;
+        EnergyUI.LevelInfoClicked -= OnShowhasEnergy;
+
+
     }
 
     protected void Awake()
@@ -104,6 +109,24 @@ public class PopUpText : MonoBehaviour
         + PopUpText.TextHighlight + ">" + count + " card</color>.";
         //"Buy more <color=#" + PopUpText.TextHighlight + ">" + shopItemSO.CostInCurrencyType + "</color>.";
         ShowMessage(failMessage);
+    }
+    void OnShowNotClanYet(Vector2 position)
+    {
+        m_Delay = 0f;
+        m_Duration = 1.2f;
+        m_PopUpText.rectTransform.anchoredPosition = position;
+        string failMessage = "Not Joined Clan Yet";
+        ShowMessage(failMessage);
+
+    }
+    void OnShowhasEnergy(Vector2 position)
+    {
+        m_Delay = 0f;
+        m_Duration = 1.2f;
+        m_PopUpText.rectTransform.anchoredPosition = position;
+        string failMessage = "Not Enough Energy";
+        ShowMessage(failMessage);
+
     }
 
     //void OnGearSelected(EquipmentSO gear)

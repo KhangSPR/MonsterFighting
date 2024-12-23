@@ -310,6 +310,7 @@ public class WaveSpawnManager : SaiMonoBehaviour
 
         if (abilitySummonPortal && abilitySummonEnemy)
         {
+            
             WaveFinallyGame();
 
             if (stopLoadingWaves) return;

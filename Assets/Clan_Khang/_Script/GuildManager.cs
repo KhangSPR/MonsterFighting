@@ -1,3 +1,5 @@
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GuildManager : MonoBehaviour
@@ -5,27 +7,110 @@ public class GuildManager : MonoBehaviour
     private static GuildManager instance;
     public static GuildManager Instance => instance;
 
-    [SerializeField] GuildSOManager guildSOManager;
-    public GuildSOManager GuildSOManager => guildSOManager;
+    public GuildSO[] Guilds;
+    public GuildSO GuildJoined;
+
+    [SerializeField] private GuildDefaultStatsSO GuildStatsDefault;
+    public GuildDefaultStatsSO GuildAbilitySO => GuildStatsDefault;
     private void Awake()
     {
-        if (GuildManager.instance != null)
+        if (instance != null)
         {
             Debug.LogError("Only 1 GuildManager Warning");
         }
-        GuildManager.instance = this;
-
-        guildSOManager.LoadAllGuildSO();
-        guildSOManager.LoadDataCard();
+        instance = this;
     }
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyUp(KeyCode.A))
+        LoadDataCard();
+    }
+    public void LoadDataCard()
+    {
+        LoadGuildsFromResources();
+
+        // Sắp xếp danh sách Guilds theo SortOrder
+        Guilds = SortGuildByID(Guilds.ToList());
+
+        // Tải trạng thái Guild đã tham gia
+        LoadGuildJoinedState();
+
+        // Cập nhật Guild đã tham gia
+        SetJoinedGuild();
+    }
+
+    private void LoadGuildsFromResources()
+    {
+        Guilds = null;
+        // Tải tất cả các GuildSO từ Resources/Guilds
+        var loadedGuilds = Resources.LoadAll<GuildSO>("Guild/GuildSO");
+        if (loadedGuilds != null && loadedGuilds.Length > 0)
         {
-            PlayerPrefs.DeleteAll();
-            Debug.Log("PlayerPrefs deleted successfully!");
+            Guilds = loadedGuilds;
+        }
+        else
+        {
+            Debug.LogWarning("No GuildSO found in Resources/Guilds");
         }
     }
 
+    private GuildSO[] SortGuildByID(List<GuildSO> originalList)
+    {
+        return originalList.OrderBy(guild => guild.SortOrder).ToArray();
+    }
+
+    private void SetJoinedGuild()
+    {
+        GuildJoined = Guilds.FirstOrDefault(guild => guild.Joined);
+        if (GuildJoined == null)
+        {
+            //Debug.LogWarning("No joined guild found.");
+        }
+    }
+
+    public void IsActiveJoined(GuildSO guildSO)
+    {
+        if (guildSO == null)
+        {
+            Debug.LogWarning("GuildSO is null.");
+            return;
+        }
+
+        // Bỏ trạng thái Joined của Guild hiện tại
+        var currentGuild = Guilds.FirstOrDefault(guild => guild.Joined);
+        if (currentGuild != null)
+        {
+            currentGuild.Joined = false;
+        }
+
+        // Cập nhật trạng thái Joined cho Guild mới
+        guildSO.Joined = true;
+        GuildJoined = guildSO;
+
+        // Lưu trạng thái
+        SaveGuildState();
+    }
+
+    private void SaveGuildState()
+    {
+        foreach (var guild in Guilds)
+        {
+            PlayerPrefs.SetInt(guild.name + "_Joined", guild.Joined ? 1 : 0);
+        }
+        PlayerPrefs.Save();
+    }
+
+    private void LoadGuildJoinedState()
+    {
+        foreach (var guild in Guilds)
+        {
+            int joinedState = PlayerPrefs.GetInt(guild.name + "_Joined", 0);
+            guild.Joined = joinedState == 1;
+        }
+    }
+
+    public GuildSO FindGuildByID(string id)
+    {
+        return Guilds.FirstOrDefault(guild => guild.ID == id);
+    }
 
 }

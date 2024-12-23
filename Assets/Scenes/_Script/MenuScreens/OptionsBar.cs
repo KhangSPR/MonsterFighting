@@ -20,22 +20,59 @@ namespace UIGameDataManager
         //
         [SerializeField] TMP_Text m_BadgeGuild;
 
-
-        private void OnEnable()
+        //----------------------------------------------
+        [SerializeField] TMP_Text m_EnergyLabel;
+        [SerializeField] TMP_Text m_EnemyStoneMapLabel;
+        [SerializeField] TMP_Text m_EnemyStoneBossMapLabel;
+        //private void Start()
+        //{
+        //    GameDataManager.Instance.OnEnergyChanged += () => Debug.Log("Manual Test: Energy Changed");
+        //}
+        private void Start()
         {
+            //if (GameDataManager.Instance == null)
+            //{
+            //    //Debug.LogError("GameDataManager.Instance is null in OnEnable!");
+            //    return;
+            //}
+
+            Debug.Log("Registering events...");
+            GameDataManager.ResourcesMapUpdated += OnResourceMapUpdated;
 
             GameDataManager.FundsUpdated += OnFundsUpdated;
             GameDataManager.StonesUpdated += OnStoneUpdated;
+            GameDataManager.Instance.OnEnergyChanged += UpdateEnergyTextCurrent;     
         }
+
 
         private void OnDisable()
         {
+            GameDataManager.ResourcesMapUpdated -= OnResourceMapUpdated;
+
+
             GameDataManager.FundsUpdated -= OnFundsUpdated;
             GameDataManager.StonesUpdated -= OnStoneUpdated;
+            GameDataManager.Instance.OnEnergyChanged -= UpdateEnergyTextCurrent;
 
         }
+        private void UpdateEnergyTextCurrent()
+        {
+            if (m_EnergyLabel == null)
+            {
+                Debug.LogError("m_EnergyLabel is null!");
+                return;
+            }
 
+            m_EnergyLabel.text = "" + GameDataManager.Instance.CurrentEnergyAmount + "/5";
+            Debug.Log("Call UpdateEnergyTextCurrent");
+        }
+        public void SetResourceUI(uint stoneEnemy, uint stoneBoss)
+        {
+            m_EnemyStoneMapLabel.text = stoneEnemy.ToString();
+            m_EnemyStoneBossMapLabel.text = stoneBoss.ToString();
 
+            Debug.Log("SetResourceUI: "+ stoneEnemy +" -- " + stoneBoss);
+        }
         public void SetBadge(uint gold)
         {
             uint startValue = (uint)Int32.Parse(m_BadgeLabel.text);
@@ -50,6 +87,8 @@ namespace UIGameDataManager
         {
             uint startValue = (uint)Int32.Parse(m_EnemyStoneUpStarLabel.text);
             StartCoroutine(LerpRoutine(m_EnemyStoneUpStarLabel, startValue, gems, k_LerpTime));
+            ////////////////////////////
+
         }
         public void SetStoneEnemy(uint gems)
         {
@@ -61,6 +100,10 @@ namespace UIGameDataManager
             //SetGold(gameData.gold);
             SetStoneBoss(gameData.StoneBoss);
             SetStoneEnemy(gameData.StoneEnemy);
+
+
+            Debug.Log("OnStoneUpdated");
+
         }
         void OnFundsUpdated(GameData gameData)
         {
@@ -69,7 +112,14 @@ namespace UIGameDataManager
             SetStoneEnemy(gameData.StoneEnemy);
             SetRuby(gameData.ruby);
             SetBadgeGuild(gameData.badGe);
+            Debug.Log("OnFundsUpdated");
 
+        }
+        void OnResourceMapUpdated(GameData gameData)
+        {
+            SetResourceUI(gameData.StoneEnemy, gameData.StoneBoss);
+
+            Debug.Log("AAAA");
         }
         public void SetBadgeGuild(uint badguild)
         {

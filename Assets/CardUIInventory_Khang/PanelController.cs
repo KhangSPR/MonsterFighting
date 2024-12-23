@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class PanelController : MonoBehaviour
 {
     [SerializeField] GameObject[] panels; // Mảng các panel
+    [SerializeField] ButtonClan buttonClan;
     [SerializeField] GameObject panelBase;
     [SerializeField] GameObject panelGoto;
 
@@ -45,7 +46,7 @@ public class PanelController : MonoBehaviour
             {
                 if (!panelGoto.activeSelf)
                 {
-                    panelGoto.SetActive(true);
+                    buttonClan.OnclickBtn();
                 }
             }
         }

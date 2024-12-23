@@ -131,11 +131,13 @@ namespace UIGameDataMap
                 Destroy(child.gameObject);
             }
 
-            foreach (var resource in mapDifficulty.Reward)
+            foreach (Resources resource in mapDifficulty.Reward)
             {
-                var itemObject = Instantiate(itemPrefab, holderItem);
-                var imageComponent = itemObject.transform.Find("Img").GetComponent<Image>();
-                var countText = itemObject.transform.Find("Count").GetComponent<Text>();
+                GameObject itemObject = Instantiate(itemPrefab, holderItem);
+                Image imageComponent = itemObject.transform.Find("Img").GetComponent<Image>();
+                ItemTooltip itemTooltip = itemObject.GetComponent<ItemTooltip>();
+                itemTooltip.ItemReward = resource.item;
+                Text countText = itemObject.transform.GetComponentInChildren<Text>();
 
                 imageComponent.sprite = resource.item.Image;
                 countText.text = "x" + resource.Count;
@@ -144,6 +146,8 @@ namespace UIGameDataMap
                 {
                     imageComponent.color = new Color(1f, 160 / 255f, 122 / 255f, 128 / 255f);
                     countText.color = new Color(1f, 1f, 1f, 128 / 255f);
+
+                    itemObject.transform.Find("Tick").gameObject.SetActive(true);
                 }
             }
         }

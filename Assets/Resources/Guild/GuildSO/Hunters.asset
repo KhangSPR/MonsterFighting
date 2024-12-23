@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 843645478348cbc47bd9e615c8b23331, type: 3}
   m_Name: Hunters
   m_EditorClassIdentifier: 
-  id: 0
+  ID: 
+  SortOrder: 1
   Cost: 15
   GuildName: Hunters
   GuildDescription: '- A guild specializing in the <color=#DD0000>WARRIOR''S</color>
@@ -24,5 +25,6 @@ MonoBehaviour:
     warrior''s attack power <color=#FFD700>20%</color>.'
   GuildIcon: {fileID: 21300000, guid: 43d0e1017ab8df642a0467a14bcc2435, type: 3}
   GuildImage: {fileID: -1167249736, guid: 040a1ff994533cd4f9a39f1f7c4af11e, type: 3}
-  Joined: 1
+  Joined: 0
+  guildType: 0
   abilitySO: {fileID: 11400000, guid: d6741a58db96a6044b787e48da85f9d5, type: 2}

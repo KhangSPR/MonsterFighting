@@ -21,7 +21,8 @@ public class ItemTooltip : MonoBehaviour
     }
     void Start()
     {
-        _lableButton.onClick.AddListener(HandlerOnPointerClickItem);
+        if(_lableButton != null)
+            _lableButton.onClick.AddListener(HandlerOnPointerClickItem);
 
         if (itemObject != null)
         {

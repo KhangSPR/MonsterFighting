@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 843645478348cbc47bd9e615c8b23331, type: 3}
   m_Name: Silver Arrows
   m_EditorClassIdentifier: 
-  id: 1
+  ID: 
+  SortOrder: 2
   Cost: 25
   GuildName: Silver Arrows
   GuildDescription: '- A guild specializing in the <color=#DE9F4F>ARCHER''S</color>
@@ -24,6 +25,6 @@ MonoBehaviour:
     archer''s attack speed <color=#FFD700>30%</color>.'
   GuildIcon: {fileID: -870250292, guid: ebdac146611f0ab4e915e5c9fc636838, type: 3}
   GuildImage: {fileID: 786092664, guid: f1c325b7323e5644c907c93d5f636a24, type: 3}
-  Joined: 1
+  Joined: 0
   guildType: 2
   abilitySO: {fileID: 11400000, guid: 18101105c4eeefd4cb3d68e46dcef834, type: 2}

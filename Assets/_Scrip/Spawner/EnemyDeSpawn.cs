@@ -1,9 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 public class EnemyDeSpawn : DespawnByTime
 {
     [SerializeField] protected EnemyCtrl enemyCtrl;
     public EnemyCtrl EnemyCtrl => enemyCtrl;
-
+    [SerializeField] protected bool CanDespawnTest = false;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -27,5 +27,12 @@ public class EnemyDeSpawn : DespawnByTime
         //Drop Coin:
         enemyCtrl.EnemyDropCoin.DropCoin();
     }
+    protected override bool canDespawn()
+    {
+        if (CanDespawnTest)
+            return false;
 
+        // Gọi base và trả về giá trị
+        return base.canDespawn();
+    }
 }

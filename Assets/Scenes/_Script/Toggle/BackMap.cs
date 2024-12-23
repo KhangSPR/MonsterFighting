@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +9,7 @@ public class BackMap : MonoBehaviour
     [SerializeField] GameObject Map;
 
     Button btn;
+
     private void Start()
     {
         btn = transform.GetComponent<Button>();
