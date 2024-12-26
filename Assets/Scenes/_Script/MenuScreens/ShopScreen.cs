@@ -48,10 +48,10 @@ public class ShopScreen: MonoBehaviour
     {
         // this ScriptableObject pairs data types (ShopItems, Skills, Rarity, Classes, etc.) with specific icons 
         // (default path = Resources/GameData/GameIcons)
-        m_GameIconsData = Resources.Load<GameIconsSO>(k_ResourcePath);
+        //m_GameIconsData = Resources.Load<GameIconsSO>(k_ResourcePath);
 
 
-        SetVisualElements();
+        //SetVisualElements();
     }
 
     //public void ShowScreen()

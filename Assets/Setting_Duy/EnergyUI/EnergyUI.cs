@@ -10,9 +10,10 @@ public class EnergyUI : MonoBehaviour
     [SerializeField] RectTransform energyUI; // UI năng lượng
     [SerializeField] float animationDuration = 0.5f; // Thời gian hiệu ứng
 
+    [Space]
+    [Space]
+    [SerializeField] LoadingPVPUI loadingPVPUI;
     private bool isAnimating = false; // Kiểm tra hiệu ứng có đang chạy không
-
-    public static Action OnClickEnergy;
 
     public static event Action<Vector2> LevelInfoClicked; 
     private void OnEnable()
@@ -51,7 +52,7 @@ public class EnergyUI : MonoBehaviour
                 {
                     energyUI.gameObject.SetActive(false);
 
-                    OnClickEnergy?.Invoke();
+                    loadingPVPUI.gameObject.SetActive(true);
 
                     isAnimating = false; // Kết thúc hiệu ứng
 

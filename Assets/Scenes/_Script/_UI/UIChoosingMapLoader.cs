@@ -12,12 +12,12 @@ namespace UIGameDataMap
         protected override void OnEnable()
         {
             base.OnEnable();
-            EnergyUI.OnClickEnergy += LoadMap;
+            LoadingPVPUI.OnLoadingPVP += LoadMap;
         }
         protected override void OnDisable()
         {
             base.OnDisable();
-            EnergyUI.OnClickEnergy -= LoadMap;
+            LoadingPVPUI.OnLoadingPVP -= LoadMap;
 
         }
         public void onClickExit()

@@ -64,7 +64,7 @@ namespace UIGameDataManager
             }
 
             m_EnergyLabel.text = "" + GameDataManager.Instance.CurrentEnergyAmount + "/5";
-            Debug.Log("Call UpdateEnergyTextCurrent");
+            //Debug.Log("Call UpdateEnergyTextCurrent");
         }
         public void SetResourceUI(uint stoneEnemy, uint stoneBoss)
         {

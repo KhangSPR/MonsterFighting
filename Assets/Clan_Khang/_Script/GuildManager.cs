@@ -55,7 +55,7 @@ public class GuildManager : MonoBehaviour
 
     private GuildSO[] SortGuildByID(List<GuildSO> originalList)
     {
-        return originalList.OrderBy(guild => guild.SortOrder).ToArray();
+        return originalList.OrderBy(guild => guild.Cost).ToArray();
     }
 
     private void SetJoinedGuild()
