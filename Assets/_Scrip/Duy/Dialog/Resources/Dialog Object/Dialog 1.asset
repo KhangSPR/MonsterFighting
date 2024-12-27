@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 278947c137f24ee418527f9ba5145e2e, type: 3}
+  m_Name: Dialog 1
+  m_EditorClassIdentifier: 
+  name: 
+  id: 0
+  index: 4
+  onDialog:
+    m_PersistentCalls:
+      m_Calls: []
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4756586683567575620, guid: 20f7efbe779bcef41801a686618b5d22, type: 3}
+        m_TargetAssemblyTypeName: ChooseCharacter, Assembly-CSharp
+        m_MethodName: Display
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  actorDB: {fileID: 11400000, guid: 0b866fd52689dc14d82e2515ae0376d6, type: 2}
+  lines:
+  - content: 1500s, our planet being invaded by outerspace creatures
+    leftActor:
+      name: 
+      avatar: 
+      speaker: 0
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
+  - content: thousand of portals being place down on Earth ...
+    leftActor:
+      name: 
+      avatar: 
+      speaker: 0
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
+  - content: our civilization was seriously devastated
+    leftActor:
+      name: 
+      avatar: 
+      speaker: 0
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
+  - content: destiny ... we knew ...
+    leftActor:
+      name: 
+      avatar: 
+      speaker: 0
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
+  - content: our saviour ... we wait ...
+    leftActor:
+      name: 
+      avatar: 
+      speaker: 0
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0

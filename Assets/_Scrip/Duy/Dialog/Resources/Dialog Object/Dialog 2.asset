@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 278947c137f24ee418527f9ba5145e2e, type: 3}
+  m_Name: Dialog 2
+  m_EditorClassIdentifier: 
+  name: 
+  id: 0
+  index: 0
+  onDialogEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  actorDB: {fileID: 11400000, guid: 0b866fd52689dc14d82e2515ae0376d6, type: 2}
+  lines:
+  - content: ...
+    leftActor:
+      name: protagonist
+      avatar: anonymous
+      speaker: 1
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
+  - content: where am i?
+    leftActor:
+      name: protagonist
+      avatar: anonymous
+      speaker: 1
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
+  - content: its dark here ...
+    leftActor:
+      name: protagonist
+      avatar: anonymous
+      speaker: 1
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
+  - content: '*find way out*'
+    leftActor:
+      name: 
+      avatar: 
+      speaker: 0
+    rightActor:
+      name: protagonist
+      avatar: anonymous
+      speaker: 0
+  - content: wait ... i see something
+    leftActor:
+      name: protagonist
+      avatar: anonymous
+      speaker: 1
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
+  - content: there is light at the end of this tunnel
+    leftActor:
+      name: protagonist
+      avatar: anonymous
+      speaker: 1
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
+  - content: must get out of here first
+    leftActor:
+      name: protagonist
+      avatar: neutral
+      speaker: 1
+    rightActor:
+      name: 
+      avatar: 
+      speaker: 0
