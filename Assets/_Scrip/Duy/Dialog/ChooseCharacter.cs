@@ -7,19 +7,16 @@ public class ChooseCharacter : MonoBehaviour {
     [SerializeField] Button maleSelect;
     [SerializeField] Button femaleSelect;
 
-    [SerializeField] DialogActor maleActor;
-    [SerializeField] DialogActor femaleActor;
-
-    [SerializeField] DialogActorDatabase actorDB;
-
     private void OnEnable(){
         maleSelect.onClick.AddListener(() => {
-            actorDB.AddActor("protagonist",maleActor);
+            // actorDB.AddActor("protagonist",maleActor);
             Destroy(gameObject);
+            DialogManager.Instance.Next();
         });
         femaleSelect.onClick.AddListener(() => {
-            actorDB.AddActor("protagonist",femaleActor);
+            // actorDB.AddActor("protagonist",femaleActor);
             Destroy(gameObject);
+            DialogManager.Instance.Next();
         });
     }
 

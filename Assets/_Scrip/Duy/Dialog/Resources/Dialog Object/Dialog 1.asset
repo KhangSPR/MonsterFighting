@@ -14,69 +14,152 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 
   id: 0
-  index: 4
-  onDialog:
-    m_PersistentCalls:
-      m_Calls: []
+  index: 5
   onCompleted:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4756586683567575620, guid: 20f7efbe779bcef41801a686618b5d22, type: 3}
-        m_TargetAssemblyTypeName: ChooseCharacter, Assembly-CSharp
-        m_MethodName: Display
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  actorDB: {fileID: 11400000, guid: 0b866fd52689dc14d82e2515ae0376d6, type: 2}
+      m_Calls: []
   lines:
-  - content: 1500s, our planet being invaded by outerspace creatures
+  - content: chao mung anh hung
     leftActor:
-      name: 
-      avatar: 
-      speaker: 0
+      name: King Arthur
+      avatar: {fileID: 21300000, guid: a763030ac1db0324583c9215d1336286, type: 3}
     rightActor:
       name: 
-      avatar: 
-      speaker: 0
-  - content: thousand of portals being place down on Earth ...
+      avatar: {fileID: 0}
+    speaker: 2
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: hien tai vuong quoc chung toi dang bi xam luoc boi cac cong khong gian
     leftActor:
-      name: 
-      avatar: 
-      speaker: 0
+      name: King Arthur
+      avatar: {fileID: 21300000, guid: a763030ac1db0324583c9215d1336286, type: 3}
     rightActor:
       name: 
-      avatar: 
-      speaker: 0
-  - content: our civilization was seriously devastated
+      avatar: {fileID: 0}
+    speaker: 2
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: chung toi rat can su tro giup
     leftActor:
-      name: 
-      avatar: 
-      speaker: 0
+      name: King Arthur
+      avatar: {fileID: 21300000, guid: a763030ac1db0324583c9215d1336286, type: 3}
     rightActor:
       name: 
-      avatar: 
-      speaker: 0
-  - content: destiny ... we knew ...
+      avatar: {fileID: 0}
+    speaker: 2
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: hehe .... lam nhu nguoi co the can dc bon ta ay
     leftActor:
-      name: 
-      avatar: 
-      speaker: 0
+      name: King Arthur
+      avatar: {fileID: 21300000, guid: a763030ac1db0324583c9215d1336286, type: 3}
     rightActor:
-      name: 
-      avatar: 
-      speaker: 0
-  - content: our saviour ... we wait ...
+      name: Elite Monster
+      avatar: {fileID: 21300000, guid: e541bafcff1971d4d91b6c0328258cc1, type: 3}
+    speaker: 4
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5262317520900565800, guid: edfdd1591dc3b584e8aac8ef4c8cf72a, type: 3}
+          m_TargetAssemblyTypeName: AudioTest, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: 3326ddaa65b9bcf48aa56a97c3f1e23b, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: anh hung ... hay giup chung ta danh bai lu quai vat
     leftActor:
-      name: 
-      avatar: 
-      speaker: 0
+      name: King Arthur
+      avatar: {fileID: 21300000, guid: a763030ac1db0324583c9215d1336286, type: 3}
     rightActor:
-      name: 
-      avatar: 
-      speaker: 0
+      name: Elite Monster
+      avatar: {fileID: 21300000, guid: e541bafcff1971d4d91b6c0328258cc1, type: 3}
+    speaker: 2
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1246608577851888866, guid: 32300f9d630510441a750ecc8c732c83, type: 3}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: HideDialog
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 4756586683567575620, guid: 20f7efbe779bcef41801a686618b5d22, type: 3}
+          m_TargetAssemblyTypeName: ChooseCharacter, Assembly-CSharp
+          m_MethodName: Display
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - content: ae dau ... tien len
+    leftActor:
+      name: King Arthur
+      avatar: {fileID: 21300000, guid: a763030ac1db0324583c9215d1336286, type: 3}
+    rightActor:
+      name: Elite Monster
+      avatar: {fileID: 21300000, guid: e541bafcff1971d4d91b6c0328258cc1, type: 3}
+    speaker: 4
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1246608577851888866, guid: 32300f9d630510441a750ecc8c732c83, type: 3}
+          m_TargetAssemblyTypeName: DialogManager, Assembly-CSharp
+          m_MethodName: ShowDialog
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 5262317520900565800, guid: edfdd1591dc3b584e8aac8ef4c8cf72a, type: 3}
+          m_TargetAssemblyTypeName: AudioTest, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: 7fdb0138f19b5ff47907a474b3903542, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []

@@ -10,9 +10,11 @@ public class DialogManager : MonoBehaviour {
 
     [SerializeField] Typewriter typewriter;
     [SerializeField] Image actorAvatarLeftUI;
-    [SerializeField] TextMeshProUGUI actorNameLeftUI;
+    [SerializeField] TextMeshProUGUI actorNameLeftTextUI;
+    [SerializeField] Transform actorNameLeftContainerUI;
     [SerializeField] Image actorAvatarRightUI;
-    [SerializeField] TextMeshProUGUI actorNameRightUI;
+    [SerializeField] TextMeshProUGUI actorNameRightTextUI;
+    [SerializeField] Transform actorNameRightContainerUI;
     [SerializeField] Button continueBtn;
 
     [SerializeField] Color activeColor;
@@ -26,10 +28,14 @@ public class DialogManager : MonoBehaviour {
         }
     }
 
+    // temporary : can call DisplayDialog() any where on Start() and Update()
+    private void Start(){
+        // DisplayDialog(database.get(dialogName));
+        DisplayDialog(currentDialog);
+    }
+
     private void OnEnable(){
         continueBtn.onClick.AddListener(() => Continue());
-
-        /* temporary */ DisplayDialog(currentDialog);
     }
     private void OnDisable(){
         continueBtn.onClick.RemoveAllListeners();
@@ -37,51 +43,68 @@ public class DialogManager : MonoBehaviour {
 
     public void SetDialog(DialogObject dialog){
         currentDialog = dialog;
-        SetLine(0);
+        LoadDialogLine(0);
     }
-    public void SetLine(int index){
+
+    public void LoadDialogLine(int index){
         currentDialog.index = index;
         var line = currentDialog.lines[index];
-        typewriter.Set(line.content);
-        SetLeftActor(line);
-        SetRightActor(line);
-    }
-    public void SetLeftActor(DialogObject.Line line){
-        if (!line.leftActor.name.Equals("")){
-            actorAvatarLeftUI.gameObject.SetActive(true);
-            if (line.leftActor.speaker){
-                actorAvatarLeftUI.color = activeColor;
-                actorNameLeftUI.gameObject.SetActive(true);
-            } else {
-                actorAvatarLeftUI.color = unactiveColor;
-                actorNameLeftUI.gameObject.SetActive(false);
-            }
+        // event
+        line.onBeforeDialog?.Invoke();
+        typewriter.onTextCompleted += () => line.onAfterDialog?.Invoke();
 
-            var actor = currentDialog.actorDB.GetActor(line.leftActor.name);
-            actorAvatarLeftUI.sprite = actor.avatars.Find(x => x.name.Equals(line.leftActor.avatar)).sprite;
-            actorNameLeftUI.text = actor.name;
+        typewriter.Set(line.content);
+        LoadDialogLeftActor(line);
+        LoadDialogRightActor(line);
+    }
+    public void LoadDialogLeftActor(DialogObject.DialogLine line){
+        if (line.speaker.HasFlag(DialogObject.DialogLine.Speaker.Left)){
+            actorAvatarLeftUI.color = activeColor;
+            actorNameLeftTextUI.gameObject.SetActive(true);
+            actorNameLeftContainerUI.gameObject.SetActive(true);
+        } else {
+            actorAvatarLeftUI.color = unactiveColor;
+            actorNameLeftTextUI.gameObject.SetActive(false);
+            actorNameLeftContainerUI.gameObject.SetActive(false);
+        }
+        if (line.leftActor.avatar != null){
+            actorAvatarLeftUI.gameObject.SetActive(true);
+            actorAvatarLeftUI.sprite = line.leftActor.avatar;
         } else {
             actorAvatarLeftUI.gameObject.SetActive(false);
-            actorNameLeftUI.gameObject.SetActive(false);
+        }
+        if (!string.IsNullOrWhiteSpace(line.leftActor.name)){
+            actorNameLeftTextUI.gameObject.SetActive(true);
+            actorNameLeftContainerUI.gameObject.SetActive(true);
+            actorNameLeftTextUI.text = line.leftActor.name;
+        } else {
+            actorNameLeftTextUI.gameObject.SetActive(false);
+            actorNameLeftContainerUI.gameObject.SetActive(false);
         }
     }
-    public void SetRightActor(DialogObject.Line line){
-        if (!line.rightActor.name.Equals("")){
+    public void LoadDialogRightActor(DialogObject.DialogLine line){
+        if (line.speaker.HasFlag(DialogObject.DialogLine.Speaker.Right)){
+            actorAvatarRightUI.color = activeColor;
+            actorNameRightTextUI.gameObject.SetActive(true);
+            actorNameRightContainerUI.gameObject.SetActive(true);
+        } else {
+            actorAvatarRightUI.color = unactiveColor;
+            actorNameRightTextUI.gameObject.SetActive(false);
+            actorNameRightContainerUI.gameObject.SetActive(false);
+        }
+        if (line.rightActor.avatar != null){
             actorAvatarRightUI.gameObject.SetActive(true);
-            if (line.rightActor.speaker){
-                actorAvatarRightUI.color = activeColor;
-                actorNameRightUI.gameObject.SetActive(true);
-            } else {
-                actorAvatarRightUI.color = unactiveColor;
-                actorNameRightUI.gameObject.SetActive(false);
-            }
-
-            var actor = currentDialog.actorDB.GetActor(line.rightActor.name);
-            actorAvatarRightUI.sprite = actor.avatars.Find(x => x.name.Equals(line.rightActor.avatar)).sprite;
-            actorNameRightUI.text = actor.name;
+            actorAvatarRightUI.sprite = line.rightActor.avatar;
         } else {
             actorAvatarRightUI.gameObject.SetActive(false);
-            actorNameRightUI.gameObject.SetActive(false);
+        }
+        if (!string.IsNullOrWhiteSpace(line.rightActor.name)){
+            actorNameRightTextUI.gameObject.SetActive(true);
+            actorNameRightContainerUI.gameObject.SetActive(true);
+            actorNameRightTextUI.text = line.rightActor.name;
+        } else {
+            actorNameRightTextUI.gameObject.SetActive(false);
+            actorNameRightContainerUI.gameObject.SetActive(false);
         }
     }
 
@@ -91,12 +114,12 @@ public class DialogManager : MonoBehaviour {
     }
     public void Next(){
         if (currentDialog.index >= currentDialog.lines.Length-1){
-            HideDialog();
             currentDialog.onCompleted?.Invoke();
+            HideDialog();
+            currentDialog = null;
         } else {
             var index = ++currentDialog.index;
-            SetLine(index);
-            currentDialog.onDialog?.Invoke(index);
+            LoadDialogLine(index);
         }
     }
 
@@ -105,9 +128,9 @@ public class DialogManager : MonoBehaviour {
         SetDialog(dialog);
     }
     public void ShowDialog(){
-        gameObject.SetActive(true);
+        Instance.gameObject.SetActive(true);
     }
     public void HideDialog(){
-        gameObject.SetActive(false);
+        Instance.gameObject.SetActive(false);
     }
 }

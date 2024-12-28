@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,11 +10,15 @@ public class Typewriter : MonoBehaviour {
 
     private Coroutine typewriterCoroutine;
     private WaitForSeconds typewriterDelay;
+    private WaitForSeconds textCompleteDelay;
 
     private int currentVisibleCharacterIndex;
 
-    public bool isTyping;
-    [SerializeField] float speed;
+    [HideInInspector] public bool isTyping;
+    [SerializeField] float textSpeed;
+    [SerializeField] float eventDelay;
+
+    public event Action onTextCompleted;
 
     private void Awake(){
         textBox = GetComponent<TextMeshProUGUI>();
@@ -21,7 +26,8 @@ public class Typewriter : MonoBehaviour {
 
     private void Start(){
         isTyping = false;
-        typewriterDelay = new(1f/speed);
+        typewriterDelay = new(1f/textSpeed);
+        textCompleteDelay = new(eventDelay);
     }
 
     public void Set(string text){
@@ -39,6 +45,8 @@ public class Typewriter : MonoBehaviour {
         if (!isTyping) return;
         StopCoroutine(typewriterCoroutine);
         textBox.maxVisibleCharacters = textBox.textInfo.characterCount;
+        onTextCompleted?.Invoke();
+        onTextCompleted = null;
         isTyping = false;
     }
 
@@ -46,10 +54,14 @@ public class Typewriter : MonoBehaviour {
         isTyping = true;
         var textInfo = textBox.textInfo;
         while (currentVisibleCharacterIndex < textInfo.characterCount+1){
-            // var character = textInfo.characterInfo[currentVisibleCharacterIndex].character;
             textBox.maxVisibleCharacters++;
             yield return typewriterDelay;
             currentVisibleCharacterIndex++;
+        }
+        if (onTextCompleted != null){
+            yield return textCompleteDelay;
+            onTextCompleted.Invoke();
+            onTextCompleted = null;
         }
         isTyping = false;
     }

@@ -10,23 +10,31 @@ public class DialogObject : ScriptableObject {
     public int id;
     public int index;
 
-    public UnityEvent<int> onDialog;
     public UnityEvent onCompleted;
-    public DialogActorDatabase actorDB;
-    public Line[] lines;
+    public DialogLine[] lines;
 
 
     [System.Serializable]
-    public class Line {
+    public class DialogLine {
         [TextArea] public string content;
-        public Actor leftActor;
-        public Actor rightActor;
+        public DialogActor leftActor;
+        public DialogActor rightActor;
+        public Speaker speaker;
+        public UnityEvent onBeforeDialog;
+        public UnityEvent onAfterDialog;
+
+        [System.Flags]
+        public enum Speaker {
+            None = 0,
+            Left = 1 << 1,
+            Right = 1 << 2,
+            Both = ~None
+        }
     }
 
     [System.Serializable]
-    public class Actor {
+    public class DialogActor {
         public string name;
-        public string avatar;
-        public bool speaker;
+        public Sprite avatar;
     }
 }
