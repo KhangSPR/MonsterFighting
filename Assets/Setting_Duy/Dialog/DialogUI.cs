@@ -1,12 +1,12 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UIGameDataManager;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
-public class DialogManager : MonoBehaviour {
-    private static DialogManager instance;
-    public static DialogManager Instance { get => instance; }
+public class DialogUI : MonoBehaviour {
 
     [SerializeField] Typewriter typewriter;
     [SerializeField] Image actorAvatarLeftUI;
@@ -16,21 +16,20 @@ public class DialogManager : MonoBehaviour {
     [SerializeField] TextMeshProUGUI actorNameRightTextUI;
     [SerializeField] Transform actorNameRightContainerUI;
     [SerializeField] Button continueBtn;
+    [SerializeField] Transform DialogHolder;
+    [SerializeField] Transform ChooseCharacter;
 
     [SerializeField] Color activeColor;
     [SerializeField] Color unactiveColor;
 
     [SerializeField] DialogObject currentDialog;
-
-    private void Awake(){
-        if (instance == null){
-            instance = this;
-        }
-    }
+    //[SerializeField] ChooseCharacter chooseCharacter;
 
     // temporary : can call DisplayDialog() any where on Start() and Update()
     private void Start(){
         // DisplayDialog(database.get(dialogName));
+        UIManager.Instance.DeActiveUI();
+
         DisplayDialog(currentDialog);
     }
 
@@ -50,7 +49,7 @@ public class DialogManager : MonoBehaviour {
         currentDialog.index = index;
         var line = currentDialog.lines[index];
         // event
-        //line.onBeforeDialog?.Invoke();
+        line.onBeforeDialog?.Invoke();
         //typewriter.onTextCompleted += () => line.onAfterDialog?.Invoke();
 
         typewriter.Set(line.content);
@@ -116,35 +115,61 @@ public class DialogManager : MonoBehaviour {
         if (currentDialog.index ==  currentDialog.indexChooseAvatar)
         {
             Debug.Log("Call Next");
-
-            currentDialog.onCompleted?.Invoke();
+            ChooseCharacter.gameObject.SetActive(true);
+            //currentDialog.onCompleted?.Invoke();
             ++currentDialog.index;
             HideDialog();
             //currentDialog = null;
         }else if(currentDialog.index == currentDialog.lines.Length -1)
         {
-            HideDialog();
+            UIManager.Instance.ShowActiveUI();
+            PlayerManager.Instance.IsDiaLog = true;
+            DestroyDiaLog();
         }
         else {
             var index = ++currentDialog.index;
             LoadDialogLine(index);
         }
     }
-    public void ChooseNext()
+    public void ChooseNext(CardPlayer player) //Male or FeMale
     {
+        ShowGenders(player);
+
         ShowDialog();
 
         LoadDialogLine(currentDialog.index);
+    }
+    private void ShowGenders(CardPlayer player)
+    {
+        if(player.Genders == GendersType.Male)
+        {
+            currentDialog.lines[currentDialog.indexChooseAvatar +1].content = "My son, the kingdom needs you! Protect our people and defeat the Slime King!";
+        }
+        else
+        {
+            currentDialog.lines[currentDialog.indexChooseAvatar +1].content = "My daughter, our hope lies with you! Be brave and restore peace to the kingdom!";
+        }
+
+        PlayerManager.Instance.GendersType = player.Genders;
+
+        currentDialog.lines[currentDialog.indexChooseAvatar + 1].rightActor.name = player.name;
+        currentDialog.lines[currentDialog.indexChooseAvatar + 1].rightActor.avatar = player.AvatarPlayer;
+
     }
 
     public void DisplayDialog(DialogObject dialog){
         ShowDialog();
         SetDialog(dialog);
     }
+    private void DestroyDiaLog()
+    {
+        Destroy(gameObject);
+    }
     public void ShowDialog(){
-        Instance.gameObject.SetActive(true);
+        //Instance.gameObject.SetActive(true);
+        DialogHolder.gameObject.SetActive(true);
     }
     public void HideDialog(){
-        Instance.gameObject.SetActive(false);
+        DialogHolder.gameObject.SetActive(false);
     }
 }

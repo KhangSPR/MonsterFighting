@@ -8,6 +8,7 @@ public class QuestInfoSO : ScriptableObject
     [Header("Quest Information")]
     public string nameQuest;
     [TextArea] public string bio;
+    public bool isFinishQuest;
     public int expReward; // Số kinh nghiệm nhận được khi hoàn thành nhiệm vụ.
     /*public int goldReward;*/ // Số vàng nhận được khi hoàn thành nhiệm vụ (có thể thêm nếu cần).
     public List<Objective> objectives; // Danh sách mục tiêu
@@ -18,15 +19,22 @@ public class QuestInfoSO : ScriptableObject
     {
         //Loại mục tiêu, -Giết quái vật. - Nói chuyện với NPC.- Thu thập vật phẩm.
         public enum Type { kill, talk, collect, defend }
-        public int objectiveId; // ID định danh cho mục tiêu (ví dụ: ID quái vật, NPC, hoặc vật phẩm).
+        public string objectiveId; // ID định danh cho mục tiêu (ví dụ: ID quái vật, NPC, hoặc vật phẩm).
         public int amount; //Số lượng cần thiết để hoàn thành mục tiêu.
         //[System.NonSerialized]
         public int currentAmount; //: Số lượng hiện tại đã hoàn thành. NonSerialized giúp không lưu trữ giá trị này khi serialize.
         public string requiredText;
         public Type type; //Loại mục tiêu
-
+        public bool QuestComPlete()
+        {
+            if(currentAmount >= amount)
+            {
+                return true;
+            }
+            return false;
+        }
         //Kiểm tra xem mục tiêu có hoàn thành hay không khi nhận thông tin về loại và ID.
-        public bool CheckObjectiveCompleted(Type type, int id)
+        public bool CheckObjectiveCompleted(Type type, string id)
         {
             if (this.type == type && id == objectiveId)
                 currentAmount++;

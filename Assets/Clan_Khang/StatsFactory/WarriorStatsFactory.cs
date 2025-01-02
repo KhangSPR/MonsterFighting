@@ -3,10 +3,10 @@ using UIGameDataManager;
 
 public class WarriorStatsFactory : _ICharacterStatsFactory
 {
-    public Stats CreateCharacterStats(int attack, int life, float attackSpeed, float specialAttack, float attackSpeedMelee)
+    public Stats CreateCharacterStats(int attack, int life, int deff, float attackSpeed, float specialAttack, float attackSpeedMelee, float recoveryMana)
     {
         // Create a new CardCharacter instance with the basic stats
-        return new Stats(attack, life, attackSpeed, specialAttack, attackSpeedMelee);
+        return new Stats(attack, life, deff, attackSpeed, specialAttack, attackSpeedMelee, recoveryMana);
     }
 
     public _IStatIncreaseStrategy CreateStatIncreaseStrategy()

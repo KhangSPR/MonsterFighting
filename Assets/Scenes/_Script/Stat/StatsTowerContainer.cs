@@ -16,7 +16,7 @@ namespace UIGameDataManager
             basePointsLife = new Stat(StatKeys.Life, CardTower.CharacterStats.Life);
             //basePointsDefense = new Stat(StatKeys.Defense, CardTower.basePointsDefense);
             basePointsAttackSpeed = new Stat(StatKeys.AttackSpeed, CardTower.CharacterStats.AttackSpeed);
-            basePointsSpecialAttack = new Stat(StatKeys.SpecialAttack, CardTower.CharacterStats.CurrentManaAttack);
+            basePointsSpecialAttack = new Stat(StatKeys.SpecialAttack, CardTower.CharacterStats.Mana);
         }
 
         //public Stat getStat(StatKeys statKey)

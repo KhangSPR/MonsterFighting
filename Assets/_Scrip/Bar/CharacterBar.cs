@@ -60,10 +60,10 @@ public class CharacterBar : SaiMonoBehaviour
         float maxMana = this.objectCtrl.ObjMana.IsMaxMana;
 
         //Slider
-        this.sliderHP.SetCurrentHP(hp);
-        this.sliderHP.SetMaxHp(maxHP);
-        this.sliderMana.SetCurrentHP(mana);
-        this.sliderMana.SetMaxHp(maxMana);
+        this.sliderHP.SetCurrentSlider(hp);
+        this.sliderHP.SetMaxSlider(maxHP);
+        this.sliderMana.SetCurrentSlider(mana);
+        this.sliderMana.SetMaxSlider(maxMana);
         //CheckTarget IS Dead
         bool isDead = this.objectCtrl.AbstractModel.IsAnimationDeadComplete;
         if (isDead) this.spawner.Despawn(transform);

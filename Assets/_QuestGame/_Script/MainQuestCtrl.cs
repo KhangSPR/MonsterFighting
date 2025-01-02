@@ -24,20 +24,29 @@ public class MainQuestCtrl : MonoBehaviour
     [SerializeField] float collapseFadeDuration;
 
     [SerializeField]
-    Button _Button;
-    [SerializeField]
     LvQuestCtrl[] menuItems;
     public LvQuestCtrl[] MenuItems => menuItems;
 
     bool isExpanded = false;
-    [SerializeField]
-    int itemsCount;
-
-    [SerializeField] Transform Holder;
+    [SerializeField] int itemsCount;
+    public Button _Button;
+    public Transform HolderMain;
+    public TMP_Text TMP_Text;
+    public GameObject lockObj;
+    private bool isAnimating = false; // Trạng thái hiệu ứng
 
     //[SerializeField]
-    //QuestUIDisPlay questUIDisPlay;
+    QuestUIDisPlay questUIDisPlay;
+    public QuestUIDisPlay QuestUIDisPlay
+    {
+        set
+        {
+            questUIDisPlay = value;
 
+        }
+        get => questUIDisPlay;
+
+    }
     void Start()
     {
         // Khởi tạo menu items
@@ -47,13 +56,13 @@ public class MainQuestCtrl : MonoBehaviour
     public void InitializeMenuItems()
     {
         // Lấy số lượng các menu items từ Holder
-        itemsCount = Holder.childCount;
+        itemsCount = HolderMain.childCount;
         menuItems = new LvQuestCtrl[itemsCount];
 
         // Khởi tạo menu items
         for (int i = 0; i < itemsCount; i++)
         {
-            var child = Holder.GetChild(i);
+            var child = HolderMain.GetChild(i);
             var lvQuestCtrl = child.GetComponent<LvQuestCtrl>();
             if (lvQuestCtrl != null)
             {
@@ -107,7 +116,7 @@ public class MainQuestCtrl : MonoBehaviour
             if (isExpanded)
             {
                 // Hiển thị các menu items
-                Holder.gameObject.SetActive(true);
+                HolderMain.gameObject.SetActive(true);
 
                 if (savedPositions.Count <= 0)
                 {
@@ -131,7 +140,7 @@ public class MainQuestCtrl : MonoBehaviour
 
                     if (i == itemsCount - 1)
                     {
-                        Holder.gameObject.SetActive(false);
+                        HolderMain.gameObject.SetActive(false);
                     }
                 }
             }
@@ -196,7 +205,7 @@ public class MainQuestCtrl : MonoBehaviour
             gameObject.SetActive(false);
             rectTransform.sizeDelta = new Vector2(width, height);
 
-            RectTransform holderRect = Holder.GetComponent<RectTransform>();
+            RectTransform holderRect = HolderMain.GetComponent<RectTransform>();
             holderRect.anchoredPosition = new Vector2(0, -150f); //Repair Holder 10 = 150px
 
             //Holder.position = new Vector3(width, currentPosition.y * itemsCount,0);
@@ -232,9 +241,6 @@ public class MainQuestCtrl : MonoBehaviour
         // Xóa listener để tránh rò rỉ bộ nhớ
         _Button.onClick.RemoveListener(ToggleMenu);
     }
-    [SerializeField] TMP_Text TMP_Text;
-    private bool isAnimating = false; // Trạng thái hiệu ứng
-
     void PlayButtonPressEffect(System.Action onComplete)
     {
         if (isAnimating) return; // Nếu hiệu ứng đang chạy, không thực hiện gì thêm
@@ -261,7 +267,4 @@ public class MainQuestCtrl : MonoBehaviour
             });
         });
     }
-
-
-
 }

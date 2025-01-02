@@ -126,12 +126,12 @@ TextureImporter:
       name: AvatarWomen_0
       rect:
         serializedVersion: 2
-        x: 45
-        y: 17
+        x: 60
+        y: 13
         width: 472
         height: 480
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,6 +139,27 @@ TextureImporter:
       bones: []
       spriteID: e72bc18000d99eb48afc934e86640f05
       internalID: 1529838246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AvatarWomen_1
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 324
+        width: 120
+        height: 117
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5e6c356e43b2fe4e90e8bcfd10b05ce
+      internalID: -1850177911
       vertices: []
       indices: 
       edges: []
@@ -155,6 +176,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       AvatarWomen_0: 1529838246
+      AvatarWomen_1: -1850177911
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

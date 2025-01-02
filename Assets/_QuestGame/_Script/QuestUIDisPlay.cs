@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,84 +25,334 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     [SerializeField] GameObject mainQuestPrefab;
     [SerializeField] GameObject lvQuestPrefab;
     [SerializeField] GameObject desQuestPrefab;
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        CreateDisPlayQuest();
-        DesTable.gameObject.SetActive(false); //Set False Parent UI
-    }
 
-    private void CreateDisPlayQuest()
-    {
+    public Camera mainCamera;       // Camera Main
+    public GameObject viewPortTarget; // viewPortTarget Check
 
-        foreach (TypeQuestMain questType in Enum.GetValues(typeof(TypeQuestMain)))
-        {
-            Debug.Log($"Processing quest type: {questType}");
-
-            // Kiểm tra điều kiện quest type 'clan'
-            if (questType == TypeQuestMain.clan)
-            {
-                continue;
-            }
-
-            // Khởi tạo Quest chính
-            GameObject newQuestMain = Instantiate(mainQuestPrefab, holderMainQuest);
-            Transform holderNewQuestMain = newQuestMain.transform.Find("Holder");
-
-            MainQuestCtrl mainQuestCtrl = newQuestMain.GetComponent<MainQuestCtrl>();
-
-            if (holderNewQuestMain != null)
-            {
-                int lvIndex = 1;
-                foreach (lvType level in Enum.GetValues(typeof(lvType)))
-                {
-                    GameObject newQuestLV = Instantiate(lvQuestPrefab, holderNewQuestMain); // Khởi tạo LV
-
-                    Transform holderNewQuestLV = newQuestLV.transform.Find("Holder");
-
-                    newQuestLV.transform.Find("Text").GetComponent<TMP_Text>().text = "+Hero Level " + lvIndex;
-
-                    LvQuestCtrl lvQuestCtrl = newQuestLV.GetComponent<LvQuestCtrl>();
-                    
-                    if (lvQuestCtrl != null)
-                    {
-                        int i = 0;
-                        foreach (var questLV in QuestManager.Instance.GetQuestsByLvType(level))
-                        {
-                            GameObject newQuestDes = Instantiate(desQuestPrefab, holderNewQuestLV); // Khởi tạo Quest mô tả
-
-                            QuestCtrl questCtrl = newQuestDes.GetComponent<QuestCtrl>();
-                            // Thêm Button vào List questButtons
-                            if (questCtrl != null)
-                            {
-                                questButtons.Add(questCtrl.ButtonQuest); // Thêm ButtonQuest vào List
-                                questCtrl.SetQuestUIDisPlay(this);
-                                lvQuestCtrl.AddMenuItem(questCtrl);
-
-                                lvQuestCtrl.MenuItems[i].SetQuestAbstractSO(questLV); // Gán quest
-                                i++;
-                            }
-                        }
-                        lvQuestCtrl.itemsCount = i;
-                    }
-                    lvIndex++;
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Holder not found in newQuestMain");
-            }
-            mainQuestCtrl.InitializeMenuItems();
-        }
-    }
-
-    private void ResetClan()
-    {
-        // Reset hành động khi thay đổi clan
-    }
+    [Space(2)]
     private int previousButtonIndex = 0;
     //[SerializeField]
     private List<Button> questButtons = new List<Button>();
+
+    private Button currentButtonActive;
+    public Button CurrentButtonActive => currentButtonActive;
+
+    [SerializeField]
+    private QuestAbstractSO currentQuestSO;
+
+    protected override void Update()
+    {
+        base.Update();
+
+        // Chỉ gọi kiểm tra nếu `currentButtonActive` khác null
+        if (currentButtonActive != null)
+        {
+            UpdateSingleButtonVisibility(currentButtonActive);
+        }
+    }
+    protected override void Start()
+    {
+        base.Start();
+        this.OnCreateDisplayQuest();
+        DesTable.gameObject.SetActive(false); //Set False Parent UI
+    }
+
+    private void OnCreateDisplayQuest()
+    {
+        // Loop through all possible quest types in the TypeQuestMain enum
+        foreach (TypeQuestMain questType in Enum.GetValues(typeof(TypeQuestMain)))
+        {   
+            GameObject newQuestMain = Instantiate(mainQuestPrefab, holderMainQuest);
+
+            MainQuestCtrl mainQuestCtrl = newQuestMain.GetComponent<MainQuestCtrl>();
+
+            Transform holder = mainQuestCtrl.HolderMain;
+            //mainQuestCtrl.TMP_Text.text = "------------*" + StringExtensions.ToFormattedString(questType.ToString()) + "*------------";
+
+            if (holder == null)
+            {
+                Debug.LogError("Holder Main quest Null!");
+            }
+
+            switch (questType)
+            {
+                case TypeQuestMain.MainQuest:
+                    // Call MAin
+                    CreateLevelMain(holder);
+                    mainQuestCtrl.TMP_Text.text = "------------*Main Quest*-------------";
+
+                    break;
+
+                case TypeQuestMain.ClanQuest:
+                    CreateClanQuest(holder, mainQuestCtrl);
+                    mainQuestCtrl.TMP_Text.text = "------------*Clan Quest*-------------";
+                    break;
+
+                case TypeQuestMain.PvPQuest:
+                    CreatePVPQuest(holder, mainQuestCtrl);
+                    mainQuestCtrl.TMP_Text.text = "------------*PVP Quest*--------------";
+
+                    break;
+
+                case TypeQuestMain.EventQuest:
+                    //Not Function
+                    mainQuestCtrl.TMP_Text.text = "------------*Event Quest*------------";
+                    CheckEventQuest(mainQuestCtrl);
+                    break;
+
+                default:
+                    Debug.LogWarning($"Unhandled quest type: {questType}");
+                    break;
+            }
+            mainQuestCtrl.InitializeMenuItems(); 
+        }
+    }
+    #region Create Level Main
+    private void CreateLevelMain(Transform holder)
+    {
+        lvType[] levelTypes = (lvType[])Enum.GetValues(typeof(lvType)); // Get all values ​​of the lvType enum
+
+        for (int i = 0; i < levelTypes.Length; i++)
+        {
+            GameObject newQuestLV = Instantiate(lvQuestPrefab, holder); // Khởi tạo LV
+
+            LvQuestCtrl lvQuestCtrl = newQuestLV.GetComponent<LvQuestCtrl>();
+
+            if(lvQuestCtrl == null)
+            {
+                Debug.LogError("LVQuestCtrl Null!");
+            }
+
+            this.CheckPlayerLV(i, lvQuestCtrl);
+            lvQuestCtrl.tmp_Text.text = "+"+ StringExtensions.ToFormattedString(levelTypes[i].ToString()) + (i + 1);
+
+            //Array QuestAbstract
+            QuestAbstractSO[] questAbstractSO = QuestManager.Instance.GetQuestsByLvType(levelTypes[i]);
+
+            //Debug.Log("So luong Quest: "+ questAbstractSO.Length);
+
+            lvQuestCtrl.itemsCount = questAbstractSO.Length;
+
+            for (int j = 0; j < questAbstractSO.Length; j++)
+            {
+                GameObject newQuestDes = Instantiate(desQuestPrefab, lvQuestCtrl.Holder);
+                
+                QuestCtrl questCtrl = newQuestDes.GetComponent<QuestCtrl>();
+
+                this.UpdateNameQuest(questAbstractSO[j], questCtrl.TMP_Text);
+
+
+                if (questCtrl == null)
+                {
+                    Debug.LogError("QuestCtrl Null!");
+                }
+                //Add This Buttons
+                this.questButtons.Add(questCtrl.ButtonQuest);
+                //ADdd QuestCtrl This
+                questCtrl.SetQuestUIDisPlay(this);
+                //Add Lv Quest This is QuestCtrl
+                lvQuestCtrl.AddMenuItem(questCtrl);
+
+                lvQuestCtrl.MenuItems[j].SetQuestAbstractSO(questAbstractSO[j]); //ASIGN Quest
+            }
+        }
+    }
+    private void CheckPlayerLV(int level, LvQuestCtrl lvQuestCtrl)
+    {
+        if ((level + 1) > PlayerManager.Instance.LvPlayer)
+        {
+            //LOCK
+            lvQuestCtrl.lockLv.SetActive(true);
+            lvQuestCtrl.tmp_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
+            lvQuestCtrl._Button.enabled = false;
+        }
+        else
+        {
+            //UNLOCK
+            lvQuestCtrl.lockLv.SetActive(false);
+            lvQuestCtrl.tmp_Text.color = new Color(1, 1, 1, 1);
+            lvQuestCtrl._Button.enabled = true;
+        }
+    }
+    #endregion
+    #region Create Clan Quest
+    private void CreateClanQuest(Transform holder, MainQuestCtrl mainQuestCtrl)
+    {
+        GuildSO guildSO = GuildManager.Instance.GuildJoined;
+
+        bool checkJoined = this.CheckClanJoined(guildSO, mainQuestCtrl);
+
+        Debug.Log("Check Guild Joined:" + checkJoined);
+
+        if (checkJoined == false) return;
+
+        ClanQuestType[] clanQuets = (ClanQuestType[])Enum.GetValues(typeof(ClanQuestType)); // Get all values ​​of the lvType enum
+
+        for (int i = 0; i < clanQuets.Length; i++)
+        {
+            GameObject newQuestLV = Instantiate(lvQuestPrefab, holder); // Khởi tạo LV
+
+            LvQuestCtrl lvQuestCtrl = newQuestLV.GetComponent<LvQuestCtrl>();
+
+            lvQuestCtrl.tmp_Text.text = "+"+ StringExtensions.ToFormattedString(clanQuets[i].ToString());
+
+            //Array QuestAbstract
+            QuestAbstractSO[] questAbstractSO = ClanQuestSO.GetQuestsByGuildType(
+                QuestManager.Instance.GetQuestsByLvType(clanQuets[i]).OfType<ClanQuestSO>().ToArray(),
+                guildSO.guildType
+            );
+
+            lvQuestCtrl.itemsCount = questAbstractSO.Length;
+
+            for (int j = 0; j < questAbstractSO.Length; j++)
+            {
+                GameObject newQuestDes = Instantiate(desQuestPrefab, lvQuestCtrl.Holder);
+
+                QuestCtrl questCtrl = newQuestDes.GetComponent<QuestCtrl>();
+
+                this.UpdateNameQuest(questAbstractSO[j], questCtrl.TMP_Text);
+
+                if (questCtrl == null)
+                {
+                    Debug.LogError("QuestCtrl Null!");
+                }
+                //Add This Buttons
+                this.questButtons.Add(questCtrl.ButtonQuest);
+                //ADdd QuestCtrl This
+                questCtrl.SetQuestUIDisPlay(this);
+                //Add Lv Quest This is QuestCtrl
+                lvQuestCtrl.AddMenuItem(questCtrl);
+
+                lvQuestCtrl.MenuItems[j].SetQuestAbstractSO(questAbstractSO[j]); //ASIGN Quest
+            }
+        }
+    }
+    bool CheckClanJoined(GuildSO guildSO, MainQuestCtrl mainQuestCtrl)
+    {
+        if (guildSO == null)
+        {
+            //LOCK
+            mainQuestCtrl.lockObj.SetActive(true);
+            mainQuestCtrl.TMP_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
+            mainQuestCtrl._Button.enabled = false;
+
+            return false;
+        }
+        else
+        {
+            //UNLOCK
+            mainQuestCtrl.lockObj.SetActive(false);
+            mainQuestCtrl.TMP_Text.color = new Color(1, 1, 1, 1);
+            mainQuestCtrl._Button.enabled = true;
+
+            return true;
+        }
+
+    }
+    #endregion
+    #region Create PVP Quest
+    private void CreatePVPQuest(Transform holder, MainQuestCtrl mainQuestCtrl)
+    {
+        bool checkJoined = this.CheckPVPQuest(mainQuestCtrl);
+
+        if (!checkJoined) return;
+
+        PVPQuestType[] pvpQuets = (PVPQuestType[])Enum.GetValues(typeof(PVPQuestType)); // Get all values ​​of the lvType enum
+
+        for (int i = 0; i < pvpQuets.Length; i++)
+        {
+            GameObject newQuestLV = Instantiate(lvQuestPrefab, holder); // Khởi tạo LV
+
+            LvQuestCtrl lvQuestCtrl = newQuestLV.GetComponent<LvQuestCtrl>();
+
+            lvQuestCtrl.tmp_Text.text = StringExtensions.ToFormattedString(pvpQuets[i].ToString());
+
+            //Array QuestAbstract
+            QuestAbstractSO[] questAbstractSO = QuestManager.Instance.GetQuestsByLvType(pvpQuets[i]);
+
+
+            lvQuestCtrl.itemsCount = questAbstractSO.Length;
+
+            for (int j = 0; j < questAbstractSO.Length; j++)
+            {
+                GameObject newQuestDes = Instantiate(desQuestPrefab, lvQuestCtrl.Holder);
+
+                QuestCtrl questCtrl = newQuestDes.GetComponent<QuestCtrl>();
+
+                this.UpdateNameQuest(questAbstractSO[j], questCtrl.TMP_Text);
+
+
+                if (questCtrl == null)
+                {
+                    Debug.LogError("QuestCtrl Null!");
+                }
+                //Add This Buttons
+                this.questButtons.Add(questCtrl.ButtonQuest);
+                //ADdd QuestCtrl This
+                questCtrl.SetQuestUIDisPlay(this);
+                //Add Lv Quest This is QuestCtrl
+                lvQuestCtrl.AddMenuItem(questCtrl);
+
+                lvQuestCtrl.MenuItems[j].SetQuestAbstractSO(questAbstractSO[j]); //ASIGN Quest
+            }
+        }
+    }
+    #region Event Quest
+    private void CheckEventQuest(MainQuestCtrl mainQuestCtrl)
+    {
+        //LOCK
+        mainQuestCtrl.lockObj.SetActive(true);
+        mainQuestCtrl.TMP_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
+        mainQuestCtrl._Button.enabled = false;
+    }
+    #endregion
+    bool CheckPVPQuest(MainQuestCtrl mainQuestCtrl)
+    {
+        if (PlayerManager.Instance.LvPlayer <= 5)
+        {
+            //LOCK
+            mainQuestCtrl.lockObj.SetActive(true);
+            mainQuestCtrl.TMP_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
+            mainQuestCtrl._Button.enabled = false;
+
+            return false;
+        }
+        else
+        {
+            //UNLOCK
+            mainQuestCtrl.lockObj.SetActive(false);
+            mainQuestCtrl.TMP_Text.color = new Color(1, 1, 1, 1);
+            mainQuestCtrl._Button.enabled = true;
+
+            return true;
+        }
+
+    }
+    #endregion
+    #region Handle Button
+    void UpdateSingleButtonVisibility(Button button)
+    {
+        // Lấy góc dưới cùng bên trái và trên cùng bên phải của `viewPortTarget`
+        RectTransform viewPortTargetRect = viewPortTarget.GetComponent<RectTransform>();
+        Vector3[] worldCorners = new Vector3[4];
+        viewPortTargetRect.GetWorldCorners(worldCorners);
+
+        Vector3 bottomLeft = worldCorners[0]; // Góc dưới cùng bên trái
+        Vector3 topRight = worldCorners[2];  // Góc trên cùng bên phải
+
+        // Vị trí của `button` trong World Space
+        Vector3 buttonPosition = button.transform.position;
+
+        // Kiểm tra nếu button nằm ngoài `viewport`
+        bool isOutsideViewport =
+            buttonPosition.x < bottomLeft.x || buttonPosition.x > topRight.x ||
+            buttonPosition.y < bottomLeft.y || buttonPosition.y > topRight.y;
+
+        // Bật/tắt Image của button dựa trên trạng thái
+        button.GetComponent<Image>().enabled = !isOutsideViewport;
+
+    }
+
     public void QuestPress(Button questButton)
     {
         // Kiểm tra để đảm bảo previousButtonIndex là hợp lệ
@@ -118,12 +368,22 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     private void HighlightQuestButton(Button questButton, bool active)
     { //Làm nổi bật hoặc tắt nổi bật cho nút. 
         questButton.image.color = active ? new Color(1f, 0.6f, 0f, 0.3f) : new Color(0, 0, 0, 0);
+
+        if(currentButtonActive !=null)
+        {
+            currentButtonActive.GetComponent<Image>().enabled = true;
+        }
+        currentButtonActive = questButton; //SET BUTTON CURRENT
     }
     public void ShowQuestDetails(QuestAbstractSO QuestSO)
     {
+        //SetQuest
+        currentQuestSO = QuestSO;
+
+        this.UpdateNameQuest(QuestSO, nameQuest);
+
         DesTable.gameObject.SetActive(false); //Set False Parent UI
 
-        nameQuest.text = QuestSO.questInfoSO.nameQuest;
         descriptionQuest.text = "Description:\n+" + QuestSO.questInfoSO.bio + "\n\n";
 
         requireQuest.text = "Required:\n";
@@ -152,18 +412,57 @@ public class QuestUIDisPlay : SaiMonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        bool questComplete = false;
+        //Button Handle Accept Quest, Complete Quest
+        foreach (Objective objective in QuestSO.questInfoSO.objectives)
+        {
+            if (!objective.QuestComPlete())
+            {
+                questComplete = false;
+                break;
+            }
+            questComplete = true;
+        }
+        if (questComplete)
+        {
+            btnQuest.gameObject.SetActive(true);
+        }
+        else
+        {
+            btnQuest.gameObject.SetActive(false);
+
+        }
+        if(QuestSO.questInfoSO.isFinishQuest)
+        {
+            btnQuest.gameObject.SetActive(false);
+        }
+        //btnQuest.gameObject.SetActive(true);
+
         rewardText.text = "Reward:\n";
         foreach (UIGameDataMap.Resources resources in QuestSO.questInfoSO.Reward)
         {
             GameObject newObjReward = Instantiate(prefabReward, holderReward);
 
-            newObjReward.GetComponentInChildren<TMP_Text>().text = "X"+resources.Count.ToString();
+            newObjReward.GetComponentInChildren<TMP_Text>().text = "X" + resources.Count.ToString();
 
-            newObjReward.transform.Find("Avatar").GetComponent<Image>().sprite = resources.item.Image;
+            newObjReward.GetComponentInChildren<Image>().sprite = resources.item.Image;
+            //if (questComplete)
+            //    newObjReward.transform.Find("Tick").gameObject.SetActive(true);
         }
+
         DesTable.gameObject.SetActive(true);//Set True Parent UI
 
-        //Button Handle Accept Quest, Complete Quest
-        btnQuest.gameObject.SetActive(true);
     }
+    private void UpdateNameQuest(QuestAbstractSO questAbstractSO, TMP_Text nameQuest)
+    {
+        if (questAbstractSO.questInfoSO.isFinishQuest)
+        {
+            nameQuest.text = "+"+ questAbstractSO.questInfoSO.nameQuest + " (<color=#00FF00>Finish</color>)";
+        }
+        else
+        {
+            nameQuest.text = "+"+questAbstractSO.questInfoSO.nameQuest;
+        }
+    }
+    #endregion
 }

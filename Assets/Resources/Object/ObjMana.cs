@@ -10,7 +10,7 @@ public class ObjMana : ManaHandler
 
         if (objCtrl != null)
         {
-            isMaxMana = PlayerCtrl?.CardCharacter.CharacterStats.CurrentManaAttack
+            isMaxMana = PlayerCtrl?.CardCharacter.CharacterStats.Mana
                       ?? EnemyCtrl?.EnemySO.basePointsCurrentMana
                       ?? isMaxMana;
 

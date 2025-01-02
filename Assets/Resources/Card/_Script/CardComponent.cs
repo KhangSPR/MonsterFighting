@@ -12,14 +12,14 @@ public class CardComponent : ScriptableObject
     public Sprite background;
     public Sprite avatar;
 
-    public CardComponent(string Name,float CardRefresh, int Price, Sprite Frame, Sprite Background, Sprite Avatar)
-    {
-        this.nameCard = Name;
-        this.cardRefresh = CardRefresh;
-        this.price = Price;
-        this.frame = Frame;
-        this.background = Background;
-        this.avatar = Avatar;
-    }
+    //public CardComponent(string Name,float CardRefresh, int Price, Sprite Frame, Sprite Background, Sprite Avatar)
+    //{
+    //    this.nameCard = Name;
+    //    this.cardRefresh = CardRefresh;
+    //    this.price = Price;
+    //    this.frame = Frame;
+    //    this.background = Background;
+    //    this.avatar = Avatar;
+    //}
 
 }

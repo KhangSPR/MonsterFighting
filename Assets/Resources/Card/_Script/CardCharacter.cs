@@ -51,28 +51,6 @@ namespace UIGameDataManager
         //public AttackTypeAnimation attackType;
         public GameObject characterVisualsPrefab;
 
-        public CardCharacter(string Name, float CardRefresh, int Price, Sprite Frame, Sprite Background, Sprite Avatar, Stats stats,
-                             string BioTitle, string Bio, SkillSO Skill1, SkillSO Skill2,
-                             RarityCard CardRare, AttackCategory CardAttack,
-                             GameObject CharacterVisualsPrefab) : base(Name, CardRefresh, Price, Frame, Background, Avatar)
-        {
-            _characterStats = stats;
-            bioTitle = BioTitle;
-            bio = Bio;
-            rarityCard = CardRare;
-            attackTypeCard = CardAttack;
-            characterVisualsPrefab = CharacterVisualsPrefab;
-
-            // Set skills based on rarity
-            SetSkillsBasedOnRarity(Skill1, Skill2);
-        }
-
-        private void SetSkillsBasedOnRarity(SkillSO skill1, SkillSO skill2)
-        {
-            this.skill1 = skill1;
-            this.skill2 = (rarityCard == RarityCard.D || rarityCard == RarityCard.C) ? null : skill2;
-        }
-
         public AttackCategory GetAttackType()
         {
             return attackTypeCard;

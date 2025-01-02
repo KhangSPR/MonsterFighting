@@ -4,23 +4,31 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ChooseCharacter : MonoBehaviour {
+    [Header("UI Elements")]
     [SerializeField] Button maleSelect;
     [SerializeField] Button femaleSelect;
+    [SerializeField] Button activeSelect;
+    [SerializeField] Image maleImage;
+    [SerializeField] Image femaleImage;
+    [Space]
+    [Header("Holder Skill")]
+    [SerializeField] Transform holderMale;
+    [SerializeField] Transform holderFeMale;
+    [Space]
+    [Header("Player Cards")]
+    [SerializeField] CardPlayer male;
+    [SerializeField] CardPlayer female;
+    [SerializeField] SkillInfo skillInfo;
 
     private void OnEnable(){
         maleSelect.onClick.AddListener(() => {
-            // actorDB.AddActor("protagonist",maleActor);
-            Debug.Log("ChooseCharacter Man Click");
-
-            gameObject.SetActive(false);
-            DialogManager.Instance.ChooseNext();
+            Debug.Log("Click");
+            OnClick(true);
         });
         femaleSelect.onClick.AddListener(() => {
-            // actorDB.AddActor("protagonist",femaleActor);
-            gameObject.SetActive(false);
+            Debug.Log("Click");
 
-            Debug.Log("ChooseCharacter Women Click");
-            DialogManager.Instance.ChooseNext();
+            OnClick(false);
         });
     }
 
@@ -28,8 +36,27 @@ public class ChooseCharacter : MonoBehaviour {
         maleSelect.onClick.RemoveAllListeners();
         femaleSelect.onClick.RemoveAllListeners();
     }
+    private void OnClick(bool IsActive)
+    {
+        if(IsActive)
+        {
+            skillInfo.transform.position = holderMale.position;
+            maleSelect.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            femaleSelect.GetComponent<Image>().color = new Color(200 / 255f, 200 / 255f, 200 / 255f, 200 / 255f);
+            skillInfo.SetDiaLog(male);
 
-    public void Display(){
-        Instantiate(this, FindObjectOfType<Canvas>().transform);
+
+        }
+        else
+        {
+            maleSelect.GetComponent<Image>().color = new Color(200 / 255f, 200 / 255f, 200 / 255f, 200 / 255f);
+            femaleSelect.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            skillInfo.SetDiaLog(female);
+
+
+            skillInfo.transform.position = holderFeMale.position;
+
+        }
+        skillInfo.gameObject.SetActive(true);
     }
 }

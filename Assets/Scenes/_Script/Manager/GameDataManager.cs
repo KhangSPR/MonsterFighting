@@ -64,6 +64,7 @@ namespace UIGameDataManager
             AddItem(); // Call Before UpdateFunds
 
             UpdateFunds();
+
         }
         private void OnApplicationFocus(bool hasFocus) // APly Android
         {
@@ -422,10 +423,10 @@ namespace UIGameDataManager
                 ReceivePurchasedGoods(shopItem);
                 //Save has Buy
                 shopItem.hasBuy = true;
-                SaveShopItemState(shopItem);
-                ////HasBuy
-                shopItemComponent.DisableObjectContainingShopItemCardSO();
-                AddCardComponentToFolder(shopItem);
+                //SaveShopItemState(shopItem);
+                //////HasBuy
+                //shopItemComponent.DisableObjectContainingShopItemCardSO();
+                //AddCardComponentToFolder(shopItem);
 
                 //CardManager Sort
                 //CardManager.Instance.ClearCardALLList();
@@ -444,67 +445,67 @@ namespace UIGameDataManager
                 //AudioManager.PlayDefaultWarningSound();
             }
         }
-        void SaveShopItemState(ShopItemCardSO shopItem)
-        {
-            // Lưu trạng thái của shopItem vào ScriptableObject
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(shopItem);
-            AssetDatabase.SaveAssets();
-#endif
-        }
-        void AddCardComponentToFolder(ShopItemCardSO shopItemCardSO)
-        {
-            // Get the type of card
-            string cardType = shopItemCardSO.GetShopItemType().ToString();
+//        void SaveShopItemState(ShopItemCardSO shopItem)
+//        {
+//            // Lưu trạng thái của shopItem vào ScriptableObject
+//#if UNITY_EDITOR
+//            EditorUtility.SetDirty(shopItem);
+//            AssetDatabase.SaveAssets();
+//#endif
+//        }
+//        void AddCardComponentToFolder(ShopItemCardSO shopItemCardSO)
+//        {
+//            // Get the type of card
+//            string cardType = shopItemCardSO.GetShopItemType().ToString();
 
-            string newFolderPath = "Assets/Resources/Card/CardSAOJ/" + cardType;
+//            string newFolderPath = "Assets/Resources/Card/CardSAOJ/" + cardType;
 
-            // Create ScriptableObject
+//            // Create ScriptableObject
 
-            // Create link
-            string newAssetPath = newFolderPath + "/" + shopItemCardSO.cardComponent.nameCard + ".asset";
+//            // Create link
+//            string newAssetPath = newFolderPath + "/" + shopItemCardSO.cardComponent.nameCard + ".asset";
 
-            // Move the new ScriptableObject into the new folder
-#if UNITY_EDITOR
-            AssetDatabase.CreateAsset(CreateInstanceCardComponent(cardType, shopItemCardSO), newAssetPath);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-#endif
-        }
+//            // Move the new ScriptableObject into the new folder
+//#if UNITY_EDITOR
+//            AssetDatabase.CreateAsset(CreateInstanceCardComponent(cardType, shopItemCardSO), newAssetPath);
+//            AssetDatabase.SaveAssets();
+//            AssetDatabase.Refresh();
+//#endif
+//        }
 
-        CardComponent CreateInstanceCardComponent(string cardType, ShopItemCardSO shopItemCardSO)
-        {
-            switch (cardType)
-            {
-                case "CardCharacter":
-                    CardCharacter characterCard = shopItemCardSO.cardComponent as CardCharacter;
-                    // Create a new instance of CardCharacter and transfer all values from the existing characterCard
-                    characterCard = new CardCharacter(
-                        shopItemCardSO.cardComponent.nameCard,
-                        shopItemCardSO.cardComponent.cardRefresh,
-                        shopItemCardSO.cardComponent.price,
-                        shopItemCardSO.cardComponent.frame,
-                        shopItemCardSO.cardComponent.background,
-                        shopItemCardSO.cardComponent.avatar,
-                        characterCard.CharacterStats,
-                        characterCard.bioTitle,
-                        characterCard.bio,
-                        characterCard.skill1,
-                        characterCard.skill2,
-                        characterCard.rarityCard,
-                        characterCard.attackTypeCard,
-                        characterCard.characterVisualsPrefab
-                    );
-                    return characterCard;
-                case "CardMachine":
-                    return ScriptableObject.CreateInstance<CardMachine>();
-                case "CardGuard":
-                    return null;
-                default:
-                    return new CardComponent(shopItemCardSO.cardComponent.nameCard, shopItemCardSO.cardComponent.cardRefresh, shopItemCardSO.cardComponent.price,
-                                              shopItemCardSO.cardComponent.frame, shopItemCardSO.cardComponent.background, shopItemCardSO.cardComponent.avatar);;
-            }
-        }
+//        CardComponent CreateInstanceCardComponent(string cardType, ShopItemCardSO shopItemCardSO)
+//        {
+//            switch (cardType)
+//            {
+//                case "CardCharacter":
+//                    CardCharacter characterCard = shopItemCardSO.cardComponent as CardCharacter;
+//                    // Create a new instance of CardCharacter and transfer all values from the existing characterCard
+//                    characterCard = new CardCharacter(
+//                        shopItemCardSO.cardComponent.nameCard,
+//                        shopItemCardSO.cardComponent.cardRefresh,
+//                        shopItemCardSO.cardComponent.price,
+//                        shopItemCardSO.cardComponent.frame,
+//                        shopItemCardSO.cardComponent.background,
+//                        shopItemCardSO.cardComponent.avatar,
+//                        characterCard.CharacterStats,
+//                        characterCard.bioTitle,
+//                        characterCard.bio,
+//                        characterCard.skill1,
+//                        characterCard.skill2,
+//                        characterCard.rarityCard,
+//                        characterCard.attackTypeCard,
+//                        characterCard.characterVisualsPrefab
+//                    );
+//                    return characterCard;
+//                case "CardMachine":
+//                    return ScriptableObject.CreateInstance<CardMachine>();
+//                case "CardGuard":
+//                    return null;
+//                default:
+//                    return new CardComponent(shopItemCardSO.cardComponent.nameCard, shopItemCardSO.cardComponent.cardRefresh, shopItemCardSO.cardComponent.price,
+//                                              shopItemCardSO.cardComponent.frame, shopItemCardSO.cardComponent.background, shopItemCardSO.cardComponent.avatar);;
+//            }
+//        }
 
 
 

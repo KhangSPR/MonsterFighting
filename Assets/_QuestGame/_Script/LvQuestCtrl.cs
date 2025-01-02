@@ -32,7 +32,6 @@ public class LvQuestCtrl : MonoBehaviour
     [SerializeField] float expandFadeDuration;
     [SerializeField] float collapseFadeDuration;
 
-    [SerializeField] Button _Button;
     private QuestCtrl[] menuItems = new QuestCtrl[0]; // Mảng bắt đầu rỗng
 
     public QuestCtrl[] MenuItems => menuItems;
@@ -41,7 +40,12 @@ public class LvQuestCtrl : MonoBehaviour
     public bool IsExpanded => isExpanded;
     public int itemsCount;
 
-    [SerializeField] Transform Holder;
+    public Transform Holder;
+    public GameObject lockLv;
+    public TMP_Text tmp_Text;
+    public Button _Button;
+
+    private bool isAnimating = false; // Trạng thái hiệu ứng
 
     void Start()
     {
@@ -147,14 +151,12 @@ public class LvQuestCtrl : MonoBehaviour
             }
         }
     }
-    [SerializeField] TMP_Text TMP_Text;
-    private bool isAnimating = false; // Trạng thái hiệu ứng
 
     void PlayButtonPressEffect(System.Action onComplete)
     {
         if (isAnimating) return; // Nếu hiệu ứng đang chạy, không thực hiện gì thêm
 
-        if (TMP_Text == null)
+        if (tmp_Text == null)
         {
             Debug.LogWarning("TMP_Text is not assigned!");
             onComplete?.Invoke();
@@ -162,15 +164,15 @@ public class LvQuestCtrl : MonoBehaviour
         }
         onComplete?.Invoke();
 
-        Color originalTextColor = TMP_Text.color; // Lưu màu gốc của chữ
+        Color originalTextColor = tmp_Text.color; // Lưu màu gốc của chữ
         Color highlightColor = new Color(1f, 215f / 255f, 0f); // Vàng Rực Rỡ
 
         isAnimating = true; // Đánh dấu hiệu ứng đang chạy
 
         // Hiệu ứng thay đổi màu chữ
-        TMP_Text.DOColor(highlightColor, 0.2f).SetEase(Ease.OutQuad).OnComplete(() =>
+        tmp_Text.DOColor(highlightColor, 0.2f).SetEase(Ease.OutQuad).OnComplete(() =>
         {
-            TMP_Text.DOColor(originalTextColor, 0.2f).SetEase(Ease.OutQuad).OnComplete(() =>
+            tmp_Text.DOColor(originalTextColor, 0.2f).SetEase(Ease.OutQuad).OnComplete(() =>
             {
                 isAnimating = false; // Hiệu ứng hoàn thành, cho phép nhấn lại
             });

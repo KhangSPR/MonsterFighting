@@ -14,25 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 
   id: 0
-  index: 1
-  indexChooseAvatar: 4
-  onCompleted:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4756586683567575620, guid: 20f7efbe779bcef41801a686618b5d22, type: 3}
-        m_TargetAssemblyTypeName: ChooseCharacter, Assembly-CSharp
-        m_MethodName: Display
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  index: 11
+  indexChooseAvatar: 10
   lines:
-  - content: chao mung anh hung
+  - content: The kingdom is overrun by monsters. They use teleportation gates, appearing
+      everywhere. The further you go, the smarter and stronger they become
     leftActor:
       name: King Arthur
       avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
@@ -40,7 +26,14 @@ MonoBehaviour:
       name: 
       avatar: {fileID: 0}
     speaker: 2
-  - content: hien tai vuong quoc chung toi dang bi xam luoc boi cac cong khong gian
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: "The monster army is led by the Slime King. He\u2019s the mastermind
+      behind it all, cunning and ruthless."
     leftActor:
       name: King Arthur
       avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
@@ -48,7 +41,14 @@ MonoBehaviour:
       name: 
       avatar: {fileID: 0}
     speaker: 2
-  - content: chung toi rat can su tro giup
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: We must destroy the teleportation gates and face the Slime King. All
+      hope rests on brave warriors like you!
     leftActor:
       name: King Arthur
       avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
@@ -56,27 +56,153 @@ MonoBehaviour:
       name: 
       avatar: {fileID: 0}
     speaker: 2
-  - content: hehe .... lam nhu nguoi co the can dc bon ta ay
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: This kingdom is just the beginning. I will turn every land into a realm
+      of slime and filth!
     leftActor:
       name: King Arthur
       avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
     rightActor:
-      name: Elite Monster
+      name: Slime King
       avatar: {fileID: 157187429, guid: e541bafcff1971d4d91b6c0328258cc1, type: 3}
     speaker: 4
-  - content: anh hung ... hay giup chung ta danh bai lu quai vat
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5262317520900565800, guid: edfdd1591dc3b584e8aac8ef4c8cf72a, type: 3}
+          m_TargetAssemblyTypeName: AudioTest, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8300000, guid: 3326ddaa65b9bcf48aa56a97c3f1e23b, type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: Slime King, you will not prevail! Creatures like you can never understand
+      the power of courage.
     leftActor:
       name: King Arthur
       avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
     rightActor:
-      name: Elite Monster
+      name: Slime King
       avatar: {fileID: 157187429, guid: e541bafcff1971d4d91b6c0328258cc1, type: 3}
     speaker: 2
-  - content: ae dau ... tien len
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: Humans are weak. Your resistance only prolongs your suffering. Submit
+      or face destruction!
     leftActor:
       name: King Arthur
       avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
     rightActor:
-      name: Elite Monster
+      name: Slime King
       avatar: {fileID: 157187429, guid: e541bafcff1971d4d91b6c0328258cc1, type: 3}
     speaker: 4
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: We will fight to our last breath! You will witness the strength of humanity!
+    leftActor:
+      name: King Arthur
+      avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
+    rightActor:
+      name: Slime King
+      avatar: {fileID: 157187429, guid: e541bafcff1971d4d91b6c0328258cc1, type: 3}
+    speaker: 2
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: "Prepare to face annihilation! I\u2019ll be waiting for you at the end
+      of the road!"
+    leftActor:
+      name: King Arthur
+      avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
+    rightActor:
+      name: Slime King
+      avatar: {fileID: 157187429, guid: e541bafcff1971d4d91b6c0328258cc1, type: 3}
+    speaker: 4
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: And you, beware! Our warriors will ensure you are banished forever!
+    leftActor:
+      name: King Arthur
+      avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
+    rightActor:
+      name: Slime King
+      avatar: {fileID: 157187429, guid: e541bafcff1971d4d91b6c0328258cc1, type: 3}
+    speaker: 2
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: Choose your character class. Each has unique powers to combat the monsters!
+    leftActor:
+      name: King Arthur
+      avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
+    rightActor:
+      name: 
+      avatar: {fileID: 0}
+    speaker: 2
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: Male or Female, think carefully. Your choice will decide the fate of
+      the kingdom.
+    leftActor:
+      name: King Arthur
+      avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
+    rightActor:
+      name: 
+      avatar: {fileID: 0}
+    speaker: 2
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []
+  - content: My son, the kingdom needs you! Protect our people and defeat the Slime
+      King!
+    leftActor:
+      name: King Arthur
+      avatar: {fileID: -1942239696, guid: a763030ac1db0324583c9215d1336286, type: 3}
+    rightActor:
+      name: Male
+      avatar: {fileID: 1529838246, guid: baab796bd4fc29949bfa3412f511732e, type: 3}
+    speaker: 2
+    onBeforeDialog:
+      m_PersistentCalls:
+        m_Calls: []
+    onAfterDialog:
+      m_PersistentCalls:
+        m_Calls: []

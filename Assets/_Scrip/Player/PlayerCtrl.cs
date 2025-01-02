@@ -36,11 +36,11 @@ public class PlayerCtrl : ObjectCtrl
             if (characterStatsFake == null)
             {
                 characterStatsFake = gameObject.AddComponent<StatsFake>();
-                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.CurrentManaAttack, cardCharacter.CharacterStats.AttackSpeedMelee);
+                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.Mana, cardCharacter.CharacterStats.AttackSpeedMelee);
             }
             else
             {
-                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.CurrentManaAttack, cardCharacter.CharacterStats.AttackSpeedMelee);
+                characterStatsFake.Initialize(cardCharacter.CharacterStats.Attack, cardCharacter.CharacterStats.Life, cardCharacter.CharacterStats.AttackSpeed, cardCharacter.CharacterStats.Mana, cardCharacter.CharacterStats.AttackSpeedMelee);
             }
 
             // Áp dụng thêm các chỉ số từ GuildSOManager (nếu cần)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class GuildManager : MonoBehaviour
 
     [SerializeField] private GuildDefaultStatsSO GuildStatsDefault;
     public GuildDefaultStatsSO GuildAbilitySO => GuildStatsDefault;
+
+    public static Action OnGuildJoined;
     private void Awake()
     {
         if (instance != null)
@@ -24,6 +27,16 @@ public class GuildManager : MonoBehaviour
     {
         LoadDataCard();
     }
+
+    private void Update()
+    {
+        // Lắng nghe phím "Z" để thoát guild
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            ResetJoinedGuild(); // Thực hiện việc reset khi nhấn phím Z
+        }
+    }
+
     public void LoadDataCard()
     {
         LoadGuildsFromResources();
@@ -86,6 +99,7 @@ public class GuildManager : MonoBehaviour
         guildSO.Joined = true;
         GuildJoined = guildSO;
 
+        OnGuildJoined?.Invoke();
         // Lưu trạng thái
         SaveGuildState();
     }
@@ -113,4 +127,20 @@ public class GuildManager : MonoBehaviour
         return Guilds.FirstOrDefault(guild => guild.ID == id);
     }
 
+    // Hàm Reset Guild và lưu lại trạng thái không gia nhập nữa
+    private void ResetJoinedGuild()
+    {
+        if (GuildJoined != null)
+        {
+            // Đặt trạng thái Guild hiện tại không còn gia nhập nữa
+            GuildJoined.Joined = false;
+            // Lưu lại trạng thái
+            SaveGuildState();
+
+            // Đặt GuildJoined là null
+            GuildJoined = null;
+
+            Debug.Log("You have exited from the guild.");
+        }
+    }
 }

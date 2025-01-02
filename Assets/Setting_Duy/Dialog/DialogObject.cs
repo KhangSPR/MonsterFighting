@@ -11,7 +11,7 @@ public class DialogObject : ScriptableObject {
     public int index;
     public int indexChooseAvatar;
 
-    public UnityEvent onCompleted;
+    //public UnityEvent onCompleted;
     public DialogLine[] lines;
 
 
@@ -21,8 +21,8 @@ public class DialogObject : ScriptableObject {
         public DialogActor leftActor;
         public DialogActor rightActor;
         public Speaker speaker;
-        //public UnityEvent onBeforeDialog;
-        //public UnityEvent onAfterDialog;
+        public UnityEvent onBeforeDialog;
+        public UnityEvent onAfterDialog;
 
         [System.Flags]
         public enum Speaker {

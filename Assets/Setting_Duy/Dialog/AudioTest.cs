@@ -16,5 +16,7 @@ public class AudioTest : MonoBehaviour {
 
     public static void Play(AudioClip clip){
         Instance?.source.PlayOneShot(clip);
+
+        Debug.Log("Play AudioClip");
     }
 }

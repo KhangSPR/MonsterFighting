@@ -126,12 +126,12 @@ TextureImporter:
       name: AvatarMan_0
       rect:
         serializedVersion: 2
-        x: 22
-        y: 6
-        width: 455
+        x: 36
+        y: 0
+        width: 435
         height: 503
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -139,6 +139,27 @@ TextureImporter:
       bones: []
       spriteID: 67e68b4c60aea844f926de6d437cdf32
       internalID: 861331951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AvatarMan_1
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 334
+        width: 170
+        height: 170
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43fc29681e220e949ab72e60dde6c2ec
+      internalID: 1620596053
       vertices: []
       indices: 
       edges: []
@@ -155,6 +176,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       AvatarMan_0: 861331951
+      AvatarMan_1: 1620596053
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
