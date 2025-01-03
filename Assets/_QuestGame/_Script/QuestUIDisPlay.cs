@@ -33,9 +33,11 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     private int previousButtonIndex = 0;
     //[SerializeField]
     private List<Button> questButtons = new List<Button>();
-
     private Button currentButtonActive;
     public Button CurrentButtonActive => currentButtonActive;
+    private Image currentTickImage;
+    public Image CurrentTickImage => currentTickImage;
+
 
     [SerializeField]
     private QuestAbstractSO currentQuestSO;
@@ -48,6 +50,14 @@ public class QuestUIDisPlay : SaiMonoBehaviour
         if (currentButtonActive != null)
         {
             UpdateSingleButtonVisibility(currentButtonActive);
+        }
+    }
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        if(currentQuestSO != null)
+        {
+            ShowQuestDetails(currentQuestSO);
         }
     }
     protected override void Start()
@@ -353,28 +363,39 @@ public class QuestUIDisPlay : SaiMonoBehaviour
 
     }
 
-    public void QuestPress(Button questButton)
+    public void QuestPress(Button questButton, Image tickImage)
     {
         // Kiểm tra để đảm bảo previousButtonIndex là hợp lệ
         if (questButtons != null && questButtons.Count > 0 && previousButtonIndex >= 0 && previousButtonIndex < questButtons.Count)
         {
-            HighlightQuestButton(questButtons[previousButtonIndex], false);
+            // Tắt tickImage của nút trước đó
+            HighlightQuestButton(questButtons[previousButtonIndex], currentTickImage, false);
         }
 
-        HighlightQuestButton(questButton, true);
+        // Bật tickImage của nút hiện tại
+        HighlightQuestButton(questButton, tickImage, true);
         previousButtonIndex = questButtons.IndexOf(questButton);
     }
 
-    private void HighlightQuestButton(Button questButton, bool active)
-    { //Làm nổi bật hoặc tắt nổi bật cho nút. 
-        questButton.image.color = active ? new Color(1f, 0.6f, 0f, 0.3f) : new Color(0, 0, 0, 0);
+    private void HighlightQuestButton(Button questButton, Image tickImage, bool active)
+    {
+        // Làm nổi bật hoặc tắt nổi bật cho nút
+        //questButton.image.color = active ? new Color(1f, 0.6f, 0f, 0.3f) : new Color(0, 0, 0, 0);
 
-        if(currentButtonActive !=null)
+        // Bật hoặc tắt tickImage của nút
+        if (tickImage != null)
         {
-            currentButtonActive.GetComponent<Image>().enabled = true;
+            tickImage.gameObject.SetActive(active);
         }
-        currentButtonActive = questButton; //SET BUTTON CURRENT
+
+        // Cập nhật nút và tickImage hiện tại
+        if (active)
+        {
+            currentTickImage = tickImage;
+            currentButtonActive = questButton;
+        }
     }
+
     public void ShowQuestDetails(QuestAbstractSO QuestSO)
     {
         //SetQuest
@@ -397,13 +418,13 @@ public class QuestUIDisPlay : SaiMonoBehaviour
             string requiredAmount = objectives.requiredText.Split('/')[1];
 
             // Kiểm tra và thay đổi màu sắc cho currentAmount
-            if (objectives.amount > objectives.currentAmount)
+            if (objectives.requiredCount > objectives.currentCount)
             {
-                requireQuest.text = $"+{objectiveText}<color=#{ColorUtility.ToHtmlStringRGB(Color.red)}>{objectives.currentAmount}</color>/{requiredAmount}";
+                requireQuest.text = $"+{objectiveText}<color=#{ColorUtility.ToHtmlStringRGB(Color.red)}>{objectives.currentCount}</color>/{requiredAmount}";
             }
             else
             {
-                requireQuest.text = $"+{objectiveText}<color=#{ColorUtility.ToHtmlStringRGB(Color.green)}>{objectives.currentAmount}</color>/{requiredAmount}";
+                requireQuest.text = $"+{objectiveText}<color=#{ColorUtility.ToHtmlStringRGB(Color.green)}>{objectives.currentCount}</color>/{requiredAmount}";
             }
 
         }
@@ -442,12 +463,14 @@ public class QuestUIDisPlay : SaiMonoBehaviour
         foreach (UIGameDataMap.Resources resources in QuestSO.questInfoSO.Reward)
         {
             GameObject newObjReward = Instantiate(prefabReward, holderReward);
+            ItemTooltipReward itemTooltip = newObjReward.GetComponent<ItemTooltipReward>();
 
-            newObjReward.GetComponentInChildren<TMP_Text>().text = "X" + resources.Count.ToString();
+            itemTooltip.ItemReward = resources.item;
+            itemTooltip.CountTxt.text = "X" + resources.Count.ToString();
+            itemTooltip.AvatarImg.sprite = resources.item.Image;
 
-            newObjReward.GetComponentInChildren<Image>().sprite = resources.item.Image;
-            //if (questComplete)
-            //    newObjReward.transform.Find("Tick").gameObject.SetActive(true);
+            if (questComplete)
+                itemTooltip.Tick.SetActive(true);
         }
 
         DesTable.gameObject.SetActive(true);//Set True Parent UI

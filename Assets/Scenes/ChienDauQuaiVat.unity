@@ -2540,7 +2540,7 @@ MonoBehaviour:
   requireQuest: {fileID: 763137082}
   rewardText: {fileID: 1268525944}
   holderReward: {fileID: 1268525943}
-  prefabReward: {fileID: 7509393633749706975, guid: 626f85b6f43cd444581002b490f6df46, type: 3}
+  prefabReward: {fileID: 8561742110239641985, guid: 5fecc2a5216555e43813876d9774c830, type: 3}
   DesTable: {fileID: 1389430718}
   btnQuest: {fileID: 914185624}
   holderMainQuest: {fileID: 526614688}
@@ -16582,7 +16582,7 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 20f9b21b8a490f2418b363a404d8fd3d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b3a36dbc8b7dfd24bad5a518e760ca5c, type: 2}
   m_sharedMaterial: {fileID: -1919498263057268487, guid: 20f9b21b8a490f2418b363a404d8fd3d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -16646,7 +16646,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1268525945
@@ -20056,9 +20056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9448dfc6ea5238540a0bb72b4b82507a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _questListMain: []
-  _questListClan: []
-  _questListPVP: []
+  _questInfos: []
 --- !u!1 &1667242235
 GameObject:
   m_ObjectHideFlags: 0

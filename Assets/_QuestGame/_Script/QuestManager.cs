@@ -2,6 +2,8 @@
 using UnityEngine;
 using System.Linq;
 using static MainQuestSO;
+using static QuestInfoSO;
+
 
 public class QuestManager : SaiMonoBehaviour
 {
@@ -9,21 +11,26 @@ public class QuestManager : SaiMonoBehaviour
     private static QuestManager _instance;
     public static QuestManager Instance => _instance;
 
+    public static Action<Objective.Type, string> OnEnemyKilled;
+
+
     // Path to the folder containing quest ScriptableObjects
     private const string QuestMainFolderPath = "Quest/MainQuest";
     private const string ClanFolderPath = "Quest/ClanQuest";
     private const string PVPFolderPath = "Quest/PVPQuest";
+    private const string QuestDesFolderPath = "Quest/QuestDes";
+
 
     // Array to hold loaded QuestAbstractSO objects
-    [SerializeField]
     private QuestAbstractSO[] _questListMain;
     public QuestAbstractSO[] QuestListMain => _questListMain;
-    [SerializeField]
     private QuestAbstractSO[] _questListClan;
     public QuestAbstractSO[] QuestListClan => _questListClan;
-    [SerializeField]
     private QuestAbstractSO[] _questListPVP;
     public QuestAbstractSO[] QuestListPVP => _questListPVP;
+    [SerializeField]
+    private QuestInfoSO[] _questInfos;
+    public QuestInfoSO[] QuestInfos => _questInfos;
 
     // Ensures only one instance of QuestManager exists
     protected override void Awake()
@@ -41,12 +48,16 @@ public class QuestManager : SaiMonoBehaviour
         base.OnEnable();
         PlayerManager.OnQuestUpdate += OnActiveReceivedQuestMain;
         GuildManager.OnGuildJoined += OnActiveReceivedQuestClan;
+        //ADD Quest Action
+        OnEnemyKilled += OnQuestObjective;
     }
     protected override void OnDisable()
     {
         base.OnDisable();
         PlayerManager.OnQuestUpdate -= OnActiveReceivedQuestMain;
         GuildManager.OnGuildJoined -= OnActiveReceivedQuestClan;
+        //REMOVE Quest Action
+        OnEnemyKilled -= OnQuestObjective;
     }
     protected override void Start()
     {
@@ -55,10 +66,33 @@ public class QuestManager : SaiMonoBehaviour
         _questListMain = LoadQuestsFromFolder(QuestMainFolderPath);
         _questListClan = LoadQuestsFromFolder(ClanFolderPath);
         _questListPVP = LoadQuestsFromFolder(PVPFolderPath);
+        _questInfos = LoadQuestInfosFromFolder(QuestDesFolderPath);
 
         this.OnActiveReceivedQuestMain();
         this.OnActiveReceivedQuestClan();
     }
+    private void OnQuestObjective(Objective.Type type, string id)
+    {
+        Debug.Log("OnQuestObjective: " + id);
+
+        foreach (QuestInfoSO quest in _questInfos)
+        {
+            if (quest.isFinishQuest)
+            {
+                continue; // Bỏ qua các quest đã hoàn thành
+            }
+
+            foreach (Objective objective in quest.objectives)
+            {
+                if (objective.type == type && objective.ID == id) // Kiểm tra đúng type và id
+                {
+                    objective.UpdateObjectives(type, id);
+                    return; // Thoát khỏi hàm ngay khi cập nhật xong
+                }
+            }
+        }
+    }
+
     private void OnActiveReceivedQuestMain()
     {
         if (_questListMain == null) return;
@@ -127,6 +161,13 @@ public class QuestManager : SaiMonoBehaviour
 
         // Sort the quests by their type
         Array.Sort(quests, (quest1, quest2) => quest1.id.CompareTo(quest2.id));
+
+        return quests;
+    }
+    private QuestInfoSO[] LoadQuestInfosFromFolder(string folderPath)
+    {
+        // Load all QuestAbstractSO assets from the folder
+        QuestInfoSO[] quests = UnityEngine.Resources.LoadAll<QuestInfoSO>(folderPath);
 
         return quests;
     }

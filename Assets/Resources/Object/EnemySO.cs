@@ -22,6 +22,7 @@ public class ItemDrop
 [CreateAssetMenu(fileName = "Assets/Resources/Object/Enemy", menuName = "Object/Enemy", order = 1)]
 public class EnemySO : ScriptableObject
 {
+    public string ID;
     public int basePointsAttack;
     public int basePointsLife;
     public float basePointsAttackSpeed; //Delay Attack

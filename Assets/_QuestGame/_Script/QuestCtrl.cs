@@ -12,7 +12,8 @@ public class QuestCtrl : MonoBehaviour
     public Button ButtonQuest => button;
     [SerializeField] Image buttonImage; // Thêm Image để thay đổi màu của nút
     public TMP_Text TMP_Text;
-
+    public Image tickButton;
+    
     QuestAbstractSO questAbstractSO;
     public QuestAbstractSO QuestAbstractSO => questAbstractSO;
 
@@ -42,7 +43,7 @@ public class QuestCtrl : MonoBehaviour
     {
         Debug.Log("Click Quest Ctrl " + questAbstractSO.questInfoSO.name);
 
-        questUIDisPlay.QuestPress(button);
+        questUIDisPlay.QuestPress(button, tickButton);
         questUIDisPlay.ShowQuestDetails(questAbstractSO);
     }
 

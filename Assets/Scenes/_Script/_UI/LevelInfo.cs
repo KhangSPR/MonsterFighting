@@ -135,17 +135,17 @@ namespace UIGameDataMap
             {
                 GameObject itemObject = Instantiate(itemPrefab, holderItem);
                 Image imageComponent = itemObject.transform.Find("Img").GetComponent<Image>();
-                ItemTooltip itemTooltip = itemObject.GetComponent<ItemTooltip>();
-                itemTooltip.ItemReward = resource.item;
-                Text countText = itemObject.transform.GetComponentInChildren<Text>();
+                ItemTooltipReward itemTooltip = itemObject.GetComponent<ItemTooltipReward>();
 
+
+                itemTooltip.ItemReward = resource.item;
                 imageComponent.sprite = resource.item.Image;
-                countText.text = "x" + resource.Count;
+                itemTooltip.CountTxt.text = "x" + resource.Count;
 
                 if (mapDifficulty.isReceivedReWard)
                 {
                     imageComponent.color = new Color(1f, 160 / 255f, 122 / 255f, 128 / 255f);
-                    countText.color = new Color(1f, 1f, 1f, 128 / 255f);
+                    itemTooltip.CountTxt.color = new Color(1f, 1f, 1f, 128 / 255f);
 
                     itemObject.transform.Find("Tick").gameObject.SetActive(true);
                 }

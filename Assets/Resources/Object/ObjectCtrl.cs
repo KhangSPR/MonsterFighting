@@ -1,9 +1,13 @@
 using System;
-using System.Collections;
-using UIGameDataManager;
-using Unity.VisualScripting;
 using UnityEngine;
 
+public enum ObjectCtrlType
+{
+    Enemy, 
+    Player,
+    Castle,
+    FX
+}
 public abstract class ObjectCtrl : SaiMonoBehaviour
 {
     [Header("Object Ctrl")]
@@ -43,6 +47,9 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
 
     [SerializeField] protected ObjDetectAllies objDetectAllies;
     public ObjDetectAllies ObjDetectAllies => objDetectAllies;
+
+    [SerializeField] protected ObjectCtrlType objectCtrlType;
+    public ObjectCtrlType ObjectCtrlType => objectCtrlType;
     protected override void LoadComponents()
     {
         base.LoadComponents();

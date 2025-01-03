@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -95,6 +96,9 @@ public class EffectCharacter : MonoBehaviour
     }
     private void SetSpriteRenderer()
     {
+        _frontSpriteRenderers.Clear();
+        _middleSpriteRenderers.Clear();
+        _backSpriteRenderers.Clear();
         if (fontTransfrom != null)
         {
             _frontSpriteRenderers.AddRange(fontTransfrom.GetComponentsInChildren<SpriteRenderer>());
@@ -205,6 +209,11 @@ public class EffectCharacter : MonoBehaviour
         }
 
         Debug.Log("Materials set for dissolve effect");
+
+        Debug.Log($"_frontSpriteRenderers.Count: {_frontSpriteRenderers.Count}, _materialsFont.Count: {_materialsFont.Length}");
+        Debug.Log($"_middleSpriteRenderers.Count: {_middleSpriteRenderers.Count}, _materialsMidle.Count: {_materialsMidle.Length}");
+        Debug.Log($"_backSpriteRenderers.Count: {_backSpriteRenderers.Count}, _materialsBack.Count: {_materialsBack.Length}");
+
     }
 
 

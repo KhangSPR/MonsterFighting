@@ -26,7 +26,7 @@ MonoBehaviour:
         enemyRanDoms:
         - TimeFirstSpawn: 2
           EnemyType:
-          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
+          - enemyTypeSO: {fileID: 11400000, guid: 137c601c0a916c141bb3bd2de309c970, type: 2}
             countEnemy: 2
             timerMin: 5
             timerMax: 10
@@ -49,6 +49,10 @@ MonoBehaviour:
           enemyTypes:
           - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
             countEnemy: 2
+            timerMin: 3
+            timerMax: 4
+          - enemyTypeSO: {fileID: 11400000, guid: 137c601c0a916c141bb3bd2de309c970, type: 2}
+            countEnemy: 1
             timerMin: 3
             timerMax: 4
     Reward:

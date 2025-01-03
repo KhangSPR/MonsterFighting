@@ -22,6 +22,7 @@ public enum ItemRarity
 }
 public abstract class ItemObject : ScriptableObject
 {
+    public string ID;
     public bool IsUsed;
     public int Id;
     public Sprite Sprite;

@@ -139,10 +139,12 @@ public class UIRewardItems : MonoBehaviour
         foreach (var resource in resoureceItems)
         {
             GameObject objNew = Instantiate(ItemPrefab, Panel.Find("ListItemReward")).gameObject;
-            objNew.transform.Find("Icon").GetComponent<Image>().sprite = resource.item.Image;
-            objNew.transform.Find("Count").GetComponent<TMP_Text>().text = $"x{resource.Count}";
-            objNew.transform.GetComponent<ItemTooltip>().ItemReward = resource.item;
 
+            ItemTooltipReward itemTooltip = objNew.GetComponent<ItemTooltipReward>();
+
+            itemTooltip.AvatarImg.sprite = resource.item.Image;
+            itemTooltip.CountTxt.text = $"x{resource.Count}";
+            itemTooltip.ItemReward = resource.item;
 
             //ADD Item
             GameDataManager.Instance.OnReceiverRewardResources(resource);
@@ -154,10 +156,10 @@ public class UIRewardItems : MonoBehaviour
 
             GameObject objNew = Instantiate(ItemPrefab, Panel.Find("ListItemReward")).gameObject;
 
-
-            objNew.transform.GetComponent<ItemTooltip>().ItemObject = item.itemObject;
-            objNew.transform.Find("Icon").GetComponent<Image>().sprite = item.itemObject.Sprite;
-            objNew.transform.Find("Count").GetComponent<TMP_Text>().text = $"x{item.count}";
+            ItemTooltipInventory itemTooltip = objNew.GetComponent<ItemTooltipInventory>();
+            itemTooltip.AvatarImg.sprite = item.itemObject.Sprite;
+            itemTooltip.CountTxt.text = $"x{item.count}";
+            itemTooltip.ItemObject = item.itemObject;
 
             InventoryManager.Instance.inventory.AddItem(Item, item.count);
         }

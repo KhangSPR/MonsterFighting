@@ -17,7 +17,7 @@ public class DisplayInventory : MonoBehaviour
     [Space]
     [SerializeField] Transform holderInventory;
     [SerializeField] GameObject prefabItem;
-    [SerializeField] List<ItemTooltip> itemTooltips = new List<ItemTooltip>();
+    [SerializeField] List<ItemTooltipInventory> itemTooltips = new List<ItemTooltipInventory>();
     private void OnEnable()
     {
         CreateDisplay();
@@ -54,14 +54,14 @@ public class DisplayInventory : MonoBehaviour
         {
             if (item.ItemObject.IsUsed)
             {
-                item.LableItem.GetComponent<Image>().color = new Color(1f, 1f, 1f, 225 / 255f); // RGBA (1, 1, 1, 1)
-                item.LableItem.GetComponentInChildren<TMP_Text>().text = "CANCEL";
-                item.LableItem.GetComponentInChildren<TMP_Text>().color = new Color(1f, 1f, 1f, 1f);
+                item.LabelImg.color = new Color(1f, 1f, 1f, 225 / 255f); // RGBA (1, 1, 1, 1)
+                item.LabelTxt.text = "CANCEL";
+                item.LabelImg.color = new Color(1f, 1f, 1f, 1f);
             }
             else
             {
-                item.LableItem.GetComponent<Image>().color = Color.green;
-                item.LableItem.GetComponentInChildren<TMP_Text>().text = "<color=white>USE</color> <color=green>" + InventoryManager.Instance.CurrentQuantityItem + "</color>" + "<color=white>/" + InventoryManager.Instance.LimitedQuantityItem + "</color>";
+                item.LabelImg.color = Color.green;
+                item.LabelTxt.text = "<color=white>USE</color> <color=green>" + InventoryManager.Instance.CurrentQuantityItem + "</color>" + "<color=white>/" + InventoryManager.Instance.LimitedQuantityItem + "</color>";
             }
         }
     }
@@ -89,15 +89,16 @@ public class DisplayInventory : MonoBehaviour
 
             var obj = Instantiate(prefabItem, holderInventory);
 
+            ItemTooltipInventory itemTooltip = obj.GetComponent<ItemTooltipInventory>();
+
+
             if (slot.ID >= 0)
             {
                 ItemObject itemObject = inventory.database.GetItem[slot.item.Id];
 
-                ItemTooltip itemTooltip = obj.GetComponent<ItemTooltip>();
-
                 itemTooltip.ItemObject = itemObject;
-                obj.transform.Find("Icon").GetComponent<Image>().sprite = inventory.database.GetItem[slot.item.Id].Sprite;
-                obj.transform.Find("Count").GetComponent<TMP_Text>().text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
+                itemTooltip.AvatarImg.sprite = inventory.database.GetItem[slot.item.Id].Sprite;
+                itemTooltip.CountTxt.text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
                 //Craft, Medicine, Skill
                 itemTooltip.DisplayInventory = this;
 
@@ -108,30 +109,30 @@ public class DisplayInventory : MonoBehaviour
 
                     if (itemObject.IsUsed)
                     {
-                        obj.transform.Find("Lable").GetComponent<Image>().color = new Color(1f, 1f, 1f, 225 / 255f); // RGBA (1, 1, 1, 1)
-                        obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().text = "CANCEL";
-                        obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().color = new Color(1f, 1f, 1f, 1f);
+                        itemTooltip.LabelImg.color = new Color(1f, 1f, 1f, 225 / 255f); // RGBA (1, 1, 1, 1)
+                        itemTooltip.LabelTxt.text = "CANCEL";
+                        itemTooltip.LabelTxt.color = new Color(1f, 1f, 1f, 1f);
                     }
                     else
                     {
-                        obj.transform.Find("Lable").GetComponent<Image>().color = Color.green;
-                        obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().text = "<color=white>USE</color> <color=green>" + InventoryManager.Instance.CurrentQuantityItem + "</color>" + "<color=white>/" + InventoryManager.Instance.LimitedQuantityItem + "</color>";
+                        itemTooltip.LabelImg.color = Color.green;
+                        itemTooltip.LabelTxt.text = "<color=white>USE</color> <color=green>" + InventoryManager.Instance.CurrentQuantityItem + "</color>" + "<color=white>/" + InventoryManager.Instance.LimitedQuantityItem + "</color>";
                     }
 
                 }
                 else
                 {
-                    obj.transform.Find("Lable").GetComponent<Image>().color = new Color(178 / 255f, 112 / 255f, 0f, 225 / 255f);
-                    obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().text = "CRAFT";
-                    obj.transform.Find("Lable/Text").GetComponent<TMP_Text>().color = new Color(1f, 165 / 255f, 0f, 1f);
+                    itemTooltip.LabelImg.color = new Color(178 / 255f, 112 / 255f, 0f, 225 / 255f);
+                    itemTooltip.LabelTxt.text = "CRAFT";
+                    itemTooltip.LabelTxt.color = new Color(1f, 165 / 255f, 0f, 1f);
 
                 }
             }
             else
             {
-                obj.GetComponent<Button>().enabled = false;
-                obj.transform.Find("Icon").GetComponent<Image>().color = new Color(1, 1, 1, 0);
-                obj.transform.Find("Count").GetComponent<TMP_Text>().text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
+                itemTooltip.LabelBtn.enabled = false;
+                itemTooltip.AvatarImg.color = new Color(1, 1, 1, 0);
+                itemTooltip.CountTxt.text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
 
                 //Empty Item
             }
@@ -168,16 +169,19 @@ public class DisplayInventory : MonoBehaviour
             InventorySlot slot = i < filteredSlots.Count ? filteredSlots[i] : null;
             var obj = Instantiate(prefabItem, holderInventory);
 
+            ItemTooltipInventory itemTooltip = obj.GetComponent<ItemTooltipInventory>();
+
+
             if (slot != null && slot.ID >= 0)
             {
-                obj.GetComponent<ItemTooltip>().ItemObject = inventory.database.GetItem[slot.item.Id];
-                obj.transform.Find("Icon").GetComponent<Image>().sprite = inventory.database.GetItem[slot.item.Id].Sprite;
-                obj.transform.Find("Count").GetComponent<TMP_Text>().text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
+                itemTooltip.ItemObject = inventory.database.GetItem[slot.item.Id];
+                itemTooltip.AvatarImg.sprite = inventory.database.GetItem[slot.item.Id].Sprite;
+                itemTooltip.CountTxt.text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
             }
             else
             {
-                obj.transform.Find("Icon").GetComponent<Image>().color = new Color(1, 1, 1, 0);
-                obj.transform.Find("Count").GetComponent<TMP_Text>().text = "";
+                itemTooltip.AvatarImg.color = new Color(1, 1, 1, 0);
+                itemTooltip.CountTxt.text = "";
             }
 
             itemDisplayed.Add(obj, slot);

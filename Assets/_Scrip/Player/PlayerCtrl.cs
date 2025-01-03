@@ -10,6 +10,8 @@ public class PlayerCtrl : ObjectCtrl
     public PlayerAttack PlayerAttack => playerAttack;
     [SerializeField] protected PlayerShooter playerShooter;
     public PlayerShooter PlayerShooter => playerShooter;
+    //[SerializeField] protected PlayerAction playerAction;
+    //public PlayerAction PlayerAction => playerAction;
     private Vector3Int cellPosition;
     StatsFake characterStatsFake;
     public StatsFake CharacterStatsFake => characterStatsFake;
@@ -115,7 +117,14 @@ public class PlayerCtrl : ObjectCtrl
         this.LoadPlayerShooter();
         this.LoadTargetBar();
         this.LoadObjTile();
+        //this.LoadPlayerAction();
     }
+    //protected virtual void LoadPlayerAction()
+    //{
+    //    if (playerAction != null) return;
+    //    playerAction = transform.GetComponentInChildren<PlayerAction>();
+    //    Debug.Log(gameObject.name + ": LoadPlayerAction" + gameObject);
+    //}
     protected virtual void LoadObjTile()
     {
         if (objTile != null) return;

@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable , CreateAssetMenu]
 public class ItemReward : ScriptableObject
 {
+    public string ID;
     [SerializeField] private string itemName;
     [SerializeField] private string itemDescription;
     [SerializeField] private Sprite image;

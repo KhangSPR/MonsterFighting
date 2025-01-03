@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UIGameDataManager;
 using UIGameDataMap;
+using Unity.VisualScripting;
 using UnityEngine;
+using static QuestInfoSO;
+
 [Flags]
 public enum GameStateFlags
 {
@@ -128,6 +131,9 @@ public class GameManager : SaiMonoBehaviour
     [Space]
     [Header("Click Hover UI")]
     private GameStateFlags gameStateFlags = GameStateFlags.None;
+
+    //Action Quest
+    public Dictionary<string, int> _temporaryUpdates = new Dictionary<string, int>();
 
     public bool AreFlagsSet(GameStateFlags flagsToCheck)
     {
@@ -560,43 +566,77 @@ public class GameManager : SaiMonoBehaviour
         if (isGameWin) return;
         isGameWin = true;
 
-
         if (isGameSpeeded) Time.timeScale = 1;
-        //Set Star Type
+
+        // Set Star Type
         SetStarConditionTypeMap();
 
-        //CheckStars();
-        var dropItemHolder = EnemyDropSpawner.Instance.holder;
-
-
-        gameDataManager = FindAnyObjectByType<GameDataManager>();
-        foreach (Transform item in dropItemHolder)
+        var dropItemHolder = EnemyDropSpawner.Instance?.holder; // Kiểm tra null
+        if (dropItemHolder != null)
         {
-            if (item.gameObject.activeSelf)
+            foreach (Transform item in dropItemHolder)
             {
-                if (!item.GetComponent<ItemDropCtrl>().IsAnimationProcess)
+                if (item != null && item.gameObject.activeSelf)
                 {
-                    item.GetComponent<ItemDropCtrl>().ItemPickupAnimation();
-                    //uint itemValue = 1; // biến này sau này sẽ dựa theo scale của đá mà set value
-                    //costManager.StoneEnemyCurrency += 1;
+                    var itemDropCtrl = item.GetComponent<ItemDropCtrl>();
+                    if (itemDropCtrl != null && !itemDropCtrl.IsAnimationProcess)
+                    {
+                        itemDropCtrl.ItemPickupAnimation();
+                    }
                 }
             }
         }
-        Map_UI_Manager.UIWin.gameObject.SetActive(true);
+
+        // UI Win
+        if (Map_UI_Manager?.UIWin != null)
+        {
+            Map_UI_Manager.UIWin.gameObject.SetActive(true);
+        }
 
         Debug.Log(gameDataManager);
-        OnReceiverItemData();
+        if (gameDataManager != null)
+        {
+            OnReceiverItemData();
+        }
 
         UpdateResources?.Invoke();
 
-        //Star Condition
-        MapManager.Instance.UnLockNextMap();
-        MapManager.Instance.SetStarDifficult(star);
-        MapManager.Instance.SetReward();
+        // Star Condition
+        if (MapManager.Instance != null)
+        {
+            MapManager.Instance.UnLockNextMap();
+            MapManager.Instance.SetStarDifficult(star);
+            MapManager.Instance.SetReward();
+        }
 
-        GameDataManager.Instance.ConsumeEnergy();
+        // Consume Energy
+        if (GameDataManager.Instance != null)
+        {
+            GameDataManager.Instance.ConsumeEnergy();
+        }
 
-        //fade.gameObject.SetActive(true);
+        QuestComplete();
+    }
+
+    private void QuestComplete()
+    {
+        // Cập nhật từ biến tạm
+        foreach (var update in _temporaryUpdates)
+        {
+            string enemyID = update.Key;
+            int count = update.Value;
+
+            foreach (QuestInfoSO quest in QuestManager.Instance.QuestInfos)
+            {
+                foreach (Objective objective in quest.objectives)
+                {
+                    if (objective.ID == enemyID && objective.type == Objective.Type.kill)
+                    {
+                        objective.UpdateObjectives(Objective.Type.kill, enemyID, count);
+                    }
+                }
+            }
+        }
     }
     public void GameLoss()
     {
