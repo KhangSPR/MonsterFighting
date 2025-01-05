@@ -15,6 +15,7 @@ public class GuildManager : MonoBehaviour
     public GuildDefaultStatsSO GuildAbilitySO => GuildStatsDefault;
 
     public static Action OnGuildJoined;
+    public static Action<GuildSO> OnGuildDisplayQuest;
     private void Awake()
     {
         if (instance != null)
@@ -100,6 +101,7 @@ public class GuildManager : MonoBehaviour
         GuildJoined = guildSO;
 
         OnGuildJoined?.Invoke();
+        OnGuildDisplayQuest?.Invoke(GuildJoined);
         // Lưu trạng thái
         SaveGuildState();
     }

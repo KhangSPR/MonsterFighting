@@ -285,18 +285,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPosition: {x: 430, y: 65}
   rectTrans: {fileID: 4516412253545639853}
-  spacing: {x: 0, y: -80}
+  spacing: {x: 0, y: -75}
   expandDuration: 0.3
   collapseDuration: 0.4
   expandEase: 27
   collapseEase: 26
   expandFadeDuration: 0.3
   collapseFadeDuration: 0.6
+  menuItems: []
   itemsCount: 0
   Holder: {fileID: 2736624332648956067}
   lockLv: {fileID: 9036669282772405085}
   tmp_Text: {fileID: 393994461384142046}
   _Button: {fileID: 740950756281358137}
+  isCheckLv: 0
 --- !u!1 &8825951733830075835
 GameObject:
   m_ObjectHideFlags: 0

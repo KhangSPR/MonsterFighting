@@ -10,7 +10,7 @@ public class QuestCtrl : MonoBehaviour
 
     [SerializeField] Button button;
     public Button ButtonQuest => button;
-    [SerializeField] Image buttonImage; // Thêm Image để thay đổi màu của nút
+    //[SerializeField] Image buttonImage; // Thêm Image để thay đổi màu của nút
     public TMP_Text TMP_Text;
     public Image tickButton;
     

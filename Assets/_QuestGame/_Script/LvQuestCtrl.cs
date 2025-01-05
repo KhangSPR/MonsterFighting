@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,50 +9,73 @@ public class LvQuestCtrl : MonoBehaviour
     public Vector2 currentPosition;
     public RectTransform rectTrans;
 
-    // SettingsMenu reference
-    MainQuestCtrl mainQuestCtrl;
-
-    // Item button
-    Button button;
-
-    // Index of the item in the hierarchy
-    int index;
-
     [Header("space between menu items")]
     [SerializeField] Vector2 spacing;
-
     [Space]
     [Header("Animation")]
     [SerializeField] float expandDuration;
     [SerializeField] float collapseDuration;
     [SerializeField] Ease expandEase;
     [SerializeField] Ease collapseEase;
-
     [Space]
     [Header("Fading")]
     [SerializeField] float expandFadeDuration;
     [SerializeField] float collapseFadeDuration;
 
+    [SerializeField]
     private QuestCtrl[] menuItems = new QuestCtrl[0]; // Mảng bắt đầu rỗng
-
     public QuestCtrl[] MenuItems => menuItems;
 
     bool isExpanded = false;
     public bool IsExpanded => isExpanded;
     public int itemsCount;
-
     public Transform Holder;
     public GameObject lockLv;
     public TMP_Text tmp_Text;
     public Button _Button;
 
-    private bool isAnimating = false; // Trạng thái hiệu ứng
+    private bool isAnimating = false; // Trạng thái hiệu ứng                                    
+    MainQuestCtrl mainQuestCtrl; // SettingsMenu reference
 
+    //Check button
+    [SerializeField]
+    bool isCheckLv;
+    public bool IsCheckLv
+    {
+        set { isCheckLv = value; }
+        get { return isCheckLv; }
+    }
+    //Level
+    private int level; // Backing field for the property
+
+    public int Level
+    {
+        set { level = value; }
+        get { return level; }
+    }
+
+    public static event Action<Vector2, int> LvQuestCtrlClicked;
     void Start()
     {
-        _Button.onClick.AddListener(ToggleMenu);
+        _Button.onClick.AddListener(OnClickButton);
 
         mainQuestCtrl = transform.parent.parent.GetComponent<MainQuestCtrl>();
+    }
+    void OnClickButton()
+    {
+        if(mainQuestCtrl.typeQuestMain != TypeQuestMain.MainQuest)
+        {
+            ToggleMenu();
+            return;
+        }
+        if (isCheckLv)
+        {
+            ToggleMenu();
+        }
+        else
+        {
+            LvQuestCtrlClicked?.Invoke(transform.position, level);
+        }
     }
     public void AddMenuItem(QuestCtrl newItem)
     {
@@ -105,21 +129,18 @@ public class LvQuestCtrl : MonoBehaviour
             }
         });
     }
-
     void AdjustSize()
     {
         RectTransform holderRect = Holder.GetComponent<RectTransform>();
         holderRect.anchoredPosition = new Vector2(0, -130f); // Điều chỉnh vị trí
     }
-
     private void ScaleBackGround(bool active)
     {
         if (mainQuestCtrl != null)
         {
-            mainQuestCtrl.AdJustSizeBackground(active, 0, (-20 + spacing.y) * itemsCount); // Điều chỉnh nền
+            mainQuestCtrl.AdJustSizeBackground(active, 0, spacing.y * itemsCount); // Điều chỉnh nền
         }
     }
-
     private void AdJustSizeLvQuest()
     {
         if (isExpanded)
@@ -151,7 +172,6 @@ public class LvQuestCtrl : MonoBehaviour
             }
         }
     }
-
     void PlayButtonPressEffect(System.Action onComplete)
     {
         if (isAnimating) return; // Nếu hiệu ứng đang chạy, không thực hiện gì thêm
@@ -177,5 +197,20 @@ public class LvQuestCtrl : MonoBehaviour
                 isAnimating = false; // Hiệu ứng hoàn thành, cho phép nhấn lại
             });
         });
+    }
+    public void CheckPlayerLV(int level, LvQuestCtrl lvQuestCtrl)
+    {
+        bool isLocked = level > PlayerManager.Instance.LvPlayer;
+        Color textColor = isLocked
+            ? new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f)
+            : Color.white;
+
+        lvQuestCtrl.UpdateLockState(isLocked, textColor);
+    }
+    private void UpdateLockState(bool isLocked, Color textColor)
+    {
+        lockLv.SetActive(isLocked);
+        tmp_Text.color = textColor;
+        IsCheckLv = !isLocked;
     }
 }

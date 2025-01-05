@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Linq;
 using static MainQuestSO;
 using static QuestInfoSO;
-
+using System.Collections.Generic;
 
 public class QuestManager : SaiMonoBehaviour
 {
@@ -47,6 +47,7 @@ public class QuestManager : SaiMonoBehaviour
     {
         base.OnEnable();
         PlayerManager.OnQuestUpdate += OnActiveReceivedQuestMain;
+        //SO Active
         GuildManager.OnGuildJoined += OnActiveReceivedQuestClan;
         //ADD Quest Action
         OnEnemyKilled += OnQuestObjective;
@@ -71,6 +72,7 @@ public class QuestManager : SaiMonoBehaviour
         this.OnActiveReceivedQuestMain();
         this.OnActiveReceivedQuestClan();
     }
+    //Active Quest By ID
     private void OnQuestObjective(Objective.Type type, string id)
     {
         Debug.Log("OnQuestObjective: " + id);
@@ -92,7 +94,6 @@ public class QuestManager : SaiMonoBehaviour
             }
         }
     }
-
     private void OnActiveReceivedQuestMain()
     {
         if (_questListMain == null) return;

@@ -1,6 +1,8 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,6 +39,7 @@ public class MainQuestCtrl : MonoBehaviour
 
     //[SerializeField]
     QuestUIDisPlay questUIDisPlay;
+
     public QuestUIDisPlay QuestUIDisPlay
     {
         set
@@ -47,11 +50,42 @@ public class MainQuestCtrl : MonoBehaviour
         get => questUIDisPlay;
 
     }
+    bool isCheckMain;
+    public TypeQuestMain typeQuestMain;
+    public bool IsCheckMain
+    {
+        set
+        {
+            isCheckMain = value;
+        }
+        get => isCheckMain;
+
+    }
+    public string NameQuestRequiredMain = null;
+    public static event Action<Vector2, string> LvMainCtrlClicked;
+
     void Start()
     {
         // Khởi tạo menu items
         // Thêm sự kiện click vào nút
-        _Button.onClick.AddListener(ToggleMenu);
+        _Button.onClick.AddListener(OnClickMain);
+    }
+    private void OnClickMain()
+    {
+        if(typeQuestMain == TypeQuestMain.MainQuest)
+        {
+            ToggleMenu();
+            return;
+        }
+        Debug.Log("OnClick Man: " + isCheckMain);
+        if (isCheckMain)
+        {
+            ToggleMenu();
+        }
+        else
+        {
+            LvMainCtrlClicked?.Invoke(transform.position, NameQuestRequiredMain);
+        }
     }
     public void InitializeMenuItems()
     {
@@ -177,7 +211,7 @@ public class MainQuestCtrl : MonoBehaviour
             }
             else
             {
-                AdjustSize(840f, -spacing.y * itemsCount + 60f);
+                AdjustSize(840f, -spacing.y * itemsCount + 40f);
             }
 
             gameObject.SetActive(true);
@@ -266,5 +300,51 @@ public class MainQuestCtrl : MonoBehaviour
                 isAnimating = false; // Hiệu ứng hoàn thành, cho phép nhấn lại
             });
         });
+    }
+    public void CheckClanJoined(GuildSO guildSO, MainQuestCtrl mainQuestCtrl)
+    {
+        if (guildSO == null)
+        {
+            mainQuestCtrl.UpdateQuestLockState(true, "Not Joined Clan Yet");
+        }
+        else
+        {
+            mainQuestCtrl.UpdateQuestLockState(false);
+        }
+    }
+    public bool CheckPVPQuest(MainQuestCtrl mainQuestCtrl)
+    {
+        if (PlayerManager.Instance.LvPlayer < 5)
+        {
+            //LOCK
+            mainQuestCtrl.NameQuestRequiredMain = "Not Enough Level 5";
+            mainQuestCtrl.IsCheckMain = false;
+            mainQuestCtrl.lockObj.SetActive(true);
+            mainQuestCtrl.TMP_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
+            return false;
+        }
+        else
+        {
+            //UNLOCK
+            mainQuestCtrl.IsCheckMain = true;
+            mainQuestCtrl.lockObj.SetActive(false);
+            mainQuestCtrl.TMP_Text.color = new Color(1, 1, 1, 1);
+            return true;
+
+        }
+
+    }
+    private void UpdateQuestLockState(bool isLocked, string questName = null)
+    {
+        lockObj.SetActive(isLocked);
+        TMP_Text.color = isLocked
+            ? new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f)
+            : Color.white;
+        IsCheckMain = !isLocked;
+
+        if (isLocked && questName != null)
+        {
+            NameQuestRequiredMain = questName;
+        }
     }
 }

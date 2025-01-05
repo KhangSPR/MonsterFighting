@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using static MainQuestSO;
@@ -30,6 +31,7 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     public GameObject viewPortTarget; // viewPortTarget Check
 
     [Space(2)]
+    //[SerializeField]
     private int previousButtonIndex = 0;
     //[SerializeField]
     private List<Button> questButtons = new List<Button>();
@@ -42,16 +44,7 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     [SerializeField]
     private QuestAbstractSO currentQuestSO;
 
-    protected override void Update()
-    {
-        base.Update();
-
-        // Chỉ gọi kiểm tra nếu `currentButtonActive` khác null
-        if (currentButtonActive != null)
-        {
-            UpdateSingleButtonVisibility(currentButtonActive);
-        }
-    }
+    [SerializeField] QuestBaseUI questBaseUI;
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -65,8 +58,8 @@ public class QuestUIDisPlay : SaiMonoBehaviour
         base.Start();
         this.OnCreateDisplayQuest();
         DesTable.gameObject.SetActive(false); //Set False Parent UI
-    }
 
+    }
     private void OnCreateDisplayQuest()
     {
         // Loop through all possible quest types in the TypeQuestMain enum
@@ -75,6 +68,11 @@ public class QuestUIDisPlay : SaiMonoBehaviour
             GameObject newQuestMain = Instantiate(mainQuestPrefab, holderMainQuest);
 
             MainQuestCtrl mainQuestCtrl = newQuestMain.GetComponent<MainQuestCtrl>();
+
+            mainQuestCtrl.typeQuestMain = questType;
+
+
+            questBaseUI.MainQuestCtrlList.Add(mainQuestCtrl);
 
             Transform holder = mainQuestCtrl.HolderMain;
             //mainQuestCtrl.TMP_Text.text = "------------*" + StringExtensions.ToFormattedString(questType.ToString()) + "*------------";
@@ -94,13 +92,24 @@ public class QuestUIDisPlay : SaiMonoBehaviour
                     break;
 
                 case TypeQuestMain.ClanQuest:
-                    CreateClanQuest(holder, mainQuestCtrl);
                     mainQuestCtrl.TMP_Text.text = "------------*Clan Quest*-------------";
+
+                    GuildSO guildSO = GuildManager.Instance.GuildJoined;
+                    mainQuestCtrl.CheckClanJoined(GuildManager.Instance.GuildJoined, mainQuestCtrl);
+
+                    if (guildSO == null) break;
+                    CreateClanQuest(holder, guildSO);
+
                     break;
 
                 case TypeQuestMain.PvPQuest:
-                    CreatePVPQuest(holder, mainQuestCtrl);
                     mainQuestCtrl.TMP_Text.text = "------------*PVP Quest*--------------";
+
+                    bool checkPVP = mainQuestCtrl.CheckPVPQuest(mainQuestCtrl);
+
+                    if (checkPVP == false) break;
+
+                    CreatePVPQuest(holder, mainQuestCtrl);
 
                     break;
 
@@ -108,13 +117,14 @@ public class QuestUIDisPlay : SaiMonoBehaviour
                     //Not Function
                     mainQuestCtrl.TMP_Text.text = "------------*Event Quest*------------";
                     CheckEventQuest(mainQuestCtrl);
+
                     break;
 
                 default:
                     Debug.LogWarning($"Unhandled quest type: {questType}");
                     break;
             }
-            mainQuestCtrl.InitializeMenuItems(); 
+            mainQuestCtrl.InitializeMenuItems();
         }
     }
     #region Create Level Main
@@ -128,12 +138,15 @@ public class QuestUIDisPlay : SaiMonoBehaviour
 
             LvQuestCtrl lvQuestCtrl = newQuestLV.GetComponent<LvQuestCtrl>();
 
-            if(lvQuestCtrl == null)
+
+            lvQuestCtrl.Level = i + 1;
+
+            if (lvQuestCtrl == null)
             {
                 Debug.LogError("LVQuestCtrl Null!");
             }
 
-            this.CheckPlayerLV(i, lvQuestCtrl);
+            lvQuestCtrl.CheckPlayerLV(i+1, lvQuestCtrl);
             lvQuestCtrl.tmp_Text.text = "+"+ StringExtensions.ToFormattedString(levelTypes[i].ToString()) + (i + 1);
 
             //Array QuestAbstract
@@ -167,35 +180,10 @@ public class QuestUIDisPlay : SaiMonoBehaviour
             }
         }
     }
-    private void CheckPlayerLV(int level, LvQuestCtrl lvQuestCtrl)
-    {
-        if ((level + 1) > PlayerManager.Instance.LvPlayer)
-        {
-            //LOCK
-            lvQuestCtrl.lockLv.SetActive(true);
-            lvQuestCtrl.tmp_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
-            lvQuestCtrl._Button.enabled = false;
-        }
-        else
-        {
-            //UNLOCK
-            lvQuestCtrl.lockLv.SetActive(false);
-            lvQuestCtrl.tmp_Text.color = new Color(1, 1, 1, 1);
-            lvQuestCtrl._Button.enabled = true;
-        }
-    }
     #endregion
     #region Create Clan Quest
-    private void CreateClanQuest(Transform holder, MainQuestCtrl mainQuestCtrl)
+    public void CreateClanQuest(Transform holder, GuildSO guildSO)
     {
-        GuildSO guildSO = GuildManager.Instance.GuildJoined;
-
-        bool checkJoined = this.CheckClanJoined(guildSO, mainQuestCtrl);
-
-        Debug.Log("Check Guild Joined:" + checkJoined);
-
-        if (checkJoined == false) return;
-
         ClanQuestType[] clanQuets = (ClanQuestType[])Enum.GetValues(typeof(ClanQuestType)); // Get all values ​​of the lvType enum
 
         for (int i = 0; i < clanQuets.Length; i++)
@@ -204,7 +192,7 @@ public class QuestUIDisPlay : SaiMonoBehaviour
 
             LvQuestCtrl lvQuestCtrl = newQuestLV.GetComponent<LvQuestCtrl>();
 
-            lvQuestCtrl.tmp_Text.text = "+"+ StringExtensions.ToFormattedString(clanQuets[i].ToString());
+            lvQuestCtrl.tmp_Text.text = "+" + StringExtensions.ToFormattedString(clanQuets[i].ToString());
 
             //Array QuestAbstract
             QuestAbstractSO[] questAbstractSO = ClanQuestSO.GetQuestsByGuildType(
@@ -237,36 +225,10 @@ public class QuestUIDisPlay : SaiMonoBehaviour
             }
         }
     }
-    bool CheckClanJoined(GuildSO guildSO, MainQuestCtrl mainQuestCtrl)
-    {
-        if (guildSO == null)
-        {
-            //LOCK
-            mainQuestCtrl.lockObj.SetActive(true);
-            mainQuestCtrl.TMP_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
-            mainQuestCtrl._Button.enabled = false;
-
-            return false;
-        }
-        else
-        {
-            //UNLOCK
-            mainQuestCtrl.lockObj.SetActive(false);
-            mainQuestCtrl.TMP_Text.color = new Color(1, 1, 1, 1);
-            mainQuestCtrl._Button.enabled = true;
-
-            return true;
-        }
-
-    }
     #endregion
     #region Create PVP Quest
-    private void CreatePVPQuest(Transform holder, MainQuestCtrl mainQuestCtrl)
+    public void CreatePVPQuest(Transform holder, MainQuestCtrl mainQuestCtrl)
     {
-        bool checkJoined = this.CheckPVPQuest(mainQuestCtrl);
-
-        if (!checkJoined) return;
-
         PVPQuestType[] pvpQuets = (PVPQuestType[])Enum.GetValues(typeof(PVPQuestType)); // Get all values ​​of the lvType enum
 
         for (int i = 0; i < pvpQuets.Length; i++)
@@ -311,64 +273,21 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     private void CheckEventQuest(MainQuestCtrl mainQuestCtrl)
     {
         //LOCK
+        mainQuestCtrl.NameQuestRequiredMain = "Event Not Yet Happened";
+        mainQuestCtrl.IsCheckMain = false;
         mainQuestCtrl.lockObj.SetActive(true);
         mainQuestCtrl.TMP_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
-        mainQuestCtrl._Button.enabled = false;
     }
     #endregion
-    bool CheckPVPQuest(MainQuestCtrl mainQuestCtrl)
-    {
-        if (PlayerManager.Instance.LvPlayer <= 5)
-        {
-            //LOCK
-            mainQuestCtrl.lockObj.SetActive(true);
-            mainQuestCtrl.TMP_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
-            mainQuestCtrl._Button.enabled = false;
-
-            return false;
-        }
-        else
-        {
-            //UNLOCK
-            mainQuestCtrl.lockObj.SetActive(false);
-            mainQuestCtrl.TMP_Text.color = new Color(1, 1, 1, 1);
-            mainQuestCtrl._Button.enabled = true;
-
-            return true;
-        }
-
-    }
     #endregion
     #region Handle Button
-    void UpdateSingleButtonVisibility(Button button)
-    {
-        // Lấy góc dưới cùng bên trái và trên cùng bên phải của `viewPortTarget`
-        RectTransform viewPortTargetRect = viewPortTarget.GetComponent<RectTransform>();
-        Vector3[] worldCorners = new Vector3[4];
-        viewPortTargetRect.GetWorldCorners(worldCorners);
-
-        Vector3 bottomLeft = worldCorners[0]; // Góc dưới cùng bên trái
-        Vector3 topRight = worldCorners[2];  // Góc trên cùng bên phải
-
-        // Vị trí của `button` trong World Space
-        Vector3 buttonPosition = button.transform.position;
-
-        // Kiểm tra nếu button nằm ngoài `viewport`
-        bool isOutsideViewport =
-            buttonPosition.x < bottomLeft.x || buttonPosition.x > topRight.x ||
-            buttonPosition.y < bottomLeft.y || buttonPosition.y > topRight.y;
-
-        // Bật/tắt Image của button dựa trên trạng thái
-        button.GetComponent<Image>().enabled = !isOutsideViewport;
-
-    }
-
     public void QuestPress(Button questButton, Image tickImage)
     {
         // Kiểm tra để đảm bảo previousButtonIndex là hợp lệ
         if (questButtons != null && questButtons.Count > 0 && previousButtonIndex >= 0 && previousButtonIndex < questButtons.Count)
         {
             // Tắt tickImage của nút trước đó
+
             HighlightQuestButton(questButtons[previousButtonIndex], currentTickImage, false);
         }
 

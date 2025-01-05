@@ -25,6 +25,8 @@ public class PlayerManager : MonoBehaviour
     public static Action<CardPlayer> OnSkillLvBefore; //Before update(1)
     public static Action<CardPlayer> OnSkillLvAfter;  //After update(0)
     public static Action OnQuestUpdate;
+    public static Action OnQuestUIDisplayUpdate;
+    public static Action OnQuestPVP;
 
     [SerializeField] private uint lvPlayer;
     public uint LvPlayer
@@ -52,6 +54,14 @@ public class PlayerManager : MonoBehaviour
 
                 //Quest Update
                 OnQuestUpdate?.Invoke();
+                //Quest UI Display
+                OnQuestUIDisplayUpdate?.Invoke();
+
+                //Quest UI PVP
+                if(lvPlayer == 5)
+                {
+                    OnQuestPVP?.Invoke();
+                }
             }
         }
         get => lvPlayer;
@@ -144,7 +154,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            AddXP(20);
+            AddXP(50);
             Debug.Log("XP Added");
         }
         if (Input.GetKeyDown(KeyCode.R))

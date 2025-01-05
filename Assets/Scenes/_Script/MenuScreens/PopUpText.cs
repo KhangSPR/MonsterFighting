@@ -18,6 +18,9 @@ public class PopUpText : MonoBehaviour
         ButtonCard.CardClicked += OnTransactionFailed;
         ButtonClan.CardClicked += OnShowNotClanYet;
         EnergyUI.LevelInfoClicked += OnShowhasEnergy;
+        LvQuestCtrl.LvQuestCtrlClicked += OnLvQuestCtrl;
+        MainQuestCtrl.LvMainCtrlClicked += OnMainQuest;
+
     }
 
     void OnDisable()
@@ -25,7 +28,8 @@ public class PopUpText : MonoBehaviour
         ButtonCard.CardClicked -= OnTransactionFailed;
         ButtonClan.CardClicked -= OnShowNotClanYet;
         EnergyUI.LevelInfoClicked -= OnShowhasEnergy;
-
+        LvQuestCtrl.LvQuestCtrlClicked -= OnLvQuestCtrl;
+        MainQuestCtrl.LvMainCtrlClicked -= OnMainQuest;
 
     }
 
@@ -128,7 +132,22 @@ public class PopUpText : MonoBehaviour
         ShowMessage(failMessage);
 
     }
-
+    void OnLvQuestCtrl(Vector2 position, int level)
+    {
+        m_Delay = 0f;
+        m_Duration = 1.2f;
+        m_PopUpText.rectTransform.anchoredPosition = position;
+        string failMessage = "Not Enough Level " + level;
+        ShowMessage(failMessage);
+    }
+    void OnMainQuest(Vector2 position, string _string)
+    {
+        m_Delay = 0f;
+        m_Duration = 1.2f;
+        m_PopUpText.rectTransform.anchoredPosition = position;
+        string failMessage = _string;
+        ShowMessage(failMessage);
+    }
     //void OnGearSelected(EquipmentSO gear)
     //{
     //    m_Delay = 0f;
