@@ -138,13 +138,15 @@ public class UIRewardItems : MonoBehaviour
         }
         foreach (var resource in resoureceItems)
         {
-            GameObject objNew = Instantiate(ItemPrefab, Panel.Find("ListItemReward")).gameObject;
+            GameObject objNew = Instantiate(RewardClaimManager.Instance.ItemReward, Panel.Find("ListItemReward")).gameObject;
 
             ItemTooltipReward itemTooltip = objNew.GetComponent<ItemTooltipReward>();
 
             itemTooltip.AvatarImg.sprite = resource.item.Image;
             itemTooltip.CountTxt.text = $"x{resource.Count}";
             itemTooltip.ItemReward = resource.item;
+            //Rairity Material
+            itemTooltip.AvatarImg.material = RewardClaimManager.Instance.GetMaterial(resource.item.itemRarity);
 
             //ADD Item
             GameDataManager.Instance.OnReceiverRewardResources(resource);
@@ -154,12 +156,14 @@ public class UIRewardItems : MonoBehaviour
         {
             Item Item = new Item(item.itemObject);
 
-            GameObject objNew = Instantiate(ItemPrefab, Panel.Find("ListItemReward")).gameObject;
+            GameObject objNew = Instantiate(RewardClaimManager.Instance.ItemObject, Panel.Find("ListItemReward")).gameObject;
 
             ItemTooltipInventory itemTooltip = objNew.GetComponent<ItemTooltipInventory>();
             itemTooltip.AvatarImg.sprite = item.itemObject.Sprite;
             itemTooltip.CountTxt.text = $"x{item.count}";
             itemTooltip.ItemObject = item.itemObject;
+            //Rairity Material
+            itemTooltip.AvatarImg.material = RewardClaimManager.Instance.GetMaterial(item.itemObject.itemRarity);
 
             InventoryManager.Instance.inventory.AddItem(Item, item.count);
         }
