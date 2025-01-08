@@ -51,9 +51,9 @@ namespace UIGameDataManager
         }
         public int GetCountItemRewardById(string ID)
         {
-            if (string.IsNullOrEmpty(ID)) return 0;
+            string _id = ID.Trim();
 
-            switch (ID)
+            switch (_id)
             {
                 case "CRYSTALLINEREWARD":
                     return (int)m_GameData.StoneEnemy;

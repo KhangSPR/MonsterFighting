@@ -14,6 +14,8 @@ public class CraftUI : MonoBehaviour
     [SerializeField] Button craftBtn;
     [SerializeField] ItemObject[] itemObjects;
     int currentItemObject = 0;
+
+    bool activeBtn = false;
     private void Start()
     {
         nextBtn.onClick.AddListener(OnButtonNext);
@@ -38,7 +40,7 @@ public class CraftUI : MonoBehaviour
         }
         for (int i = 0; i < itemObjects.Length; i++)
         {
-            if(i == currentItemObject)
+            if (i == currentItemObject)
             {
                 SetCraftUI(itemObjects[currentItemObject]);
                 return;
@@ -53,7 +55,13 @@ public class CraftUI : MonoBehaviour
             return;
         }
 
+
         Debug.Log("ItemObject: " + itemObject.name);
+
+        activeBtn = true;
+
+        SetButtonCraft(true);
+
 
         // Cập nhật thông tin cơ bản
         UpdateUIElements(itemObject);
@@ -133,7 +141,6 @@ public class CraftUI : MonoBehaviour
         itemTooltip.ItemObject = itemObj;
         itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(itemObj.itemRarity);
     }
-
     // Cập nhật Count Text với màu sắc tương ứng
     private void SetCountText(TMP_Text countTxt, int required, int current)
     {
@@ -142,6 +149,11 @@ public class CraftUI : MonoBehaviour
         if (current < required)
         {
             countTxt.text = $"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(Color.red)}>{current}</color>/{required}";
+
+            // Chỉ gọi SetButtonCraft khi phát hiện không đủ điều kiện
+            SetButtonCraft(false);
+
+            activeBtn = false;
         }
         else
         {
@@ -149,13 +161,47 @@ public class CraftUI : MonoBehaviour
         }
     }
 
+
     private void OnButtonNext()
     {
+        if (currentItemObject < itemObjects.Length - 1)
+        {
+            currentItemObject++;
+        }
+        else
+        {
+            currentItemObject = 0;
 
+        }
+        SetItemObjets();
     }
     private void OnButtonPrevious()
     {
+        if (currentItemObject == 0)
+        {
+            currentItemObject = itemObjects.Length - 1;
+        }
+        else
+        {
+            currentItemObject--;
+        }
+        SetItemObjets();
+    }
+    private void SetButtonCraft(bool active)
+    {
+        if (!activeBtn) return;
 
+        craftBtn.enabled = active;
+        if (active)
+        {
+            craftBtn.GetComponent<Image>().color = new Color(178 / 255f, 112 / 255f, 0f, 1f);
+            craftBtn.GetComponentInChildren<TMP_Text>().color = new Color(1, 1, 1, 1);
+        }
+        else
+        {
+            craftBtn.GetComponent<Image>().color = new Color(178 / 255f, 112 / 255f, 0f, 120 / 255f);
+            craftBtn.GetComponentInChildren<TMP_Text>().color = new Color(1, 1, 1, 120/255f);
+        }
     }
     private void OnCraftBtn()
     {

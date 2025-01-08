@@ -12,9 +12,9 @@ namespace UIGameDataManager
 
         const float k_LerpTime = 0.6f;
 
-        [SerializeField] TMP_Text m_BadgeLabel;
         [SerializeField] TMP_Text m_EnemyStoneLabel;
         [SerializeField] TMP_Text m_EnemyStoneUpStarLabel;
+        [SerializeField] TMP_Text m_BadgeLabel;
         [SerializeField] TMP_Text m_RubyLabel;
 
         //
