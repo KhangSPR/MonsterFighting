@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: RewardShader
-  m_Shader: {fileID: -6465566751694194690, guid: ed540c75f1b07144082bfcf608d88d1a, type: 3}
+  m_Shader: {fileID: 4800000, guid: 641a7323364c120418e45b89973c82a2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -41,23 +41,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ColorMask: 15
     - _Offset: 0.12
-    - _QueueControl: 0
-    - _QueueOffset: 0
     - _Speed: 2
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilID: 1
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
     m_Colors:
-    - _Color: {r: 1.8136915, g: 0.23366576, b: 0, a: 1}
+    - _Color: {r: 2, g: 0.5074096, b: 0.2924528, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &1020106303607424822
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 7
