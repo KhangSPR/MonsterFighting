@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
-using UnityEditor.Rendering;
 using DG.Tweening;
 
 public class DisplayInventory : MonoBehaviour
@@ -17,6 +14,7 @@ public class DisplayInventory : MonoBehaviour
     [Space]
     [SerializeField] Transform holderInventory;
     [SerializeField] GameObject prefabItem;
+    [SerializeField] CraftUI craftUI;
     [SerializeField] List<ItemTooltipInventory> itemTooltips = new List<ItemTooltipInventory>();
     private void OnEnable()
     {
@@ -97,7 +95,10 @@ public class DisplayInventory : MonoBehaviour
                 ItemObject itemObject = inventory.database.GetItem[slot.item.Id];
 
                 itemTooltip.ItemObject = itemObject;
-                itemTooltip.AvatarImg.sprite = inventory.database.GetItem[slot.item.Id].Sprite;
+                itemTooltip.Avatar.sprite = itemObject.Sprite;
+                //itemTooltip.Avatar.sprite = inventory.database.GetItem[slot.item.Id].Sprite;
+                itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(itemObject.itemRarity);
+
                 itemTooltip.CountTxt.text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
                 //Craft, Medicine, Skill
                 itemTooltip.DisplayInventory = this;
@@ -131,9 +132,9 @@ public class DisplayInventory : MonoBehaviour
             else
             {
                 itemTooltip.LabelBtn.enabled = false;
-                itemTooltip.AvatarImg.color = new Color(1, 1, 1, 0);
+                itemTooltip.Avatar.color = new Color(1, 1, 1, 0);
+                itemTooltip.RawrRarity.color = new Color(1, 1, 1, 0);
                 itemTooltip.CountTxt.text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
-
                 //Empty Item
             }
 
@@ -175,12 +176,13 @@ public class DisplayInventory : MonoBehaviour
             if (slot != null && slot.ID >= 0)
             {
                 itemTooltip.ItemObject = inventory.database.GetItem[slot.item.Id];
-                itemTooltip.AvatarImg.sprite = inventory.database.GetItem[slot.item.Id].Sprite;
+                Sprite sprite = inventory.database.GetItem[slot.item.Id].Sprite;
+                itemTooltip.RawrRarity.texture = sprite.texture;
                 itemTooltip.CountTxt.text = slot.amount == 0 ? "" : "x" + slot.amount.ToString();
             }
             else
             {
-                itemTooltip.AvatarImg.color = new Color(1, 1, 1, 0);
+                itemTooltip.RawrRarity.color = new Color(1, 1, 1, 0);
                 itemTooltip.CountTxt.text = "";
             }
 
@@ -224,8 +226,10 @@ public class DisplayInventory : MonoBehaviour
 
     public float duration = 0.4f;    // Thời gian di chuyển
 
-    public void OnButtonClick()
+    public void OnClickItemCraft(string ID)
     {
+        this.SetCraftUI(ID);
+
         // Di chuyển transform1 từ vị trí hiện tại tới -300 từ phải qua trái
         transform1.DOAnchorPosX(-380, duration).SetEase(Ease.InOutQuad);
 
@@ -235,7 +239,15 @@ public class DisplayInventory : MonoBehaviour
         transform2.DOAnchorPosX(580, duration).SetEase(Ease.InOutQuad);
 
         canvas1.DOFade(1, 0.5f).SetEase(Ease.InOutQuad);
-
+    }
+    private void SetCraftUI(string ID)
+    {
+        if(craftUI == null)
+        {
+            Debug.LogError("Craft UI == Null");
+        }
+        Debug.Log("ID: "+ ID);
+        craftUI.SetItemObject(InventoryManager.Instance.inventory.GetItemObjectCanCraftByID(ID));
     }
     public void OnClickComPact()
     {

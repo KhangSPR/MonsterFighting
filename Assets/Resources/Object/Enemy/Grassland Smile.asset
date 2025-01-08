@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea1a29aed6a305469a422ea36e08d53, type: 3}
   m_Name: Grassland Smile
   m_EditorClassIdentifier: 
+  ID: 
   basePointsAttack: 11
   basePointsLife: 33
   basePointsAttackSpeed: 1.5
@@ -20,7 +21,8 @@ MonoBehaviour:
   attackSpeed: 1.5
   attackSpeedMelee: 0
   itemDrop:
-  - itemDropType: 3
+  - ID: SLIMECRAFT01
+    itemDropType: 3
     minDrop: 2
     maxDrop: 2
     spawnRate: 10000

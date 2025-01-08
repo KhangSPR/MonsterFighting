@@ -25,15 +25,18 @@ public class ItemTooltipInventory : ItemTooltip
     {
         if(itemObject != null)
         {
+            Tooltip_Item.AddTooltip(transform, itemObject, null);
+
             labelBtn.onClick.AddListener(HandlerOnPointerClickItem);
 
-            Tooltip_Item.AddTooltip(transform, itemObject, null);
         }
 
         labelImg.gameObject.SetActive(false);
     }
     private void HandlerOnPointerClickItem()
     {
+        if (_displayInventory == null) return;
+
         if (itemObject is not ItemCraftObject)
         {
             if (itemObject.IsUsed)
@@ -63,7 +66,7 @@ public class ItemTooltipInventory : ItemTooltip
         }
         else
         {
-            _displayInventory.OnButtonClick();
+            _displayInventory.OnClickItemCraft(itemObject.ID);
         }
     }
     public void SetLableItem(bool active)

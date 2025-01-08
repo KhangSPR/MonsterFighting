@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UIGameDataManager;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +37,8 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     //[SerializeField]
     private List<Button> questButtons = new List<Button>();
     private Button currentButtonActive;
+    private QuestCtrl currentQuestCtrl;
+    private List<Button> ALLButtons = new List<Button>();  
     public Button CurrentButtonActive => currentButtonActive;
     private Image currentTickImage;
     public Image CurrentTickImage => currentTickImage;
@@ -45,20 +48,90 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     private QuestAbstractSO currentQuestSO;
 
     [SerializeField] QuestBaseUI questBaseUI;
+    [SerializeField] PaneltemReward paneltemReward;
     protected override void OnEnable()
     {
         base.OnEnable();
-        if(currentQuestSO != null)
+        if (currentQuestSO != null)
         {
             ShowQuestDetails(currentQuestSO);
         }
+        PaneltemReward.OnActivePanelItemReward += SetButton;
+        PaneltemReward.OnResetCompleteQuest += ResetCompleteQuest;
+    }
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        PaneltemReward.OnActivePanelItemReward -= SetButton;
+        PaneltemReward.OnResetCompleteQuest -= ResetCompleteQuest;
     }
     protected override void Start()
     {
         base.Start();
         this.OnCreateDisplayQuest();
         DesTable.gameObject.SetActive(false); //Set False Parent UI
+        btnQuest.onClick.AddListener(OnClickClaimQuest);
+    }
+    public void SetButton(bool active)
+    {
+        foreach (var button in questButtons)
+        {
+            button.gameObject.SetActive(active);
+        }
+        foreach (var button in ALLButtons)
+        {
+            button.gameObject.SetActive(active);
+        }
+    }
+    private void OnClickClaimQuest()
+    {
+        if (currentQuestSO == null) return;
+        if (paneltemReward == null) return;
 
+        paneltemReward.gameObject.SetActive(true);
+
+        Transform holder = paneltemReward.transform.Find("ListItemReward");
+
+        // Xóa các item cũ trong danh sách
+        foreach (Transform o in holder)
+        {
+            Destroy(o.gameObject);
+        }
+        var createdItems = new List<GameObject>();
+
+        foreach (var resource in currentQuestSO.questInfoSO.Reward)
+        {
+            GameObject objNew = Instantiate(RewardClaimManager.Instance.ItemReward, holder).gameObject;
+
+            objNew.SetActive(false);
+            ItemTooltipReward itemTooltip = objNew.GetComponent<ItemTooltipReward>();
+            itemTooltip.Avatar.sprite = resource.item.Image;
+            itemTooltip.CountTxt.text = $"x{resource.Count}";
+            itemTooltip.ItemReward = resource.item;
+
+            // Rairity Material
+            itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(resource.item.itemRarity);
+
+            // ADD Item
+            GameDataManager.Instance.OnReceiverRewardResources(resource);
+
+            // Thêm vào danh sách để xử lý animation
+            createdItems.Add(objNew);
+        }
+        RewardClaimManager.Instance.PlayItemsWithAnimation(createdItems, 1.3f / 2);
+
+        SetButton(false);
+        paneltemReward.SetFade(80);
+        paneltemReward.SetPanels(createdItems);
+    }
+    private void ResetCompleteQuest()
+    {
+        //Set
+        currentQuestSO.questInfoSO.isFinishQuest = true;
+
+        this.UpdateNameQuest(currentQuestSO, currentQuestCtrl.TMP_Text);
+
+        ShowQuestDetails(currentQuestSO);
     }
     private void OnCreateDisplayQuest()
     {
@@ -71,6 +144,7 @@ public class QuestUIDisPlay : SaiMonoBehaviour
 
             mainQuestCtrl.typeQuestMain = questType;
 
+            ALLButtons.Add(mainQuestCtrl._Button);
 
             questBaseUI.MainQuestCtrlList.Add(mainQuestCtrl);
 
@@ -148,6 +222,7 @@ public class QuestUIDisPlay : SaiMonoBehaviour
 
             lvQuestCtrl.CheckPlayerLV(i+1, lvQuestCtrl);
             lvQuestCtrl.tmp_Text.text = "+"+ StringExtensions.ToFormattedString(levelTypes[i].ToString()) + (i + 1);
+            ALLButtons.Add(lvQuestCtrl._Button);
 
             //Array QuestAbstract
             QuestAbstractSO[] questAbstractSO = QuestManager.Instance.GetQuestsByLvType(levelTypes[i]);
@@ -199,6 +274,7 @@ public class QuestUIDisPlay : SaiMonoBehaviour
                 QuestManager.Instance.GetQuestsByLvType(clanQuets[i]).OfType<ClanQuestSO>().ToArray(),
                 guildSO.guildType
             );
+            ALLButtons.Add(lvQuestCtrl._Button);
 
             lvQuestCtrl.itemsCount = questAbstractSO.Length;
 
@@ -242,6 +318,8 @@ public class QuestUIDisPlay : SaiMonoBehaviour
             //Array QuestAbstract
             QuestAbstractSO[] questAbstractSO = QuestManager.Instance.GetQuestsByLvType(pvpQuets[i]);
 
+            ALLButtons.Add(lvQuestCtrl._Button);
+
 
             lvQuestCtrl.itemsCount = questAbstractSO.Length;
 
@@ -281,8 +359,9 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     #endregion
     #endregion
     #region Handle Button
-    public void QuestPress(Button questButton, Image tickImage)
+    public void QuestPress(QuestCtrl quest, Button questButton, Image tickImage)
     {
+        currentQuestCtrl = quest;
         // Kiểm tra để đảm bảo previousButtonIndex là hợp lệ
         if (questButtons != null && questButtons.Count > 0 && previousButtonIndex >= 0 && previousButtonIndex < questButtons.Count)
         {
@@ -339,11 +418,11 @@ public class QuestUIDisPlay : SaiMonoBehaviour
             // Kiểm tra và thay đổi màu sắc cho currentAmount
             if (objectives.requiredCount > objectives.currentCount)
             {
-                requireQuest.text = $"+{objectiveText}<color=#{ColorUtility.ToHtmlStringRGB(Color.red)}>{objectives.currentCount}</color>/{requiredAmount}";
+                requireQuest.text = $"+{objectiveText}<color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(Color.red)}>{objectives.currentCount}</color>/{requiredAmount}";
             }
             else
             {
-                requireQuest.text = $"+{objectiveText}<color=#{ColorUtility.ToHtmlStringRGB(Color.green)}>{objectives.currentCount}</color>/{requiredAmount}";
+                requireQuest.text = $"+{objectiveText}<color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(Color.green)}>{objectives.currentCount}</color>/{requiredAmount}";
             }
 
         }
@@ -385,10 +464,12 @@ public class QuestUIDisPlay : SaiMonoBehaviour
             ItemTooltipReward itemTooltip = newObjReward.GetComponent<ItemTooltipReward>();
 
             itemTooltip.ItemReward = resources.item;
+            itemTooltip.Avatar.sprite = resources.item.Image; 
+            itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(resources.item.itemRarity);
             itemTooltip.CountTxt.text = "X" + resources.Count.ToString();
-            itemTooltip.AvatarImg.sprite = resources.item.Image;
+ 
 
-            if (questComplete)
+            if (QuestSO.questInfoSO.isFinishQuest)
                 itemTooltip.Tick.SetActive(true);
         }
 

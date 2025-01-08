@@ -12,13 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79531fca50bbc24495f1e82b81615d9, type: 3}
   m_Name: Power_1
   m_EditorClassIdentifier: 
-  Id: 1
+  ID: POWERMEDICINELV1
+  IsUsed: 0
+  IdDatabase: 1
   Sprite: {fileID: -680373684, guid: a7ea406da0822cd43b5ce1968d09e850, type: 3}
   type: 1
   Name: Power Poison
-  description: "- Increase character <color=#FF0901>30 Power</color> \n"
+  description: "Increase character <color=#FF0901>30 Power</color> \n"
+  itemRarity: 0
+  itemRequiredCrafts:
+  - ID: 'SLIMECRAFT01 '
+    quantityRequired: 10
+  - ID: 'CRYSTALLINEREWARD '
+    quantityRequired: 5
+  - ID: 'MAGICALCRYSTAL '
+    quantityRequired: 1
   medicineType: 1
   addPoint: 20
-  gameobjectVFX: {fileID: 6418095127152995699, guid: b787687db00fcc84e8be8defd6882b5c,
-    type: 3}
+  gameobjectVFX: {fileID: 6418095127152995699, guid: b787687db00fcc84e8be8defd6882b5c, type: 3}
   coolDown: 3

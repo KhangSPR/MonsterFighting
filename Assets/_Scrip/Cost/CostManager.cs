@@ -148,7 +148,7 @@ public class CostManager : SaiMonoBehaviour
     {
         foreach (InventoryItem item in listInventoryItem)
         {
-            if(inventoryItem.itemObject.Id == item.itemObject.Id)
+            if(inventoryItem.itemObject.IdDatabase == item.itemObject.IdDatabase)
             {
                 item.count += inventoryItem.count;
 

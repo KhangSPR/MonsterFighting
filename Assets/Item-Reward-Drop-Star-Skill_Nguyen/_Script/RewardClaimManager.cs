@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RewardClaimManager : MonoBehaviour
@@ -18,14 +19,16 @@ public class RewardClaimManager : MonoBehaviour
 
     private Dictionary<ItemRarity, Color> rarityColors; // Mapping Rarity to Colors
 
+    private float animationDuration = 1.3f; // Thời gian animation, chỉnh trong Inspector
+
     private void Awake()
     {
-        if (RewardClaimManager.instance != null)
+        if (instance != null)
         {
             Debug.LogError("Only 1 RewardClaimManager Warning");
             return;
         }
-        RewardClaimManager.instance = this;
+        instance = this;
 
         InitializeMaterialPool();
         InitializeRarityColors();
@@ -78,11 +81,15 @@ public class RewardClaimManager : MonoBehaviour
         {
             material.color = color;
         }
+        if (material.HasProperty("_Stencil"))
+        {
+            material.SetFloat("_Stencil", 1);
+        }
         else
         {
-            Debug.LogWarning($"Rarity {rarity} not found in rarityColors dictionary.");
-            material.color = Color.white; // Default color
+            Debug.LogWarning($"Material {material.name} does not have _Stencil property.");
         }
+
 
         return material;
     }
@@ -95,5 +102,27 @@ public class RewardClaimManager : MonoBehaviour
         // Optional: Reset material properties if needed
         material.color = Color.white; // Reset color to default
         materialPool.Enqueue(material);
+    }
+    public void PlayItemAnimation(Transform itemTransform)
+    {
+        itemTransform.localScale = Vector3.one * 1.3f; // Đặt scale ban đầu
+        itemTransform.DOScale(1, animationDuration)   // Animation scale
+            .SetEase(Ease.OutBack);
+    }
+    public void PlayItemsWithAnimation(List<GameObject> items, float interval)
+    {
+        var sequence = DOTween.Sequence();
+
+        foreach (var item in items)
+        {
+            sequence.AppendCallback(() =>
+            {
+                // Animation xuất hiện
+                item.SetActive(true);
+                PlayItemAnimation(item.transform);
+            });
+
+            sequence.AppendInterval(interval); // Khoảng cách giữa các lần xuất hiện
+        }
     }
 }

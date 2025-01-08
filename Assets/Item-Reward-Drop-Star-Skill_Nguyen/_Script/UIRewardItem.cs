@@ -1,8 +1,8 @@
+﻿using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using TMPro;
 using UIGameDataManager;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,6 +42,7 @@ public class UIRewardItems : MonoBehaviour
     public DateTime TimerNextDay;
     public TimeSpan TimerDelta;
     public string TimerDeltaStr;
+    [SerializeField] PaneltemReward paneltemReward;
 
     Animator Animator;
     private void Start()
@@ -128,50 +129,77 @@ public class UIRewardItems : MonoBehaviour
         // Update the timer UI
         ShowTimerUI();
     }
-
     public void ShowPanelUI()
     {
         Panel.gameObject.SetActive(true);
+
+        // Xóa các item cũ trong danh sách
         foreach (Transform o in Panel.Find("ListItemReward"))
         {
             Destroy(o.gameObject);
         }
+
+        // Danh sách các item sẽ được tạo
+        var createdItems = new List<GameObject>();
+
+        // Hiển thị các phần thưởng
         foreach (var resource in resoureceItems)
         {
             GameObject objNew = Instantiate(RewardClaimManager.Instance.ItemReward, Panel.Find("ListItemReward")).gameObject;
 
+            objNew.SetActive(false);
             ItemTooltipReward itemTooltip = objNew.GetComponent<ItemTooltipReward>();
-
-            itemTooltip.AvatarImg.sprite = resource.item.Image;
+            itemTooltip.Avatar.sprite = resource.item.Image;
             itemTooltip.CountTxt.text = $"x{resource.Count}";
             itemTooltip.ItemReward = resource.item;
-            //Rairity Material
-            itemTooltip.AvatarImg.material = RewardClaimManager.Instance.GetMaterial(resource.item.itemRarity);
 
-            //ADD Item
+            // Rairity Material
+            itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(resource.item.itemRarity);
+
+            // ADD Item
             GameDataManager.Instance.OnReceiverRewardResources(resource);
 
+            // Thêm vào danh sách để xử lý animation
+            createdItems.Add(objNew);
         }
-        foreach(var item in inventoryItems)
+
+        // Hiển thị các item trong inventory
+        foreach (var item in inventoryItems)
         {
             Item Item = new Item(item.itemObject);
 
             GameObject objNew = Instantiate(RewardClaimManager.Instance.ItemObject, Panel.Find("ListItemReward")).gameObject;
 
+            objNew.SetActive(false);
             ItemTooltipInventory itemTooltip = objNew.GetComponent<ItemTooltipInventory>();
-            itemTooltip.AvatarImg.sprite = item.itemObject.Sprite;
+            itemTooltip.Avatar.sprite = item.itemObject.Sprite;
             itemTooltip.CountTxt.text = $"x{item.count}";
             itemTooltip.ItemObject = item.itemObject;
-            //Rairity Material
-            itemTooltip.AvatarImg.material = RewardClaimManager.Instance.GetMaterial(item.itemObject.itemRarity);
+
+            // Rairity Material
+            itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(item.itemObject.itemRarity);
 
             InventoryManager.Instance.inventory.AddItem(Item, item.count);
+
+            // Thêm vào danh sách để xử lý animation
+            createdItems.Add(objNew);
         }
+
+        // Chạy animation cho các item đã tạo
+        RewardClaimManager.Instance.PlayItemsWithAnimation(createdItems, 1.3f / 2);
+
+        paneltemReward.SetFade(120);
+        paneltemReward.SetPanels(createdItems);
+
+        // Gán sự kiện cho nút hoàn thành
         btnDone.GetComponent<Button>().onClick.AddListener(() =>
         {
-            Panel.gameObject.SetActive(true);
+            Panel.gameObject.SetActive(false); // Đóng panel khi hoàn thành
         });
     }
+
+
+
     public string ShowTimerString()
     {
         TimerDeltaStr = $"{TimerDelta.Hours}:{TimerDelta.Minutes}:{TimerDelta.Seconds}s";

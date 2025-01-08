@@ -145,11 +145,20 @@ public class Tooltip_Item : MonoBehaviour
                 {
                     ShowTooltip_StaticInventory(itemObject);
 
+                    ItemTooltipInventory itemTooltipInventory = transform.GetComponent<ItemTooltipInventory>();
+
+                    if (itemTooltipInventory.DisplayInventory == null) return;
+
                     transform.GetComponent<ItemTooltipInventory>().SetLableItem(true);
                 };
                 transform.GetComponent<Button_UI>().MouseOutOnceTooltipFunc = () =>
                 {
                     HideTooltip_Static();
+
+                    ItemTooltipInventory itemTooltipInventory = transform.GetComponent<ItemTooltipInventory>();
+
+                    if (itemTooltipInventory.DisplayInventory == null) return;
+
                     transform.GetComponent<ItemTooltipInventory>().SetLableItem(false);
 
                 };

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UIGameDataManager;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -118,7 +119,7 @@ public class InventoryManager : MonoBehaviour
             {
                 if(slot.ID >=0)
                 {
-                    if (databaseItem.IsUsed && databaseItem.Id == slot.item.Id)
+                    if (databaseItem.IsUsed && databaseItem.IdDatabase == slot.item.Id)
                     {
                         var obj = Instantiate(prefab, Holder.position, Quaternion.identity, Holder);
                         obj.transform.GetComponent<SkillComponent>().ItemObject = databaseItem;

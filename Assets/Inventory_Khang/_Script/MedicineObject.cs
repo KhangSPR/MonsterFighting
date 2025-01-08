@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,6 @@ public class MedicineObject : ItemObject
     public int addPoint;
     public GameObject gameobjectVFX;
     public int coolDown;
-
     public void Awake()
     {
         type = InventoryType.Medicine;

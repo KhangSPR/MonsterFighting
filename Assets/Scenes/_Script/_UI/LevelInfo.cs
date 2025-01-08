@@ -18,7 +18,6 @@ namespace UIGameDataMap
 
         [Header("Item")]
         [SerializeField] private Transform holderItem;
-        [SerializeField] private GameObject itemPrefab;
 
         [Header("MapSO")]
         [SerializeField] private MapSO mapSO;
@@ -133,18 +132,19 @@ namespace UIGameDataMap
 
             foreach (Resources resource in mapDifficulty.Reward)
             {
-                GameObject itemObject = Instantiate(itemPrefab, holderItem);
-                Image imageComponent = itemObject.transform.Find("Img").GetComponent<Image>();
+                GameObject itemObject = Instantiate(RewardClaimManager.Instance.ItemReward, holderItem);
+
                 ItemTooltipReward itemTooltip = itemObject.GetComponent<ItemTooltipReward>();
 
-
+                itemTooltip.Avatar.sprite = resource.item.Image;
                 itemTooltip.ItemReward = resource.item;
-                imageComponent.sprite = resource.item.Image;
                 itemTooltip.CountTxt.text = "x" + resource.Count;
+                itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(resource.item.itemRarity);
+
 
                 if (mapDifficulty.isReceivedReWard)
                 {
-                    imageComponent.color = new Color(1f, 160 / 255f, 122 / 255f, 128 / 255f);
+                    itemTooltip.Avatar.color = new Color(1f, 160 / 255f, 122 / 255f, 128 / 255f);
                     itemTooltip.CountTxt.color = new Color(1f, 1f, 1f, 128 / 255f);
 
                     itemObject.transform.Find("Tick").gameObject.SetActive(true);

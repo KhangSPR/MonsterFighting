@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum InventoryType
@@ -20,17 +21,25 @@ public enum ItemRarity
     Epic,
     Legendary
 }
+[Serializable]
+public class ItemRequiredCraft
+{
+    public string ID;
+    public int quantityRequired;
+}
 public abstract class ItemObject : ScriptableObject
 {
     public string ID;
     public bool IsUsed;
-    public int Id;
+    public int IdDatabase;
     public Sprite Sprite;
     public InventoryType type;
     public string Name;
     [TextArea(15, 20)]
     public string description;
     public ItemRarity itemRarity;
+    //Item Require Craft
+    public ItemRequiredCraft[] itemRequiredCrafts;
     public Item CreateItem()
     {
         Item newItem = new Item(this);
@@ -48,7 +57,7 @@ public class Item
     public Item(ItemObject item)
     {
         Name = item.name;
-        Id = item.Id;
+        Id = item.IdDatabase;
         type = item.type;
         IsUsed = item.IsUsed;
 

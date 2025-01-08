@@ -43,7 +43,7 @@ public class QuestCtrl : MonoBehaviour
     {
         Debug.Log("Click Quest Ctrl " + questAbstractSO.questInfoSO.name);
 
-        questUIDisPlay.QuestPress(button, tickButton);
+        questUIDisPlay.QuestPress(this,button, tickButton);
         questUIDisPlay.ShowQuestDetails(questAbstractSO);
     }
 

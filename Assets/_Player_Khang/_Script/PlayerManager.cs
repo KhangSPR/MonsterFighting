@@ -160,6 +160,7 @@ public class PlayerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             ResetPlayer();
+            IsDiaLog = false;
         }
     }
     private void ResetPlayer()

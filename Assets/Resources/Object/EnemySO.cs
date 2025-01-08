@@ -11,6 +11,7 @@ public enum ItemDropType
 [Serializable]
 public class ItemDrop
 {
+    public string ID;
     public ItemDropType itemDropType;
     //public 
     public int minDrop;

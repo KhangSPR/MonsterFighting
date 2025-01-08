@@ -24,6 +24,47 @@ namespace UIGameDataManager
 
         private static GameDataManager instance;
         public static GameDataManager Instance => instance;
+        [SerializeField]
+        private ItemReward[] _itemReward;
+        public ItemReward[] ItemRewards => _itemReward;
+
+        private const string QuestMainFolderPath = "ItemSO";
+        //LOAD Resources
+        private ItemReward[] LoadQuestsFromFolder(string folderPath)
+        {
+            // Load all QuestAbstractSO assets from the folder
+            ItemReward[] quests = UnityEngine.Resources.LoadAll<ItemReward>(folderPath);
+
+            return quests;
+        }
+        public ItemReward GetItemRewardByID(string ID)
+        {
+            foreach (ItemReward itemReward in _itemReward)
+            {
+                if (!string.IsNullOrEmpty(itemReward.ID) &&
+                     string.Equals(itemReward.ID.Trim(), ID.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return itemReward;
+                }
+            }
+            return null;
+        }
+        public int GetCountItemRewardById(string ID)
+        {
+            if (string.IsNullOrEmpty(ID)) return 0;
+
+            switch (ID)
+            {
+                case "CRYSTALLINEREWARD":
+                    return (int)m_GameData.StoneEnemy;
+                case "MAGICALCRYSTAL":
+                    return (int)m_GameData.StoneBoss;
+                default:
+                    return 0;
+            }
+        }
+
+
 
         void Awake()
         {
@@ -33,7 +74,7 @@ namespace UIGameDataManager
             m_SaveManager = GetComponent<SaveManager>();
 
 
-
+            _itemReward = LoadQuestsFromFolder(QuestMainFolderPath);
         }
         void OnEnable()
         {

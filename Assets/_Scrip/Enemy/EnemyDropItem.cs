@@ -9,12 +9,12 @@ public class EnemyDropItem : EnemyAbstract
 
     private int countItemDrop;
 
-    
     protected override void OnEnable()
     {
         base.OnEnable();
         SetEnemyRate();
     }
+
     public void DropItem()
     {
         for (int i = 0; i < countItemDrop; i++)
@@ -32,24 +32,22 @@ public class EnemyDropItem : EnemyAbstract
 
                     ItemDropCtrl itemDropCtrl = newDropItem.GetComponent<ItemDropCtrl>();
 
-                    //SET ITEM RARE, DROPING
+                    // Lưu ID của item vào temporary updates
+                    string enemyID = enemyCtrl.EnemySO.itemDrop[i].ID;
 
-                    if (itemDropCtrl is ItemDropDisplay)
+                    Debug.Log("Drop Item: " + enemyID);
+                    AddToTemporaryUpdates(enemyID);
+
+                    // SET ITEM RARE, DROPPING
+                    if (itemDropCtrl is ItemDropDisplay itemDropDisplay)
                     {
-                        ItemDropDisplay itemDropDisplay = (ItemDropDisplay)itemDropCtrl;
-
                         itemDropDisplay.ItemDropType = dropTypes[i];
                         itemDropDisplay.CountItem = itemValueTotal;
-
                     }
-                    else
+                    else if (itemDropCtrl is ItemDropInventory itemDropInventory)
                     {
-                        ItemDropInventory itemDropInventory = (ItemDropInventory)itemDropCtrl;
-
-                        // Gán lại bản sao đã thay đổi cho thuộc tính
                         itemDropInventory.InventoryItem.count = itemValueTotal;
                     }
-
 
                     newDropItem.gameObject.SetActive(true);
                     var maxValue = EnemyDropSpawner.Instance.GetMaxItemValue(itemValueTotal);
@@ -59,11 +57,11 @@ public class EnemyDropItem : EnemyAbstract
 
                     switch (maxValue)
                     {
-                        case 1: { newDropItem.localScale *= 1f; break; }
-                        case 3: { newDropItem.localScale *= 1.2f; break; }
-                        case 5: { newDropItem.localScale *= 1.5f; break; }
-                        case 7: { newDropItem.localScale *= 1.7f; break; }
-                        case 10: { newDropItem.localScale *= 2f; break; }
+                        case 1: newDropItem.localScale *= 1f; break;
+                        case 3: newDropItem.localScale *= 1.2f; break;
+                        case 5: newDropItem.localScale *= 1.5f; break;
+                        case 7: newDropItem.localScale *= 1.7f; break;
+                        case 10: newDropItem.localScale *= 2f; break;
                     }
                     Debug.Log("Drop Item Value: " + maxValue + " by :" + transform.parent.name, transform.parent);
                 }
@@ -97,5 +95,21 @@ public class EnemyDropItem : EnemyAbstract
     private string GetTag(ItemDropType itemDropType)
     {
         return EnemyDropSpawner.Instance.GetDropItemForEnemy(itemDropType);
+    }
+
+    /// <summary>
+    /// Thêm ID vào temporary updates của GameManager.
+    /// </summary>
+    /// <param name="itemID">ID của item</param>
+    private void AddToTemporaryUpdates(string itemID)
+    {
+        if (GameManager.Instance._temporaryUpdates.ContainsKey(itemID))
+        {
+            GameManager.Instance._temporaryUpdates[itemID]++;
+        }
+        else
+        {
+            GameManager.Instance._temporaryUpdates[itemID] = 1;
+        }
     }
 }

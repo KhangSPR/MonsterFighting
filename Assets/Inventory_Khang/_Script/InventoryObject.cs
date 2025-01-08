@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEditor;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
@@ -96,7 +96,7 @@ public class InventoryObject : ScriptableObject
             {
                 foreach (var databaseItem in database.Items)
                 {
-                    if (databaseItem.Id == slot.item.Id)
+                    if (databaseItem.IdDatabase == slot.item.Id)
                     {
                         databaseItem.IsUsed = slot.item.IsUsed;
 
@@ -118,7 +118,7 @@ public class InventoryObject : ScriptableObject
             {
                 foreach(var databaseItem in database.Items)
                 {
-                    if(databaseItem.Id == slot.item.Id)
+                    if(databaseItem.IdDatabase == slot.item.Id)
                     {
                         slot.item.IsUsed = databaseItem.IsUsed;
 
@@ -153,7 +153,6 @@ public class InventoryObject : ScriptableObject
             for (int i = 0; i < Container.Items.Length; i++)
             {
                 Container.Items[i].UpdateSlot(newContainer.Items[i].ID, newContainer.Items[i].item, newContainer.Items[i].amount, newContainer.Items[i].item.IsUsed);
-
             }
 
             Debug.Log("LOAD");
@@ -167,6 +166,77 @@ public class InventoryObject : ScriptableObject
     {
         Container = new Inventory();
     }
+    #region Craft UI
+    public int GetCountById(int id)
+    {
+        var sortedItems = Container.Items;
+
+        foreach (var inventorySlot in sortedItems)
+        {
+            InventorySlot slot = inventorySlot;
+
+            if (slot.ID >= 0)
+            {
+                foreach (var databaseItem in database.Items)
+                {
+                    if (databaseItem.IdDatabase == slot.item.Id)
+                    {
+                        if (databaseItem.IdDatabase == id)
+                        {
+                            return slot.amount;
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    public ItemObject[] GetItemObjectCanCraftByID(string ID)
+    {
+        List<ItemObject> itemObjects = new List<ItemObject>();
+
+        foreach (ItemObject itemObject in database.Items)
+        {
+            foreach (ItemRequiredCraft itemRequiredCraft in itemObject.itemRequiredCrafts)
+            {
+                if (!string.IsNullOrEmpty(itemRequiredCraft.ID) &&
+                    string.Equals(itemRequiredCraft.ID.Trim(), ID.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    itemObjects.Add(itemObject);
+                }
+            }
+        }
+
+        return itemObjects.ToArray();
+    }
+
+
+
+    public ItemObject GetItemByID(string ID)
+    {
+        // Log tổng số Items trong database
+        Debug.Log($"Total Items in database: {database.Items.Length}");
+
+        foreach (ItemObject itemObject in database.Items)
+        {
+            // Log thông tin của ItemObject hiện tại
+            Debug.Log($"Checking ItemObject: {itemObject.Name} (ID: '{itemObject.ID}', Length: {itemObject.ID?.Length ?? 0})");
+
+            if (!string.IsNullOrEmpty(itemObject.ID) &&
+                string.Equals(itemObject.ID.Trim(), ID.Trim(), StringComparison.OrdinalIgnoreCase))
+            {
+                // Log khi tìm thấy ItemObject phù hợp
+                Debug.Log($"Match found! Returning ItemObject: {itemObject.Name} (ID: {itemObject.ID})");
+                return itemObject;
+            }
+        }
+
+        // Log khi không tìm thấy ItemObject nào phù hợp
+        Debug.Log($"No ItemObject found with ID: '{ID}'");
+        return null;
+    }
+
+    #endregion
 }
 [System.Serializable]
 public class Inventory

@@ -634,6 +634,10 @@ public class GameManager : SaiMonoBehaviour
                     {
                         objective.UpdateObjectives(Objective.Type.kill, enemyID, count);
                     }
+                    if(objective.ID == enemyID && objective.type == Objective.Type.collect)
+                    {
+                        objective.UpdateObjectives(Objective.Type.collect, enemyID, count);
+                    }
                 }
             }
         }
