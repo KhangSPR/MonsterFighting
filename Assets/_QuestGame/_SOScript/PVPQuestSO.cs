@@ -11,7 +11,7 @@ public enum PVPQuestType
     ClashofHeroes        // A large-scale battle between multiple heroes in PvP.
 }
 
-[CreateAssetMenu(fileName = "New PVP Quest", menuName = "Quest/PVPQuest")]
+[CreateAssetMenu(fileName = "New PVP Quest", menuName = "Quest/PVPQuest", order = 3)]
 public class PVPQuestSO : QuestAbstractSO
 {
     [Header("PVPQuestSO Quest Specifics")]

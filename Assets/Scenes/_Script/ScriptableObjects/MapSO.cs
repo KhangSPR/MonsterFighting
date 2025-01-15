@@ -10,6 +10,11 @@ namespace UIGameDataMap
     {
         public ItemReward item;
         public int Count;
+        public Resources(ItemReward item, int Count)
+        {
+            this.item = item;
+            this.Count = Count;
+        }
     }
     [Serializable]
     public class Wave

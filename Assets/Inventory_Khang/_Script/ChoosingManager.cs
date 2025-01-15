@@ -13,10 +13,14 @@ public class ChoosingManager : MonoBehaviour
         {
             currentActiveObject.SetActive(false);
         }
-
         // Bật đối tượng có tên tương ứng với lựa chọn
         foreach (var obj in choosingObjects)
         {
+            //if(itemType == InventoryType.ALL)
+            //{
+            //    continue;
+            //}
+
             if (obj.name == "Choosing" + itemType.ToString())
             {
                 obj.SetActive(true);

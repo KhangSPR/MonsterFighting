@@ -1,7 +1,7 @@
 ﻿using UIGameDataMap;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewEnemySO", menuName = "Game Data/Enemy Type")]
+[CreateAssetMenu(fileName = "NewEnemySO", menuName = "Object/Enemy Type")]
 public class EnemyTypeSO : ScriptableObject
 {
     public Rarity rarity;

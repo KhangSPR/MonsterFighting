@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using Unity.VisualScripting;
 
 namespace UIGameDataManager
 {
@@ -13,8 +11,7 @@ namespace UIGameDataManager
         public static event Action<GameData> StonesUpdated;
 
         public static event Action<GameData> ResourcesMapUpdated;
-
-
+        public static event Action<ShopItemSO, Vector2> TransactionProcessed;
 
         [SerializeField] GameData m_GameData;
         public GameData GameData { set => m_GameData = value; get => m_GameData; }
@@ -28,7 +25,7 @@ namespace UIGameDataManager
         private ItemReward[] _itemReward;
         public ItemReward[] ItemRewards => _itemReward;
 
-        private const string QuestMainFolderPath = "ItemSO";
+        private const string QuestMainFolderPath = "GameData/ItemSO";
         //LOAD Resources
         private ItemReward[] LoadQuestsFromFolder(string folderPath)
         {
@@ -63,9 +60,6 @@ namespace UIGameDataManager
                     return 0;
             }
         }
-
-
-
         void Awake()
         {
             if (instance != null) Debug.LogError("Onlly 1 GameDataManager Warning");
@@ -83,8 +77,6 @@ namespace UIGameDataManager
 
 
             ShopController.ShopItemPurchasing += OnPurchaseItem;
-            ShopController.ShopItemCardPurchasing += OnPurchaseItemCard;
-
         }
 
         void OnDisable()
@@ -92,7 +84,6 @@ namespace UIGameDataManager
             GameManager.UpdateResources -= UpdateResources;
 
             ShopController.ShopItemPurchasing -= OnPurchaseItem;
-            ShopController.ShopItemCardPurchasing += OnPurchaseItemCard;
         }
         void Start()
         {
@@ -229,7 +220,7 @@ namespace UIGameDataManager
 
         void AddItem()
         {
-            m_GameData.StoneEnemy += 99;
+            m_GameData.StoneEnemy += 199;
             m_GameData.StoneBoss += 5;
             m_GameData.badGe += 35;
 
@@ -268,7 +259,8 @@ namespace UIGameDataManager
         bool HasSufficientFunds(ShopItemSO shopItem)
         {
             if (shopItem == null)
-                return false;
+                return false;        
+            if(shopItem.contentValue <=0) return false;
 
             CurrencyType currencyType = shopItem.CostInCurrencyType;
 
@@ -276,15 +268,17 @@ namespace UIGameDataManager
 
             switch (currencyType)
             {
-                case CurrencyType.Gold:
+                case CurrencyType.Badge:
                     return m_GameData.badGe >= discountedPrice;
 
                 case CurrencyType.EnemyStone:
                     return m_GameData.StoneEnemy >= discountedPrice;
-
+                case CurrencyType.Ruby:
+                    return m_GameData.ruby >= discountedPrice;
                 case CurrencyType.USD:
                     return true;
-
+                case CurrencyType.Watch:
+                    return true;
                 default:
                     return false;
             }
@@ -300,63 +294,14 @@ namespace UIGameDataManager
 
             switch (currencyType)
             {
-                case CurrencyType.Gold:
-                    m_GameData.badGe -= (uint)discountedPrice;
-                    break;
-
                 case CurrencyType.EnemyStone:
                     m_GameData.StoneEnemy -= (uint)discountedPrice;
                     break;
-
-                // non-monetized placeholder - invoke in-app purchase logic/interface for a real application
-                case CurrencyType.USD:
+                case CurrencyType.Ruby:
+                    m_GameData.ruby -= (uint)discountedPrice;
                     break;
-            }
-        }
-
-        bool HasSufficientFunds(ShopItemCardSO shopItem)
-        {
-            if (shopItem == null)
-                return false;
-
-            CurrencyType currencyType = shopItem.CostInCurrencyType;
-
-            float discountedPrice = (((100 - shopItem.discount) / 100f) * shopItem.cost);
-
-            switch (currencyType)
-            {
-                case CurrencyType.Gold:
-                    return m_GameData.badGe >= discountedPrice;
-
-                case CurrencyType.EnemyStone:
-                    return m_GameData.StoneEnemy >= discountedPrice;
-
-                case CurrencyType.USD:
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-        void PayTransaction(ShopItemCardSO shopItem)
-        {
-            if (shopItem == null)
-                return;
-
-            CurrencyType currencyType = shopItem.CostInCurrencyType;
-
-            float discountedPrice = (((100 - shopItem.discount) / 100f) * shopItem.cost);
-
-            switch (currencyType)
-            {
-                case CurrencyType.Gold:
-                    m_GameData.badGe -= (uint)discountedPrice;
+                case CurrencyType.Watch:
                     break;
-
-                case CurrencyType.EnemyStone:
-                    m_GameData.StoneEnemy -= (uint)discountedPrice;
-                    break;
-
                 // non-monetized placeholder - invoke in-app purchase logic/interface for a real application
                 case CurrencyType.USD:
                     break;
@@ -371,14 +316,19 @@ namespace UIGameDataManager
                 case CurrencyType.EnemyStone:
                     m_GameData.StoneEnemy -= (uint)resources.Count;
                     break;
-
                 case CurrencyType.EnemyBoss:
                     m_GameData.StoneBoss -= (uint)resources.Count;
+                    break;
+                case CurrencyType.Ruby:
+                    m_GameData.ruby -= (uint)resources.Count;
+                    break;
+                case CurrencyType.Watch:
                     break;
                 // non-monetized placeholder - invoke in-app purchase logic/interface for a real application
                 case CurrencyType.USD:
                     break;
             }
+            UpdateResources();
         }
         void ReceivePurchasedGoods(ShopItemSO shopItem)
         {
@@ -390,165 +340,92 @@ namespace UIGameDataManager
 
             ReceiveContent(contentType, contentValue);
         }
-        void ReceivePurchasedGoods(ShopItemCardSO shopItem)
-        {
-            if (shopItem == null)
-                return;
-
-            ShopItemType contentType = shopItem.contentType;
-
-            ReceiveContent(contentType);
-        }
-        // for gifts or purchases
-        void ReceiveContent(ShopItemType contentType)
-        {
-            switch (contentType)
-            {
-                case ShopItemType.CardCharacter:
-                    UpdateFunds();
-                    break;
-                case ShopItemType.CardMachine:
-                    UpdateFunds();
-                    break;
-                case ShopItemType.CardGuard:
-                    UpdateFunds();
-                    break;
-            }
-        }
         // for gifts or purchases
         void ReceiveContent(ShopItemType contentType, uint contentValue)
         {
             switch (contentType)
             {
-                case ShopItemType.Gold:
-                    m_GameData.badGe += contentValue;
-                    UpdateFunds();
+                case ShopItemType.Craft:
+                    //Logic Item ADD
                     break;
+                case ShopItemType.Medicine:
+                    //Logic Item ADD
+                    break;
+                case ShopItemType.Skill:
+                    //Logic Item ADD
+                    break;
+                case ShopItemType.Item:
+                    //Logic Item ADD
+                    break;
+                case ShopItemType.Ruby:
+                    //Logic Item ADD
+                    break;
+                case ShopItemType.Watch:
+                    //Logic Item ADD
+                    m_GameData.ruby += contentValue;
+                    Debug.Log("ADD Ruby: " + contentType);
+                    break;
+            }
+            UpdateFunds();
+        }
+        void DeductItemShopByID(ShopItemSO shopItem, ShopItemComponent shopItemComponent)
+        {
+            if(shopItem == null || shopItemComponent == null) return;
+
+            shopItem.contentValue--;
+
+            shopItemComponent.SetContentValue((int)shopItem.contentValue);
+
+            if (shopItem.contentValue <= 0)
+            {
+                shopItemComponent.UpdateBuyButton(false);
+            }
+            else
+            {
+                shopItemComponent.UpdateBuyButton(true);
+            }
+
+            if (shopItem.contentType == ShopItemType.Watch)
+            {
+                shopItemComponent.StartWatch();
             }
         }
         // event-handling methods
 
         // buying item from ShopScreen, pass button screen position 
-        void OnPurchaseItem(ShopItemSO shopItem, Vector2 screenPos)
+        void OnPurchaseItem(ShopItemSO shopItem, ShopItemComponent shopItemComponent, Vector2 screenPos)
         {
             if (shopItem == null)
                 return;
+            //Deduct Case Watch
+            if(shopItemComponent.IsWatch)
+            {
+                //On Event
+                return;
+            }
 
             // invoke transaction succeeded or failed
             if (HasSufficientFunds(shopItem))
             {
                 PayTransaction(shopItem);
                 ReceivePurchasedGoods(shopItem);
+                DeductItemShopByID(shopItem, shopItemComponent);
+                TransactionProcessed?.Invoke(shopItem, screenPos);
 
-                Debug.Log("OnPurchaseItem");
-                //TransactionProcessed?.Invoke(shopItem, screenPos);
+                Debug.Log("Vector Receive: " + screenPos);
 
                 //AudioManager.PlayDefaultTransactionSound();
+
+                Debug.Log("OnPurchaseItem");
             }
             else
             {
                 // notify listeners (PopUpText, sound, etc.)
                 //TransactionFailed?.Invoke(shopItem);
                 //AudioManager.PlayDefaultWarningSound();
+
+                Debug.Log("NotPurchaseItem");
             }
         }
-        void OnPurchaseItemCard(ShopItemCardComponent shopItemComponent, ShopItemCardSO shopItem, Vector2 screenPos)
-        {
-            if (shopItem == null)
-                return;
-
-            // invoke transaction succeeded or failed
-            if (HasSufficientFunds(shopItem))
-            {
-                PayTransaction(shopItem);
-                ReceivePurchasedGoods(shopItem);
-                //Save has Buy
-                shopItem.hasBuy = true;
-                //SaveShopItemState(shopItem);
-                //////HasBuy
-                //shopItemComponent.DisableObjectContainingShopItemCardSO();
-                //AddCardComponentToFolder(shopItem);
-
-                //CardManager Sort
-                //CardManager.Instance.ClearCardALLList();
-                //CardManager.Instance.CardALLCard.LoadAllCardTowerScriptableObjects();
-                //CardManager.Instance.CardALLCard.LoadDataCard();
-
-                Debug.Log("OnPurchaseItem");
-                //TransactionProcessed?.Invoke(shopItem, screenPos);
-
-                //AudioManager.PlayDefaultTransactionSound();
-            }
-            else
-            {
-                // notify listeners (PopUpText, sound, etc.)
-                //TransactionFailed?.Invoke(shopItem);
-                //AudioManager.PlayDefaultWarningSound();
-            }
-        }
-//        void SaveShopItemState(ShopItemCardSO shopItem)
-//        {
-//            // Lưu trạng thái của shopItem vào ScriptableObject
-//#if UNITY_EDITOR
-//            EditorUtility.SetDirty(shopItem);
-//            AssetDatabase.SaveAssets();
-//#endif
-//        }
-//        void AddCardComponentToFolder(ShopItemCardSO shopItemCardSO)
-//        {
-//            // Get the type of card
-//            string cardType = shopItemCardSO.GetShopItemType().ToString();
-
-//            string newFolderPath = "Assets/Resources/Card/CardSAOJ/" + cardType;
-
-//            // Create ScriptableObject
-
-//            // Create link
-//            string newAssetPath = newFolderPath + "/" + shopItemCardSO.cardComponent.nameCard + ".asset";
-
-//            // Move the new ScriptableObject into the new folder
-//#if UNITY_EDITOR
-//            AssetDatabase.CreateAsset(CreateInstanceCardComponent(cardType, shopItemCardSO), newAssetPath);
-//            AssetDatabase.SaveAssets();
-//            AssetDatabase.Refresh();
-//#endif
-//        }
-
-//        CardComponent CreateInstanceCardComponent(string cardType, ShopItemCardSO shopItemCardSO)
-//        {
-//            switch (cardType)
-//            {
-//                case "CardCharacter":
-//                    CardCharacter characterCard = shopItemCardSO.cardComponent as CardCharacter;
-//                    // Create a new instance of CardCharacter and transfer all values from the existing characterCard
-//                    characterCard = new CardCharacter(
-//                        shopItemCardSO.cardComponent.nameCard,
-//                        shopItemCardSO.cardComponent.cardRefresh,
-//                        shopItemCardSO.cardComponent.price,
-//                        shopItemCardSO.cardComponent.frame,
-//                        shopItemCardSO.cardComponent.background,
-//                        shopItemCardSO.cardComponent.avatar,
-//                        characterCard.CharacterStats,
-//                        characterCard.bioTitle,
-//                        characterCard.bio,
-//                        characterCard.skill1,
-//                        characterCard.skill2,
-//                        characterCard.rarityCard,
-//                        characterCard.attackTypeCard,
-//                        characterCard.characterVisualsPrefab
-//                    );
-//                    return characterCard;
-//                case "CardMachine":
-//                    return ScriptableObject.CreateInstance<CardMachine>();
-//                case "CardGuard":
-//                    return null;
-//                default:
-//                    return new CardComponent(shopItemCardSO.cardComponent.nameCard, shopItemCardSO.cardComponent.cardRefresh, shopItemCardSO.cardComponent.price,
-//                                              shopItemCardSO.cardComponent.frame, shopItemCardSO.cardComponent.background, shopItemCardSO.cardComponent.avatar);;
-//            }
-//        }
-
-
-
     }
 }

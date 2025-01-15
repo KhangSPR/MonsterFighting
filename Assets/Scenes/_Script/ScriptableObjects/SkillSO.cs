@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 
 // each character has up to three special attack skills
-[CreateAssetMenu(fileName = "Assets/Resources/GameData/Skills/SkillGameData", menuName = "UIToolkitDemo/Skill", order = 3)]
+[CreateAssetMenu(fileName = "Assets/Resources/GameData/Skills/SkillGameData", menuName = "GameData/Skill", order = 2)]
 public class SkillSO : ScriptableObject
 {
     public string skillName;

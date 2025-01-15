@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable , CreateAssetMenu]
+[CreateAssetMenu(fileName = "Assets/Resources/GameData/ItemSO/ItemSOData", menuName = "GameData/ItemReward", order = 3)]
 public class ItemReward : ScriptableObject
 {
     public string ID;

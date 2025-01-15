@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class InventoryManager : MonoBehaviour
 {
     public InventoryObject inventory;
-    public DisplayInventory displayInventory;
+    public DisplayInventory displayInventory; //Repair
 
     //Limited Quantity
     private int limitedQuantityItem = 5;
@@ -42,10 +42,13 @@ public class InventoryManager : MonoBehaviour
 
         var sortedItems = inventory.Container.Items;
 
+        
+
         for (int i = 0; i < sortedItems.Length; i++)
         {
             InventorySlot slot = sortedItems[i];
 
+            if (slot == null) continue;
 
             if (slot.ID >= 0)
             {
@@ -67,15 +70,18 @@ public class InventoryManager : MonoBehaviour
             Debug.LogError("Only 1 InventoryManager Warning");
         }
         InventoryManager.instance = this;
+
+        inventory.Load();
+
     }
 
     private void Start()
     {
-        inventory.Load();
-        inventory.Load();
-
         //Quantity Item
         this.SetCurrentQuantityItem(inventory);
+
+
+        Debug.Log("inventory.Container.Item: " + inventory.Container.Items.Length);
     }
     private void Update()
     {
@@ -94,9 +100,8 @@ public class InventoryManager : MonoBehaviour
             inventory.Save();
         }
     }
-    private void OnApplicationQuit()
+    private void OnApplicationQuit() //APLY Window
     {
-
         inventory.Save();
         inventory.Container.Items = new InventorySlot[40];
     }

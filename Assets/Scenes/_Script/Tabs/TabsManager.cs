@@ -9,6 +9,8 @@ public class TabsManager : MonoBehaviour
     public Image[] TabButtons;
     public Sprite InactiveTabBG, ActiveTabBG;
     public Vector2 InactiveTabButtonSize, ActiveTabButtonSize;
+    [SerializeField] ScrollRect scrollRect;
+    [SerializeField] RectTransform[] scrollRects;
 
     private void Start()
     {
@@ -30,5 +32,12 @@ public class TabsManager : MonoBehaviour
         }
         TabButtons[TabID].sprite = ActiveTabBG;
         TabButtons[TabID].rectTransform.sizeDelta = ActiveTabButtonSize;
+    }
+    //Set On Inspector
+    public void SetScrollRect(int TabID)
+    {
+        if (scrollRect == null) return;
+
+        scrollRect.content = scrollRects[TabID];
     }
 }

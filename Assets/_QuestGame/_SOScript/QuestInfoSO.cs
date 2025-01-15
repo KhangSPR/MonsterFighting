@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "New Quest Info", menuName = "Quest/Quest Info")]
+[CreateAssetMenu(fileName = "New Quest Info", menuName = "Quest/Quest Info", order = 0)]
 public class QuestInfoSO : ScriptableObject
 {
     [Header("Quest Information")]

@@ -150,15 +150,33 @@ public class InventoryObject : ScriptableObject
             Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Open, FileAccess.Read);
             Inventory newContainer = (Inventory)formatter.Deserialize(stream);
 
+            // Tạo danh sách tạm thời để lưu các item có amount > 0
+            List<InventorySlot> validItems = new List<InventorySlot>();
+
             for (int i = 0; i < Container.Items.Length; i++)
             {
+                // Cập nhật slot
                 Container.Items[i].UpdateSlot(newContainer.Items[i].ID, newContainer.Items[i].item, newContainer.Items[i].amount, newContainer.Items[i].item.IsUsed);
+
+                // Chỉ thêm các item có amount > 0 vào danh sách
+                if (Container.Items[i].amount > 0)
+                {
+                    validItems.Add(Container.Items[i]);
+
+                }
+            }
+            // Sao chép các item hợp lệ vào mảng mới
+            for (int i = 0; i < validItems.Count; i++)
+            {
+                Container.Items[i] = validItems[i];
             }
 
             Debug.Log("LOAD");
             stream.Close();
         }
     }
+
+
 
     [ContextMenu("Clear")]
 
@@ -269,9 +287,20 @@ public class InventorySlot
     {
         ID = _id;
         item = _item;
-        amount = _amount;
-        item.IsUsed = _isUsed;
+
+        if (_item != null)
+        {
+            amount = _amount;
+            item.IsUsed = _isUsed;
+        }
+        else
+        {
+            // Nếu _item là null, đặt các giá trị mặc định
+            amount = 0;
+            Debug.LogWarning($"UpdateSlot called with a null item. ID: {_id}, Amount set to 0.");
+        }
     }
+
 
     public void AddAmount(int value)
     {

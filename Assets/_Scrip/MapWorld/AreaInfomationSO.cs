@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SO/AreasData")]
+[CreateAssetMenu(fileName = "SO/AreasData", menuName = "Map/Area Infomation SO")]
+
 public class AreaInfomationSO : ScriptableObject
 {
     public List<AreasData> areasData;

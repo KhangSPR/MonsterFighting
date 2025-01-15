@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a63f7a581ad78ca44af66aa2976f3de5, type: 3}
   m_Name: Skill_Stone
   m_EditorClassIdentifier: 
+  ID: 
   IsUsed: 0
-  Id: 6
+  IdDatabase: 6
   Sprite: {fileID: 1310701741, guid: 0561c597bb704da4f9c9332106b883cb, type: 3}
   type: 0
   Name: Skill Stone
   description: 
   itemRarity: 0
+  itemRequiredCrafts: []
   timeSpawn: 15
   damage: 50
   particleCount: 20

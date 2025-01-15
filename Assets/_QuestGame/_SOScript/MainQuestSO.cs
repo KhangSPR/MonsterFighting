@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Main Quest", menuName = "Quest/MainQuest")]
+[CreateAssetMenu(fileName = "New Main Quest", menuName = "Quest/MainQuest", order = 1)]
 public class MainQuestSO : QuestAbstractSO
 {
     [Header("Main Quest Specifics")]

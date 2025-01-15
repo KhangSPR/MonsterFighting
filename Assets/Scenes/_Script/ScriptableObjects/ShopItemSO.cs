@@ -1,49 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using TMPro;
 using UnityEngine;
 
 
 // what player is buying
 [System.Serializable]
 public enum ShopItemType
-{
-    // soft currency (in-game)
-    CardCharacter,
-    CardMachine,
-    CardGuard,
-    Gold,
-    // hard currency (buy with real money)
+{  
+    Craft,
+    Medicine,
+    Skill,
+    Item,
     Ruby,
-
-    // used in gameplay
-    XpLv1,
-
-    XpLv2,
-
-    XpLv3,
-
-    XpLv4,
-
-    CastleGold,
-    CastleRuby,
-
+    Watch
 }
 
 // type of currency used to purchase
 [System.Serializable]
 public enum CurrencyType
 {
-    Gold,
-
-    USD,
     EnemyStone,
-    EnemyBoss
-
+    EnemyBoss,
+    Badge,
+    Energy,
+    Ruby,
+    Watch,
+    USD
 }
 
-[CreateAssetMenu(fileName = "Assets/Resources/GameData/ShopItems/ShopItemGameData", menuName = "UIToolkitDemo/ShopItem", order = 4)]
+[CreateAssetMenu(fileName = "Assets/Resources/GameData/ShopItems/ShopItemGameData", menuName = "GameData/ShopItem", order = 1)]
 public class ShopItemSO : ScriptableObject
 {
+    public string ID;
     public string itemName;
 
     public Sprite sprite;
@@ -59,7 +47,13 @@ public class ShopItemSO : ScriptableObject
 
     // how many potions/coins this item gives the player upon purchase
     public uint contentValue;
+    public uint maxValue;
+    public uint quantityContent;
     public ShopItemType contentType;
+
+    //Watch
+    public float RestoreInterval;
+
 
     // SC (gold) costs HC (gems); HC (gems) costs real USD; HealthPotion costs SC (gold); LevelUpPotion costs HC (gems)
     public CurrencyType CostInCurrencyType
@@ -68,25 +62,20 @@ public class ShopItemSO : ScriptableObject
         {
             switch (contentType)
             {
-                case (ShopItemType.XpLv1):
-                    return CurrencyType.Gold;
-
-                case (ShopItemType.XpLv2):
-                    return CurrencyType.Gold;
-                    
-                case (ShopItemType.XpLv3):
-                    return CurrencyType.Gold;
-
-                case (ShopItemType.XpLv4):
-                    return CurrencyType.Gold;
-
-                case (ShopItemType.Gold):
+                case ShopItemType.Craft:
+                case ShopItemType.Medicine:
+                case ShopItemType.Skill:
                     return CurrencyType.EnemyStone;
-                case (ShopItemType.Ruby):
+                case ShopItemType.Item:
+                    return CurrencyType.Ruby;
+                case ShopItemType.Watch:
+                    return CurrencyType.Watch;
+                case ShopItemType.Ruby:
                     return CurrencyType.USD;
                 default:
-                    return CurrencyType.Gold;
+                    return CurrencyType.EnemyStone;
             }
         }
     }
+
 }

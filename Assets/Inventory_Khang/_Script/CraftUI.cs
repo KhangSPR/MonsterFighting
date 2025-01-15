@@ -1,5 +1,9 @@
-﻿using TMPro;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UIGameDataManager;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +17,22 @@ public class CraftUI : MonoBehaviour
     [SerializeField] Button previousBtn;
     [SerializeField] Button craftBtn;
     [SerializeField] ItemObject[] itemObjects;
+    //Dictionary ITEM REQUIRED 
+    Dictionary<ItemTooltipInventory, int> itemObjectDictionary = new Dictionary<ItemTooltipInventory, int>();
+    Dictionary<ItemTooltipReward, int> itemRewardDictionary = new Dictionary<ItemTooltipReward, int>();
+    //Event
+    public static Action OnCraft;
+
+    private void ClearAndUpdate()
+    {
+        itemObjectDictionary.Clear();
+        itemRewardDictionary.Clear();
+    }
+    ItemObject currentItemCraft
+    {
+        get { return itemObjects[currentItemObject]; }
+    }
+
     int currentItemObject = 0;
 
     bool activeBtn = false;
@@ -20,18 +40,39 @@ public class CraftUI : MonoBehaviour
     {
         nextBtn.onClick.AddListener(OnButtonNext);
         previousBtn.onClick.AddListener(OnButtonPrevious);
-        craftBtn.onClick.AddListener(OnCraftBtn);
+        craftBtn.onClick.AddListener(() =>
+        {
+            OnCraftBtn();
+        });
+    }
+    private void Update()
+    {
+        // Kiểm tra nếu lastClickTime > 0 thì giảm dần theo thời gian
+        if (lastClickTime > 0)
+        {
+            lastClickTime -= Time.deltaTime;
+
+            // Nếu lastClickTime <= 0, reset combo về 1
+            if (lastClickTime <= 0)
+            {
+                AddItem();
+                lastClickTime = 0; // Đảm bảo không giảm thêm
+                number = 0;
+            }
+        }
     }
     private void OnEnable()
     {
         SetItemObjets();
     }
+
     public void SetItemObject(ItemObject[] itemObjects)
     {
         Debug.Log("SetItemObject: " + itemObjects.Length);
 
         this.itemObjects = itemObjects;
     }
+    #region Display UI
     protected void SetItemObjets()
     {
         if (this.itemObjects == null)
@@ -62,6 +103,7 @@ public class CraftUI : MonoBehaviour
 
         SetButtonCraft(true);
 
+        ClearAndUpdate();
 
         // Cập nhật thông tin cơ bản
         UpdateUIElements(itemObject);
@@ -104,6 +146,7 @@ public class CraftUI : MonoBehaviour
         }
         else
         {
+            //currentItemObjects.Add(itemObj); //ADD LIST ITEM OBJECT
             AddExistingItemToUI(itemObj, itemRequiredCraft);
         }
     }
@@ -111,10 +154,12 @@ public class CraftUI : MonoBehaviour
     // Thêm item bị thiếu vào UI
     private void AddMissingItemToUI(ItemRequiredCraft itemRequiredCraft)
     {
+
         var objNew = Instantiate(RewardClaimManager.Instance.ItemReward, holderCraft);
         var itemTooltipReward = objNew.GetComponent<ItemTooltipReward>();
 
         var itemReward = GameDataManager.Instance.GetItemRewardByID(itemRequiredCraft.ID);
+        
 
         if (itemReward == null)
         {
@@ -123,12 +168,14 @@ public class CraftUI : MonoBehaviour
         }
 
         itemTooltipReward.Avatar.sprite = itemReward.Image;
-        SetCountText(itemTooltipReward.CountTxt, itemRequiredCraft.quantityRequired, GameDataManager.Instance.GetCountItemRewardById(itemRequiredCraft.ID));
+        int current = GameDataManager.Instance.GetCountItemRewardById(itemRequiredCraft.ID);
+        int required = itemRequiredCraft.quantityRequired;
 
+        itemRewardDictionary.Add(itemTooltipReward, required);//Dictionary
+        SetCountText(itemTooltipReward.CountTxt, required, current);
         itemTooltipReward.ItemReward = itemReward;
         itemTooltipReward.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(itemReward.itemRarity);
     }
-
     // Thêm item tồn tại trong inventory vào UI
     private void AddExistingItemToUI(ItemObject itemObj, ItemRequiredCraft itemRequiredCraft)
     {
@@ -136,11 +183,15 @@ public class CraftUI : MonoBehaviour
         var itemTooltip = objNew.GetComponent<ItemTooltipInventory>();
 
         itemTooltip.Avatar.sprite = itemObj.Sprite;
-        SetCountText(itemTooltip.CountTxt, itemRequiredCraft.quantityRequired, InventoryManager.Instance.inventory.GetCountById(itemObj.IdDatabase));
+        int current = InventoryManager.Instance.inventory.GetCountById(itemObj.IdDatabase);
+        int required = itemRequiredCraft.quantityRequired;
 
+        itemObjectDictionary.Add(itemTooltip, required); //Dictionary
+        SetCountText(itemTooltip.CountTxt, required, current);
         itemTooltip.ItemObject = itemObj;
         itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(itemObj.itemRarity);
     }
+
     // Cập nhật Count Text với màu sắc tương ứng
     private void SetCountText(TMP_Text countTxt, int required, int current)
     {
@@ -160,7 +211,98 @@ public class CraftUI : MonoBehaviour
             countTxt.text = $"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(Color.green)}>{current}</color>/{required}";
         }
     }
+    #endregion
+    private void OnCraftBtn()
+    {
+        // Animation - VFX - Number
+        Bonus();
+        fx.Image.sprite = itemObjects[currentItemObject].Sprite;
+        fx.CraftEffect();
 
+        Debug.Log("On Button");
+
+        //REMOVE ITEM
+        foreach (KeyValuePair<ItemTooltipInventory, int> kvp in itemObjectDictionary)
+        {
+
+
+            ItemTooltipInventory ItemTooltipInventory = kvp.Key;
+
+            ItemObject itemObject = ItemTooltipInventory.ItemObject;
+
+            Item ItemObjectKey = new Item(itemObject);
+
+            int quantity = kvp.Value;
+
+            InventoryManager.Instance.inventory.RemoveItem(ItemObjectKey, quantity); 
+
+            int current = InventoryManager.Instance.inventory.GetCountById(itemObject.IdDatabase);
+
+            SetCountText(ItemTooltipInventory.CountTxt, quantity, current);
+        }
+        foreach (KeyValuePair<ItemTooltipReward, int> kvp in itemRewardDictionary)
+        {
+            ItemTooltipReward itemTooltipReward = kvp.Key;
+
+            ItemReward itemReward = itemTooltipReward.ItemReward;
+
+            int quantity = kvp.Value;
+            UIGameDataMap.Resources resource = new UIGameDataMap.Resources(itemReward, quantity);
+
+
+            GameDataManager.Instance.OnReceiverRewardResources(resource);
+
+
+            int current = GameDataManager.Instance.GetCountItemRewardById(itemReward.ID);
+
+            SetCountText(itemTooltipReward.CountTxt, quantity, current);
+        }
+    }
+
+
+    private void AddItem()
+    {
+        //ADD ITEM
+        Item Item = new Item(currentItemCraft);
+        InventoryManager.Instance.inventory.AddItem(Item, Number);
+
+        Debug.Log("ADD ITEM NUMNER: " + Number);
+
+        OnCraft?.Invoke();
+
+    }
+    #region VFX Craft
+    [SerializeField] VFXCraft fx;
+
+    [SerializeField] float clickInterval = 1.3f; // Thời gian cố định là 1.3 giây
+
+    float lastClickTime = 0;
+    public float LastClickTime => lastClickTime;
+    [SerializeField]
+    int number = 0;
+    public int Number
+    {
+        get
+        {
+            return number;
+        }
+        set
+        {
+            number = value;
+            fx.CountText.text = "x" + Number.ToString();
+            fx.BonusEffect();
+        }
+    }
+
+    private void Bonus()
+    {
+        // Khi nhấn, đặt lastClickTime về clickInterval
+        lastClickTime = clickInterval;
+
+        // Tăng combo nếu vẫn trong khoảng thời gian clickInterval
+        Number++;
+    }
+    #endregion
 
     private void OnButtonNext()
     {
@@ -200,11 +342,7 @@ public class CraftUI : MonoBehaviour
         else
         {
             craftBtn.GetComponent<Image>().color = new Color(178 / 255f, 112 / 255f, 0f, 120 / 255f);
-            craftBtn.GetComponentInChildren<TMP_Text>().color = new Color(1, 1, 1, 120/255f);
+            craftBtn.GetComponentInChildren<TMP_Text>().color = new Color(1, 1, 1, 120 / 255f);
         }
-    }
-    private void OnCraftBtn()
-    {
-
     }
 }

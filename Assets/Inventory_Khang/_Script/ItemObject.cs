@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum InventoryType
 {
+    //ALL,
     Skill,
     Medicine,
     ItemCraft,

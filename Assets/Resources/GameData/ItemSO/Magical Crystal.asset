@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75ea058338738744d8b5527ea7404ec1, type: 3}
+  m_Name: Magical Crystal
+  m_EditorClassIdentifier: 
+  ID: MAGICALCRYSTAL
+  itemName: Magical Crystal
+  itemDescription: 'A <color=#FFD700>rare</color> item dropped from the <color=#D32F2F>Boss</color>,
+    a sparkling crystalline treasure. '
+  image: {fileID: -603374892, guid: 4711eb715a82c59458cde7533a6a9a4b, type: 3}
+  currencyType: 1
+  itemRarity: 3

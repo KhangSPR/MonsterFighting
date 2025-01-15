@@ -12,7 +12,7 @@ public enum EventQuestType
 }
 
 
-[CreateAssetMenu(fileName = "New Event Quest", menuName = "Quest/EventQuest")]
+[CreateAssetMenu(fileName = "New Event Quest", menuName = "Quest/EventQuest", order = 4)]
 public class EventQuestSO : QuestAbstractSO
 {
     [Header("PVPQuestSO Quest Specifics")]

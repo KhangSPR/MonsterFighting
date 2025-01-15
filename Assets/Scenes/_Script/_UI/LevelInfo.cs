@@ -7,7 +7,6 @@ namespace UIGameDataMap
 {
     public class LevelInfo : MonoBehaviour
     {
-        [SerializeField] private GameMapIconSO gameMapIconSO;
         [SerializeField] private Text zoneIndex;
         [SerializeField] private UIChoosingMapLoader uIChoosingMap;
 

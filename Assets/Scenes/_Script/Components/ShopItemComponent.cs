@@ -3,45 +3,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UIGameDataManager;
 using TMPro;
+using Unity.VisualScripting;
 
 
 // represents one item in the shop
 public class ShopItemComponent: MonoBehaviour
 {
     // notify the ShopScreenController to buy product (passes the ShopItem data + UI element screen position)
-    public static event Action<ShopItemSO, Vector2> ShopItemClicked;
+    public static event Action<ShopItemSO, ShopItemComponent, Vector2> ShopItemClicked;
 
     // ScriptableObject pairing icons with currency/shop item types
     GameIconsSO m_GameIconsData;
     ShopItemSO m_ShopItemData;
-
-    // string IDs
-    //const string k_ParentContainer = "SizeContainer";
-    //const string k_Description = "Description";
-    //const string k_ProductImage = "ProductImage";
-
-    ////const string k_Banner = "shop-item__banner";
-    ////const string k_BannerLabel = "shop-item__banner-label";
-
-    //const string k_DiscountBadge = "shop-item__discount-badge";
-    //const string k_DiscountLabel = "shop-item__badge-text";
-
-    ////const string k_ContentCurrency = "shop-item__content-currency";
-    //const string k_ContentValue = "ContentValue";
-    //const string k_ContentIcon = "ContentIcon";
-    //const string k_ContentGroup = "ContentGroup";
-
-    //const string k_CostPrice = "CostPrice";
-    //const string k_CostIcon = "CostIcon";
-    //const string k_CostGroup = "CostGroup";
-
-    //const string k_DiscountPrice = "shop-item__discount-price";
-    //const string k_DiscountIcon = "shop-item__discount-icon";
-    //const string k_DiscountSlash = "shop-item__discount-slash";
-    //const string k_DiscountGroup = "shop-item__discount-group";
-
-    //const string k_BuyButton = "CostGroup";
-
 
     // visual elements
     //Text
@@ -50,6 +23,7 @@ public class ShopItemComponent: MonoBehaviour
     [SerializeField] TMP_Text m_ContentValue;
     [SerializeField] TMP_Text m_CostPrice;
     [SerializeField] TMP_Text m_CostUSD;
+    [SerializeField] TMP_Text m_QuantityContent;
     //Text m_DiscountLabel;
     //Text m_DiscountCost;
 
@@ -58,7 +32,7 @@ public class ShopItemComponent: MonoBehaviour
     [SerializeField] Image m_ProductImage;
     [SerializeField] Image m_CostIcon;
     [SerializeField] Image m_DiscountIcon;
-    [SerializeField] Image m_ContentIcon;
+    [SerializeField] Image m_ContentIcon; //Icon Count
 
     //GameObject
     [Header("GameObject")]
@@ -67,14 +41,27 @@ public class ShopItemComponent: MonoBehaviour
     //GameObject m_DiscountSlash;
     //GameObject m_DiscountGroup;
     [SerializeField] GameObject m_ContentGroup;
-    [SerializeField] GameObject m_ContentIconGroup;
+    //[SerializeField] GameObject m_ContentIconGroup;
     [SerializeField] GameObject m_CostIconGroup;
     [SerializeField] GameObject m_CostGroup;
     [SerializeField] GameObject m_ProductItem;
     [SerializeField] GameObject m_CostUSDGroup;
+    [SerializeField] GameObject m_Watch;
 
     [Header("Button")]
     [SerializeField] Button m_BuyButton;
+    [SerializeField] CanvasGroup CanvasGroup;
+    public void UpdateBuyButton(bool active)
+    {
+        if (active)
+        {
+            CanvasGroup.alpha = 1;
+        }
+        else
+        {
+            CanvasGroup.alpha = 120 / 255f;
+        }
+    }
 
     float wideSize = 200f;
     float normalSize = 100f;
@@ -135,10 +122,9 @@ public class ShopItemComponent: MonoBehaviour
 
 
         // content value
-        m_ContentIcon.sprite = m_GameIconsData.GetShopTypeIcon(m_ShopItemData.contentType);
-        m_ContentValue.text = " " + m_ShopItemData.contentValue.ToString();
-
-
+        //m_ContentIcon.sprite = m_GameIconsData.GetCurrencyIcon(m_ShopItemData.CostInCurrencyType);
+        m_ContentValue.text = "Quantity: " + m_ShopItemData.contentValue;
+        m_QuantityContent.text = "x" + m_ShopItemData.quantityContent;
         FormatBuyButton();
 
         // use the oversize style if discounted
@@ -173,7 +159,7 @@ public class ShopItemComponent: MonoBehaviour
     }
     void MoveObject_Content(float movement)
     {
-        m_ContentIconGroup.GetComponent<RectTransform>().localPosition = new Vector2(movement, m_ContentIconGroup.GetComponent<RectTransform>().localPosition.y);
+        //m_ContentIconGroup.GetComponent<RectTransform>().localPosition = new Vector2(movement, m_ContentIconGroup.GetComponent<RectTransform>().localPosition.y);
 
     }
     // format the cost and cost currency
@@ -214,16 +200,22 @@ public class ShopItemComponent: MonoBehaviour
 
             m_CostGroup.SetActive(m_ShopItemData.CostInCurrencyType != CurrencyType.USD);
             //m_DiscountGroup.SetActive(m_ShopItemData.CostInCurrencyType != CurrencyType.USD);
-
         }
         // if the cost is 0, mark the ShopItem as free and hide the cost currency
         else
         {
-            m_CostGroup.SetActive(false);
-            //m_DiscountGroup.SetActive(false);
-            m_CostPrice.text = "Free";
-        }
+            //m_CostGroup.SetActive(false);
+            ////m_DiscountGroup.SetActive(false);
+            //m_CostPrice.text = "Free";
+            if (m_ShopItemData.contentType == ShopItemType.Watch)
+            {
+                m_CostIconGroup.SetActive(false);
 
+                m_Watch.SetActive(true);
+
+                Debug.Log("Watch True");
+            }
+        }
         // disable/enabled, depending whether the item is discounted
         //m_DiscountBadge.SetActive(IsDiscounted(m_ShopItemData));
         //m_DiscountLabel.text = m_ShopItemData.discount + "%";
@@ -231,7 +223,10 @@ public class ShopItemComponent: MonoBehaviour
         //m_DiscountGroup.SetActive(IsDiscounted(m_ShopItemData));
         //m_DiscountCost.text = currencyPrefix + (((100 - m_ShopItemData.discount) / 100f) * m_ShopItemData.cost).ToString(decimalPlaces);
     }
-
+    public void SetContentValue(int value)
+    {
+        m_ContentValue.text = "Quantity: " + value;
+    }
     bool IsDiscounted(ShopItemSO shopItem)
     {
         return (shopItem.discount > 0);
@@ -255,11 +250,139 @@ public class ShopItemComponent: MonoBehaviour
         // Notify the ShopController (passes ShopItem data + UI Toolkit screen position)
         Vector2 screenPos = m_BuyButton.transform.position;
 
-        ShopItemClicked?.Invoke(m_ShopItemData, screenPos);
+        ShopItemClicked?.Invoke(m_ShopItemData, this, screenPos); //Has Buy
 
         // Play a button click sound
         //AudioManager.PlayDefaultButtonSound();
     }
+    //void CheckWatch()
+    //{
+    //    if(isWatch)
+    //    {
+
+    //    }
+    //}
+    public DateTime TimerNow;
+    public DateTime TimerNextDay;
+    public TimeSpan TimerDelta;
+
+    private void Awake()
+    {
+        TimerNow = DateTime.Now;
+        TimerNextDay = TimerNow.AddDays(1).Date; // Nửa đêm ngày mai
+        TimerNextDay = new DateTime(TimerNow.Year, TimerNow.Month, TimerNow.Day, 0, 0, 0);
+    }
+    [SerializeField]
+    float timeCount;
+    [SerializeField]
+    bool isWatch = false;
+    public bool IsWatch => isWatch;
+    DateTime lastRestoreTime;
+
+    private void Update()
+    {
+        //Watch
+        if (isWatch)
+        {
+            timeCount -= Time.deltaTime;
+            GetStringWatch(timeCount);
+            if (timeCount<=0)
+            {
+                lastRestoreTime = DateTime.Now;
+                UpdateBuyButton(true);
+                m_ContentValue.text = "Quantity: " + m_ShopItemData.contentValue.ToString();
+                isWatch = false;
+
+                if(m_ShopItemData.contentValue <=0)
+                {
+                    UpdateBuyButton(false);
+                }
+            }
+            return;
+        }
+
+        if (m_ShopItemData?.contentValue > 0)
+        {
+            return;
+        }
+
+        DateTime timerNow = DateTime.Now;
+        TimeSpan remainingTime = TimeSpan.FromHours(24) - timerNow.TimeOfDay;
+        ShowTimerUI(remainingTime);
+    }
+    private void GetStringWatch(float timeCount)
+    {
+        int minutes = (int)(timeCount / 60);
+        int seconds = (int)(timeCount % 60);
+        m_ContentValue.text = $"{minutes:D2}:{seconds:D2}";
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus)
+        {
+            PlayerPrefs.SetInt(m_ShopItemData.itemName, isWatch ? 1 : 0);
+            if (isWatch)
+            {
+                PlayerPrefs.SetString(nameof(lastRestoreTime), DateTime.Now.ToString());
+            }     
+        }
+    }
+
+    public void CalculateWatchStatus()
+    {
+        int IsCalculate = PlayerPrefs.GetInt(m_ShopItemData.itemName);
+
+        Debug.Log("ISCalculate: " + IsCalculate);
+
+        if (IsCalculate == 0) return;
+
+        try
+        {
+            lastRestoreTime = DateTime.Parse(PlayerPrefs.GetString(nameof(lastRestoreTime), DateTime.Now.ToString()));
+        }
+        catch (Exception)
+        {
+            lastRestoreTime = DateTime.Now;
+        }
+
+        float elapsedTime = (float)(DateTime.Now - lastRestoreTime).TotalSeconds;
+        Debug.Log("elapsedTime: " + elapsedTime);
+
+        if(m_ShopItemData.RestoreInterval <= elapsedTime)
+        {
+            isWatch = false;
+        }
+        else
+        {
+            timeCount = m_ShopItemData.RestoreInterval - elapsedTime;
+            UpdateBuyButton(false);
+            isWatch = true;
+        }
+    }
+    public void StartWatch()
+    {
+        if(m_ShopItemData.contentValue <= 0)
+        {
+            isWatch = false;
+        }
+        else
+        {
+            isWatch = true;
+        }
+
+        timeCount = m_ShopItemData.RestoreInterval;
+        lastRestoreTime = DateTime.Now;
+        UpdateBuyButton(false);
+        PlayerPrefs.SetString(nameof(lastRestoreTime), lastRestoreTime.ToString());
+    }
+
+    private void ShowTimerUI(TimeSpan remainingTime)
+    {
+        // Định dạng chuỗi để hiển thị thời gian còn lại
+        m_ContentValue.text = $"{remainingTime.Hours:D2}:{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}";
+    }
+
 }
 
 

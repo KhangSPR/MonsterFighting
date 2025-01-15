@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ClanQuestType { InitiationTrial, ClanBond, GuardiansChallenge, SecretsoftheElders, TrialofValor, ForgeofLegends, RivalsDuel, SacredHunt, ClashofHeroes} //.vvv
 
-[CreateAssetMenu(fileName = "New Clan Quest", menuName = "Quest/ClanQuest")]
+[CreateAssetMenu(fileName = "New Clan Quest", menuName = "Quest/ClanQuest", order = 2)]
 public class ClanQuestSO : QuestAbstractSO
 {
     [Header("Clan Quest Specifics")]

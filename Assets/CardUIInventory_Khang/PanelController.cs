@@ -37,14 +37,18 @@ public class PanelController : MonoBehaviour
             // Kiểm tra nếu không bấm vào bất kỳ panel nào trong mảng panels
             if (!IsPointerOverAnyPanel(panels, touchPosition))
             {
-                if (!panelGoto.activeSelf)
+                if(panelGoto == null)
+                {
+                    panelBase.SetActive(false);
+                }
+                if (panelGoto!= null && !panelGoto.activeSelf)
                 {
                     panelBase.SetActive(false);
                 }
             }
             else
             {
-                if (!panelGoto.activeSelf)
+                if (panelGoto != null && !panelGoto.activeSelf)
                 {
                     buttonClan.OnclickBtn();
                 }
