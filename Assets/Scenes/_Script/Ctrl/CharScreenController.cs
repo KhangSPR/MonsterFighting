@@ -18,13 +18,6 @@ namespace UIGameDataManager
         //[Tooltip("Parent transform for all character previews.")]
         [SerializeField] Transform m_previewTransform;
 
-        [Header("Inventory")]
-        [Tooltip("Check this option to allow only one type of gear (armor, weapon, etc.) per character.")]
-        [SerializeField] bool m_UnequipDuplicateGearType;
-
-        [Header("Level Up")]
-        [SerializeField][Tooltip("Controls playback of level up FX.")] PlayableDirector m_LevelUpPlayable;
-
         public List<CharacterData> M_Characters { get { return m_Characters; } set { m_Characters = value; } }
         public CharacterData CurrentCharacter { get => M_Characters[m_CurrentIndex]; }
 
@@ -41,6 +34,8 @@ namespace UIGameDataManager
 
             StatusScreen.CharStatsWindowUpdated += OnCharStatsWindowUpdated;
 
+            CardInfoCharacterUI.OnNextCharacter += SelectNextCharacter;
+            CardInfoCharacterUI.OnPreviousCharacter += SelectLastCharacter;
 
         }
 
@@ -52,6 +47,10 @@ namespace UIGameDataManager
 
 
             StatusScreen.CharStatsWindowUpdated -= OnCharStatsWindowUpdated;
+
+            CardInfoCharacterUI.OnNextCharacter -= SelectNextCharacter;
+            CardInfoCharacterUI.OnPreviousCharacter -= SelectLastCharacter;
+
         }
         void Start()
         {
@@ -166,7 +165,9 @@ namespace UIGameDataManager
                 return;
 
             CharacterData currentCharacter = m_Characters[m_CurrentIndex];
-            currentCharacter.PreviewInstance?.gameObject.SetActive(state);
+
+            if(currentCharacter.PreviewInstance != null)
+                currentCharacter.PreviewInstance?.gameObject.SetActive(state);
 
 
             //UpdateLevelMeter();

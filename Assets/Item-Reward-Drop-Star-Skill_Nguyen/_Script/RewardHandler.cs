@@ -37,15 +37,18 @@ public class RewardHandler : MonoBehaviour
     }
     private void ActiveRewardStart()
     {
-        hasRewardItems = (timerHandler.TimerDelta.TotalMilliseconds < 0);
-        SetActiveReward(hasRewardItems);
         timerHandler.LoadTimer();
+
+        hasRewardItems = (timerHandler.TimerDelta.TotalMilliseconds < 0);
+
+        SetActiveReward(hasRewardItems);
     }
     private void Update()
     {
         timerHandler.UpdateTimer();
         ShowTimerUI();
-        hasRewardItems = (timerHandler.TimerDelta.TotalMilliseconds < 0);  
+        hasRewardItems = (timerHandler.TimerDelta.TotalMilliseconds < 0);
+
 
         if (Input.GetKeyDown(KeyCode.J))
         {

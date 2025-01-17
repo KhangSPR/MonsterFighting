@@ -61,6 +61,10 @@ public class ListSelectCard : MonoBehaviour
                 selectedAction = CardUIPanelManager.Instance.OnTowerButtonClickbyAttackType;
                 SwitchToTab(3);
                 break;
+            case 4:
+                selectedAction = CardUIPanelManager.Instance.OnTowerButtonClickbyAttackType;
+                SwitchToTab(4);
+                break;
             default:
                 break;
         }

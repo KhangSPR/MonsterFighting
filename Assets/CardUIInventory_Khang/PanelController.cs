@@ -50,7 +50,10 @@ public class PanelController : MonoBehaviour
             {
                 if (panelGoto != null && !panelGoto.activeSelf)
                 {
-                    buttonClan.OnclickBtn();
+                    if(buttonClan!= null)
+                    {
+                        buttonClan.OnclickBtn();
+                    }
                 }
             }
         }

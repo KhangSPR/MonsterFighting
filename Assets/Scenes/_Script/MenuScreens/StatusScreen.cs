@@ -22,31 +22,21 @@ namespace UIGameDataManager
         [Space]
         [Header("Component")]
         [SerializeField] CardStatsSkillUI m_CharStatsWindow;
+        [SerializeField] CardInfoCharacterUI m_CharInfoCharacter;
         [SerializeField] GameIconsSO m_GameIconsData;
-        private void Start()
-        {
-            SetButtonExit();
-        }
 
         void OnEnable()
         { 
             CharScreenController.CharacterShown += OnCharacterShown;
 
             Screenenabled();
-
+            m_ExitPanel.onClick.AddListener(Screendisabled);
         }
         void OnDisable()
         {
 
             CharScreenController.CharacterShown -= OnCharacterShown;
 
-        }
-        void SetButtonExit()
-        {
-            if (m_ExitPanel != null)
-            {
-                m_ExitPanel.onClick.AddListener(Screendisabled);
-            }
         }
         void Screenenabled()
         {
@@ -67,17 +57,17 @@ namespace UIGameDataManager
                 return;
 
             }
-            if (characterToShow.PreviewInstance == null)
-            {
-                Debug.Log("No PreviewInstance");
+            //if (characterToShow.PreviewInstance == null)
+            //{
+            //    Debug.Log("No PreviewInstance");
 
-                return;
-            }
+            //    return;
+            //}
 
             UpdateCharacterStats(characterToShow);
 
-
-            characterToShow.PreviewInstance?.gameObject.SetActive(true);
+            if(characterToShow.PreviewInstance != null)
+                characterToShow.PreviewInstance?.gameObject.SetActive(true);
 
         }
         public void UpdateCharacterStats(CharacterData characterToShow)
@@ -89,6 +79,9 @@ namespace UIGameDataManager
 
                 m_CharStatsWindow.SetCardStatusTower(m_GameIconsData, characterToShow); //Set
 
+                m_CharInfoCharacter.SetInfo(characterToShow.CharacterBaseData);
+
+                //Logic update View
 
                 m_CharStatsWindow?.SetGameData();
 

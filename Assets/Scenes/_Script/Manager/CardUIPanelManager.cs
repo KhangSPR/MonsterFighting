@@ -33,9 +33,12 @@ namespace UIGameDataManager
         private Dictionary<int, AttackCategory> AttacktypesTower = new Dictionary<int, AttackCategory>()
         {
             { 0, AttackCategory.ALL },
-            { 1, AttackCategory.Warrior },
-            { 2, AttackCategory.Archer },
-            { 3, AttackCategory.Wizard }
+            { 1, AttackCategory.Tank},
+            { 2, AttackCategory.Warrior },
+            { 3, AttackCategory.Archer },            
+            { 4, AttackCategory.Wizard},
+
+
         };
 
 
@@ -56,23 +59,6 @@ namespace UIGameDataManager
             OnTowerButtonClickedTower(0);
 
         }
-        /*protected override void OnEnable()
-        {
-            base.OnEnable();
-            OnTowerButtonClickedTower(0);
-        }*/
-        private void OnApplicationQuit()
-        {
-            // Reset the CardManager when the game is about to quit
-            //ClearCardList();
-            ClearCardALLList();
-        }
-        private void ClearCardALLList()
-        {
-            cardManagerALL.CardCharacters.Clear();
-            cardManagerALL.CardMachines.Clear();
-        }
-
         public void OnTowerButtonClickedTower(int index)
         {
             List<CardCharacter> cardCharacters = cardManagerALL.CardCharacters;
@@ -86,7 +72,6 @@ namespace UIGameDataManager
         {
             if (AttacktypesTower.TryGetValue(numberType, out var selectedType))
             {
-                Debug.Log("ObjLoading: " + objLoading + "/// numberType: " + selectedType);
                 UpdateCards(objLoading, selectedType);
             }
         }
@@ -162,7 +147,7 @@ namespace UIGameDataManager
             {
                 charScreen.SetCurrentIndex(id);
 
-                //CardStatsPrefab.SetActive(true);
+                CardStatsPrefab.SetActive(true);
 
                 //InstanceCardObject();
 

@@ -74,17 +74,28 @@ public class ShopController : MonoBehaviour
             }
         }
     }
+    [SerializeField] private int rewardResetHours;
+    [SerializeField] private int rewardResetMinutes;
+
     private void Awake()
     {
-        timerHandler = new TimerHandler();
+        timerHandler = new TimerHandler(rewardResetHours, rewardResetMinutes);
+
+        timerHandler.LoadTimer();
+
+        UpdaateAwake();
 
         LoadResourcesItem();
 
         Load(); //Save Data
     }
+
     private void Update()
     {
         timerHandler.UpdateTimer();
+
+        //Debug.Log("timerHandler: " + timerHandler.TimerDelta.TotalSeconds);
+
         if (timerHandler.TimerDelta.TotalSeconds <= 0)
         {
             Debug.Log("Set Purchase");
@@ -97,11 +108,29 @@ public class ShopController : MonoBehaviour
         }
         //Debug.Log("TotalSeconds: " + timerHandler.TimerDelta.TotalSeconds);
     }
+    private void UpdaateAwake()
+    {
+        if(timerHandler.TimerDelta.TotalSeconds <= 0)
+        {
+            UpdateItemShopPurchase();
+            timerHandler.SetNextDay(0, 0);
+            timerHandler.SaveTimer();
+        }
+    }
     void UpdateItemShopPurchase()
     {
         foreach (var shopItem in m_ShopItems)
         {
             shopItem.contentValue = shopItem.maxValue;
+
+            if (shopItem.contentType == ShopItemType.Watch)
+            {
+                int IsCalculate = PlayerPrefs.GetInt(shopItem.itemName);
+                if (IsCalculate == 1)
+                {
+                    PlayerPrefs.SetInt(shopItem.itemName, 0);
+                }
+            }
         }
     }
 
@@ -110,6 +139,7 @@ public class ShopController : MonoBehaviour
         if (!hasFocus) // Mất tiêu điểm
         {
             Save();
+            timerHandler.SaveTimer();
         }
     }
 

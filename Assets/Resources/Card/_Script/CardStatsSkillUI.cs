@@ -24,9 +24,6 @@ public class CardStatsSkillUI : MonoBehaviour
     [SerializeField] Button m_NextSkillButton;
     [SerializeField] Button m_LastSkillButton;
 
-    [SerializeField] Button m_Skill1;
-    [SerializeField] Button m_Skill2;
-
     [Space]
     [SerializeField] TabButtonUI m_TabButtonUI;
 
@@ -49,23 +46,15 @@ public class CardStatsSkillUI : MonoBehaviour
     [SerializeField] GameObject objSkill;
     [SerializeField] Transform panelSkill;
     [SerializeField] Image m_EyeHide;
-    private void Start()
-    {
-        m_LastSkillButton.onClick.AddListener(SelectLastSkill);
-        m_NextSkillButton.onClick.AddListener(SelectNextSkill);
-
-
-    }
     private void OnEnable()
     {
-        if (m_Skill1 != null)
+        if (m_LastSkillButton != null)
         {
-            m_Skill1.onClick.AddListener(SelectSkill);
+            m_LastSkillButton.onClick.AddListener(SelectLastSkill);
         }
-
-        if (m_Skill2 != null)
+        if(m_NextSkillButton != null)
         {
-            m_Skill2.onClick.AddListener(SelectSkill);
+            m_NextSkillButton.onClick.AddListener(SelectNextSkill);
         }
     }
     private void SetTabButtonUISkill()
@@ -182,54 +171,56 @@ public class CardStatsSkillUI : MonoBehaviour
     }
     private void InstanceSkill(SkillSO[] skillSO)
     {
+        // Xóa tất cả các con trong panelSkill
         foreach (Transform child in panelSkill)
         {
             Destroy(child.gameObject);
         }
 
+        // Duyệt qua danh sách skillSO
         for (int i = 0; i < skillSO.Length; i++)
         {
-            GameObject newSkill = Instantiate(objSkill, panelSkill);
-
-
-            m_SkillIcons[i] = newSkill.GetComponent<Image>();
-
-
-
-            if (skillSO[i] != null && skillSO[i].skillUnlock == true)
+            // Chỉ xử lý nếu skillSO[i] không phải null
+            if (skillSO[i] != null)
             {
-                newSkill.transform.Find("Lock").gameObject.SetActive(false);
-                newSkill.transform.GetComponent<Image>().sprite = skillSO[i].sprite;
-                newSkill.transform.GetComponent<Image>().color = defautColor;
-                if(i==0)
+                GameObject newSkill = Instantiate(objSkill, panelSkill);
+                m_SkillIcons[i] = newSkill.GetComponent<Image>();
+
+                if (skillSO[i].skillUnlock)
                 {
-                    m_Skill1 = newSkill.transform.GetComponent<Button>();
+                    newSkill.transform.Find("Lock").gameObject.SetActive(false);
+                    newSkill.transform.GetComponent<Image>().sprite = skillSO[i].sprite;
+                    newSkill.transform.GetComponent<Image>().color = defautColor;
                 }
                 else
                 {
-                    m_Skill2 = newSkill.transform.GetComponent<Button>();
+                    newSkill.transform.Find("Lock").gameObject.SetActive(true);
+                    newSkill.transform.GetComponent<Image>().sprite = skillSO[i].sprite;
+                    newSkill.transform.GetComponent<Image>().color = lockedColor;
                 }
-            }
-            else
-            {
-                newSkill.transform.Find("Lock").gameObject.SetActive(true);
-                newSkill.transform.GetComponent<Image>().sprite = skillSO[i].sprite;
-                newSkill.transform.GetComponent<Image>().color = lockedColor;
+                // Gán nút cho m_Skill1 hoặc m_Skill2
                 if (i == 0)
                 {
-                    m_Skill1 = newSkill.transform.GetComponent<Button>();
+                    Button btn = newSkill.transform.GetComponent<Button>();
+
+                    btn.onClick.AddListener(SelectSkill);
                 }
                 else
                 {
-                    m_Skill2 = newSkill.transform.GetComponent<Button>();
+                    Button btn = newSkill.transform.GetComponent<Button>();
+
+                    btn.onClick.AddListener(SelectSkill);
+
                 }
             }
-
         }
     }
+
     #region Select Skill Animation
     private void SelectLastSkill()
     {
+        Debug.Log("SelectLastSkill");
+
         if (Time.time < timeToNextClick)
             return;
 
@@ -245,6 +236,8 @@ public class CardStatsSkillUI : MonoBehaviour
 
     private void SelectNextSkill()
     {
+        Debug.Log("SelectNextSkill");
+
         if (Time.time < timeToNextClick)
             return;
 
@@ -330,19 +323,6 @@ public class CardStatsSkillUI : MonoBehaviour
         //m_NextTier.text = ;
         m_Description.text = skill.textTemplate;
     }
-    private void InitializeSkillMarker()
-    {
-        if (m_SkillIcons.Length > 0 && m_SkillIcons[0] != null)
-        {
-            // Set its position over the first icon
-            MarkTargetElement(m_SkillIcons[0].rectTransform, 0);
-        }
-        else
-        {
-            Debug.LogError("No skill icons available or first skill icon is null.");
-        }
-    }
-
     private void MarkTargetElement(RectTransform targetElement, int duration)
     {
         // target element, converted into the root space of the Active Frame

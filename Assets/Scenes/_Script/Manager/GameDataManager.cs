@@ -26,6 +26,7 @@ namespace UIGameDataManager
         public ItemReward[] ItemRewards => _itemReward;
 
         private const string QuestMainFolderPath = "GameData/ItemSO";
+        [SerializeField] Rewarded rewarded;
         //LOAD Resources
         private ItemReward[] LoadQuestsFromFolder(string folderPath)
         {
@@ -336,7 +337,7 @@ namespace UIGameDataManager
                 return;
 
             ShopItemType contentType = shopItem.contentType;
-            uint contentValue = shopItem.contentValue;
+            uint contentValue = shopItem.quantityContent;
 
             ReceiveContent(contentType, contentValue);
         }
@@ -402,6 +403,10 @@ namespace UIGameDataManager
             {
                 //On Event
                 return;
+            }
+            if(shopItem.contentType == ShopItemType.Watch)
+            {
+                rewarded.ShowRewardedAd();
             }
 
             // invoke transaction succeeded or failed

@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UIGameDataManager;
 using TMPro;
-using Unity.VisualScripting;
 
 
 // represents one item in the shop
@@ -288,7 +287,6 @@ public class ShopItemComponent: MonoBehaviour
             GetStringWatch(timeCount);
             if (timeCount<=0)
             {
-                lastRestoreTime = DateTime.Now;
                 UpdateBuyButton(true);
                 m_ContentValue.text = "Quantity: " + m_ShopItemData.contentValue.ToString();
                 isWatch = false;
@@ -317,37 +315,35 @@ public class ShopItemComponent: MonoBehaviour
         m_ContentValue.text = $"{minutes:D2}:{seconds:D2}";
     }
 
-    private void OnApplicationFocus(bool hasFocus)
+    //private void OnApplicationFocus(bool hasFocus)
+    //{
+    //    if (!hasFocus)
+    //    {
+    //        if(m_ShopItemData.contentType == ShopItemType.Watch)
+    //        {
+    //            PlayerPrefs.SetInt(m_ShopItemData.itemName, isWatch ? 1 : 0);
+
+    //            Debug.Log("isWatch: " + isWatch);
+    //        }
+    //    }
+    //}
+    private void OnApplicationQuit()
     {
-        if (!hasFocus)
+        if (m_ShopItemData.contentType == ShopItemType.Watch)
         {
             PlayerPrefs.SetInt(m_ShopItemData.itemName, isWatch ? 1 : 0);
-            if (isWatch)
-            {
-                PlayerPrefs.SetString(nameof(lastRestoreTime), DateTime.Now.ToString());
-            }     
         }
     }
-
     public void CalculateWatchStatus()
     {
         int IsCalculate = PlayerPrefs.GetInt(m_ShopItemData.itemName);
 
-        Debug.Log("ISCalculate: " + IsCalculate);
-
         if (IsCalculate == 0) return;
+        lastRestoreTime = DateTime.Parse(PlayerPrefs.GetString(nameof(lastRestoreTime), DateTime.Now.ToString()));
 
-        try
-        {
-            lastRestoreTime = DateTime.Parse(PlayerPrefs.GetString(nameof(lastRestoreTime), DateTime.Now.ToString()));
-        }
-        catch (Exception)
-        {
-            lastRestoreTime = DateTime.Now;
-        }
+        Debug.Log("lastRestoreTime: " + lastRestoreTime);
 
         float elapsedTime = (float)(DateTime.Now - lastRestoreTime).TotalSeconds;
-        Debug.Log("elapsedTime: " + elapsedTime);
 
         if(m_ShopItemData.RestoreInterval <= elapsedTime)
         {
@@ -373,8 +369,8 @@ public class ShopItemComponent: MonoBehaviour
 
         timeCount = m_ShopItemData.RestoreInterval;
         lastRestoreTime = DateTime.Now;
-        UpdateBuyButton(false);
         PlayerPrefs.SetString(nameof(lastRestoreTime), lastRestoreTime.ToString());
+        UpdateBuyButton(false);
     }
 
     private void ShowTimerUI(TimeSpan remainingTime)
