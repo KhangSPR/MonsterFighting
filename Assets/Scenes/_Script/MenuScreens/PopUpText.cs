@@ -1,4 +1,5 @@
 using System.Collections;
+using UIGameDataManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +21,7 @@ public class PopUpText : MonoBehaviour
         EnergyUI.LevelInfoClicked += OnShowhasEnergy;
         LvQuestCtrl.LvQuestCtrlClicked += OnLvQuestCtrl;
         MainQuestCtrl.LvMainCtrlClicked += OnMainQuest;
-
+        GameDataManager.OnPopUpSpin += OnShowhasSpin;
     }
 
     void OnDisable()
@@ -30,7 +31,7 @@ public class PopUpText : MonoBehaviour
         EnergyUI.LevelInfoClicked -= OnShowhasEnergy;
         LvQuestCtrl.LvQuestCtrlClicked -= OnLvQuestCtrl;
         MainQuestCtrl.LvMainCtrlClicked -= OnMainQuest;
-
+        GameDataManager.OnPopUpSpin -= OnShowhasSpin;
     }
 
     protected void Awake()
@@ -129,6 +130,14 @@ public class PopUpText : MonoBehaviour
         m_Duration = 1.2f;
         m_PopUpText.rectTransform.anchoredPosition = position;
         string failMessage = "Not Enough Energy";
+        ShowMessage(failMessage);
+    }
+    void OnShowhasSpin(Vector2 position)
+    {
+        m_Delay = 0f;
+        m_Duration = 1.2f;
+        m_PopUpText.rectTransform.anchoredPosition = position;
+        string failMessage = "Not Enough Magical Crystal";
         ShowMessage(failMessage);
 
     }

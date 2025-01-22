@@ -12,6 +12,9 @@ namespace UIGameDataManager
 
         public static event Action<GameData> ResourcesMapUpdated;
         public static event Action<ShopItemSO, Vector2> TransactionProcessed;
+        public static Action<Vector2> OnPopUpSpin;
+
+        public static event Action<int> OnSpin;
 
         [SerializeField] GameData m_GameData;
         public GameData GameData { set => m_GameData = value; get => m_GameData; }
@@ -26,7 +29,6 @@ namespace UIGameDataManager
         public ItemReward[] ItemRewards => _itemReward;
 
         private const string QuestMainFolderPath = "GameData/ItemSO";
-        [SerializeField] Rewarded rewarded;
         //LOAD Resources
         private ItemReward[] LoadQuestsFromFolder(string folderPath)
         {
@@ -78,6 +80,7 @@ namespace UIGameDataManager
 
 
             ShopController.ShopItemPurchasing += OnPurchaseItem;
+            Spin.OnSpinData += HasSufficientFundsItemSpin;
         }
 
         void OnDisable()
@@ -85,6 +88,8 @@ namespace UIGameDataManager
             GameManager.UpdateResources -= UpdateResources;
 
             ShopController.ShopItemPurchasing -= OnPurchaseItem;
+
+            Spin.OnSpinData -= HasSufficientFundsItemSpin;
         }
         void Start()
         {
@@ -222,7 +227,7 @@ namespace UIGameDataManager
         void AddItem()
         {
             m_GameData.StoneEnemy += 199;
-            m_GameData.StoneBoss += 5;
+            m_GameData.StoneBoss += 12;
             m_GameData.badGe += 35;
 
             m_SaveManager?.SaveGame();
@@ -240,6 +245,19 @@ namespace UIGameDataManager
                 Debug.Log("Update Funds");
             }
         }
+        void HasSufficientFundsItemSpin(int count)
+        {
+            if (count < 0) return;
+            if (GameData.StoneBoss < count)
+            {
+                OnPopUpSpin?.Invoke(transform.position);
+                return; // Không làm gì nếu không đủ tiền
+            }
+            GameData.StoneBoss -= (uint)count;
+            UpdateFunds();
+            OnSpin?.Invoke(count);
+        }
+
         public void ResourceMapUpdated()
         {
             if (m_GameData != null)
@@ -256,7 +274,6 @@ namespace UIGameDataManager
                 Debug.Log("Update Funds");
             }
         }
-   
         bool HasSufficientFunds(ShopItemSO shopItem)
         {
             if (shopItem == null)
@@ -315,13 +332,19 @@ namespace UIGameDataManager
             switch (currencyType)
             {
                 case CurrencyType.EnemyStone:
-                    m_GameData.StoneEnemy -= (uint)resources.Count;
+                    m_GameData.StoneEnemy += (uint)resources.Count;
                     break;
                 case CurrencyType.EnemyBoss:
-                    m_GameData.StoneBoss -= (uint)resources.Count;
+                    m_GameData.StoneBoss += (uint)resources.Count;
+                    break;
+                case CurrencyType.Badge:
+                    m_GameData.badGe += (uint)resources.Count;
                     break;
                 case CurrencyType.Ruby:
-                    m_GameData.ruby -= (uint)resources.Count;
+                    m_GameData.ruby += (uint)resources.Count;
+                    break;
+                case CurrencyType.XP:
+                    PlayerManager.Instance.AddXP((uint)resources.Count);
                     break;
                 case CurrencyType.Watch:
                     break;
@@ -329,7 +352,8 @@ namespace UIGameDataManager
                 case CurrencyType.USD:
                     break;
             }
-            UpdateResources();
+            Debug.Log("Call");
+            UpdateFunds();
         }
         void ReceivePurchasedGoods(ShopItemSO shopItem)
         {
@@ -406,7 +430,7 @@ namespace UIGameDataManager
             }
             if(shopItem.contentType == ShopItemType.Watch)
             {
-                rewarded.ShowRewardedAd();
+                Rewarded.Instance.ShowRewardedAdShop();
             }
 
             // invoke transaction succeeded or failed

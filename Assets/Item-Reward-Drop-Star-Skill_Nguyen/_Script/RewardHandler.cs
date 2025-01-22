@@ -15,19 +15,19 @@ public class RewardHandler : MonoBehaviour
     public Transform panel;
     public Transform vfxReward;
 
-    private TimerHandler timerHandler;
     private Animator animator;
 
     [SerializeField] private int rewardResetHours;
     [SerializeField] private int rewardResetMinutes;
-    [SerializeField] private PaneltemReward paneltemReward;
-    [SerializeField]
-    private bool hasRewardItems = false;
+    [SerializeField] private PanelItemReward paneltemReward;
+
+
+    private RewardTimerHandler timerHandler;
+    [SerializeField] private bool hasRewardItems = false;
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        timerHandler = new TimerHandler(rewardResetHours, rewardResetMinutes);
-        SetActiveReward(false);
+        timerHandler = new RewardTimerHandler();
     }
 
     private void Start()
@@ -37,46 +37,48 @@ public class RewardHandler : MonoBehaviour
     }
     private void ActiveRewardStart()
     {
-        timerHandler.LoadTimer();
-
         hasRewardItems = (timerHandler.TimerDelta.TotalMilliseconds < 0);
-
         SetActiveReward(hasRewardItems);
     }
     private void Update()
     {
         timerHandler.UpdateTimer();
-        ShowTimerUI();
         hasRewardItems = (timerHandler.TimerDelta.TotalMilliseconds < 0);
+        ShowTimerUI();
 
+        if (hasRewardItems)
+        {
+            SetActiveReward(hasRewardItems);
+        }
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            timerHandler.RemoveTimerKey();
             timerHandler.ResetTimer();
-            SetActiveReward(true);
         }
     }
-
+    bool isHasTrue = false;
     private void SetActiveReward(bool active)
     {
+        if (isHasTrue) return;
         vfxReward.gameObject.SetActive(active);
         animator.Rebind();      
         animator.enabled = active;
         btnDone.gameObject.SetActive(active);
+        if(active)
+            isHasTrue = true;
+        Debug.Log("Set SetActiveReward");
     }
 
     private void ShowTimerUI()
     {
         textTimer.text = hasRewardItems ? "" : timerHandler.GetTimerString();
-
-        //Debug.Log("Timer Handerler: "+ hasRewardItems);
     }
     public void RewardItem()
     {
-        timerHandler.SetNextDay(rewardResetHours, rewardResetMinutes);
-        ShowPanelUI();
+        isHasTrue = false;
+        timerHandler.SetNextDay000(rewardResetHours, rewardResetMinutes);
         timerHandler.SaveTimer();
+        ShowPanelUI();
         SetActiveReward(false);
     }
 

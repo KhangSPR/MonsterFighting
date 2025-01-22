@@ -29,8 +29,14 @@ public class ShopController : MonoBehaviour
     List<ShopItemSO> m_ItemShopItems = new List<ShopItemSO>();
     List<ShopItemSO> m_RubyShopItems = new List<ShopItemSO>();
 
-    private TimerHandler timerHandler;
-
+    private ShopTimerHandler timerHandler;
+    [SerializeField] private int rewardResetHours;
+    [SerializeField] private int rewardResetMinutes;
+    void Start()
+    {
+        LoadShopDataItem();
+        UpdateViewItems();
+    }
     void OnEnable()
     {
         ShopItemComponent.ShopItemClicked += OnTryBuyItem;
@@ -40,53 +46,23 @@ public class ShopController : MonoBehaviour
     {
         ShopItemComponent.ShopItemClicked -= OnTryBuyItem;
     }
-    private void Save()
+    private void OnApplicationFocus(bool hasFocus) //APly Android
     {
-        foreach (var shopItem in m_ShopItems)
+        if (!hasFocus) // Mất tiêu điểm
         {
-            PlayerPrefs.SetInt(shopItem.ID, (int)shopItem.contentValue);
-        }
-        PlayerPrefs.Save(); 
-    }
-
-    private void Load()
-    {
-        foreach (var shopItem in m_ShopItems)
-        {
-            if (PlayerPrefs.HasKey(shopItem.ID)) 
-            {
-                int contentValue = PlayerPrefs.GetInt(shopItem.ID);
-
-                if (contentValue > 0) 
-                {
-                    if (contentValue > shopItem.maxValue)
-                    {
-                        contentValue = (int)shopItem.maxValue;
-                    }
-                    shopItem.contentValue = (uint)contentValue; 
-                }
-                else
-                {
-                    shopItem.contentValue = 5; //Repair
-                    //Reload when day passes
-                    //shopItem.contentValue = (uint)shopItem.maxValue;
-                }
-            }
+            Save(); 
         }
     }
-    [SerializeField] private int rewardResetHours;
-    [SerializeField] private int rewardResetMinutes;
+    private void OnApplicationQuit()
+    {
+        Save();
+    }
+    #region ShopTimerHandler
 
     private void Awake()
     {
-        timerHandler = new TimerHandler(rewardResetHours, rewardResetMinutes);
-
-        timerHandler.LoadTimer();
-
-        UpdaateAwake();
-
+        timerHandler = new ShopTimerHandler();
         LoadResourcesItem();
-
         Load(); //Save Data
     }
 
@@ -94,27 +70,14 @@ public class ShopController : MonoBehaviour
     {
         timerHandler.UpdateTimer();
 
-        //Debug.Log("timerHandler: " + timerHandler.TimerDelta.TotalSeconds);
-
         if (timerHandler.TimerDelta.TotalSeconds <= 0)
         {
-            Debug.Log("Set Purchase");
             UpdateItemShopPurchase();
-
             UpdateViewItems();
+            timerHandler.SetNextDay000(0, 0);
+            timerHandler.SaveTimer();
 
-            timerHandler.SetNextDay(0, 0); 
-            timerHandler.SaveTimer();
-        }
-        //Debug.Log("TotalSeconds: " + timerHandler.TimerDelta.TotalSeconds);
-    }
-    private void UpdaateAwake()
-    {
-        if(timerHandler.TimerDelta.TotalSeconds <= 0)
-        {
-            UpdateItemShopPurchase();
-            timerHandler.SetNextDay(0, 0);
-            timerHandler.SaveTimer();
+            Debug.Log("Update ShopTimerHandle");
         }
     }
     void UpdateItemShopPurchase()
@@ -125,7 +88,7 @@ public class ShopController : MonoBehaviour
 
             if (shopItem.contentType == ShopItemType.Watch)
             {
-                int IsCalculate = PlayerPrefs.GetInt(shopItem.itemName);
+                int IsCalculate = PlayerPrefs.GetInt("WatchItem");
                 if (IsCalculate == 1)
                 {
                     PlayerPrefs.SetInt(shopItem.itemName, 0);
@@ -133,23 +96,8 @@ public class ShopController : MonoBehaviour
             }
         }
     }
-
-    private void OnApplicationFocus(bool hasFocus) //APly Android
-    {
-        if (!hasFocus) // Mất tiêu điểm
-        {
-            Save();
-            timerHandler.SaveTimer();
-        }
-    }
-
-    void Start()
-    {
-        LoadShopDataItem();
-
-
-        UpdateViewItems();
-    }
+    #endregion
+    #region LoadItemShopUI
     private void LoadResourcesItem()
     {
         // load the ScriptableObjects from the Resources directory (default = Resources/GameData/MailMessages)
@@ -196,4 +144,41 @@ public class ShopController : MonoBehaviour
         // notify other objects we are trying to buy an item
         ShopItemPurchasing?.Invoke(shopItemData, shopItemComponent, screenPos);
     }
+    #endregion
+    #region Load - Save Resources
+    private void Save()
+    {
+        foreach (var shopItem in m_ShopItems)
+        {
+            PlayerPrefs.SetInt(shopItem.ID, (int)shopItem.contentValue);
+        }
+        PlayerPrefs.Save();
+    }
+
+    private void Load()
+    {
+        foreach (var shopItem in m_ShopItems)
+        {
+            if (PlayerPrefs.HasKey(shopItem.ID))
+            {
+                int contentValue = PlayerPrefs.GetInt(shopItem.ID);
+
+                if (contentValue > 0)
+                {
+                    if (contentValue > shopItem.maxValue)
+                    {
+                        contentValue = (int)shopItem.maxValue;
+                    }
+                    shopItem.contentValue = (uint)contentValue;
+                }
+                else
+                {
+                    shopItem.contentValue = 5; //Repair
+                    //Reload when day passes
+                    //shopItem.contentValue = (uint)shopItem.maxValue;
+                }
+            }
+        }
+    }
+    #endregion
 }

@@ -3,10 +3,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UIGameDataManager;
 using TMPro;
+using System.Threading;
 
 
 // represents one item in the shop
-public class ShopItemComponent: MonoBehaviour
+public class ShopItemComponent : MonoBehaviour
 {
     // notify the ShopScreenController to buy product (passes the ShopItem data + UI element screen position)
     public static event Action<ShopItemSO, ShopItemComponent, Vector2> ShopItemClicked;
@@ -75,34 +76,6 @@ public class ShopItemComponent: MonoBehaviour
         m_ShopItemData = shopItemData;
 
     }
-    //public void SetUI(GameObject shopItemElement)
-    //{
-    //    // query the parts of the ShopItemElement
-    //    m_SizeContainer = shopItemElement.transform.Find(k_ParentContainer).gameObject;
-    //    m_Description = shopItemElement.transform.Find(k_Description).GetComponent<Text>();
-    //    m_ProductImage = shopItemElement.transform.Find(k_ProductImage).GetComponent<Image>();
-
-    //    //m_DiscountBadge = shopItemElement.transform.Find(k_DiscountBadge).gameObject;
-    //    //m_DiscountLabel = shopItemElement.transform.Find(k_DiscountLabel).GetComponent<Text>();
-
-    //    m_ContentGroup = shopItemElement.transform.Find(k_ContentGroup).gameObject;
-    //    m_ContentIcon = shopItemElement.transform.Find(k_ContentIcon).GetComponent<Image>();
-    //    m_ContentValue = shopItemElement.transform.Find(k_ContentValue).GetComponent<Text>();
-
-    //    //m_DiscountSlash = shopItemElement.transform.Find(k_DiscountSlash).gameObject;
-    //    //m_DiscountIcon = shopItemElement.transform.Find(k_DiscountIcon).GetComponent<Image>();
-    //    //m_DiscountGroup = shopItemElement.transform.Find(k_DiscountGroup).gameObject;
-    //    //m_DiscountCost = shopItemElement.transform.Find(k_DiscountPrice).GetComponent<Text>();
-
-    //    m_CostIcon = shopItemElement.transform.Find(k_CostIcon).GetComponent<Image>();
-    //    m_CostPrice = shopItemElement.transform.Find(k_CostPrice).GetComponent<Text>();
-    //    m_CostGroup = shopItemElement.transform.Find(k_CostGroup).gameObject;
-
-    //    m_BuyButton = shopItemElement.transform.Find(k_BuyButton).GetComponent<Button>();
-
-
-    //}
-    // show the ScriptableObject data
     public void SetGameData(GameObject shopItemElement)
     {
         if (m_GameIconsData == null)
@@ -144,22 +117,10 @@ public class ShopItemComponent: MonoBehaviour
 
         MoveObject_Cost(moveDistance);
     }
-    void DigitCount_Content(int digitCount)
-    {
-        float moveDistance = -5f * digitCount;
-
-        MoveObject_Content(moveDistance);
-    }
-
     void MoveObject_Cost(float movement)
     {
         // Lấy RectTransform của m_CostIconGroup
         m_CostIconGroup.GetComponent<RectTransform>().localPosition = new Vector2(movement, m_CostIconGroup.GetComponent<RectTransform>().localPosition.y);
-    }
-    void MoveObject_Content(float movement)
-    {
-        //m_ContentIconGroup.GetComponent<RectTransform>().localPosition = new Vector2(movement, m_ContentIconGroup.GetComponent<RectTransform>().localPosition.y);
-
     }
     // format the cost and cost currency
     void FormatBuyButton()
@@ -187,9 +148,9 @@ public class ShopItemComponent: MonoBehaviour
             {
                 DigitCount_Cost(digitCount_Cost);
             }
-            if(digitCount_Content > 1)
+            if (digitCount_Content > 1)
             {
-                DigitCount_Content(digitCount_Content);
+                //DigitCount_Content(digitCount_Content);
             }
 
             Sprite currencySprite = m_GameIconsData.GetCurrencyIcon(m_ShopItemData.CostInCurrencyType);
@@ -254,131 +215,82 @@ public class ShopItemComponent: MonoBehaviour
         // Play a button click sound
         //AudioManager.PlayDefaultButtonSound();
     }
-    //void CheckWatch()
-    //{
-    //    if(isWatch)
-    //    {
-
-    //    }
-    //}
-    public DateTime TimerNow;
-    public DateTime TimerNextDay;
-    public TimeSpan TimerDelta;
-
-    private void Awake()
-    {
-        TimerNow = DateTime.Now;
-        TimerNextDay = TimerNow.AddDays(1).Date; // Nửa đêm ngày mai
-        TimerNextDay = new DateTime(TimerNow.Year, TimerNow.Month, TimerNow.Day, 0, 0, 0);
-    }
-    [SerializeField]
-    float timeCount;
-    [SerializeField]
-    bool isWatch = false;
+    private WatchTimerHandler timerHandler;
+    [SerializeField] private bool isWatch = false;
     public bool IsWatch => isWatch;
-    DateTime lastRestoreTime;
-
+    private bool hasWatchItems = false;
     private void Update()
     {
         //Watch
         if (isWatch)
         {
-            timeCount -= Time.deltaTime;
-            GetStringWatch(timeCount);
-            if (timeCount<=0)
-            {
-                UpdateBuyButton(true);
-                m_ContentValue.text = "Quantity: " + m_ShopItemData.contentValue.ToString();
-                isWatch = false;
-
-                if(m_ShopItemData.contentValue <=0)
-                {
-                    UpdateBuyButton(false);
-                }
-            }
+            timerHandler.UpdateTimer();
+            hasWatchItems = (timerHandler.TimerDelta.TotalMilliseconds < 0);
+            ShowTimerUIWatch(); //Update Timer
+            HandleItemWatch(); //Handler Item
             return;
         }
-
         if (m_ShopItemData?.contentValue > 0)
         {
             return;
         }
-
         DateTime timerNow = DateTime.Now;
         TimeSpan remainingTime = TimeSpan.FromHours(24) - timerNow.TimeOfDay;
         ShowTimerUI(remainingTime);
     }
-    private void GetStringWatch(float timeCount)
+    private void ShowTimerUIWatch()
     {
-        int minutes = (int)(timeCount / 60);
-        int seconds = (int)(timeCount % 60);
-        m_ContentValue.text = $"{minutes:D2}:{seconds:D2}";
+        m_ContentValue.text = hasWatchItems ? "" : timerHandler.GetTimerWatch();
     }
-
-    //private void OnApplicationFocus(bool hasFocus)
-    //{
-    //    if (!hasFocus)
-    //    {
-    //        if(m_ShopItemData.contentType == ShopItemType.Watch)
-    //        {
-    //            PlayerPrefs.SetInt(m_ShopItemData.itemName, isWatch ? 1 : 0);
-
-    //            Debug.Log("isWatch: " + isWatch);
-    //        }
-    //    }
-    //}
-    private void OnApplicationQuit()
+    private void OnApplicationQuit() //Repair Android
     {
         if (m_ShopItemData.contentType == ShopItemType.Watch)
         {
-            PlayerPrefs.SetInt(m_ShopItemData.itemName, isWatch ? 1 : 0);
+            PlayerPrefs.SetInt("WatchItem", isWatch ? 1 : 0);
+            PlayerPrefs.Save();  
+        }
+
+    }
+    private void HandleItemWatch()
+    {
+        if (hasWatchItems)
+        {
+            UpdateBuyButton(true);
+            m_ContentValue.text = "Quantity: " + m_ShopItemData.contentValue.ToString();
+            isWatch = false;
         }
     }
     public void CalculateWatchStatus()
     {
-        int IsCalculate = PlayerPrefs.GetInt(m_ShopItemData.itemName);
-
+        timerHandler = new WatchTimerHandler();
+        int IsCalculate = PlayerPrefs.GetInt("WatchItem");
         if (IsCalculate == 0) return;
-        lastRestoreTime = DateTime.Parse(PlayerPrefs.GetString(nameof(lastRestoreTime), DateTime.Now.ToString()));
 
-        Debug.Log("lastRestoreTime: " + lastRestoreTime);
-
-        float elapsedTime = (float)(DateTime.Now - lastRestoreTime).TotalSeconds;
-
-        if(m_ShopItemData.RestoreInterval <= elapsedTime)
+        if (timerHandler.TimerDelta.TotalSeconds < 0)
         {
             isWatch = false;
         }
         else
         {
-            timeCount = m_ShopItemData.RestoreInterval - elapsedTime;
             UpdateBuyButton(false);
             isWatch = true;
         }
     }
     public void StartWatch()
     {
-        if(m_ShopItemData.contentValue <= 0)
-        {
-            isWatch = false;
-        }
+        if (m_ShopItemData.contentValue <= 0)
+            isWatch = false; //Hasn't enough ContentValue
         else
-        {
-            isWatch = true;
-        }
-
-        timeCount = m_ShopItemData.RestoreInterval;
-        lastRestoreTime = DateTime.Now;
-        PlayerPrefs.SetString(nameof(lastRestoreTime), lastRestoreTime.ToString());
+            isWatch = true; //Has enough ContentValue
+        timerHandler.SetWatch(m_ShopItemData.RestoreInterval);
+        timerHandler.SaveTimer();
         UpdateBuyButton(false);
     }
-
     private void ShowTimerUI(TimeSpan remainingTime)
     {
         // Định dạng chuỗi để hiển thị thời gian còn lại
         m_ContentValue.text = $"{remainingTime.Hours:D2}:{remainingTime.Minutes:D2}:{remainingTime.Seconds:D2}";
     }
-
 }
 
 

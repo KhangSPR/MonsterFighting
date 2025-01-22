@@ -103,6 +103,7 @@ public class ShopScreen: MonoBehaviour
         {
             CreateShopItemElement(shopItem, parentTab);
         }
+
     }
     void CreateShopItemElement(ShopItemSO shopItemData, GameObject parentElement)
     {

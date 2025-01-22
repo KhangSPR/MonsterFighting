@@ -25,7 +25,8 @@ public enum CurrencyType
     Energy,
     Ruby,
     Watch,
-    USD
+    USD,
+    XP
 }
 
 [CreateAssetMenu(fileName = "Assets/Resources/GameData/ShopItems/ShopItemGameData", menuName = "GameData/ShopItem", order = 1)]

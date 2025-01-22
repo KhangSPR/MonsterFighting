@@ -48,7 +48,7 @@ public class QuestUIDisPlay : SaiMonoBehaviour
     private QuestAbstractSO currentQuestSO;
 
     [SerializeField] QuestBaseUI questBaseUI;
-    [SerializeField] PaneltemReward paneltemReward;
+    [SerializeField] PanelItemReward paneltemReward;
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -56,14 +56,14 @@ public class QuestUIDisPlay : SaiMonoBehaviour
         {
             ShowQuestDetails(currentQuestSO);
         }
-        PaneltemReward.OnActivePanelItemReward += SetButton;
-        PaneltemReward.OnResetCompleteQuest += ResetCompleteQuest;
+        PanelItemReward.OnActivePanelItemReward += SetButton;
+        PanelItemReward.OnResetCompleteQuest += ResetCompleteQuest;
     }
     protected override void OnDisable()
     {
         base.OnDisable();
-        PaneltemReward.OnActivePanelItemReward -= SetButton;
-        PaneltemReward.OnResetCompleteQuest -= ResetCompleteQuest;
+        PanelItemReward.OnActivePanelItemReward -= SetButton;
+        PanelItemReward.OnResetCompleteQuest -= ResetCompleteQuest;
     }
     protected override void Start()
     {

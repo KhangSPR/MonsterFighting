@@ -1,11 +1,19 @@
 ﻿using GoogleMobileAds;
 using GoogleMobileAds.Api;
 using System;
+using UIGameDataManager;
 using UnityEngine;
 
 public class Rewarded : MonoBehaviour
 {
     [SerializeField] GameObject shop;
+    private static Rewarded instance;
+    public static Rewarded Instance => instance;
+    void Awake()
+    {
+        if (instance != null) Debug.LogError("Onlly 1 Rewarded Warning");
+        instance = this;
+    }
     public void Start()
     {
         // Initialize the Google Mobile Ads SDK.
@@ -109,7 +117,7 @@ public class Rewarded : MonoBehaviour
         };
     }
 
-    public void ShowRewardedAd()
+    public void ShowRewardedAdShop()
     {
         if (_rewardedAd != null && _rewardedAd.CanShowAd())
         {
@@ -128,5 +136,23 @@ public class Rewarded : MonoBehaviour
             Debug.LogWarning("Ad not ready to show.");
         }
     }
+    public void ShowRewardedAd()
+    {
+        if (_rewardedAd != null && _rewardedAd.CanShowAd())
+        {
+            _rewardedAd.Show((Reward reward) =>
+            {
+                Debug.Log(String.Format("Rewarded ad rewarded the user. Type: {0}, amount: {1}.", reward.Type, reward.Amount));
+            });
 
+            _rewardedAd.OnAdFullScreenContentClosed += () =>
+            {
+
+            };
+        }
+        else
+        {
+            Debug.LogWarning("Ad not ready to show.");
+        }
+    }
 }

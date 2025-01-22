@@ -146,7 +146,7 @@ public class Tooltip_Item : MonoBehaviour
                     ShowTooltip_StaticInventory(itemObject);
 
                     ItemTooltipInventory itemTooltipInventory = transform.GetComponent<ItemTooltipInventory>();
-
+                    if (itemTooltipInventory == null) return;
                     if (itemTooltipInventory.DisplayInventory == null) return;
 
                     transform.GetComponent<ItemTooltipInventory>().SetLableItem(true);
@@ -156,7 +156,7 @@ public class Tooltip_Item : MonoBehaviour
                     HideTooltip_Static();
 
                     ItemTooltipInventory itemTooltipInventory = transform.GetComponent<ItemTooltipInventory>();
-
+                    if (itemTooltipInventory == null) return;
                     if (itemTooltipInventory.DisplayInventory == null) return;
 
                     transform.GetComponent<ItemTooltipInventory>().SetLableItem(false);

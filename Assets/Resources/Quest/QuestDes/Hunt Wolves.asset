@@ -19,10 +19,12 @@ MonoBehaviour:
   objectives:
   - ID: ENEMYWOLF01
     requiredCount: 5
-    currentCount: 3
+    currentCount: 5
     requiredText: Defeat /5 wolves.
     type: 0
   Reward:
+  - item: {fileID: 11400000, guid: 045f1bb8a8becec4097faa4f1f2fb2f5, type: 2}
+    Count: 5
   - item: {fileID: 11400000, guid: fa05bb5dc35cee845aebc20b9517cbcc, type: 2}
     Count: 3
   - item: {fileID: 11400000, guid: fe762ba39679d0542957fed31718ba11, type: 2}

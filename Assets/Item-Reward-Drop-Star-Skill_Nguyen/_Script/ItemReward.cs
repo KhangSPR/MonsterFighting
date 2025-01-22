@@ -7,6 +7,7 @@ public class ItemReward : ScriptableObject
 {
     public string ID;
     [SerializeField] private string itemName;
+    [TextArea(15, 20)]
     [SerializeField] private string itemDescription;
     [SerializeField] private Sprite image;
     [SerializeField] private CurrencyType currencyType;

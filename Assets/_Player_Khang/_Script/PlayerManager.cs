@@ -168,7 +168,7 @@ public class PlayerManager : MonoBehaviour
         lvPlayer = 1;
         currentXP = 0;
     }
-    private void AddXP(uint xp)
+    public void AddXP(uint xp)
     {
         CurrentXP += xp;
     }
