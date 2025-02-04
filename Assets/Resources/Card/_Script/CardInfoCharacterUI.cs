@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class CardInfoCharacterUI : MonoBehaviour
 {
+    [SerializeField] Image m_FrameAvatar;
+    [SerializeField] Image m_FrameName;
     [SerializeField] Image m_Avatar;
     [SerializeField] TMP_Text m_NameText;
     [SerializeField] Button m_nextCharacterBtn;
@@ -24,15 +26,17 @@ public class CardInfoCharacterUI : MonoBehaviour
     }
     private void OnClickNext()
     {
-        OnNextCharacter?.Invoke();
+        OnPreviousCharacter?.Invoke();
     }
     private void OnClickPrevious()
     {
-        OnPreviousCharacter?.Invoke();
+        OnNextCharacter?.Invoke();
     }
     public void SetInfo(CardCharacter cardCharacter)
     {
-        m_Avatar.sprite = cardCharacter.background;
+        m_FrameAvatar.sprite = cardCharacter.background;
+        m_FrameName.sprite = cardCharacter._frameCardName;
+        m_Avatar.sprite = cardCharacter.frame;
         m_NameText.text = cardCharacter.nameCard;
     }
 }

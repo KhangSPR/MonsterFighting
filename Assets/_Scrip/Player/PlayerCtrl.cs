@@ -10,6 +10,8 @@ public class PlayerCtrl : ObjectCtrl
     public PlayerAttack PlayerAttack => playerAttack;
     [SerializeField] protected PlayerShooter playerShooter;
     public PlayerShooter PlayerShooter => playerShooter;
+    [SerializeField] protected PlayerAttackSkill playerAttackSkill;
+    public PlayerAttackSkill PlayerAttackSkill => playerAttackSkill;
     //[SerializeField] protected PlayerAction playerAction;
     //public PlayerAction PlayerAction => playerAction;
     private Vector3Int cellPosition;
@@ -60,6 +62,7 @@ public class PlayerCtrl : ObjectCtrl
         float dmg1 = skill1 != null ? skill1.damage : 0f;
         bool lockSkill1 = skill1 != null ? skill1.skillUnlock : false;
         float distanceAttack1 = skill1 != null ? skill1.distanceAttack : 0f;
+        int countSkill1 = skill1 != null ? skill1.countSkill : 0;
         ISkill classSkill1 = skill1 != null ? skill1.GetSkillInstance() : null;
 
         // Skill 2
@@ -68,10 +71,11 @@ public class PlayerCtrl : ObjectCtrl
         bool lockSkill2 = skill2 != null ? skill2.skillUnlock : false;
         float dmg2 = skill2 != null ? skill2.damage : 0f;
         float distanceAttack2 = skill2 != null ? skill2.distanceAttack : 0f;
+        int countSkill2 = skill2 != null ? skill2.countSkill : 0;
         ISkill classSkill2 = lockSkill2 && skill2 != null ? skill2.GetSkillInstance() : null;
 
         // Call Function SetSkill for AbstractModel
-        this.abstractModel.SetSkill(manaSkill1, lockSkill1, dmg1, classSkill1, distanceAttack1, manaSkill2, lockSkill2, dmg2, classSkill2, distanceAttack2);
+        this.abstractModel.SetSkill(manaSkill1, lockSkill1, dmg1, classSkill1, distanceAttack1, countSkill1, manaSkill2, lockSkill2, dmg2, classSkill2, distanceAttack2, countSkill2);
     }
 
 
@@ -117,6 +121,7 @@ public class PlayerCtrl : ObjectCtrl
         this.LoadPlayerShooter();
         this.LoadTargetBar();
         this.LoadObjTile();
+        this.LoadPlayerAttackSkill();
         //this.LoadPlayerAction();
     }
     //protected virtual void LoadPlayerAction()
@@ -125,6 +130,12 @@ public class PlayerCtrl : ObjectCtrl
     //    playerAction = transform.GetComponentInChildren<PlayerAction>();
     //    Debug.Log(gameObject.name + ": LoadPlayerAction" + gameObject);
     //}
+    protected virtual void LoadPlayerAttackSkill()
+    {
+        if (playerAttackSkill != null) return;
+        playerAttackSkill = transform.GetComponentInChildren<PlayerAttackSkill>();
+        Debug.Log(gameObject.name + ": LoadPlayerAttackSkill" + gameObject);
+    }
     protected virtual void LoadObjTile()
     {
         if (objTile != null) return;

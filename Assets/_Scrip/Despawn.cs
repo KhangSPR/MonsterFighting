@@ -4,13 +4,13 @@ using UnityEngine;
 
 public abstract class Despawn : SaiMonoBehaviour
 {
-
+    [SerializeField]
     protected bool canDespawnFlag = false;
 
     private void FixedUpdate()
     {
+      /*  this.canDespawn();*/ //Repair
         this.Despawning();
-        this.canDespawn();
 
     }
 
@@ -21,14 +21,15 @@ public abstract class Despawn : SaiMonoBehaviour
         this.canDespawnFlag = false;
     }
 
-    protected virtual void deSpawnObjParent()
-    {
-        Destroy(transform.parent.gameObject);
-    }
+    protected abstract void deSpawnObjParent();
+    //{
+    //    //Destroy(transform.parent.gameObject);
+    //}
     public void ResetCanDespawnFlag()
     {
         this.canDespawnFlag = true;
 
+        Debug.Log("ResetCanDespawnFlag");
         //transform.parent.gameObject.SetActive(false);
     }
     protected abstract bool canDespawn();

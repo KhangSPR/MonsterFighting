@@ -31,7 +31,7 @@ public class FXImpact : SkillAbstract
 
         if (collision.transform.parent == null) return;
 
-        if (collision.name == "CanAttack" || collision.name == "ObjMelee") return;
+        if (collision.name != "Modle") return;
 
         // Check if the parent of the collider is tagged "Enemy"
         if (this.skillCtrl.ObjectCtrl != null)
@@ -90,6 +90,8 @@ public class FXImpact : SkillAbstract
     protected void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.transform.parent == null) return;
+        if (collision.name != "Modle") return;
+
 
         if (this.skillCtrl.ObjectCtrl.transform.CompareTag("Player"))
         {

@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class CardHasSelect : MonoBehaviour
 {
-    [SerializeField] GameObject card;
-    public GameObject Card => card;
+    [SerializeField] public GameObject Card;
     [SerializeField] CardCharacter cardTower;
     [SerializeField] Button_UI button;
 
     [Header("UI Setting")]
     [SerializeField] Image Background;
     [SerializeField] Image Frame;
+    [SerializeField] Image FrameName;
     [SerializeField] TMP_Text Name;
 
     public CardCharacter CardTower
@@ -37,5 +37,6 @@ public class CardHasSelect : MonoBehaviour
         Background.sprite = cardTower.background;
         Frame.sprite = cardTower.frame;
         Name.text = cardTower.nameCard;
+        FrameName.sprite = cardTower._frameCardName;
     }
 }

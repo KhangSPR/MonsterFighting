@@ -12,7 +12,7 @@ public class ButtonCard : MonoBehaviour
     [SerializeField] BtnUI buttonUI;
     public BtnUI ButtonUI => buttonUI;
 
-    public static event Action<int, Vector2> CardClicked;
+    public static event Action<int> CardClicked;
 
     private void Start()
     {
@@ -31,12 +31,7 @@ public class ButtonCard : MonoBehaviour
     void Action()
     {
         Debug.Log("Action");
-        Vector2 screenPos = button.gameObject.GetComponent<RectTransform>().position;
-
-
-
-        Debug.Log(screenPos);
-
-        CardClicked?.Invoke(CardManager.Instance.PanelCardHasSelect.CountCardNotSelect(), screenPos);
+        //Vector2 screenPos = button.gameObject.GetComponent<RectTransform>().position;
+        CardClicked?.Invoke(CardManager.Instance.PanelCardHasSelect.CountCardNotSelect());
     }
 }

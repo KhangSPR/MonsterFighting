@@ -66,8 +66,8 @@ namespace UIGameDataManager
 
             UpdateCharacterStats(characterToShow);
 
-            if(characterToShow.PreviewInstance != null)
-                characterToShow.PreviewInstance?.gameObject.SetActive(true);
+            //if(characterToShow.PreviewInstance != null)
+            //    characterToShow.PreviewInstance?.gameObject.SetActive(true);
 
         }
         public void UpdateCharacterStats(CharacterData characterToShow)

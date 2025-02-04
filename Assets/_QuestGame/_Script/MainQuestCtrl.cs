@@ -62,7 +62,7 @@ public class MainQuestCtrl : MonoBehaviour
 
     }
     public string NameQuestRequiredMain = null;
-    public static event Action<Vector2, string> LvMainCtrlClicked;
+    public static event Action<string> LvMainCtrlClicked;
 
     void Start()
     {
@@ -84,7 +84,7 @@ public class MainQuestCtrl : MonoBehaviour
         }
         else
         {
-            LvMainCtrlClicked?.Invoke(transform.position, NameQuestRequiredMain);
+            LvMainCtrlClicked?.Invoke(NameQuestRequiredMain);
         }
     }
     public void InitializeMenuItems()

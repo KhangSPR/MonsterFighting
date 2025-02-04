@@ -102,7 +102,7 @@ public class TextDamage : SaiMonoBehaviour
     {
         return type switch
         {
-            SkillType.Fire => Color.red,
+            SkillType.Fire => new Color(1f, 0.55f, 0f), // #FF8C00 - Dark Orange (Cam lửa nóng)
             SkillType.Glace => new Color32(128, 175, 255, 255),
             SkillType.Miss => new Color32(0, 191, 255, 255),
             SkillType.Stone => Color.gray + Color.red + Color.yellow,

@@ -14,8 +14,9 @@ public class PanelItemReward : MonoBehaviour
     public static Action<bool> OnActivePanelItemReward;
     public static Action OnResetCompleteQuest;
 
-    void OnEnable()
+    void Start()
     {
+        if (panels.Count <= 0) return;
         // Gán hàm xử lý sự kiện cho tất cả các panel
         foreach (GameObject panel in panels)
         {

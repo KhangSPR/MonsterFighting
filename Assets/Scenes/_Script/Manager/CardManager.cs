@@ -52,7 +52,13 @@ public class CardManager : MonoBehaviour
         cardManagerALL.LoadSumALLCard();
         cardManagerDataPlay.LoadData();
     }
-
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            PlayerPrefs.DeleteKey("SavedCardCharacters");
+        }
+    }
     private void OnApplicationFocus(bool hasFocus) //APly Android
     {
         if (!hasFocus) // Mất tiêu điểm
@@ -115,18 +121,10 @@ public class CardManager : MonoBehaviour
             //Set CardSelectTower script
             CardSelectTower cardSelectTowerScript = cardObject.GetComponent<CardSelectTower>();
 
-            cardSelectTowerScript.CardTower = card;
+            cardSelectTowerScript.SetUICard(card);
 
             //Take Card Select Play
             TakeCardSelectPlay(cardSelectTowerScript);
-
-            //Settings
-            //cardObject.transform.Find("Frame").GetComponent<Image>().sprite = card.frame;
-            cardObject.transform.Find("Background").GetComponent<Image>().sprite = card.background;
-            //cardObject.transform.Find("Top/Avatar").GetComponent<Image>().sprite = card.avatar;
-
-            cardObject.transform.Find("Name").GetComponent<TMP_Text>().text = card.nameCard;
-
         }
     }
     public void InstanceCardSlot()
@@ -153,16 +151,36 @@ public class CardManager : MonoBehaviour
     }
     public void AddPanel(CardCharacter cardTower, CardSelectTower cardSelectTower)
     {
+        Debug.Log("PanelCardHasSelect: " + PanelCardHasSelect.CardHasSelects.Count);
         for (int i = 0; i < PanelCardHasSelect.CardHasSelects.Count; i++)
         {
             CardHasSelect cardHasSelect = PanelCardHasSelect.CardHasSelects[i];
+
+            // Kiểm tra nếu Card đã bị hủy
+            if (cardHasSelect.Card == null)
+            {
+                continue;
+            }
+
             if (!cardHasSelect.Card.activeSelf)
             {
                 cardHasSelect.cardSelectTower = cardSelectTower;
                 cardHasSelect.CardTower = cardTower;
                 cardHasSelect.SettingCard(cardTower);
-                cardHasSelect.Card.SetActive(true);
-                cardHasSelect.Card.transform.DOMove(cardHasSelect.Card.transform.position, 0.3f).From(cardSelectTower.transform.position).SetEase(Ease.InOutCirc);
+
+                // Kiểm tra lại trước khi kích hoạt
+                if (cardHasSelect.Card != null)
+                {
+                    cardHasSelect.Card.SetActive(true);
+
+                    // Kiểm tra lại trước khi thực hiện DOTween
+                    if (cardHasSelect.Card.transform != null && cardSelectTower.transform != null)
+                    {
+                        cardHasSelect.Card.transform.DOMove(
+                            cardHasSelect.Card.transform.position, 0.3f
+                        ).From(cardSelectTower.transform.position).SetEase(Ease.InOutCirc);
+                    }
+                }
 
                 //Card Check Enough
                 PanelCardHasSelect.CheckForEnoughCard();
@@ -170,6 +188,7 @@ public class CardManager : MonoBehaviour
             }
         }
     }
+
     public void RemovePanel(CardHasSelect cardHasSelect)
     {
         for (int i = 0; i < PanelCardHasSelect.CardHasSelects.Count; i++)

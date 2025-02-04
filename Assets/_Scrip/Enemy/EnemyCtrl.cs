@@ -160,6 +160,7 @@ public class EnemyCtrl : ObjectCtrl
         float dmg1 = skill1 != null ? skill1.damage : 0f;
         bool lockSkill1 = skill1 != null ? skill1.skillUnlock : false;
         float distanceAttack1 = skill1 != null ? skill1.distanceAttack : 0f;
+        int countSkill1 = skill1 != null ? skill1.countSkill : 0;
         ISkill classSkill1 = skill1 != null ? skill1.GetSkillInstance() : null;
 
         // Skill 2
@@ -168,10 +169,11 @@ public class EnemyCtrl : ObjectCtrl
         bool lockSkill2 = skill2 != null ? skill2.skillUnlock : false;
         float dmg2 = skill2 != null ? skill2.damage : 0f;
         float distanceAttack2 = skill2 != null ? skill2.distanceAttack : 0f;
+        int countSkill2 = skill2 != null ? skill2.countSkill : 0;
         ISkill classSkill2 = lockSkill2 && skill2 != null ? skill2.GetSkillInstance() : null;
 
         // Call Function SetSkill for AbstractModel
-        this.abstractModel.SetSkill(manaSkill1, lockSkill1, dmg1, classSkill1, distanceAttack1, manaSkill2, lockSkill2, dmg2, classSkill2, distanceAttack2);
+        this.abstractModel.SetSkill(manaSkill1, lockSkill1, dmg1, classSkill1, distanceAttack1, countSkill1, manaSkill2, lockSkill2, dmg2, classSkill2, distanceAttack2, countSkill2);
 
         Debug.Log("Set Skill 1 Lan EnemyCtrl");
     }

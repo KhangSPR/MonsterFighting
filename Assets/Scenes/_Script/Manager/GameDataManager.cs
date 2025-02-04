@@ -12,7 +12,7 @@ namespace UIGameDataManager
 
         public static event Action<GameData> ResourcesMapUpdated;
         public static event Action<ShopItemSO, Vector2> TransactionProcessed;
-        public static Action<Vector2> OnPopUpSpin;
+        public static Action OnPopUpSpin;
 
         public static event Action<int> OnSpin;
 
@@ -250,7 +250,7 @@ namespace UIGameDataManager
             if (count < 0) return;
             if (GameData.StoneBoss < count)
             {
-                OnPopUpSpin?.Invoke(transform.position);
+                OnPopUpSpin?.Invoke();
                 return; // Không làm gì nếu không đủ tiền
             }
             GameData.StoneBoss -= (uint)count;

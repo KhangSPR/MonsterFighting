@@ -14,10 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Virtual Shield
   damage: 0
-  coutdownTimer: 60
+  coutdownTimer: 55
   sprite: {fileID: -1237199456, guid: 577f6f2ff5646494e9a2f6b92fd017ee, type: 3}
   skillUnlock: 1
   manaRequirement: 143
   distanceAttack: 0
-  textTemplate: A shadowy sphere with swirling dark hues, emanating an ominous glow,
-    invoking fear.
+  countSkill: 1
+  textTemplate: '<color=yellow>Title:</color> Creates a virtual shield of <color=green>100</color>
+    health, lasting for <color=green>10s</color> seconds.
+
+    <color=yellow>Colldown:</color>
+    <color=green>60s</color> seconds'

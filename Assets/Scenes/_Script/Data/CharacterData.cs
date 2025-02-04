@@ -19,7 +19,7 @@ namespace UIGameDataManager
         [SerializeField] GameObject m_PreviewInstance;
 
 
-        public GameObject PreviewInstance { get { return m_PreviewInstance; } set { m_PreviewInstance = value; } }
+        //public GameObject PreviewInstance { get { return m_PreviewInstance; } set { m_PreviewInstance = value; } }
         public CardCharacter CharacterBaseData => m_CharacterBaseData;
         public void SetCharacterBaseData(CardCharacter cardTower)
         {

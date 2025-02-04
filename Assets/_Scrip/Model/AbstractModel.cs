@@ -218,6 +218,7 @@ public abstract class AbstractModel : AbstractCtrl
     protected bool comPleteStateTransition = false;
     public void OnComPleteStateTransition()
     {
+        Debug.Log("OnComPleteStateTransition: " + transform.parent.name);
         this.comPleteStateTransition = true;
     }    
     public void OnAttackAnimationEnd()
@@ -463,24 +464,30 @@ public abstract class AbstractModel : AbstractCtrl
     // Biến tạm lưu skill đang hoạt động
     private SkillCharacter currentActiveSkill;
     public SkillCharacter CurrentActiveSkill => currentActiveSkill;
-
+    [SerializeField]
+    int currentCountSkill = 0;
     public void OnSkillEnabeleComplete()
     {
+        currentCountSkill++;
+        if (currentCountSkill < currentActiveSkill.CountSkill)
+        {
+            return;
+        }
         skillEnable = false;
         Debug.Log("Call OnSkillEnabeleComplete");
     }
 
-    public void SetSkill(float manaSkill1, bool lockSkill1, float damage1, ISkill skillType1, float distanceAttack1, float manaSkill2, bool lockSkill2, float damage2, ISkill skillType2, float distanceAttack2)
+    public void SetSkill(float manaSkill1, bool lockSkill1, float damage1, ISkill skillType1, float distanceAttack1, int countSkill1, float manaSkill2, bool lockSkill2, float damage2, ISkill skillType2, float distanceAttack2, int countSkill2)
     {
-        Skill1 = new SkillCharacter(manaSkill1, lockSkill1, damage1, skillType1, distanceAttack1);
-        Skill2 = new SkillCharacter(manaSkill2, lockSkill2, damage2, skillType2, distanceAttack2);
+        Skill1 = new SkillCharacter(manaSkill1, lockSkill1, damage1, skillType1, distanceAttack1, countSkill1);
+        Skill2 = new SkillCharacter(manaSkill2, lockSkill2, damage2, skillType2, distanceAttack2, countSkill1);
     }
 
     protected virtual bool CallAnimationSkill()
     {
         if (skillEnable) return false;
         
-        if(this.objCtrl.ObjDetectAllies!=null)
+        if(this.objCtrl.ObjDetectAllies!=null) //Detect Defend
         {
             if (this.objCtrl.ObjDetectAllies.isDetectAllies)
             {
@@ -497,9 +504,10 @@ public abstract class AbstractModel : AbstractCtrl
 
         return false; // Không kỹ năng nào được gọi
     }
-
+    //protected 
     private bool TryUseAvailableSkill()
     {
+        Debug.Log("TryUseAvailableSkill: " + transform.parent.name);
         // Kiểm tra nếu danh sách ListObjAttacks hợp lệ và có ít nhất 1 phần tử
         if (ObjectCtrl.ObjAttack.ListObjAttacks == null || ObjectCtrl.ObjAttack.ListObjAttacks.Count == 0)
         {
@@ -507,7 +515,6 @@ public abstract class AbstractModel : AbstractCtrl
 
             return false;
         }
-
         // Kiểm tra Skill2 trước
         if (Skill2 != null && Skill2.unlockSkill &&
             Skill2.CanUseSkill(ObjectCtrl.ObjMana,
@@ -532,7 +539,45 @@ public abstract class AbstractModel : AbstractCtrl
         return false;
     }
 
+    protected virtual bool CallAnimationSkill1() //Aplly Sword
+    {
+        if (skillEnable) return false;
 
+        // Kiểm tra và gọi kỹ năng nếu đủ điều kiện
+        if (TryUseAvailableSkill1())
+        {
+            skillEnable = true;
+            return true; // Kỹ năng đã được thực thi
+        }
+
+        return false; // Không kỹ năng nào được gọi
+    }
+    //protected 
+    private bool TryUseAvailableSkill1()
+    {
+        // Kiểm tra Skill2 trước
+        if (Skill2 != null && Skill2.unlockSkill &&
+            Skill2.CanUseSkill(ObjectCtrl.ObjMana,
+                               ObjectCtrl.transform.position,
+                               new Vector3(0,0,0)))
+        {
+            CallSkill(Skill2, State.Skill2); // Gọi hàm CallSkill
+            return true;
+        }
+
+        // Kiểm tra Skill1
+        if (Skill1 != null &&
+            Skill1.CanUseSkill(ObjectCtrl.ObjMana,
+                               ObjectCtrl.transform.position,
+                               new Vector3(0, 0, 0)))
+        {
+            CallSkill(Skill1, State.Skill1); // Gọi hàm CallSkill
+            Debug.Log("CallSkill 1");
+            return true;
+        }
+
+        return false;
+    }
     // Hàm gọi skill với thông tin kỹ năng và trạng thái
     private void CallSkill(SkillCharacter skill, State state)
     {

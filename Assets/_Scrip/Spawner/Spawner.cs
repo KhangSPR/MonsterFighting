@@ -101,6 +101,8 @@ public abstract class Spawner : SaiMonoBehaviour
         this.poolObjs.Add(obj);
         obj.gameObject.SetActive(false);
         this.spawnedCount--;
+
+        Debug.Log("Despawn Cotain ! :" + obj.name);
     }
 
     public Transform SpawnObject(Vector3 spawnPos, Quaternion rotation)

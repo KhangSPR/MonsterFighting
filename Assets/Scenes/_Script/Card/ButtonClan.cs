@@ -7,7 +7,7 @@ public class ButtonClan : MonoBehaviour
     [SerializeField] private BtnUI buttonUI;   // Logic UI liên kết với nút
     public BtnUI ButtonUI => buttonUI;
 
-    public static event Action<Vector2> CardClicked; // Sự kiện được kích hoạt khi nút được nhấn
+    public static event Action CardClicked; // Sự kiện được kích hoạt khi nút được nhấn
 
     public void OnclickBtn()
     {
@@ -33,9 +33,9 @@ public class ButtonClan : MonoBehaviour
     private void TriggerAction()
     {
         // Lấy vị trí trên màn hình của RectTransform
-        Vector2 screenPos = buttonUI.GetComponent<RectTransform>().position;
+        //Vector2 screenPos = buttonUI.GetComponent<RectTransform>().position;
 
         // Gửi sự kiện CardClicked
-        CardClicked?.Invoke(screenPos);
+        CardClicked?.Invoke();
     }
 }

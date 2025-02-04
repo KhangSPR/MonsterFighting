@@ -34,6 +34,7 @@ public class PortalTimer : PortalSpawnManagerAbstract
     protected override void Update()
     {
         if (!GameManager.Instance.ReadyTimer) return;
+        if (delayArray.Length <= 0) return;
         // Increase timer
         this.timer += Time.deltaTime;
 

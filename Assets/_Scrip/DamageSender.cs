@@ -23,7 +23,14 @@ public class DamageSender : AbstractCtrl
     {
         base.Start();
 
-        this.damage = playerCtrl?.CharacterStatsFake.Attack ?? enemyCtrl?.EnemySO.basePointsAttack ?? this.damage;
+        if (playerCtrl != null && playerCtrl.CharacterStatsFake != null)
+        {
+            this.damage = playerCtrl.CharacterStatsFake.Attack;
+        }
+        else if (enemyCtrl != null && enemyCtrl.EnemySO != null)
+        {
+            this.damage = enemyCtrl.EnemySO.basePointsAttack;
+        }
     }
     public virtual void AddPower(int amount)
     {

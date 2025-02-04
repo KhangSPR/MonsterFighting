@@ -29,7 +29,7 @@ public class EnemyAttack : ObjAttack
             return;
         }
 
-        if (other.transform.parent.tag == "Player")
+        if (other.transform.parent.tag == "Player" && other.transform.name == "Modle")
         {
             ObjectCtrl objectCtrl = other.transform.parent.GetComponent<ObjectCtrl>();
 
@@ -68,6 +68,7 @@ public class EnemyAttack : ObjAttack
     {
         // Kiểm tra nếu parent tồn tại
         if (other.transform.parent == null) return;
+        
 
         // Xử lý xóa khỏi listObjAttacks
         if (listObjAttacks.Contains(other.transform.parent))

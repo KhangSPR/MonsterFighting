@@ -25,4 +25,9 @@ public class CastleDespawn : Despawn
         this.castleCtrl = transform.parent.GetComponent<CastleCtrl>();
         Debug.Log(gameObject.name + ": loadCastleCtrl" + gameObject);
     }
+
+    protected override void deSpawnObjParent()
+    {
+        //
+    }
 }

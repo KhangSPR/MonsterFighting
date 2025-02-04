@@ -2,6 +2,7 @@
 
 public enum GuildType
 {
+    //Hero,
     Hunters,
     ArcaneMystics,
     SilverArrows

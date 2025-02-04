@@ -54,6 +54,8 @@ public class AnimationImpact : SaiMonoBehaviour
 
         if (other.transform.parent == null) return;
 
+        if (other.name != "Modle") return;
+
 
         if (enemyCtrl!=null)
         {
@@ -72,8 +74,6 @@ public class AnimationImpact : SaiMonoBehaviour
                 return;
             }
         }
-
-        if (other.name == "CanAttack" || other.name == "ObjMelee" || other.transform.parent.parent.name== "TileTower") return;
 
 
         // Nếu không có FXDamageReceiver, xử lý theo logic khác

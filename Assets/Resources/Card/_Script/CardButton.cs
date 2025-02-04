@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UIGameDataManager;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,10 @@ public class CardButton : BaseBtn
     [SerializeField] Button btn;
     [SerializeField] ImageRefresh cardRefresh;
     public ImageRefresh CardRefresh => cardRefresh;
+    [SerializeField] Image frameAvatar;
+    [SerializeField] Image frameName;
+    [SerializeField] Image Background;
+    [SerializeField] TMP_Text textName;
 
     public override GameObject PlaceAbstract(Transform tileTransform)
     {
@@ -44,5 +49,19 @@ public class CardButton : BaseBtn
         GameManager.Instance.PickButton(this, cardRefresh);
 
         Debug.Log("Click");
+    }
+    public void SetUICard(CardCharacter cardCharacter)
+    {
+        //Settings
+        frameAvatar.sprite = cardCharacter.frame;
+        frameName.sprite = cardCharacter._frameCardName;
+        Background.sprite = cardCharacter.background;
+        textName.text = cardCharacter.nameCard;
+        // Set Prefab Instance
+        //newCardObject.GetComponent<CardBtn>().CardPrefabSet = PlayerSpawner.Instance.GetGameobjectPrefabByName(cardCharacterData.nameCard);
+        CardCharacter = cardCharacter;
+        Sprite = cardCharacter.avatar;
+        Price = cardCharacter.price;
+        CardRefresh.cooldownDuration = cardCharacter.cardRefresh;
     }
 }

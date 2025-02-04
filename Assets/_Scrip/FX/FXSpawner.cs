@@ -16,6 +16,7 @@ public class FXSpawner : Spawner
     public static string BallOfDarkness = "Ball Of Darkness";
     public static string VenomousExplosionSphere = "Venomous Explosion Sphere";
     public static string VirtualShield = "Virtual Shield";
+    public static string FireDual = "Fire Slash";
     public static string Coin = "Coin";
 
 

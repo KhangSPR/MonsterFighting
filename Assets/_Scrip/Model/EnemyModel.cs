@@ -261,7 +261,7 @@ public class EnemyModel : AbstractModel
                 //{
                 //    PlayAnimation("Attack2", true); //Repair
                 //}
-                Debug.Log("NormalRage");
+                //Debug.Log("NormalRage");
 
                 if (!isAttacking && currentDelay <= 0)
                 {

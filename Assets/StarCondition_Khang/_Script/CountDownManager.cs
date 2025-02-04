@@ -2,12 +2,13 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CountDownManager : MonoBehaviour
 {
     public TextMeshProUGUI countdownDisplay;
     public float waitDuration = 0.8f;   // Thời gian chờ cho mỗi trạng thái
-
+    [SerializeField] Image UIVFXWave;
     //[SerializeField] private RectTransform fade;
 
 
@@ -15,10 +16,14 @@ public class CountDownManager : MonoBehaviour
     {
         gameObject.SetActive(true);
         //fade.gameObject.SetActive(true);
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         StartCoroutine(CountdownToStart());
     }
-
+    //private void SetVFX()
+    //{
+    //    if (VFX_Wave == null) return;
+    //    VFX_Wave.SetFloat("Speed", 1.2f);
+    //}
     IEnumerator CountdownToStart()
     {
         // Hiển thị chữ "READY..."
@@ -35,10 +40,11 @@ public class CountDownManager : MonoBehaviour
         gameObject.SetActive(false);
         //fade.gameObject.SetActive(false);
 
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
 
         //Set Ready Timer Portal
         GameManager.Instance.ReadyTimer = true;
+        //SetVFX();
     }
 
     IEnumerator DisplayText(string text, bool applyEffects)

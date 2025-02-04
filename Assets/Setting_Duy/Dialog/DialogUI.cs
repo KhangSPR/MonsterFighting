@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UIGameDataManager;
@@ -24,7 +25,7 @@ public class DialogUI : MonoBehaviour {
 
     [SerializeField] DialogObject currentDialog;
     //[SerializeField] ChooseCharacter chooseCharacter;
-
+    public static Action OnPopUpText;
     // temporary : can call DisplayDialog() any where on Start() and Update()
     private void Start(){
         // DisplayDialog(database.get(dialogName));
@@ -124,6 +125,7 @@ public class DialogUI : MonoBehaviour {
         {
             UIManager.Instance.ShowActiveUI();
             PlayerManager.Instance.IsDiaLog = true;
+            OnPopUpText?.Invoke();
             DestroyDiaLog();
         }
         else {
@@ -153,7 +155,7 @@ public class DialogUI : MonoBehaviour {
         PlayerManager.Instance.GendersType = player.Genders;
 
         currentDialog.lines[currentDialog.indexChooseAvatar + 1].rightActor.name = player.name;
-        currentDialog.lines[currentDialog.indexChooseAvatar + 1].rightActor.avatar = player.AvatarPlayer;
+        currentDialog.lines[currentDialog.indexChooseAvatar + 1].rightActor.avatar = player.ModlePlayer;
 
     }
 

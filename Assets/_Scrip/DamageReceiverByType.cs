@@ -42,12 +42,14 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         HandleCollisionEnter<IDarkable>(collision, DamagePerSecondDark, StartDarking);
+        HandleCollisionEnter<IBurnable>(collision, DamagePerSecondDark, StartBurning);
         //HandleCollisionEnter<IElectricable>(collision, DamagePerSecondTwitch, StartTwitching);
     }
 
     protected virtual void OnTriggerExit2D(Collider2D collision)
     {
         HandleCollisionExit<IDarkable>(collision, exitTimeDark, StopDarking);
+        HandleCollisionExit<IBurnable>(collision, exitTimeDark, StopBurning);
         //HandleCollisionExit<IElectricable>(collision, exitTimeTwitch, StopTwitching);
     }
 
@@ -64,6 +66,17 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         {
             if (component is T)
             {
+                SkillCtrl skillCtrl = collision.transform.parent.GetComponent<SkillCtrl>();
+                if(skillCtrl == null)
+                {
+                    Debug.LogError("SkillCtrll Null");
+                    return;
+                }
+                if(this.objectCtrl.ObjectCtrlType == skillCtrl.ObjectCtrl.ObjectCtrlType)
+                {
+                    //Debug.LogError("objectCtrl != SkillCtrl");
+                    return;
+                }
                 Debug.Log("Interface được tìm thấy");
                 if (startEffect != null)
                 {
@@ -127,6 +140,15 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
     public void StartBurning(int damagePerSecond)
     {
         isBurning = true;
+
+
+        //Effect Character
+        Material material = EffectManager.Instance.GetMaterialByName("fire");
+        if (material != null)
+        {
+            Debug.Log("Set Fire Burn");
+            this.AbstractModel.EffectCharacter.SetMaterial(material);
+        }
 
         if (burnCoroutine != null) StopCoroutine(burnCoroutine);
         burnCoroutine = StartCoroutine(ApplyEffect(damagePerSecond, () => isBurning, SkillType.Fire));

@@ -9,14 +9,16 @@ public class SkillCharacter
     public ISkill skillType;
     public float damage;
     public float distanceAttack;
+    public int CountSkill;
 
-    public SkillCharacter(float mana, bool unlock, float damage, ISkill skillType, float distanceAttack)
+    public SkillCharacter(float mana, bool unlock, float damage, ISkill skillType, float distanceAttack, int countSkill)
     {
         manaSkill = mana;
         unlockSkill = unlock;
         this.skillType = skillType;
         this.damage = damage;
         this.distanceAttack = distanceAttack;
+        CountSkill = countSkill;
     }
 
     // Thêm tham số vị trí hiện tại và vị trí mục tiêu để kiểm tra khoảng cách
@@ -26,10 +28,17 @@ public class SkillCharacter
         float distance = Vector3.Distance(currentPosition, targetPosition);
 
         // Log ra khoảng cách đã tính được
-        //Debug.Log("Distance to target: " + distance);
+        //if(distance >= distanceAttack)
+        //{
+        //    Debug.Log(">= Distance to target: " + distance + ": DistanceAttack: "+distanceAttack);
+        //}
+        //else
+        //{
+        //    Debug.Log("Distance to target: " + distance + ": DistanceAttack: " + distanceAttack);
+        //}
 
         // Kiểm tra nếu skill đã mở khóa, đủ mana và khoảng cách trong giới hạn
-        return unlockSkill && objMana.IsMana >= manaSkill && Vector3.Distance(currentPosition, targetPosition) >= distanceAttack;
+        return unlockSkill && objMana.IsMana >= manaSkill && distance >= distanceAttack;
     }
 
     public void ActiveSkill(ObjectCtrl objectCtrl)

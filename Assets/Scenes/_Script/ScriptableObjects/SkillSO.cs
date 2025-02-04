@@ -24,7 +24,7 @@ public class SkillSO : ScriptableObject
 
     public float manaRequirement;
     public float distanceAttack;
-
+    public int countSkill;
     public string GetTierText(int m_ActiveIndex)
     {
         return "Tier "+ m_ActiveIndex;

@@ -36,7 +36,7 @@ public class UILevelStarConditionCtrl : MonoBehaviour
         if (fade == null) return;
 
         fade.gameObject.SetActive(true);
-        fade.DOFade(0.5f, 0.25f).OnComplete(() =>
+        fade.DOFade(0.5f,0).OnComplete(() =>
         {
             GameManager.Instance?.TogglePauseGame();
         });
@@ -47,6 +47,7 @@ public class UILevelStarConditionCtrl : MonoBehaviour
         if (rectTransform == null) return;
 
         rectTransform.localScale = Vector3.one;
+        gameObject.SetActive(true);
         OpenMenuExit();
     }
 
@@ -54,8 +55,8 @@ public class UILevelStarConditionCtrl : MonoBehaviour
     {
         if (rectTransform == null || fade == null) return;
 
-        rectTransform.DOScale(Vector3.zero, 0.35f);
-        fade.DOFade(0f, 0.5f).OnComplete(() =>
+        gameObject.SetActive(false);
+        fade.DOFade(0f, 0.4f).OnComplete(() =>
         {
             fade.gameObject.SetActive(false);
 

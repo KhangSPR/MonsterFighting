@@ -32,6 +32,7 @@ public class CardPlayer : CardComponent
     [Header("Card Player")]
     public GendersType Genders;
     public Sprite AvatarPlayer;
+    public Sprite ModlePlayer;
     //
     
 }

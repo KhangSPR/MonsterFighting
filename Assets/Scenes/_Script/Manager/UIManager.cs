@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject UiResourcesInChooseMap;
     [SerializeField] GameObject UISetting;
     [SerializeField] GameObject UILeft;
+    [SerializeField] GameObject UIRight;
     [SerializeField] GameObject UIStatsPlayer;
 
     [SerializeField] Animator animatorCastle;
@@ -72,6 +73,7 @@ public class UIManager : MonoBehaviour
         UiResourcesInChooseMap.SetActive(false);
         UISetting.SetActive(false);
         UILeft.SetActive(false);
+        UIRight.SetActive(false);
         UIStatsPlayer.SetActive(false);
     }
     public void ShowActiveUI()
@@ -82,6 +84,7 @@ public class UIManager : MonoBehaviour
 
         UiResourcesInChooseMap.SetActive(true);
         UISetting.SetActive(true);
+        UIRight.SetActive(true);
         UILeft.SetActive(true);
         UIStatsPlayer.SetActive(true);
     }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UIGameDataManager;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,13 +9,29 @@ public class PopUpText : MonoBehaviour
     public static string TextHighlight = "F8BB19";
 
     [SerializeField] Text m_PopUpText;
+    [SerializeField] Image m_Frame;
 
     // customizes active/inactive styles, duration, and delay for each text prompt
     float m_Delay = 0f;
     float m_Duration = 1f;
 
+    private void Start()
+    {
+        if(PlayerManager.Instance.IsDiaLog)
+        {
+            OnPopupStart();
+        }
+    }
+    private void OnPopupStart()
+    {
+        m_Delay = 0f;
+        m_Duration = 1.8f;
+        string failMessage = "Welcome to Kingdom";
+        ShowMessage(failMessage);
+    }
     void OnEnable()
     {
+        DialogUI.OnPopUpText += OnPopupStart;
         ButtonCard.CardClicked += OnTransactionFailed;
         ButtonClan.CardClicked += OnShowNotClanYet;
         EnergyUI.LevelInfoClicked += OnShowhasEnergy;
@@ -26,6 +42,7 @@ public class PopUpText : MonoBehaviour
 
     void OnDisable()
     {
+        DialogUI.OnPopUpText -= OnPopupStart;
         ButtonCard.CardClicked -= OnTransactionFailed;
         ButtonClan.CardClicked -= OnShowNotClanYet;
         EnergyUI.LevelInfoClicked -= OnShowhasEnergy;
@@ -51,37 +68,66 @@ public class PopUpText : MonoBehaviour
 
         StartCoroutine(ShowMessageRoutine(message));
     }
+    IEnumerator FadeFrameEffect(float duration)
+    {
+        CanvasGroup frameCanvasGroup = m_Frame.GetComponent<CanvasGroup>();
+        if (frameCanvasGroup == null)
+        {
+            frameCanvasGroup = m_Frame.gameObject.AddComponent<CanvasGroup>();
+        }
+
+        float elapsedTime = 0f;
+        float minAlpha = 0.1f;
+        float maxAlpha = 1f;
+
+        // Lặp trong khoảng thời gian
+        while (elapsedTime < duration)
+        {
+            // Tăng giá trị alpha từ minAlpha đến maxAlpha theo thời gian
+            float alpha = Mathf.Lerp(minAlpha, maxAlpha, elapsedTime / duration);
+            frameCanvasGroup.alpha = alpha;
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Đảm bảo alpha đạt giá trị max khi hoàn thành
+        frameCanvasGroup.alpha = maxAlpha;
+    }
+
 
     IEnumerator ShowMessageRoutine(string message)
     {
         if (m_PopUpText != null)
         {
-
-            // reset any leftover Selectors
+            // Reset Selectors và thiết lập nội dung text
             SetupText();
-
             m_PopUpText.text = message;
 
-            // hide text
+            // Ẩn text trước khi hiện
             HideText();
 
-            // wait for delay
+            // Đợi delay
             yield return new WaitForSeconds(m_Delay);
 
-            // show text and wait for duration
+            // Hiện text và bắt đầu hiệu ứng fade cho frame
             ShowText();
+            StartCoroutine(FadeFrameEffect(0.35f));
+
+            // Đợi thời gian hiển thị
             yield return new WaitForSeconds(m_Duration);
 
-            // hide text again
+            // Ẩn text sau khi hoàn thành
             HideText();
         }
     }
+
 
     void HideText()
     {
         if (m_PopUpText != null)
         {
-            m_PopUpText.transform.parent.parent.gameObject.SetActive(false);
+            m_PopUpText.transform.parent.gameObject.SetActive(false);
         }
     }
 
@@ -89,7 +135,7 @@ public class PopUpText : MonoBehaviour
     {
         if (m_PopUpText != null)
         {
-            m_PopUpText.transform.parent.parent.gameObject.SetActive(true);
+            m_PopUpText.transform.parent.gameObject.SetActive(true);
             Debug.Log("show");
         }
     }
@@ -103,113 +149,53 @@ public class PopUpText : MonoBehaviour
     }
     // event-handling methods
 
-    void OnTransactionFailed(int count, Vector2 position)
+    void OnTransactionFailed(int count)
     {
         Debug.Log("OnTransactionFailed");
         // use a longer delay, messages are longer here
         m_Delay = 0f;
         m_Duration = 1.2f;
-        m_PopUpText.rectTransform.anchoredPosition = position;
         string failMessage = "You need to choose more \n<color=#"
         + PopUpText.TextHighlight + ">" + count + " card</color>.";
         //"Buy more <color=#" + PopUpText.TextHighlight + ">" + shopItemSO.CostInCurrencyType + "</color>.";
         ShowMessage(failMessage);
     }
-    void OnShowNotClanYet(Vector2 position)
+    void OnShowNotClanYet()
     {
         m_Delay = 0f;
         m_Duration = 1.2f;
-        m_PopUpText.rectTransform.anchoredPosition = position;
         string failMessage = "Not Joined Clan Yet";
         ShowMessage(failMessage);
 
     }
-    void OnShowhasEnergy(Vector2 position)
+    void OnShowhasEnergy()
     {
         m_Delay = 0f;
         m_Duration = 1.2f;
-        m_PopUpText.rectTransform.anchoredPosition = position;
         string failMessage = "Not Enough Energy";
         ShowMessage(failMessage);
     }
-    void OnShowhasSpin(Vector2 position)
+    void OnShowhasSpin()
     {
         m_Delay = 0f;
         m_Duration = 1.2f;
-        m_PopUpText.rectTransform.anchoredPosition = position;
         string failMessage = "Not Enough Magical Crystal";
         ShowMessage(failMessage);
 
     }
-    void OnLvQuestCtrl(Vector2 position, int level)
+    void OnLvQuestCtrl(int level)
     {
         m_Delay = 0f;
         m_Duration = 1.2f;
-        m_PopUpText.rectTransform.anchoredPosition = position;
         string failMessage = "Not Enough Level " + level;
         ShowMessage(failMessage);
     }
-    void OnMainQuest(Vector2 position, string _string)
+    void OnMainQuest(string _string)
     {
         m_Delay = 0f;
         m_Duration = 1.2f;
-        m_PopUpText.rectTransform.anchoredPosition = position;
         string failMessage = _string;
         ShowMessage(failMessage);
     }
-    //void OnGearSelected(EquipmentSO gear)
-    //{
-    //    m_Delay = 0f;
-    //    m_Duration = 0.8f;
-
-    //    // centered on CharScreen
-    //    m_ActiveClass = k_GearActiveClass;
-    //    m_InactiveClass = k_GearInactiveClass;
-
-    //    string equipMessage = "<color=#" + PopUpText.TextHighlight + ">" + gear.equipmentName + "</color> equipped.";
-    //    ShowMessage(equipMessage);
-    //}
-
-    //void OnHomeMessageShown(string message)
-    //{
-
-    //    // welcome the player when on the HomeScreen
-    //    if (Time.time >= m_TimeToNextHomeMessage)
-    //    {
-    //        // timing and position
-    //        m_Delay = 0.25f;
-    //        m_Duration = 1.5f;
-
-    //        // centered below title
-    //        m_ActiveClass = k_HomeActiveClass;
-    //        m_InactiveClass = k_HomeInactiveClass;
-
-    //        ShowMessage(message);
-
-    //        // cooldown delay to avoid spamming
-    //        m_TimeToNextHomeMessage = Time.time + k_HomeMessageCooldown;
-    //    }
-    //}
-
-    //void OnCharacterLeveledUp(bool state)
-    //{
-    //    // only show text warning on failure
-    //    if (!state)
-    //    {
-    //        // timing and position
-    //        m_Delay = 0f;
-    //        m_Duration = 0.8f;
-
-    //        // centered on CharScreen
-    //        m_ActiveClass = k_GearActiveClass;
-    //        m_InactiveClass = k_GearInactiveClass;
-
-    //        if (m_PopUpText != null)
-    //        {
-    //            string equipMessage = "Insufficient potions to level up.";
-    //            ShowMessage(equipMessage);
-    //        }
-    //    }
-    //}
 }
 

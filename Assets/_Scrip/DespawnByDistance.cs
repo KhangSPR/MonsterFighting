@@ -26,4 +26,8 @@ public class DespawnByDistance : Despawn
         if (this.Distance > this.Dislimit) return canDespawnFlag = true;
         return canDespawnFlag = false;
     }
+
+    protected override void deSpawnObjParent()
+    {
+    }
 }

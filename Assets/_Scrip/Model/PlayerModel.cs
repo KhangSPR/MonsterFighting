@@ -16,7 +16,6 @@ public class PlayerModel : AbstractModel
             this.SetFalseAnimation();
 
             if (!isAnimationDeadComplete) return;
-
             this.Dead();
 
             if (this.effectCharacter.FadeCharacter)
@@ -24,8 +23,11 @@ public class PlayerModel : AbstractModel
                 animator.Rebind();
 
                 // Despawn
-                this.ObjectCtrl.Despawn.ResetCanDespawnFlag();
+                this.playerCtrl.Despawn.ResetCanDespawnFlag();
+
+                Debug.Log("On Dead Player");
             }
+            Debug.Log("Call Dead Player");
             return;
         }
 
@@ -73,6 +75,12 @@ public class PlayerModel : AbstractModel
                 if (this.effectCharacter.Vfx_Stun.activeSelf)
                     this.effectCharacter.Vfx_Stun.SetActive(false);
                 PlayAnimation("Attack", false);
+
+                // Kiểm tra nếu animator có Attack2 trước khi gọi
+                if (hasAttack2) // Kiểm tra ở layer 0
+                {
+                    PlayAnimation("Attack2", false);
+                }
                 PlayAnimation("Idle", true);
                 PlayAnimation("Skill1", false);
                 PlayAnimation("Skill2", false);
@@ -113,7 +121,30 @@ public class PlayerModel : AbstractModel
                 {
                     if (this.effectCharacter.Vfx_Stun.activeSelf)
                         this.effectCharacter.Vfx_Stun.SetActive(false);
-                    PlayAnimation("Attack", true);
+
+                    // Hoán đổi giữa Attack và Attack2
+                    if (isUsingAttack1)
+                    {
+                        PlayAnimation("Attack", true);
+                    }
+                    else
+                    {
+                        // Kiểm tra nếu animator có Attack2 trước khi gọi
+                        if (hasAttack2) // Kiểm tra ở layer 0
+                        {
+                            PlayAnimation("Attack2", true);
+                        }
+                        else
+                        {
+                            PlayAnimation("Attack", true);
+
+                            Debug.Log("Calll Attack !");
+                        }
+                        //Animation Another
+                    }
+
+                    if (hasAttack2)
+                        isUsingAttack1 = !isUsingAttack1;
                     PlayAnimation("Idle", false);
                     PlayAnimation("Skill1", false);
                     PlayAnimation("Skill2", false);
@@ -205,7 +236,15 @@ public class PlayerModel : AbstractModel
         {
             shouldAttack = true;
         }
-
+        if(this.playerCtrl.PlayerAttackSkill != null)
+        {
+            Debug.Log("Call Skill Attack != null: "+ this.playerCtrl.PlayerAttackSkill.CheckCanAttack);
+            if (this.playerCtrl.PlayerAttackSkill.CheckCanAttack && CallAnimationSkill1())
+            {
+                Debug.Log("Call Skill Attack Player");
+                return;
+            }
+        }
         if (shouldAttack && CallAnimationSkill())
         {
             Debug.Log("Call Skill Player");
@@ -227,9 +266,13 @@ public class PlayerModel : AbstractModel
 
             //Debug.Log("ActivateTrigger Upper");
         }
-        else if (shouldAttack && currentState != State.MeleeWitch)
+        else if (shouldAttack && currentState == State.MeleeWitch) //Repair
         {
             StartStateTransition(State.Attack);
+        }
+        else if (shouldAttack)
+        {
+            currentState = State.Attack;
         }
         else
         {
@@ -260,10 +303,12 @@ public class PlayerModel : AbstractModel
             }
             else
             {
+                Debug.Log("Call Attack Sword");
                 attackTypeAnimation = this.currentAttackTypeAnimation;
                 this.SetDelayCharacter(playerCtrl.CharacterStatsFake.AttackSpeed);
             }
 
+            //Miss Attack
             if (isStateTransitioning && currentState == State.Attack)
             {
                 Debug.Log("State Current Return: " + currentState);

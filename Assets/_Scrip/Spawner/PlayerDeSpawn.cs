@@ -22,6 +22,8 @@ public class PlayerDeSpawn : Despawn
         PlayerSpawner.Instance.Despawn(transform.parent);
 
         playerCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
+
+        Debug.Log("deSpawnObjParent: " + transform.parent);
     }
 
     protected override bool canDespawn()

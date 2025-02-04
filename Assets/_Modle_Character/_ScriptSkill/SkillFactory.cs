@@ -10,6 +10,7 @@ public static class SkillFactory
         {"Magic Vortex", typeof(MagicVortex) },
         {"Venomous Explosion Sphere", typeof(VenomousExplosionSphere) },
         {"Virtual Shield", typeof(VirtualShield) },
+        {"Fire Slash", typeof(FireSlash) },
 
         // Thêm các skill khác
     };

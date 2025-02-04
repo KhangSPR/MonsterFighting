@@ -20,18 +20,11 @@ public class ListCardCharacterData : SaiMonoBehaviour
 
             GameObject newCardObject = Instantiate(newObj, CardContent);
 
-            newCardObject.SetActive(true);
-            //Settings
-            newCardObject.transform.Find("Frame").GetComponent<Image>().sprite = cardCharacterData.frame;
-            newCardObject.transform.Find("Background").GetComponent<Image>().sprite = cardCharacterData.background;
-            newCardObject.transform.Find("Name").GetComponent<TMP_Text>().text = cardCharacterData.nameCard;
+            CardButton cardButton = newCardObject.GetComponent<CardButton>();
 
-            // Set Prefab Instance
-            //newCardObject.GetComponent<CardBtn>().CardPrefabSet = PlayerSpawner.Instance.GetGameobjectPrefabByName(cardCharacterData.nameCard);
-            newCardObject.GetComponent<CardButton>().CardCharacter = cardCharacterData;
-            newCardObject.GetComponent<CardButton>().Sprite = cardCharacterData.avatar;
-            newCardObject.GetComponent<CardButton>().Price = cardCharacterData.price;
-            newCardObject.GetComponent<CardButton>().CardRefresh.cooldownDuration = cardCharacterData.cardRefresh;
+            cardButton.SetUICard(cardCharacterData);
+
+            newCardObject.SetActive(true);
         }
         Debug.Log("Click");
     }

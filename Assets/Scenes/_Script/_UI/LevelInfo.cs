@@ -143,9 +143,6 @@ namespace UIGameDataMap
 
                 if (mapDifficulty.isReceivedReWard)
                 {
-                    itemTooltip.Avatar.color = new Color(1f, 160 / 255f, 122 / 255f, 128 / 255f);
-                    itemTooltip.CountTxt.color = new Color(1f, 1f, 1f, 128 / 255f);
-
                     itemObject.transform.Find("Tick").gameObject.SetActive(true);
                 }
             }

@@ -26,4 +26,8 @@ public class DespawnByTime : Despawn
         }
         return canDespawnFlag = false;
     }
+
+    protected override void deSpawnObjParent()
+    {
+    }
 }

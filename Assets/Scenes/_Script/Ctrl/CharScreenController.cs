@@ -111,15 +111,15 @@ namespace UIGameDataManager
                 }
 
                 // Kiểm tra xem PreviewInstance đã được tạo chưa
-                if (charData.PreviewInstance == null)
-                {
-                    // Khởi tạo instance mới và gán vào PreviewInstance
-                    if (charData.CharacterBaseData.characterVisualsPrefab == null) return;
+                //if (charData.PreviewInstance == null)
+                //{
+                //    // Khởi tạo instance mới và gán vào PreviewInstance
+                //    //if (charData.CharacterBaseData.characterVisualsPrefab == null) return;
 
-                    charData.PreviewInstance = Instantiate(charData.CharacterBaseData.characterVisualsPrefab, m_previewTransform.position, Quaternion.identity);
-                    charData.PreviewInstance.transform.SetParent(m_previewTransform);
-                    charData.PreviewInstance.SetActive(false);
-                }
+                //    //charData.PreviewInstance = Instantiate(charData.CharacterBaseData.characterVisualsPrefab, m_previewTransform.position, Quaternion.identity);
+                //    //charData.PreviewInstance.transform.SetParent(m_previewTransform);
+                //    //charData.PreviewInstance.SetActive(false);
+                //}
 
             }
 
@@ -166,8 +166,8 @@ namespace UIGameDataManager
 
             CharacterData currentCharacter = m_Characters[m_CurrentIndex];
 
-            if(currentCharacter.PreviewInstance != null)
-                currentCharacter.PreviewInstance?.gameObject.SetActive(state);
+            //if(currentCharacter.PreviewInstance != null)
+            //    currentCharacter.PreviewInstance?.gameObject.SetActive(state);
 
 
             //UpdateLevelMeter();

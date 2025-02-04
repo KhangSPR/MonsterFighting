@@ -50,6 +50,8 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
 
     [SerializeField] protected ObjectCtrlType objectCtrlType;
     public ObjectCtrlType ObjectCtrlType => objectCtrlType;
+    [SerializeField] protected Transform targetSpawn;
+    public Transform TargetSpawn => targetSpawn;
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -70,12 +72,19 @@ public abstract class ObjectCtrl : SaiMonoBehaviour
         this.LoadTargetBullet();
         this.LoadTargetSkill();
         this.LoadObjDetectAllies();
+        this.LoadTargetSpawn();
     }
     protected virtual void LoadObjDetectAllies()
     {
         if (objDetectAllies != null) return;
         this.objDetectAllies = transform.GetComponentInChildren<ObjDetectAllies>();
         Debug.Log(gameObject.name + ": LoadObjDetectAllies" + gameObject);
+    }
+    protected virtual void LoadTargetSpawn()
+    {
+        if (targetSpawn != null) return;
+        targetSpawn = transform.Find("Modle/TargetSpawn");
+        Debug.Log(gameObject.name + ": LoadTargetSpawn" + gameObject);
     }
     protected virtual void LoadTargetSkill()
     {

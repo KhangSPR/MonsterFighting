@@ -15,7 +15,7 @@ public class EnergyUI : MonoBehaviour
     [SerializeField] LoadingPVPUI loadingPVPUI;
     private bool isAnimating = false; // Kiểm tra hiệu ứng có đang chạy không
 
-    public static event Action<Vector2> LevelInfoClicked; 
+    public static event Action LevelInfoClicked; 
     private void OnEnable()
     {
         // Lắng nghe sự kiện khi năng lượng thay đổi
@@ -64,10 +64,10 @@ public class EnergyUI : MonoBehaviour
     private void TriggerAction()
     {
         // Lấy vị trí trên màn hình của RectTransform
-        Vector2 screenPos = energyUI.GetComponent<RectTransform>().position;
+        //Vector2 screenPos = energyUI.GetComponent<RectTransform>().position;
 
         // Gửi sự kiện CardClicked
-        LevelInfoClicked?.Invoke(screenPos);
+        LevelInfoClicked?.Invoke();
     }
     private void UpdateEnergyTextCurrent()
     {

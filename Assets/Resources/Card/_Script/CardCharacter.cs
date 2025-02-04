@@ -35,6 +35,7 @@ namespace UIGameDataManager
     public class CardCharacter : CardComponent
     {
         [SerializeField] private Stats _characterStats;
+        [SerializeField] public Sprite _frameCardName;
 
         // Properties
         public Stats CharacterStats => _characterStats;
@@ -49,7 +50,7 @@ namespace UIGameDataManager
         public RarityCard rarityCard;
         public AttackCategory attackTypeCard;
         //public AttackTypeAnimation attackType;
-        public GameObject characterVisualsPrefab;
+        //public GameObject characterVisualsPrefab;
 
         public AttackCategory GetAttackType()
         {

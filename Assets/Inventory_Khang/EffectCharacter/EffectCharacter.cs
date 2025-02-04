@@ -11,6 +11,9 @@ public class EffectCharacter : MonoBehaviour
     [SerializeField] private List<SpriteRenderer> _frontSpriteRenderers;
     [SerializeField] private List<SpriteRenderer> _middleSpriteRenderers;
     [SerializeField] private List<SpriteRenderer> _backSpriteRenderers;
+    [Header("Sprite Out")]
+    [SerializeField] private List<SpriteRenderer> _SpriteRenderersOut;
+
     [SerializeField]
     private bool _fadeCharacter = false;
     public bool FadeCharacter => _fadeCharacter;
@@ -101,6 +104,7 @@ public class EffectCharacter : MonoBehaviour
         _backSpriteRenderers.Clear();
         if (fontTransfrom != null)
         {
+            _frontSpriteRenderers = _SpriteRenderersOut;
             _frontSpriteRenderers.AddRange(fontTransfrom.GetComponentsInChildren<SpriteRenderer>());
 
             Debug.Log("Set Font");

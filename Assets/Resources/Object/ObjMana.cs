@@ -10,9 +10,14 @@ public class ObjMana : ManaHandler
 
         if (objCtrl != null)
         {
-            isMaxMana = PlayerCtrl?.CardCharacter.CharacterStats.Mana
-                      ?? EnemyCtrl?.EnemySO.basePointsCurrentMana
-                      ?? isMaxMana;
+            if (PlayerCtrl != null && PlayerCtrl.CardCharacter != null && PlayerCtrl.CardCharacter.CharacterStats != null)
+            {
+                isMaxMana = PlayerCtrl.CardCharacter.CharacterStats.Mana;
+            }
+            else if (EnemyCtrl != null && EnemyCtrl.EnemySO != null)
+            {
+                isMaxMana = EnemyCtrl.EnemySO.basePointsCurrentMana;
+            }
 
             Debug.Log("ReBorn Mana = " + isMaxMana);
         }

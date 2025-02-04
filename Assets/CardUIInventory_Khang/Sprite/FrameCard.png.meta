@@ -94,6 +94,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,127 +123,253 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FrameCard_1
+      name: FrameCard_D
       rect:
         serializedVersion: 2
-        x: 276
-        y: 1626
-        width: 841
-        height: 1239
+        x: 148
+        y: 1630
+        width: 834
+        height: 1230
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73c4298e61e73354b8d469c3161f2b80
-      internalID: 517221227
+      spriteID: 6bb0ddab11ed3c1478a507eaa2aeba9c
+      internalID: -275613122
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FrameCard_2
+      name: FrameCard_C
       rect:
         serializedVersion: 2
-        x: 1828
-        y: 1626
-        width: 843
-        height: 1237
+        x: 1129
+        y: 1639
+        width: 833
+        height: 1227
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9840a424252766b42986bdf89638d03d
-      internalID: -901499844
+      spriteID: 4be2fc555108038418f889f1615be80d
+      internalID: 1397058138
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FrameCard_3
+      name: FrameCard_B
       rect:
         serializedVersion: 2
-        x: 3298
-        y: 1626
-        width: 838
-        height: 1236
+        x: 2086
+        y: 1641
+        width: 834
+        height: 1228
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74c42869cb447374481f1229a299e799
-      internalID: 589258969
+      spriteID: 207c594f51383e04ea914ddfe70cf55c
+      internalID: -1613912841
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FrameCard_4
+      name: FrameName_D
       rect:
         serializedVersion: 2
-        x: 276
-        y: 265
-        width: 839
-        height: 1237
+        x: 3004
+        y: 2768
+        width: 574
+        height: 88
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8727d8bac3e25df4dba865f3b645ed2e
-      internalID: -1330442818
+      spriteID: 1d07f76f0ea818844b492805a2c8d073
+      internalID: -178180701
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: FrameCard_5
+      name: FrameName_C
       rect:
         serializedVersion: 2
-        x: 1828
+        x: 3006
+        y: 2621
+        width: 574
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41267815e115a744eb3da33eaf55bc7c
+      internalID: 780615942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrameName_B
+      rect:
+        serializedVersion: 2
+        x: 3001
+        y: 2460
+        width: 575
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2a2fe2cd27191040b36176b2f632838
+      internalID: 985865936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrameName_A
+      rect:
+        serializedVersion: 2
+        x: 3004
+        y: 2309
+        width: 574
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47061bc8f888c1c42a006eeb81b792fd
+      internalID: 456282225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrameName_S
+      rect:
+        serializedVersion: 2
+        x: 2989
+        y: 2166
+        width: 575
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bebaf4992e2288b46967d89d7426eb38
+      internalID: 603944180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrameName_SS
+      rect:
+        serializedVersion: 2
+        x: 2982
+        y: 2005
+        width: 573
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 132825fec70d6c14c8ede7502235d4c7
+      internalID: -925167569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrameCard_A
+      rect:
+        serializedVersion: 2
+        x: 149
         y: 267
-        width: 843
+        width: 834
+        height: 1232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98639db0bc76cfa40b34657ea8cdbe25
+      internalID: 1568782996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrameCard_S
+      rect:
+        serializedVersion: 2
+        x: 1109
+        y: 268
+        width: 836
+        height: 1231
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb45c94857a036648ab526680334b131
+      internalID: 2127167907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FrameCard_SS
+      rect:
+        serializedVersion: 2
+        x: 2086
+        y: 276
+        width: 838
         height: 1234
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3582a715e409e9345847809845602842
-      internalID: -1603901324
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FrameCard_6
-      rect:
-        serializedVersion: 2
-        x: 3297
-        y: 265
-        width: 838
-        height: 1239
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 957c2a64f991f7746928888119f40252
-      internalID: 2008796901
+      spriteID: d6215edcd21b3d44d9ded0ef74321622
+      internalID: -886571406
       vertices: []
       indices: 
       edges: []
@@ -246,13 +385,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FrameCard_0: 1184084619
-      FrameCard_1: 517221227
-      FrameCard_2: -901499844
-      FrameCard_3: 589258969
-      FrameCard_4: -1330442818
-      FrameCard_5: -1603901324
-      FrameCard_6: 2008796901
+      FrameCard_12: -806985530
+      FrameCard_13: -1592197292
+      FrameCard_14: -935311444
+      FrameCard_15: 1297525138
+      FrameCard_A: 1568782996
+      FrameCard_B: -1613912841
+      FrameCard_C: 1397058138
+      FrameCard_D: -275613122
+      FrameCard_S: 2127167907
+      FrameCard_SS: -886571406
+      FrameName_A: 456282225
+      FrameName_B: 985865936
+      FrameName_C: 780615942
+      FrameName_D: -178180701
+      FrameName_S: 603944180
+      FrameName_SS: -925167569
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

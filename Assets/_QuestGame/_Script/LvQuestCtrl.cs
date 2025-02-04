@@ -54,7 +54,7 @@ public class LvQuestCtrl : MonoBehaviour
         get { return level; }
     }
 
-    public static event Action<Vector2, int> LvQuestCtrlClicked;
+    public static event Action<int> LvQuestCtrlClicked;
     void Start()
     {
         _Button.onClick.AddListener(OnClickButton);
@@ -74,7 +74,7 @@ public class LvQuestCtrl : MonoBehaviour
         }
         else
         {
-            LvQuestCtrlClicked?.Invoke(transform.position, level);
+            LvQuestCtrlClicked?.Invoke(level);
         }
     }
     public void AddMenuItem(QuestCtrl newItem)

@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class CardUITower : MonoBehaviour
 {
     [Header("Frame")]
-    [SerializeField] Image frame;
+    [SerializeField] Image frameCard;
+    [SerializeField] Image frameName;
     [SerializeField] Image background;
     [SerializeField] TMP_Text nameCard;
 
@@ -26,7 +27,8 @@ public class CardUITower : MonoBehaviour
     public void SetCardInfo(CardCharacter card)
     {
         //Frame
-        frame.sprite = card.frame;
+        frameCard.sprite = card.frame;
+        frameName.sprite = card._frameCardName;
         background.sprite = card.background;
         nameCard.text = card.name;
 
