@@ -386,7 +386,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
         {
             yield return wait;
             DeductHealth(damagePerSecond, AttackType.Burn);
-            FXSpawner.Instance.SendFXText(damagePerSecond, skillType, transform, Quaternion.identity);
+            FXSpawner.Instance.SendFXText(damagePerSecond, skillType, this.objectCtrl.TargetPosition, Quaternion.identity);
             elapsedTime += 0.5f;
         }
 

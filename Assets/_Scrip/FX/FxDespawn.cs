@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,8 +29,7 @@ public class FxDespawn : DespawnByTime
 
         StartCoroutine(DestroyFragmentsAfterDelay(delayTimerTrigger));
 
-        Debug.Log("Despawn: " + transform.parent.name);
-
+        base.deSpawnObjParent();
     }
     public virtual void FXSkill()
     {

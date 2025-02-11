@@ -7,6 +7,8 @@ public class FXDamageReceiver : DamageReceiver
     public override void OnDead()
     {
         skillCtrl.FxDespawn.ResetCanDespawnFlag();
+
+        Debug.Log("On Dead: " + transform.parent.name);
     }
     public override void ReBorn()
     {

@@ -10,7 +10,15 @@ public class PlayerModel : AbstractModel
         if (this.objCtrl.ObjectDamageReceiver.IsDead)
         {
             Debug.Log("Play Animation Dead");
-            this.animator.Play("Dead");
+            if(currentState == State.MeleeWitch)
+            {
+                this.animator.Play("MeleeDead");
+            }
+            else
+            {
+                this.animator.Play("Dead");
+
+            }
 
             this.DisablePhysics();
             this.SetFalseAnimation();
@@ -25,9 +33,7 @@ public class PlayerModel : AbstractModel
                 // Despawn
                 this.playerCtrl.Despawn.ResetCanDespawnFlag();
 
-                Debug.Log("On Dead Player");
             }
-            Debug.Log("Call Dead Player");
             return;
         }
 
@@ -87,7 +93,19 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Stun", false);
                 PlayAnimation("Melee", false);
                 PlayAnimation("Deff", false);
+                PlayAnimation("Deactive", false);
 
+
+                isAttacking = false;
+                ResetTrigger("Upper");
+                ResetTrigger("Lower");
+                //activeAttack = false;
+                break;
+            case State.Deactive:
+                if (this.effectCharacter.Vfx_Stun.activeSelf)
+                    this.effectCharacter.Vfx_Stun.SetActive(false);
+                PlayAnimation("Deactive", true);
+   
                 isAttacking = false;
                 ResetTrigger("Upper");
                 ResetTrigger("Lower");
@@ -151,6 +169,7 @@ public class PlayerModel : AbstractModel
                     PlayAnimation("Stun", false);
                     PlayAnimation("Melee", false);
                     PlayAnimation("Deff", false);
+                    PlayAnimation("Deactive", false);
 
 
                     isAttacking = true;
@@ -173,6 +192,7 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Deff", false);
                 ResetTrigger("Upper");
                 ResetTrigger("Lower");
+                PlayAnimation("Deactive", false);
 
                 isAttacking = false;
                 break;
@@ -201,6 +221,8 @@ public class PlayerModel : AbstractModel
                 ResetTrigger("Upper");
                 ResetTrigger("Lower");
                 PlayAnimation("Hit", false);
+                PlayAnimation("Deactive", false);
+
 
                 isAttacking = false;
                 break;
@@ -216,6 +238,8 @@ public class PlayerModel : AbstractModel
                     PlayAnimation("Skill2", false);
                     PlayAnimation("Stun", false);
                     PlayAnimation("Melee", true);
+                    PlayAnimation("Deactive", false);
+
 
                     isAttacking = true;
                     comPleteStateTransition = false;
@@ -250,9 +274,8 @@ public class PlayerModel : AbstractModel
             Debug.Log("Call Skill Player");
             return;
         }
-
         // Animation Attack - Idle
-        if (this.objCtrl.ObjMelee != null && this.objCtrl.ObjMelee.CheckCanAttack)
+        if (this.objCtrl.ObjMelee != null && this.objCtrl.ObjMelee.CheckCanAttack) //Melee Attack
         {
             currentState = State.MeleeWitch;
 
@@ -270,9 +293,25 @@ public class PlayerModel : AbstractModel
         {
             StartStateTransition(State.Attack);
         }
+        else if (this.objCtrl.ObjMelee != null && !this.objCtrl.ObjMelee.CheckCanAttack && currentState == State.MeleeWitch || currentState == State.Idle)//Archer
+        {
+            currentState = State.Deactive;
+            isDeactive = true;
+        }
         else if (shouldAttack)
         {
             currentState = State.Attack;
+        }
+        else if(!shouldAttack && currentState == State.MeleeWitch/* && */)
+        {
+            //Archer
+            currentState = State.Deactive;
+            isDeactive = true;
+            Debug.Log("Call Current State Deactive");
+        }
+        else if(isDeactive && currentState == State.Deactive)
+        {
+            currentState = State.Deactive;
         }
         else
         {

@@ -63,15 +63,16 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
 
         if (damageReceiver == null || damageReceiver.IsDead)
             return;
-
-        DamageSender.SendFXImpact(damageReceiver, objectCtrl);
         sendDameFisrt = true;
 
-        StartCoroutine(StopAction());
+        StartCoroutine(StopAction(timeLockAttack));
         Debug.Log("Call Skill Colider");
     }
-
-    private IEnumerator StopAction()
+    public void CallStopAction()
+    {
+        StartCoroutine(StopAction(0.5f));
+    }
+    private IEnumerator StopAction(float timeLock)
     {
         yield return new WaitForSeconds(timeLockAttack);
 
@@ -89,9 +90,10 @@ public class MagicVortexCtrl : SkillCtrl, ITrapHpSkill
         {
             RemoveMagicVortexCtrl(enemyCtrl.TargetSkillScript.listSkillCtrl);
 
-
             if (enemyCtrl.EnemyAttack.ListObjAttacks.Count <= 0 && enemyCtrl.TargetSkillScript.listSkillCtrl.Count <= 0)
                 enemyCtrl.EnemyAttack.CheckCanAttack = false;
+
+            enemyCtrl = null;
         }
     }
     public void RemoveMagicVortexCtrl(List<SkillCtrl> listSkillCtrl)

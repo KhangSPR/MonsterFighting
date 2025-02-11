@@ -35,7 +35,8 @@ public class SkillSO : ScriptableObject
         return "";
     }
     // Name Skill
-    [TextArea] public string textTemplate;
+    [TextArea(20, 20)]
+    public string textTemplate;
 
     public string GetDamageText()
     {

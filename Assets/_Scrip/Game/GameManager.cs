@@ -410,12 +410,13 @@ public class GameManager : SaiMonoBehaviour
             Hover.Instance.Activate(button.Sprite);
             SetFlag(GameStateFlags.ClickTile, true);
         }
-        else if (button is CardButton && costManager.Currency >= button.Price)
+        else if (button is CardButton cardButton && costManager.Currency >= cardButton.CardCharacter.GetLevel(cardButton.CardCharacter.rarityCard))
         {
             HandleActivation(button);
 
             cardRefresh = CardPickup;
         }
+        //Handle Effect Not Enough
     }
 
     public void DePickButton(BaseBtn button)
@@ -430,9 +431,14 @@ public class GameManager : SaiMonoBehaviour
 
     public void BuyCard()
     {
-
-        this.SubtractCurrency(clickBtn.Price);
-
+        if(clickBtn is CardButton cardButton)
+        {
+            this.SubtractCurrency(cardButton.CardCharacter.GetLevel(cardButton.CardCharacter.rarityCard));
+        }
+        else
+        {
+            this.SubtractCurrency(clickBtn.Price);
+        }
         this.HandleEscape();
 
     }

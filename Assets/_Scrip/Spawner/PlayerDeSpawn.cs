@@ -28,6 +28,6 @@ public class PlayerDeSpawn : Despawn
 
     protected override bool canDespawn()
     {
-        return canDespawnFlag = false;
+        return this.canDespawnFlag;
     }
 }

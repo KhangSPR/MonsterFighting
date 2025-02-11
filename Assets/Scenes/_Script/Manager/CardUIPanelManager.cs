@@ -44,6 +44,9 @@ namespace UIGameDataManager
 
         [Header("Game ICON SO")]
         [SerializeField] GameIconsSO m_GameIconsData;
+
+        private List<CardUITower> m_CardUITowerList = new List<CardUITower>();
+        public List<CardUITower> CardUITowerList;
         protected override void Awake()
         {
             if (CardUIPanelManager.instance != null)
@@ -90,6 +93,8 @@ namespace UIGameDataManager
         {
             if (charScreen == null) return;
             if (charScreen.M_Characters == null) return;
+
+            m_CardUITowerList.Clear();
             // Xóa tất cả các đối tượng con của PanelCard trước khi thêm mới
             foreach (Transform child in PanelCard)
             {
@@ -116,7 +121,7 @@ namespace UIGameDataManager
 
                 // Add List CharScreen
                 charScreen.M_Characters.Add(TowerData);
-
+                m_CardUITowerList.Add(cardUI);
 
                 if (TowerData != null)
                 {
@@ -157,7 +162,21 @@ namespace UIGameDataManager
                 Debug.Log("Card UI Machine");
             }
         }
-
+        public void UpdateRarityCardPlayer(CardPlayer cardPlayer)
+        {
+            foreach(CardUITower card in m_CardUITowerList)
+            {
+                CharacterData characterData = card.transform.GetComponent<CharacterData>();
+                if(characterData != null)
+                {
+                    if(characterData.CharacterBaseData is CardPlayer)
+                    {
+                        card.SetCardInfo(cardPlayer);
+                        return;
+                    }
+                }
+            }
+        }
         //private void InstanceCardObject()
         //{
         //    // Lấy RectTransform của GameHouse

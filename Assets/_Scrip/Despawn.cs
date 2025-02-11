@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +9,8 @@ public abstract class Despawn : SaiMonoBehaviour
 
     private void FixedUpdate()
     {
-      /*  this.canDespawn();*/ //Repair
         this.Despawning();
-
+        this.canDespawn();
     }
 
     protected virtual void Despawning()
@@ -21,16 +20,14 @@ public abstract class Despawn : SaiMonoBehaviour
         this.canDespawnFlag = false;
     }
 
-    protected abstract void deSpawnObjParent();
-    //{
-    //    //Destroy(transform.parent.gameObject);
-    //}
+    protected virtual void deSpawnObjParent()
+    {
+
+    }
     public void ResetCanDespawnFlag()
     {
         this.canDespawnFlag = true;
-
         Debug.Log("ResetCanDespawnFlag");
-        //transform.parent.gameObject.SetActive(false);
     }
     protected abstract bool canDespawn();
 

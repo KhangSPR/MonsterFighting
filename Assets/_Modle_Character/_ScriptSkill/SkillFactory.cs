@@ -11,6 +11,9 @@ public static class SkillFactory
         {"Venomous Explosion Sphere", typeof(VenomousExplosionSphere) },
         {"Virtual Shield", typeof(VirtualShield) },
         {"Fire Slash", typeof(FireSlash) },
+        {"Sword Electric", typeof(SwordElectric) },
+        {"Laser Beam", typeof(LaserBeam) },
+
 
         // Thêm các skill khác
     };

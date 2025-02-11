@@ -18,8 +18,15 @@ public class CardManagerData : ScriptableObject
     private const string MachineKey = "SavedCardMachines";
     public void RemoveAllJoinedGuild()
     {
-        cardCharacter.Clear();
+        ClearButKeepFirst();
         cardMachines.Clear();
+    }
+    public void ClearButKeepFirst()
+    {
+        if (cardCharacter.Count > 1)
+        {
+            cardCharacter.RemoveRange(1, cardCharacter.Count - 1);
+        }
     }
     public void SaveData()
     {
@@ -51,11 +58,15 @@ public class CardManagerData : ScriptableObject
         cardCharacter = cardALL.CardCharacters
             .Where(c => savedCharacterIds.Contains(c.ID))
             .ToList();
-
         //cardMachines = cardALL.CardMachines
         //    .Where(m => savedMachineIds.Contains(m.ID))
         //    .ToList();
     }
+    public void LoadDataCardPlayer()
+    {
+        cardCharacter.Insert(0, PlayerManager.Instance.CardCurrentPlayer);
+    }
+
 }
 
 [System.Serializable]

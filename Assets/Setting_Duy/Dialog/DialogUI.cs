@@ -124,9 +124,11 @@ public class DialogUI : MonoBehaviour {
         }else if(currentDialog.index == currentDialog.lines.Length -1)
         {
             UIManager.Instance.ShowActiveUI();
-            PlayerManager.Instance.IsDiaLog = true;
+            PlayerManager.Instance.SetOnDisableDialog();
             OnPopUpText?.Invoke();
             DestroyDiaLog();
+
+            Debug.Log("IsDialog: " + PlayerManager.Instance.IsDiaLog);
         }
         else {
             var index = ++currentDialog.index;

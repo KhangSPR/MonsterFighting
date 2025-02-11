@@ -9,7 +9,7 @@ public class PanelSelect : MonoBehaviour
         CardManager.Instance.InstanceAllCard();
         CardManager.Instance.InstanceCardSlot();
         CardManager.Instance.PanelCardHasSelect.LoadPanelCardHasSelect();
-        CardManager.Instance.CheckCardIsWorking();
+        CardManager.Instance.CheckCardIsWorking(); //Card Play Has Select
         CardManager.Instance.PanelCardHasSelect.CheckForEnoughCard();
         CardManager.Instance.CheckCardActive();
     }

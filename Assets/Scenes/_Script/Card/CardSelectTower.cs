@@ -66,6 +66,8 @@ public class CardSelectTower : MonoBehaviour
 
     private void AddCardPanelHasSelect()
     {
+        if (cardTower is CardPlayer) return;
+
         if (!CheckCardPresence())
         {
             CardManager.Instance.AddCardToCardManager(cardTower);

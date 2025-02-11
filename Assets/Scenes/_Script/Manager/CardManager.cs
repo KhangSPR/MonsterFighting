@@ -52,6 +52,11 @@ public class CardManager : MonoBehaviour
         cardManagerALL.LoadSumALLCard();
         cardManagerDataPlay.LoadData();
     }
+    private void Start()
+    {
+        CardManagerData.LoadDataCardPlayer();
+        cardManagerALL.LoadDataCardPlayer();
+    }
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.H))
@@ -193,6 +198,8 @@ public class CardManager : MonoBehaviour
     {
         for (int i = 0; i < PanelCardHasSelect.CardHasSelects.Count; i++)
         {
+            if (cardHasSelect.cardSelectTower == null) return;
+
             if (PanelCardHasSelect.CardHasSelects[i] == cardHasSelect)
             {
                 if (cardHasSelect.Card.activeSelf)
@@ -225,7 +232,6 @@ public class CardManager : MonoBehaviour
         // Kiểm tra nếu không có dữ liệu trong cardSelectTowers hoặc cardManagerDataPlay.cardTowers
         if (cardSelectTowers.Count < 1 || cardManagerDataPlay.CardCharacters.Count < 1)
             return;
-
 
         int i = 0; // Reset i về 0 ở đầu vòng lặp while
         foreach (CardHasSelect cardHasSelect in panelCardHasSelect.CardHasSelects)

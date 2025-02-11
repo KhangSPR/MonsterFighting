@@ -59,6 +59,9 @@ public abstract class AbstractModel : AbstractCtrl
     [SerializeField]
     protected bool isFuryGain = false;
     public bool IsFuryGain { get { return isFuryGain; } set { isFuryGain = value; } }
+    [SerializeField]
+    protected bool isDeactive = false; //Archer
+    public bool IsDeactive { get { return isDeactive; } set { isDeactive = value; } }
 
     //[SerializeField] protected float fadeDuration = 2.0f;
     [SerializeField]
@@ -225,6 +228,10 @@ public abstract class AbstractModel : AbstractCtrl
     {
         this.isAnimationAttackComplete = true;
     }
+    public void OnDeactiveArcher()
+    {
+        this.isDeactive = false;
+    }
     public void OnDeadAnimationEnd()
     {
         this.isAnimationDeadComplete = true;
@@ -324,6 +331,7 @@ public abstract class AbstractModel : AbstractCtrl
         this.circleCollider.enabled = true;
         this._rigidbody.simulated = true;
         this.animator.enabled = true;
+        this.currentState = State.Idle;
         this.shadowObj.SetActive(true);
 
     }

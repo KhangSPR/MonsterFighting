@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace UIGameDataManager
 {
+    public enum CharacterCategory
+    {
+        Default,
+        Player,
+
+    }
     public enum AttackCategory
     {
         ALL,
@@ -41,7 +47,8 @@ namespace UIGameDataManager
         public Stats CharacterStats => _characterStats;
 
         public string bioTitle;
-        [TextArea] public string bio;
+        [TextArea(20, 50)]
+        public string bio;
 
         public SkillSO skill1;
         public SkillSO skill2;
@@ -49,6 +56,7 @@ namespace UIGameDataManager
         public GuildType guildType;
         public RarityCard rarityCard;
         public AttackCategory attackTypeCard;
+        //public CharacterCategory characterCategory;
         //public AttackTypeAnimation attackType;
         //public GameObject characterVisualsPrefab;
 
@@ -60,6 +68,19 @@ namespace UIGameDataManager
         public RarityCard GetRarity()
         {
             return rarityCard;
+        }
+        public int GetLevel(RarityCard rarity)
+        {
+            return rarity switch
+            {
+                RarityCard.D => 1,
+                RarityCard.C => 2,
+                RarityCard.B => 3,
+                RarityCard.A => 4,
+                RarityCard.S => 5,
+                RarityCard.SS => 5, // Can Fix
+                _ => 0
+            };
         }
     }
 }

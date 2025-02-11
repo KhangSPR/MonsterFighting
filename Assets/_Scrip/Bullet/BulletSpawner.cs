@@ -4,7 +4,7 @@ public class BulletSpawner : Spawner
 {
     private static BulletSpawner instance;
     public static BulletSpawner Instance { get => instance; }
-    public static string bulletOne = "Bullet_1"; // bullet 1
+    public static string Bullet_WaterArrow = "Bullet_WaterArrow"; // bullet 1
     public static string bulletTwo = "Bullet_2"; // bullet 2
     public static string bulletThree = "Bullet_3"; // bullet 2
     public static string bulletFour = "Bullet_4"; // bullet 2

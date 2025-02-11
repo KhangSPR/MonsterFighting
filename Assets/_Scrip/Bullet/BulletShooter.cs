@@ -58,6 +58,19 @@ public abstract class BulletShooter : AbstractCtrl
 
         Transform newBullet = BulletSpawner.Instance.Spawn(GetBulletType(), gunPoint.position, rotation);
 
+        if (this.objCtrl.ObjAttack.ListObjAttacks.Count >0)
+        {
+            ObjectCtrl objectCtrl = this.objCtrl.ObjAttack.ListObjAttacks[0].GetComponent<ObjectCtrl>();
+
+            if (objectCtrl != null)
+            {
+                Transform bulletDirection = objectCtrl.TargetPosition;
+                Vector3 direction = (bulletDirection.position - gunPoint.position).normalized;
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                newBullet.rotation = Quaternion.Euler(0, 0, angle);
+            }
+        }
+
         Debug.Log(newBullet);
 
         //if (newBullet == null) return;
@@ -178,15 +191,15 @@ public abstract class BulletShooter : AbstractCtrl
         switch (parentName)
         {
             //Transform là Enemy
-            case "Archery Skeleton":
-                return BulletSpawner.bulletOne;
+            case "Water Archer":
+                return BulletSpawner.Bullet_WaterArrow;
             case "Skeleton Magic":
                 return BulletSpawner.bulletSix;
             case "Goblin Venomorb":
                 return BulletSpawner.Bullet_GoblinVenomorb;
             //Transform là Player
             case "Archer":
-                return BulletSpawner.bulletOne;
+                return BulletSpawner.Bullet_WaterArrow;
             case "Magic Fire":
                 return BulletSpawner.bulletSix;
             case "Dark Sorceress":

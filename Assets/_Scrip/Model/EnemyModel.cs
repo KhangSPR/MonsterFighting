@@ -158,6 +158,9 @@ public class EnemyModel : AbstractModel
             case State.Attack:
                 if (!isAttacking && currentDelay <= 0)
                 {
+                    //if (this.effectCharacter.Vfx_Stun.activeSelf)
+                    //    this.effectCharacter.Vfx_Stun.SetActive(false);
+
                     // Hoán đổi giữa Attack và Attack2
                     if (isUsingAttack1)
                     {
@@ -232,6 +235,7 @@ public class EnemyModel : AbstractModel
                 if (this.effectCharacter.Vfx_Stun != null && this.effectCharacter.Vfx_Stun.activeSelf)
                 {
                     this.effectCharacter.Vfx_Stun.SetActive(false);
+
                 }
                 ////Apply Goblin
                 //if(this.EffectCharacter.)
@@ -282,6 +286,7 @@ public class EnemyModel : AbstractModel
                     PlayAnimation("Skill2", false);
                     PlayAnimation("Melee", false);
 
+                    activeAttack = false;
 
                     deadPosition = transform.position;
 
@@ -554,9 +559,9 @@ public class EnemyModel : AbstractModel
             if (!activeAttack)
             {
                 this.AttackType();
-                //Debug.Log("Attack Type Action");
+                activeAttack = true;
+                Debug.Log("Attack Type Action: "+transform.parent.name);
             }
-            activeAttack = true;
 
             if (comPleteStateTransition)
             {

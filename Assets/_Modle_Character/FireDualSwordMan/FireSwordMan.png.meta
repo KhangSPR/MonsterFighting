@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 9
@@ -121,7 +121,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: FireSwordMan_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 771
+        height: 1044
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4804e722c633f74a9eb35e347bca691
+      internalID: -1835498586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FireSwordMan_1
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 57
+        width: 623
+        height: 905
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cb7bca1a01ebc24c8a589ef5b8af321
+      internalID: 842281197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FireSwordMan_2
+      rect:
+        serializedVersion: 2
+        x: 183
+        y: 542
+        width: 400
+        height: 400
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba9cc432e299a5f4e94636c070defd04
+      internalID: 790476912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +195,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      FireSwordMan_0: -1835498586
+      FireSwordMan_1: 842281197
+      FireSwordMan_2: 790476912
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

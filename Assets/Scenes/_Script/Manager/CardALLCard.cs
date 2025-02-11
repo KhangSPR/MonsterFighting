@@ -56,6 +56,10 @@ public class CardALLCard : ScriptableObject
     {
         return cardCharacters.Where(c => c.guildType == guildType).ToList();
     }
+    public void LoadDataCardPlayer()
+    {
+        cardCharacters.Insert(0, PlayerManager.Instance.CardCurrentPlayer);
+    }
 }
 
 

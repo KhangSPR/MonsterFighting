@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
+using UIGameDataManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,13 @@ public class PlayerManager : MonoBehaviour
     [Space]
     [SerializeField] private CardPlayer CardMale;
     [SerializeField] private CardPlayer CardFeMale;
-
+    [Space]
+    [Header("UI CardFrame Update Rarity B")]
+    [SerializeField] private Sprite m_FrameAvatarB;
+    [SerializeField] private Sprite m_FrameNameB;
+    [Header("UI CardFrame Update Rarity SS")]
+    [SerializeField] private Sprite m_FrameAvatarSS;
+    [SerializeField] private Sprite m_FrameNameSS;
     private CardPlayer cardCurrentPlayer;
     public CardPlayer CardCurrentPlayer => cardCurrentPlayer;
 
@@ -36,7 +43,7 @@ public class PlayerManager : MonoBehaviour
             if (lvPlayer != value)
             {
                 lvPlayer = value;
-                currentXP = 0;
+                currentXP = currentXP - maxXP; //retain energy
                 maxXP = LoadXPOfLevel();
                 UpdateXPUI();
                 SaveData();
@@ -80,7 +87,16 @@ public class PlayerManager : MonoBehaviour
                 {
                     LvPlayer++;
                 }
-                UpdateXPUI();
+                if (LvPlayer >= 10)
+                {
+                    UpdateLevelMax();
+                }
+                else
+                {
+                    UpdateXPUI();
+                }
+                SetCardRarity(cardCurrentPlayer);//Update Rarity
+                CardUIPanelManager.Instance.UpdateRarityCardPlayer(cardCurrentPlayer);//Update UIPanel
                 SaveData();
             }
         }
@@ -139,22 +155,27 @@ public class PlayerManager : MonoBehaviour
         instance = this;
         LoadData();
         LoadStatsPlayer();
+        maxXP = LoadXPOfLevel();
+        SetCurrentCardPlayer();
+        SetCardRarity(cardCurrentPlayer);
+        SetUIStatsPlayer();
+        SetStatsPlayer(cardCurrentPlayer.CharacterStats);
     }
 
     private void Start()
     {
-        SetCurrentCardPlayer();
-        ActivateDialog();
-        maxXP = LoadXPOfLevel();
-        SetUIStatsPlayer();
-        SetStatsPlayer(cardCurrentPlayer.CharacterStats);
+        if (!isDiaLog)
+        {
+            ActivateDialog();
+            return;
+        }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
-            AddXP(50);
+            AddXP(200);
             Debug.Log("XP Added");
         }
         if (Input.GetKeyDown(KeyCode.R))
@@ -162,6 +183,19 @@ public class PlayerManager : MonoBehaviour
             ResetPlayer();
             IsDiaLog = false;
         }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            ResetPlayer();
+        }
+    }
+    public void SetOnDisableDialog()
+    {
+        IsDiaLog = true;
+        ResetPlayer();
+        SetCurrentCardPlayer();
+        maxXP = LoadXPOfLevel();
+        SetUIStatsPlayer();
+        SetStatsPlayer(cardCurrentPlayer.CharacterStats);
     }
     private void ResetPlayer()
     {
@@ -170,6 +204,11 @@ public class PlayerManager : MonoBehaviour
     }
     public void AddXP(uint xp)
     {
+        if(lvPlayer >= 10)
+        {
+            Debug.LogWarning("XP MAX PLAYER!");
+            return;
+        }
         CurrentXP += xp;
     }
 
@@ -177,20 +216,45 @@ public class PlayerManager : MonoBehaviour
     {
         cardCurrentPlayer = (gendersType == GendersType.Male) ? CardMale : CardFeMale;
     }
-
+    private void SetCardRarity(CardPlayer cardPlayer)
+    {
+        if(cardPlayer == null)
+        {
+            Debug.LogError("CardPlayer == null");
+        }
+        if(lvPlayer == 5)
+        {
+            cardPlayer.frame = m_FrameAvatarB;
+            cardPlayer._frameCardName = m_FrameNameB;
+            cardPlayer.rarityCard = RarityCard.B;
+        }
+        else if(lvPlayer == 10)
+        {
+            cardPlayer.frame = m_FrameAvatarSS;
+            cardPlayer._frameCardName = m_FrameNameSS;
+            cardPlayer.rarityCard = RarityCard.SS;
+        }
+        if(lvPlayer >=5)
+        {
+            cardPlayer.skill2.skillUnlock = true;
+        }
+    }
     private void ActivateDialog()
     {
-        if (!isDiaLog)
-        {
-            Instantiate(m_DialogPrefab, UIManager.Instance.HouseUI);
-            isDiaLog = true;
-        }
+        Instantiate(m_DialogPrefab, UIManager.Instance.HouseUI);
     }
 
     private void SetUIStatsPlayer()
     {
         avatar.sprite = cardCurrentPlayer.AvatarPlayer;
-        UpdateXPUI();
+        if(LvPlayer < 10)
+        {
+            UpdateXPUI();
+        }
+        else
+        {
+            UpdateLevelMax();
+        }
     }
 
     private void UpdateXPUI()
@@ -200,7 +264,13 @@ public class PlayerManager : MonoBehaviour
         slider.SetCurrentSlider(currentXP);
         xpText.text = $"{currentXP}/{maxXP}";
     }
-
+    private void UpdateLevelMax()
+    {
+        lvText.text = "LV" + lvPlayer;
+        xpText.text = $"Max";
+        slider.SetMaxSlider(10);
+        slider.SetCurrentSlider(10);
+    }
     private void SetStatsPlayer(Stats stats)
     {
         if (lvPlayer < statStrings.Count)
@@ -224,7 +294,7 @@ public class PlayerManager : MonoBehaviour
     private uint LoadXPOfLevel()
     {
         string[] lines = csvFile.text.Split('\n');
-        int startLine = gendersType == GendersType.Male ? 1 : 11;
+        int startLine = gendersType == GendersType.Male ? 1 : 12;
         int endLine = gendersType == GendersType.Male ? 11 : lines.Length;
 
         for (int i = startLine; i < endLine; i++)
@@ -232,16 +302,18 @@ public class PlayerManager : MonoBehaviour
             string[] columns = lines[i].Split(',');
             if (columns.Length >= 2 && columns[0].Trim() == $"lv{lvPlayer + 1}" && uint.TryParse(columns[1].Trim(), out var xp))
             {
+                Debug.Log($"XP lấy được tại dòng {i}: {xp}");
                 return xp;
             }
         }
         return 0;
     }
 
+
     private void LoadStatsPlayer()
     {
         string[] lines = csvFile.text.Split('\n');
-        int startLine = gendersType == GendersType.Male ? 1 : 11;
+        int startLine = gendersType == GendersType.Male ? 0 : 12;
         int endLine = gendersType == GendersType.Male ? 11 : lines.Length;
 
         for (int i = startLine; i < endLine; i++)

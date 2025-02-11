@@ -17,5 +17,6 @@ public enum State
     Horn,
     HitRage,
     Deff,
-    Hit
+    Hit,
+    Deactive
 }

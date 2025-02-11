@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -10,10 +11,12 @@ public class EnemyAttack : ObjAttack
 
         if (other.transform.parent.tag == "Skill")
         {
-            checkCanAttack = true;
-
             // Kiểm tra xem SkillCtrl đã tồn tại trong danh sách chưa
             SkillCtrl skillCtrl = other.transform.parent.GetComponent<SkillCtrl>();
+            if(skillCtrl is MagicVortexCtrl vortexCtrl)
+            {
+                if (vortexCtrl.enemyCtrl != null) return;
+            }
             if (!this.enemyCtrl.TargetSkillScript.listSkillCtrl.Contains(skillCtrl))
             {
                 this.enemyCtrl.TargetSkillScript.listSkillCtrl.Add(skillCtrl);
@@ -22,8 +25,10 @@ public class EnemyAttack : ObjAttack
                     virtualShieldCtrl.enemyCtrls.Add(enemyCtrl);
 
                 }
+
                 Debug.Log("Add Skill");
             }
+            checkCanAttack = true;
 
             Debug.Log("Trigger Skill");
             return;

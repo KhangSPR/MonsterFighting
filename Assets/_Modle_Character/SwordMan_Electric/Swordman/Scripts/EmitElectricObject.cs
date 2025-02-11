@@ -111,6 +111,8 @@ public class EmitElectricObject : MonoBehaviour
 
                         // Emit electric effect here (e.g., play particle, deal damage, etc.)
                         //Debug.Log($"Chained to: {uncheckedObjects[i][j].name}");
+                        SendEffect(uncheckedObjects[i][j]);
+
 
                         currentChainLength++;
                     }
@@ -118,7 +120,18 @@ public class EmitElectricObject : MonoBehaviour
             }
         }
     }
+    private void SendEffect(GameObject ObjElectric)
+    {
+        ObjectCtrl objectCtrl = ObjElectric.transform.parent.GetComponent<ObjectCtrl>();
 
+        if(objectCtrl == null)
+        {
+            Debug.LogError("ObjCtrl == null");
+            return;
+        }
+        objectCtrl.ObjectDamageReceiver.StartStun();
+        objectCtrl.ObjectDamageReceiver.StartElectric(SkillType.Electric);
+    }
     private void AddLineRenderer(GameObject startObject, GameObject currentObject)
     {   
         LineRenderer tempLineRenderer = currentObject.GetComponent<LineRenderer>();

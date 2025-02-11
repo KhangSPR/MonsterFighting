@@ -36,20 +36,20 @@ public class MagicVortex : ISkill
             if (targetSkill.listSkillCtrl.Any(skill => skill is MagicVortexCtrl))
             {
                 CancelExistingMagicVortex(targetSkill.listSkillCtrl);
-
+    
                 Debug.Log("CancelExistingMagicVortex");
             }
-            else
-            {
-                targetSkill.listSkillCtrl.Add(iskill);
-                Debug.Log("ADd TargetSkill");
+            //else
+            //{
+            //    targetSkill.listSkillCtrl.Add(iskill);
+            //    Debug.Log("ADd TargetSkill");
 
-            }
-
+            //}
+            targetSkill.listSkillCtrl.Add(iskill);
+            Debug.Log("ADd TargetSkill");
 
             if (iskill != null)
             {
-                iskill.DamageSender.Damage = (int)damage;
                 iskill.targetBottom = targetSkill.transform;
                 iskill.SetObjectCtrl(objectCtrl);
                 iskill.SkillAction();
@@ -62,8 +62,9 @@ public class MagicVortex : ISkill
         // Lặp qua danh sách để tìm và xóa tất cả các instance của MagicVortexCtrl
         for (int i = listSkillCtrl.Count - 1; i >= 0; i--) // Duyệt ngược để tránh lỗi khi xóa phần tử
         {
-            if (listSkillCtrl[i] is MagicVortexCtrl)
+            if (listSkillCtrl[i] is MagicVortexCtrl magicVortexCtrl)
             {
+                magicVortexCtrl.CallStopAction();
                 listSkillCtrl.RemoveAt(i); // Xóa phần tử nếu là MagicVortexCtrl
                 //listSkillCtrl[i].gameObject.SetActive(false);
             }

@@ -107,7 +107,7 @@ public class TextDamage : SaiMonoBehaviour
             SkillType.Miss => new Color32(0, 191, 255, 255),
             SkillType.Stone => Color.gray + Color.red + Color.yellow,
             SkillType.Poison => new Color32(50, 205, 50, 255), // LimeGreen - mã hex: #32CD32
-            SkillType.Electric => Color.yellow,
+            SkillType.Electric => new Color(0.5f, 0.9f, 1f),
             SkillType.Dark => Color.magenta,
             _ => Color.white,
         };

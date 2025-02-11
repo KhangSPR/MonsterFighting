@@ -54,10 +54,20 @@ public class AnimationImpact : SaiMonoBehaviour
 
         if (other.transform.parent == null) return;
 
-        if (other.name != "Modle") return;
+        if(enemyCtrl != null)
+        {
+            if (enemyCtrl.TargetSkillScript.listSkillCtrl.Count > 0)
+            {
+                enemyCtrl.TargetSkillScript.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
+                Debug.Log("Skill Effect");
 
+                damageSent = true;
+                gameObject.SetActive(false);
+                return;
+            }
+        }
 
-        if (enemyCtrl!=null)
+        if (enemyCtrl != null)
         {
             if (other.transform.parent.CompareTag("Castle"))
             {
@@ -75,6 +85,7 @@ public class AnimationImpact : SaiMonoBehaviour
             }
         }
 
+        if (other.name != "Modle") return;
 
         // Nếu không có FXDamageReceiver, xử lý theo logic khác
         if (playerCtrl != null)
@@ -104,16 +115,6 @@ public class AnimationImpact : SaiMonoBehaviour
         }
         else if (enemyCtrl != null)
         {
-            if (enemyCtrl.TargetSkillScript.listSkillCtrl.Count > 0)
-            {
-                enemyCtrl.TargetSkillScript.listSkillCtrl[0].FXDamageReceiver.DeductHealth(enemyCtrl.DamageSender.Damage, AttackType.Default);
-                Debug.Log("Skill Effect");
-
-                damageSent = true;
-                gameObject.SetActive(false);
-                return;
-            }
-
             var otherObjectCtrl = other.transform.parent.GetComponent<ObjectCtrl>();
 
             if (otherObjectCtrl == null || enemyCtrl.ObjLand.LandIndex != otherObjectCtrl.ObjLand.LandIndex)
