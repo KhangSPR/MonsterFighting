@@ -21,6 +21,7 @@ public class PlayerDeSpawn : Despawn
     {
         PlayerSpawner.Instance.Despawn(transform.parent);
 
+        playerCtrl.ObjTile.TileTower.IsEmpty = true; //Set Tile == True
         playerCtrl.AbstractModel.DameFlash.SetMaterialDamageFlash();
 
         Debug.Log("deSpawnObjParent: " + transform.parent);

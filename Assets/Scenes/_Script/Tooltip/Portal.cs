@@ -28,7 +28,7 @@ public class Portal : MonoBehaviour
 
         mainParticle.startColor = portal.GetColorForRarityPortal(portal.rarityPortal);
 
-        Image _meterial = transform.Find("Circle").GetComponent<Image>();
+        Image _meterial = transform.Find("DarkBeam/Circle").GetComponent<Image>();
         _meterial.material = LevelUIManager.Instance.Materials[portal.GetIndexRarity(portal.rarityPortal)];
     }
 }

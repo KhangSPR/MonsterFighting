@@ -13,6 +13,8 @@ public static class SkillFactory
         {"Fire Slash", typeof(FireSlash) },
         {"Sword Electric", typeof(SwordElectric) },
         {"Laser Beam", typeof(LaserBeam) },
+        {"Bullet Beam", typeof(BulletBeam) },
+        {"Arrow Rain", typeof(ArrowRain) },
 
 
         // Thêm các skill khác

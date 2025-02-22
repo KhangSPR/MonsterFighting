@@ -12,19 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea1a29aed6a305469a422ea36e08d53, type: 3}
   m_Name: Goblin Boss
   m_EditorClassIdentifier: 
+  ID: 
   basePointsAttack: 32
-  basePointsLife: 100
+  basePointsLife: 250
   basePointsAttackSpeed: 1.25
   basePointsCurrentMana: 98
   basePointsSpeedMove: 0.8
   attackSpeed: 2.8
   attackSpeedMelee: 1.5
   itemDrop:
-  - itemDropType: 1
+  - ID: 
+    itemDropType: 1
     minDrop: 1
     maxDrop: 1
     spawnRate: 500
-  - itemDropType: 2
+  - ID: 
+    itemDropType: 2
     minDrop: 1
     maxDrop: 1
     spawnRate: 1500

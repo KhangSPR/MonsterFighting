@@ -107,6 +107,11 @@ public class PlayerModel : AbstractModel
                 PlayAnimation("Deactive", true);
    
                 isAttacking = false;
+                if (activeAttack && comPleteStateTransition)
+                {
+                    activeAttack = false;
+                    isAnimationAttackComplete = false;
+                }
                 ResetTrigger("Upper");
                 ResetTrigger("Lower");
                 //activeAttack = false;
@@ -179,7 +184,12 @@ public class PlayerModel : AbstractModel
                         activeAttack = false;
                         isAnimationAttackComplete = false;
                     }
-                    comPleteStateTransition = false;
+                    //comPleteStateTransition = false;
+                    if (activeAttack && comPleteStateTransition)
+                    {
+                        activeAttack = false;
+                        isAnimationAttackComplete = false;
+                    }
                 }
                 break;
 
@@ -293,7 +303,7 @@ public class PlayerModel : AbstractModel
         {
             StartStateTransition(State.Attack);
         }
-        else if (this.objCtrl.ObjMelee != null && !this.objCtrl.ObjMelee.CheckCanAttack && currentState == State.MeleeWitch || currentState == State.Idle)//Archer
+        else if (this.objCtrl.ObjMelee != null && !this.objCtrl.ObjMelee.CheckCanAttack && attackRangeType == AttackRangeType.Archer && currentState == State.MeleeWitch || currentState == State.Idle)//Archer
         {
             currentState = State.Deactive;
             isDeactive = true;
@@ -301,13 +311,6 @@ public class PlayerModel : AbstractModel
         else if (shouldAttack)
         {
             currentState = State.Attack;
-        }
-        else if(!shouldAttack && currentState == State.MeleeWitch/* && */)
-        {
-            //Archer
-            currentState = State.Deactive;
-            isDeactive = true;
-            Debug.Log("Call Current State Deactive");
         }
         else if(isDeactive && currentState == State.Deactive)
         {

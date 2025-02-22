@@ -16,6 +16,7 @@ public class GuildManager : MonoBehaviour
 
     public static Action OnGuildJoined;
     public static Action<GuildSO> OnGuildDisplayQuest;
+    //public static Action<GuildSO> OnCardGuildUpdate;
     private void Awake()
     {
         if (instance != null)
@@ -34,7 +35,10 @@ public class GuildManager : MonoBehaviour
         // Lắng nghe phím "Z" để thoát guild
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            //Out Guild
             ResetJoinedGuild(); // Thực hiện việc reset khi nhấn phím Z
+            PlayerPrefs.DeleteKey("CARD_CHARACTER_KEY");
+
         }
     }
 
@@ -50,6 +54,9 @@ public class GuildManager : MonoBehaviour
 
         // Cập nhật Guild đã tham gia
         SetJoinedGuild();
+
+        //if (GuildJoined != null)
+        //    OnCardGuildUpdate?.Invoke(GuildJoined);
     }
 
     private void LoadGuildsFromResources()
@@ -102,6 +109,7 @@ public class GuildManager : MonoBehaviour
 
         OnGuildJoined?.Invoke();
         OnGuildDisplayQuest?.Invoke(GuildJoined);
+        //OnCardGuildUpdate?.Invoke(GuildJoined);
         // Lưu trạng thái
         SaveGuildState();
     }

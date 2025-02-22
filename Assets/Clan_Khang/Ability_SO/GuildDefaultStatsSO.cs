@@ -7,7 +7,7 @@ public class GuildDefaultStatsSO : ScriptableObject
 {
     [Header("Default Stats")]
     [SerializeField, ReadOnlyInspector]
-    private int defaultMoney = 5; // 5 Money Default
+    private int defaultMoney = 10; // 5 Money Default
     public int DefaultMoney => defaultMoney;
 
     [SerializeField, ReadOnlyInspector]

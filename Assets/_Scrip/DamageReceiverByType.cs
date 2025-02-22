@@ -43,14 +43,14 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
     {
         HandleCollisionEnter<IDarkable>(collision, DamagePerSecondDark, StartDarking);
         HandleCollisionEnter<IBurnable>(collision, DamagePerSecondDark, StartBurning);
-        //HandleCollisionEnter<IElectricable>(collision, DamagePerSecondTwitch, StartTwitching);
+        HandleCollisionEnter<IElectricable>(collision, DamagePerSecondTwitch, StartTwitching);
     }
 
     protected virtual void OnTriggerExit2D(Collider2D collision)
     {
         HandleCollisionExit<IDarkable>(collision, exitTimeDark, StopDarking);
         HandleCollisionExit<IBurnable>(collision, exitTimeDark, StopBurning);
-        //HandleCollisionExit<IElectricable>(collision, exitTimeTwitch, StopTwitching);
+        HandleCollisionExit<IElectricable>(collision, exitTimeTwitch, StopTwitching);
     }
 
     protected virtual void HandleCollisionEnter<T>(Collider2D collision, int damagePerSecond, Action<int> startEffect)
@@ -67,6 +67,15 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
             if (component is T)
             {
                 SkillCtrl skillCtrl = collision.transform.parent.GetComponent<SkillCtrl>();
+                //Deduct ArrowRainHit
+                ArrowRainHit arrowRainHit = collision.GetComponent<ArrowRainHit>();
+                if (arrowRainHit != null)
+                {
+                    if (startEffect != null)
+                    {
+                        startEffect(damagePerSecond);
+                    }
+                }
                 if(skillCtrl == null)
                 {
                     Debug.LogError("SkillCtrll Null");
@@ -134,7 +143,7 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
             DeductHealth(damagePerTick, AttackType.Burn);
                 FXSpawner.Instance.SendFXText(damagePerSecond, skillType,objectCtrl.TargetPosition , Quaternion.identity);
 
-            Debug.Log("Darking");
+            Debug.Log("ApplyEffecting");
         }
     }
     public void StartBurning(int damagePerSecond)
@@ -156,6 +165,13 @@ public class DamageReceiverByType : DamageReceiver, IBurnable, IElectricable, ID
     public void StartTwitching(int damagePerSecond)
     {
         isTwitching = true;
+        //Effect Character
+        Material material = EffectManager.Instance.GetMaterialByName("electric");
+        if (material != null)
+        {
+            Debug.Log("Set Electric Burn");
+            this.AbstractModel.EffectCharacter.SetMaterial(material);
+        }
         if (twitchCoroutine != null) StopCoroutine(twitchCoroutine);
         twitchCoroutine = StartCoroutine(ApplyEffect(damagePerSecond, () => isTwitching, SkillType.Electric));
 

@@ -31,6 +31,18 @@ public class FXImpact : SkillAbstract
 
         if (collision.transform.parent == null) return;
 
+        if (this.skillCtrl.ObjectCtrl is EnemyCtrl enemyCtrl)
+        {
+            if (collision.transform.parent.CompareTag("Castle"))
+            {
+                if (enemyCtrl.EnemyAttack.ListObjAttacks.Count > 0)
+                {
+                    enemyCtrl.DamageSender.Send(enemyCtrl.EnemyAttack.ListObjAttacks[0]);
+                }
+                return;
+            }
+        }
+
         if (collision.name != "Modle") return;
 
         // Check if the parent of the collider is tagged "Enemy"

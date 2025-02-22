@@ -20,8 +20,9 @@ public abstract class ObjAttack : AbstractCtrl
 
     [SerializeField] protected int maxAttackTargets = 1; 
     public int MaxAttackTargets { get { return maxAttackTargets; } set { maxAttackTargets = value; } }
-
-
+    //Previous Transform Count == 0
+    [SerializeField] protected Transform previousTransfrom;
+    public Transform PreviousTransfrom => previousTransfrom;
     [Header("Abstract Model")]
     [SerializeField] protected BoxCollider2D boxCollider;
 

@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     [Header("UI CardFrame Update Rarity SS")]
     [SerializeField] private Sprite m_FrameAvatarSS;
     [SerializeField] private Sprite m_FrameNameSS;
+    [SerializeField]
     private CardPlayer cardCurrentPlayer;
     public CardPlayer CardCurrentPlayer => cardCurrentPlayer;
 
@@ -34,6 +35,7 @@ public class PlayerManager : MonoBehaviour
     public static Action OnQuestUpdate;
     public static Action OnQuestUIDisplayUpdate;
     public static Action OnQuestPVP;
+    public static Action OnCardPlayerAwake;
 
     [SerializeField] private uint lvPlayer;
     public uint LvPlayer
@@ -215,6 +217,7 @@ public class PlayerManager : MonoBehaviour
     private void SetCurrentCardPlayer()
     {
         cardCurrentPlayer = (gendersType == GendersType.Male) ? CardMale : CardFeMale;
+        OnCardPlayerAwake?.Invoke();
     }
     private void SetCardRarity(CardPlayer cardPlayer)
     {

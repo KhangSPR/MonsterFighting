@@ -1,16 +1,15 @@
 ﻿using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UIGameDataManager;
 using UIGameDataMap;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UIWinGameCtrl : MonoBehaviour
 {
-    [Header("Game Data")]
-    [SerializeField] private Transform rewardItemPrefab;
-
     [Header("UI Components")]
     [SerializeField] private Transform rewardHolder;
     [SerializeField] private Transform status;
@@ -160,9 +159,38 @@ public class UIWinGameCtrl : MonoBehaviour
         {
             GameDataManager.Instance.GameData.StoneEnemy += (uint)item.Count;
 
-            GameObject rewardItem = Instantiate(rewardItemPrefab, rewardHolder).gameObject;
-            rewardItem.transform.Find("Img").GetComponent<Image>().sprite = item.item.Image;
-            rewardItem.transform.Find("Count").GetComponent<Text>().text = $"x{item.Count}";
+            GameObject rewardItem = CreateResourceItem(item);
         }
+    }
+    private GameObject CreateResourceItem(UIGameDataMap.Resources resource)
+    {
+        var objNew = Instantiate(RewardClaimManager.Instance.ItemReward, rewardHolder).gameObject;
+        objNew.SetActive(false);
+
+        var itemTooltip = objNew.GetComponent<ItemTooltipReward>();
+        itemTooltip.Avatar.sprite = resource.item.Image;
+        itemTooltip.CountTxt.text = $"x{resource.Count}";
+        itemTooltip.ItemReward = resource.item;
+        itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(resource.item.itemRarity);
+
+        GameDataManager.Instance.OnReceiverRewardResources(resource);
+
+        return objNew;
+    }
+
+    private GameObject CreateInventoryItem(InventoryItem item)
+    {
+        var objNew = Instantiate(RewardClaimManager.Instance.ItemObject, rewardHolder).gameObject;
+        objNew.SetActive(false);
+
+        var itemTooltip = objNew.GetComponent<ItemTooltipInventory>();
+        itemTooltip.Avatar.sprite = item.itemObject.Sprite;
+        itemTooltip.CountTxt.text = $"x{item.count}";
+        itemTooltip.ItemObject = item.itemObject;
+        itemTooltip.RawrRarity.material = RewardClaimManager.Instance.GetMaterial(item.itemObject.itemRarity);
+
+        InventoryManager.Instance.inventory.AddItem(new Item(item.itemObject), item.count);
+
+        return objNew;
     }
 }

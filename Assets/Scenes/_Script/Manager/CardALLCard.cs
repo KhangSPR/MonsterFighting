@@ -6,12 +6,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CardManagerALLCard", menuName = "Custom/CardManagerALLCard", order = 1)]
 public class CardALLCard : ScriptableObject
 {
+    [SerializeField]
     List<CardCharacter> cardCharacters = new List<CardCharacter>();
     public List<CardCharacter> CardCharacters => cardCharacters;
     List<CardMachine> cardMachines = new List<CardMachine>();
     public List<CardMachine> CardMachines => cardMachines;
 
-    const string resPathCardCharacter = "Card/CardSAOJ/CardCharacter";
+    const string resPathCardPlayer = "Card/CardSAOJ/CardPlayer";
+    const string resPathCardCharacter = "Card/CardSAOJ/CardCharacter"; //CardPlayer
     const string resPathCardMachine = "Card/CardSAOJ/CardMachine";
 
     public void LoadSumALLCard()
@@ -59,6 +61,33 @@ public class CardALLCard : ScriptableObject
     public void LoadDataCardPlayer()
     {
         cardCharacters.Insert(0, PlayerManager.Instance.CardCurrentPlayer);
+        this.AddCardPlayer();
+    }
+    //Add Card Player
+    private void AddCardPlayer() //Only 1 Guild
+    {
+        CardPlayer[] cardPlayers = Resources.LoadAll<CardPlayer>(resPathCardPlayer);
+
+        foreach(CardPlayer cardPlayer in cardPlayers)
+        {
+            if(!HandleCardPlayer(cardPlayer))
+            {
+                continue;
+            }
+            cardCharacters.Insert(1, cardPlayer);
+        }
+    }
+    private bool HandleCardPlayer(CardPlayer cardPlayer)
+    {
+        if(PlayerManager.Instance.CardCurrentPlayer == null)
+        {
+            Debug.LogError("CardCurrentPlayer PlayerManager == null!");
+        }
+        if(cardPlayer == PlayerManager.Instance.CardCurrentPlayer)
+        {
+            return false;
+        }
+        return true;
     }
 }
 

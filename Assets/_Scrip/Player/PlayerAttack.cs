@@ -50,6 +50,10 @@ public class PlayerAttack : ObjAttack
     {
         if (other.transform.parent != null && listObjAttacks.Contains(other.transform.parent))
         {
+            if(listObjAttacks.Count == 1)
+            {
+                previousTransfrom = other.transform.parent;
+            }
             listObjAttacks.Remove(other.transform.parent);
             if (listObjAttacks.Count == 0)
             {

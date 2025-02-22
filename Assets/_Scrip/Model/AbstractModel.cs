@@ -12,7 +12,11 @@ public enum AttackTypeAnimation
     Animation,
     Deff,
 }
-
+public enum AttackRangeType
+{
+    Witch,
+    Archer,
+}
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -28,6 +32,8 @@ public abstract class AbstractModel : AbstractCtrl
     [SerializeField] protected Animator animator;
     [SerializeField] protected AttackTypeAnimation attackTypeAnimation;
     public AttackTypeAnimation AttackTypeAnimation => attackTypeAnimation;
+    [SerializeField] protected AttackRangeType attackRangeType;
+    public AttackRangeType AttackRangeType => AttackRangeType;
     protected AttackTypeAnimation currentAttackTypeAnimation;
     [SerializeField] protected AnimationImpact animationImpact;
     [SerializeField] protected DameFlash dameFlash;

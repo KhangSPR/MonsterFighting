@@ -18,6 +18,8 @@ public class FXSpawner : Spawner
     public static string VirtualShield = "Virtual Shield";
     public static string SwordElectric = "Sword Electric";
     public static string LaserBeam = "Laser Beam";
+    public static string BulletBeam = "Bullet Beam";
+    public static string ArrowRain = "Arrow Rain";
     public static string FireDual = "Fire Slash";
     public static string Coin = "Coin";
 

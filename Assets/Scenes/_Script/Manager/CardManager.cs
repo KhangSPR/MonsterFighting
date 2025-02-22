@@ -1,9 +1,7 @@
 ﻿using DG.Tweening;
 using System.Collections.Generic;
-using TMPro;
 using UIGameDataManager;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
@@ -48,14 +46,19 @@ public class CardManager : MonoBehaviour
             Debug.LogError("Only 1 CardManager Warning");
         }
         CardManager.instance = this;
-
+        cardManagerDataPlay.CardCharacters.Clear(); //Clear
         cardManagerALL.LoadSumALLCard();
-        cardManagerDataPlay.LoadData();
     }
-    private void Start()
+    private void OnEnable()
     {
-        CardManagerData.LoadDataCardPlayer();
-        cardManagerALL.LoadDataCardPlayer();
+        //GuildManager.OnCardGuildUpdate += cardManagerDataPlay.LoadData;
+        PlayerManager.OnCardPlayerAwake += LoadCardPlayer;
+
+    }
+    private void OnDisable()
+    {
+        //GuildManager.OnCardGuildUpdate -= cardManagerDataPlay.LoadData;
+        PlayerManager.OnCardPlayerAwake -= LoadCardPlayer;
     }
     private void Update()
     {
@@ -71,19 +74,33 @@ public class CardManager : MonoBehaviour
             SaveGameData();
         }
     }
+    private bool hasLoaded = false;
+
+    private void LoadCardPlayer()
+    {
+        if (hasLoaded) return;
+        cardManagerALL.LoadDataCardPlayer();
+        cardManagerDataPlay.LoadCardData();
+        //CardManagerData.LoadDataCardPlayer();
+        Debug.Log("Load Card Player Function");
+
+        hasLoaded = true; 
+    }
+
     private void SaveGameData()
     {
-        cardManagerDataPlay.SaveData();
+        if (GuildManager.Instance.GuildJoined == null) return;
+        cardManagerDataPlay.SaveCardData();
         Debug.Log("Dữ liệu đã được lưu.");
     }
     //Take Card Class
     public void RemoveCardFromCardManager(CardCharacter cardTower)
     {
-        CardManager.Instance.CardManagerData.CardCharacters.Remove(cardTower);
+        CardManagerData.CardCharacters.Remove(cardTower);
     }
     public void AddCardToCardManager(CardCharacter cardTower)
     {
-        CardManager.Instance.CardManagerData.CardCharacters.Add(cardTower);
+        CardManagerData.CardCharacters.Add(cardTower);
 
     }
     public bool CheckCardPresenceInCardPlay(CardCharacter card)
