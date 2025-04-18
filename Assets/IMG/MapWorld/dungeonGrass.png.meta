@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bec2401cfba2a2c41b382c95b8a998d1
+guid: 7cfa2905772bac54da632d365399429d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -94,6 +94,19 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -110,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HighIceMountainChoosen_0
+      name: dungeonGrass_0
       rect:
         serializedVersion: 2
-        x: 672
-        y: 741
-        width: 382
-        height: 225
+        x: 13
+        y: 28
+        width: 517
+        height: 347
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5b76fe53a9656f4ca8466fd6bd580f1
-      internalID: -1574654630
+      spriteID: 7b28a4ff7fc5d8e45a47c271b08cc813
+      internalID: -37037026
       vertices: []
       indices: 
       edges: []
@@ -141,7 +154,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      HighIceMountainChoosen_0: -1574654630
+      dungeonGrass_0: -37037026
+      dungeonGrass_1: -218407446
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

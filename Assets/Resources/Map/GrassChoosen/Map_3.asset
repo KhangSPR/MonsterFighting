@@ -16,66 +16,41 @@ MonoBehaviour:
   boss: 0
   mapZone: II
   mapType: 0
-  Unlocked: 0
+  Unlocked: 1
   DifficultyMap:
-  - stars: 0
+  - stars: 1
     difficult: 0
     isReceivedReWard: 0
     Waves:
     - waveRandom:
         enemyRanDoms:
-        - TimeFirstSpawn: 6
-          EnemyType:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 1
-            timerMin: 3
-            timerMax: 4
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 2
-            timerMin: 3
-            timerMax: 5
         - TimeFirstSpawn: 2
           EnemyType:
-          - enemyTypeSO: {fileID: 0}
+          - enemyTypeSO: {fileID: 11400000, guid: 137c601c0a916c141bb3bd2de309c970, type: 2}
             countEnemy: 1
-            timerMin: 3
-            timerMax: 4
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 2
-            timerMin: 3
-            timerMax: 5
-        Portals:
-        - rarityPortal: 0
-          countPortal: 1
-          DelaySpawnFirstEnemy: 3
-          spawnTimeInSeconds:
-          - 8
-          hasBoss: 0
-          enemyTypes:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 1
-            timerMin: 2
-            timerMax: 4
+            timerMin: 5
+            timerMax: 10
+        Portals: []
       waveFinal:
         enemyRanDoms:
-        - TimeFirstSpawn: 2
+        - TimeFirstSpawn: 3
           EnemyType:
-          - enemyTypeSO: {fileID: 0}
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
             countEnemy: 1
             timerMin: 3
-            timerMax: 4
+            timerMax: 5
         Portals:
         - rarityPortal: 0
           countPortal: 1
-          DelaySpawnFirstEnemy: 3
+          DelaySpawnFirstEnemy: 1
           spawnTimeInSeconds:
-          - 1
+          - 4
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 0}
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
             countEnemy: 1
-            timerMin: 2
-            timerMax: 4
+            timerMin: 3
+            timerMax: 5
     Reward:
     - item: {fileID: 11400000, guid: fa05bb5dc35cee845aebc20b9517cbcc, type: 2}
       Count: 5
@@ -85,62 +60,68 @@ MonoBehaviour:
     Waves:
     - waveRandom:
         enemyRanDoms:
-        - TimeFirstSpawn: 0
-          EnemyType: []
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 4
         Portals:
         - rarityPortal: 0
-          countPortal: 2
+          countPortal: 1
           DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
           - 8
-          - 12
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 3
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
+            countEnemy: 1
             timerMin: 2
             timerMax: 4
       waveFinal:
-        enemyRanDoms: []
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
         Portals: []
     - waveRandom:
         enemyRanDoms:
-        - TimeFirstSpawn: 0
-          EnemyType: []
-        Portals:
-        - rarityPortal: 0
-          countPortal: 2
-          DelaySpawnFirstEnemy: 2
-          spawnTimeInSeconds:
-          - 24
-          - 40
-          hasBoss: 0
-          enemyTypes:
-          - enemyTypeSO: {fileID: 0}
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
             countEnemy: 3
-            timerMin: 2
-            timerMax: 4
+            timerMin: 1
+            timerMax: 2
+        Portals: []
       waveFinal:
         enemyRanDoms:
-        - TimeFirstSpawn: 3
+        - TimeFirstSpawn: 2
           EnemyType:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 5
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 137c601c0a916c141bb3bd2de309c970, type: 2}
+            countEnemy: 1
             timerMin: 3
             timerMax: 5
         Portals:
         - rarityPortal: 0
-          countPortal: 2
-          DelaySpawnFirstEnemy: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
           spawnTimeInSeconds:
-          - 1
-          - 3
+          - 2
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 5
-            timerMin: 3
-            timerMax: 5
+          - enemyTypeSO: {fileID: 11400000, guid: 48772571bc560154f9d8054c4a43d66c, type: 2}
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
     Reward:
     - item: {fileID: 11400000, guid: fa05bb5dc35cee845aebc20b9517cbcc, type: 2}
       Count: 10
@@ -150,78 +131,192 @@ MonoBehaviour:
     Waves:
     - waveRandom:
         enemyRanDoms:
-        - TimeFirstSpawn: 0
-          EnemyType: []
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
+            countEnemy: 2
+            timerMin: 1
+            timerMax: 2
         Portals:
         - rarityPortal: 0
           countPortal: 2
-          DelaySpawnFirstEnemy: 0
+          DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
-          - 4
-          - 7
+          - 8
+          - 12
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 3
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
+            countEnemy: 1
+            timerMin: 2
+            timerMax: 4
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: d91c1754633e5064f94734ae237557b8, type: 2}
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
+            countEnemy: 2
             timerMin: 1
-            timerMax: 3
-      waveFinal:
-        enemyRanDoms: []
-        Portals: []
-    - waveRandom:
-        enemyRanDoms:
-        - TimeFirstSpawn: 0
-          EnemyType: []
+            timerMax: 2
         Portals:
-        - rarityPortal: 0
-          countPortal: 3
-          DelaySpawnFirstEnemy: 3
+        - rarityPortal: 2
+          countPortal: 2
+          DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
-          - 20
-          - 31
-          - 36
+          - 8
+          - 12
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 5
+          - enemyTypeSO: {fileID: 11400000, guid: d91c1754633e5064f94734ae237557b8, type: 2}
+            countEnemy: 1
             timerMin: 2
-            timerMax: 3
+            timerMax: 4
       waveFinal:
-        enemyRanDoms: []
-        Portals: []
-    - waveRandom:
         enemyRanDoms:
-        - TimeFirstSpawn: 0
-          EnemyType: []
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
         Portals:
-        - rarityPortal: 0
-          countPortal: 3
+        - rarityPortal: 1
+          countPortal: 1
           DelaySpawnFirstEnemy: 3
           spawnTimeInSeconds:
-          - 45
-          - 55
-          - 65
+          - 2
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 5
-            timerMin: 2
-            timerMax: 3
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: a77576054fefc754d9a32e42339238a6, type: 2}
+            countEnemy: 4
+            timerMin: 1
+            timerMax: 2
+        Portals:
         - rarityPortal: 1
           countPortal: 2
-          DelaySpawnFirstEnemy: 3
+          DelaySpawnFirstEnemy: 2
           spawnTimeInSeconds:
-          - 67
-          - 71
+          - 8
+          - 12
           hasBoss: 0
           enemyTypes:
-          - enemyTypeSO: {fileID: 0}
-            countEnemy: 5
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
+            countEnemy: 3
             timerMin: 2
-            timerMax: 3
+            timerMax: 4
       waveFinal:
-        enemyRanDoms: []
-        Portals: []
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 0e08ed0f0bd0a46469ac5c68128585d3, type: 2}
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+        Portals:
+        - rarityPortal: 0
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
+    - waveRandom:
+        enemyRanDoms:
+        - TimeFirstSpawn: 4
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 1ed33f523ee46664ebef2d7a0f616dc7, type: 2}
+            countEnemy: 4
+            timerMin: 1
+            timerMax: 2
+        Portals:
+        - rarityPortal: 2
+          countPortal: 2
+          DelaySpawnFirstEnemy: 2
+          spawnTimeInSeconds:
+          - 8
+          - 12
+          hasBoss: 0
+          enemyTypes:
+          - enemyTypeSO: {fileID: 11400000, guid: 48772571bc560154f9d8054c4a43d66c, type: 2}
+            countEnemy: 3
+            timerMin: 2
+            timerMax: 4
+      waveFinal:
+        enemyRanDoms:
+        - TimeFirstSpawn: 2
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: 6de611323477b9542bb7f52d0cd73cab, type: 2}
+            countEnemy: 2
+            timerMin: 3
+            timerMax: 5
+        - TimeFirstSpawn: 1
+          EnemyType:
+          - enemyTypeSO: {fileID: 11400000, guid: d91c1754633e5064f94734ae237557b8, type: 2}
+            countEnemy: 1
+            timerMin: 3
+            timerMax: 5
+        Portals:
+        - rarityPortal: 1
+          countPortal: 1
+          DelaySpawnFirstEnemy: 3
+          spawnTimeInSeconds:
+          - 2
+          hasBoss: 0
+          enemyTypes:
+          - enemyTypeSO: {fileID: 11400000, guid: 48772571bc560154f9d8054c4a43d66c, type: 2}
+            countEnemy: 1
+            timerMin: 5
+            timerMax: 7
     Reward:
     - item: {fileID: 11400000, guid: fa05bb5dc35cee845aebc20b9517cbcc, type: 2}
       Count: 15

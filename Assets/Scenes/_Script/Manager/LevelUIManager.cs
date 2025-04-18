@@ -88,12 +88,15 @@ public class LevelUIManager : MonoBehaviour
     }
     public MapSO GetMapSO(int id, MapType mapType)
     {
-        foreach (MapSO mapSO in MapManager.Instance.MapArrayCurrent.MapSOArray)
+        foreach(MapArrayData mapArrayData in MapManager.Instance.MapArrayData)
         {
-            // Kiểm tra các thuộc tính của MapSO để tìm MapSO phù hợp
-            if (mapSO.id == id && mapSO.mapType == mapType)
+            foreach (MapSO mapSO in mapArrayData.MapSOArray)
             {
-                return mapSO;
+                // Kiểm tra các thuộc tính của MapSO để tìm MapSO phù hợp
+                if (mapSO.id == id && mapSO.mapType == mapType)
+                {
+                    return mapSO;
+                }
             }
         }
 
@@ -121,9 +124,14 @@ public class LevelUIManager : MonoBehaviour
             {
                 for (int i = 0; i < levelBtnHolderCount; i++)
                 {
-                    var levelPosition = lvPosition.GetChild(i).position;
-                    //Debug.Log(lvBtnHolder.childCount + " lvBtnHolder.childCount");
-                    var MapBtnClone = Instantiate(levelBtnPrefab, levelPosition, Quaternion.identity, lvBtnHolder); // khởi tạo MapBtn
+                    var levelTransform = lvPosition.GetChild(i);
+                    var levelPosition = levelTransform.position;
+                    var levelScale = levelTransform.localScale;
+
+                    var MapBtnClone = Instantiate(levelBtnPrefab, levelPosition, Quaternion.identity, lvBtnHolder);
+                    MapBtnClone.transform.localScale = levelScale; // Áp dụng scale
+
+
                     mapbtnGameObjects.Add(MapBtnClone);
                 }
             }

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using UIGameDataMap;
-using Unity.Collections;
 using UnityEngine;
 
 [System.Serializable]
@@ -13,7 +9,7 @@ public class AreasData
     public int areaIndex;
     public string areaName;
 
-    public List<LevelData> levelsData;
+    public List<LevelData> levelsData = new List<LevelData>();
 }
 
 [System.Serializable]

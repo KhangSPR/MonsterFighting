@@ -21,31 +21,40 @@ public class LevelSystemDataManager : MonoBehaviour
     {
         SaveAreasData();
     }
+    private void OnApplicationFocus(bool hasFocus) //APly Android
+    {
+        if (!hasFocus) // Mất tiêu điểm
+        {
+            
+        }
+    }
     #region Save LevelDataManager
-    private string savePath => Path.Combine(Application.persistentDataPath, "areasData.json");
     public void SaveAreasData()
     {
         SaveAreaDataFromMapSO();
 
         string jsonData = JsonUtility.ToJson(DatabaseAreaSO);
-        File.WriteAllText(savePath, jsonData);
-        Debug.Log("AreasData Saved");
+        PlayerPrefs.SetString("SavedAreasData", jsonData);
+        PlayerPrefs.Save();
+
+        Debug.Log("AreasData Saved to PlayerPrefs");
     }
     public void LoadAreasData()
     {
-        if (File.Exists(savePath))
+        if (PlayerPrefs.HasKey("SavedAreasData"))
         {
-            string jsonData = File.ReadAllText(savePath);
+            string jsonData = PlayerPrefs.GetString("SavedAreasData");
             JsonUtility.FromJsonOverwrite(jsonData, DatabaseAreaSO);
-            Debug.Log("AreasData Loaded");
+            Debug.Log("AreasData Loaded from PlayerPrefs");
 
             LoadMapSOFromAreaData();
         }
         else
         {
-            Debug.LogWarning("Save file not found.");
+            Debug.LogWarning("No saved data found!");
         }
     }
+
     #endregion
 
     private void Update()
@@ -68,50 +77,15 @@ public class LevelSystemDataManager : MonoBehaviour
             Debug.LogError("Only 1 LevelSystemManager Warning");
         }
         LevelSystemDataManager.instance = this;
-
-        LoadAreasData();
-        //LoadAreas();
     }
-
+    private void Start()
+    {
+        LoadAreasData();
+    }
     [ContextMenu("Reset Area Data")]
     public void ResetAreaData()
     {
         DatabaseAreaSO.Reset();
-    }
-    public void LoadAreas(Transform FullMap)
-    {
-        //var FullMap = GameObject.Find("FullMap").transform;
-        if (FullMap != null)
-        {
-            Debug.Log("Tìm thấy FullMap");
-            var Maps_Icon = FullMap.Find("Maps_Icon");
-            for (int i = 0; i < Maps_Icon.childCount; i++)
-            {
-                var icon = Maps_Icon.GetChild(i);
-                AreasData data = new AreasData();
-                data.areaIndex = i;
-                data.areaName = icon.name;
-
-
-                int levelCount = FullMap.Find("Maps").Find(data.areaName).Find("LvBtnHolder").Find("LvPostion").childCount;
-                for (int j = 0; j < levelCount; j++)
-                {
-                    global::LevelData levelData = new global::LevelData();
-                    levelData.levelIndex = j;
-                    levelData.levelName = j + "";
-                    levelData.isUnlocked = false;
-                    //levelData.starCount = 0;
-
-                    data.levelsData.Add(levelData);
-
-                }
-                //areasDatas.Add(data);
-
-                //global::LevelData levelData = new global::LevelData();
-
-                data.levelsData[0].isUnlocked = true;
-            }
-        }
     }
     private void LoadMapSOFromAreaData()
     {
@@ -291,46 +265,4 @@ public class LevelSystemDataManager : MonoBehaviour
 
 
 }
-//[Header("Bỏ Qua Phần Bên Dưới")]
-//private static LevelSystemManager instance;                             //instance variable
-//public static LevelSystemManager Instance { get => instance; }          //instance getter
 
-//[SerializeField] private LevelData levelData;
-
-//public LevelData LevelData { get => levelData; }   //getter
-
-//private int currentLevel;                                               //keep track of current level player is playing
-//public int CurrentLevel { get => currentLevel; set => currentLevel = value; }   //getter and setter for currentLevel
-
-
-
-//private void Update()
-//{
-//    if (Input.GetKeyDown(KeyCode.Space))
-//    {
-//        levelData.lastUnlockedLevel = 3;
-
-
-//        SaveLoadData.Instance.SaveData();
-//    }
-//}
-
-//private void OnEnable()
-//{
-
-
-
-//    SaveLoadData.Instance.Initialize();
-//}
-
-//public void LevelComplete(/*int starAchieved*/)                             //method called when player win the level
-//{
-//    //*            levelData.levelItemArray[currentLevel].starAchieved = starAchieved; *//*   //save the stars achieved by the player in level
-//    if (levelData.lastUnlockedLevel < (currentLevel + 1))
-//    {
-//        levelData.lastUnlockedLevel = currentLevel + 1;           //change the lastUnlockedLevel to next level
-//                                                                  //and make next level unlock true
-//        levelData.levelItemArray[levelData.lastUnlockedLevel].unlocked = true;
-//    }
-//}
-//}

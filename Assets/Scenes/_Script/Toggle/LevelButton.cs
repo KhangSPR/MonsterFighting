@@ -19,8 +19,9 @@ namespace UIGameDataMap
         [SerializeField] private GameObject objectAttack; // Object được thêm vào ObjectAttackManager
         [SerializeField] private Text zoneIndexText; // Text hiển thị số level
         [SerializeField] private Button btn; // Button level
+        [SerializeField] private Image dungeonBoss;
 
-        private int levelIndex; // Chỉ số của level hiện tại
+        [SerializeField] private int levelIndex; // Chỉ số của level hiện tại
         private const string GrassAreaName = "GrassChoosen";
         private const string LavaAreaName = "LavaChoosen";
 
@@ -82,6 +83,8 @@ namespace UIGameDataMap
         #region Core Logic
         public void SetLevelButton(string areaName)
         {
+            Debug.Log("AAAA: " + areaName);
+
             int areaIndex = GetAreaIndex(areaName);
             bool isUnlocked = IsLevelUnlocked(areaIndex, levelIndex);
 
@@ -90,12 +93,20 @@ namespace UIGameDataMap
                 SetUnlockedUI();
                 mapDataSO = LevelUIManager.Instance.GetMapSO(levelIndex, GetMapType(areaName));
                 levelInfo = LevelUIManager.Instance.LevelInfo;
+                zoneIndexText.text = mapDataSO.mapZone;
                 changeDifficultMapInfos = LevelUIManager.Instance.ChangeDifficultMap;
 
                 if (LevelUIManager.Instance.CurrentLevelButton == this)
                 {
                     OnClick();
                 }
+                if(mapDataSO != null && mapDataSO.boss)
+                {
+                    zoneIndexText.gameObject.SetActive(false);
+                    dungeonBoss.sprite = MapManager.Instance.SpriteBossHide[areaIndex];
+                    dungeonBoss.gameObject.SetActive(true);
+                }
+
             }
             else
             {

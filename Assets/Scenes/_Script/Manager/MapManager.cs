@@ -44,6 +44,8 @@ namespace UIGameDataMap
 
         [SerializeField] private MapSO _mapSOCurrent;
         public MapSO MapSOCurrent => _mapSOCurrent;
+        [SerializeField] private Sprite[] spriteBossHide;
+        public Sprite[] SpriteBossHide => spriteBossHide;
         public void SetMapSOCurrent()
         {
             if (m_MapSOCurrentIndex == -1) m_MapSOCurrentIndex = 0;
