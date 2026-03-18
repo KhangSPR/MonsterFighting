@@ -55,7 +55,7 @@ public class CardManagerData : ScriptableObject
 
     public void LoadDataCardPlayer()
     {
-        cardCharacter.Insert(0, PlayerManager.Instance.CardCurrentPlayer);
+        //cardCharacter.Insert(0, PlayerManager.Instance.CardCurrentPlayer);
     }
 
 }

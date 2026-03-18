@@ -314,24 +314,24 @@ public class MainQuestCtrl : MonoBehaviour
     }
     public bool CheckPVPQuest(MainQuestCtrl mainQuestCtrl)
     {
-        if (PlayerManager.Instance.LvPlayer < 5)
-        {
-            //LOCK
-            mainQuestCtrl.NameQuestRequiredMain = "Not Enough Level 5";
-            mainQuestCtrl.IsCheckMain = false;
-            mainQuestCtrl.lockObj.SetActive(true);
-            mainQuestCtrl.TMP_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
-            return false;
-        }
-        else
-        {
+        //if (PlayerManager.Instance.LvPlayer < 5)
+        //{
+        //    //LOCK
+        //    mainQuestCtrl.NameQuestRequiredMain = "Not Enough Level 5";
+        //    mainQuestCtrl.IsCheckMain = false;
+        //    mainQuestCtrl.lockObj.SetActive(true);
+        //    mainQuestCtrl.TMP_Text.color = new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f);
+        //    return false;
+        //}
+        //else
+        //{
             //UNLOCK
             mainQuestCtrl.IsCheckMain = true;
             mainQuestCtrl.lockObj.SetActive(false);
             mainQuestCtrl.TMP_Text.color = new Color(1, 1, 1, 1);
             return true;
 
-        }
+        //}
 
     }
     private void UpdateQuestLockState(bool isLocked, string questName = null)

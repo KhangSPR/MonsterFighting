@@ -18,7 +18,6 @@ public class DialogUI : MonoBehaviour {
     [SerializeField] Transform actorNameRightContainerUI;
     [SerializeField] Button continueBtn;
     [SerializeField] Transform DialogHolder;
-    [SerializeField] Transform ChooseCharacter;
 
     [SerializeField] Color activeColor;
     [SerializeField] Color unactiveColor;
@@ -116,7 +115,6 @@ public class DialogUI : MonoBehaviour {
         if (currentDialog.index ==  currentDialog.indexChooseAvatar)
         {
             Debug.Log("Call Next");
-            ChooseCharacter.gameObject.SetActive(true);
             //currentDialog.onCompleted?.Invoke();
             ++currentDialog.index;
             HideDialog();
@@ -135,30 +133,12 @@ public class DialogUI : MonoBehaviour {
             LoadDialogLine(index);
         }
     }
-    public void ChooseNext(CardPlayer player) //Male or FeMale
+    public void ChooseNext(CardCharacter player) //Male or FeMale
     {
-        ShowGenders(player);
 
         ShowDialog();
 
         LoadDialogLine(currentDialog.index);
-    }
-    private void ShowGenders(CardPlayer player)
-    {
-        if(player.Genders == GendersType.Male)
-        {
-            currentDialog.lines[currentDialog.indexChooseAvatar +1].content = "My son, the kingdom needs you! Protect our people and defeat the Slime King!";
-        }
-        else
-        {
-            currentDialog.lines[currentDialog.indexChooseAvatar +1].content = "My daughter, our hope lies with you! Be brave and restore peace to the kingdom!";
-        }
-
-        PlayerManager.Instance.GendersType = player.Genders;
-
-        currentDialog.lines[currentDialog.indexChooseAvatar + 1].rightActor.name = player.name;
-        currentDialog.lines[currentDialog.indexChooseAvatar + 1].rightActor.avatar = player.ModlePlayer;
-
     }
 
     public void DisplayDialog(DialogObject dialog){

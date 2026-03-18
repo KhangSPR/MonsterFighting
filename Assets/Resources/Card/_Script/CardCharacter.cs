@@ -6,9 +6,7 @@ namespace UIGameDataManager
 {
     public enum CharacterCategory
     {
-        Default,
-        Player,
-
+        Default
     }
     public enum AttackCategory
     {

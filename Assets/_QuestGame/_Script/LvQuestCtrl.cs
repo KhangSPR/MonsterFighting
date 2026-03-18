@@ -200,12 +200,12 @@ public class LvQuestCtrl : MonoBehaviour
     }
     public void CheckPlayerLV(int level, LvQuestCtrl lvQuestCtrl)
     {
-        bool isLocked = level > PlayerManager.Instance.LvPlayer;
-        Color textColor = isLocked
-            ? new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f)
-            : Color.white;
+        //bool isLocked = level > PlayerManager.Instance.LvPlayer;
+        //Color textColor = isLocked
+        //    ? new Color(207 / 255f, 198 / 255f, 198 / 255f, 1f)
+        //    : Color.white;
 
-        lvQuestCtrl.UpdateLockState(isLocked, textColor);
+        //lvQuestCtrl.UpdateLockState(isLocked, textColor);
     }
     private void UpdateLockState(bool isLocked, Color textColor)
     {

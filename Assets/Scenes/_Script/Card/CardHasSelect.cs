@@ -29,7 +29,7 @@ public class CardHasSelect : MonoBehaviour
     }
     void RemoveCard()
     {
-        if (cardTower == PlayerManager.Instance.CardCurrentPlayer) return;
+        //if (cardTower == PlayerManager.Instance.CardCurrentPlayer) return;
         CardManager.Instance.RemoveCardFromCardManager(cardTower);
         CardManager.Instance.RemovePanel(this);
     }

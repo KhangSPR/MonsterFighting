@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Object_ShakeTransfrom : MonoBehaviour
 {
-    public Transform shakeTarget; // Đối tượng mà bạn muốn rung
+    public RectTransform shakeTarget; // Đối tượng mà bạn muốn rung
     public float shakeAmount = 0.3f;
     public float shakeDuration = 0.5f;
     public float recoverySpeed = 2f; // Tốc độ hồi phục
@@ -12,10 +12,10 @@ public class Object_ShakeTransfrom : MonoBehaviour
 
     void Start()
     {
-        if (shakeTarget == null)
-        {
-            shakeTarget = transform; // Nếu chưa chỉ định, sử dụng chính đối tượng chứa script này
-        }
+        //if (shakeTarget == null)
+        //{
+        //    shakeTarget = transform.position; // Nếu chưa chỉ định, sử dụng chính đối tượng chứa script này
+        //}
 
         originalPos = shakeTarget.position; // Lưu vị trí ban đầu của đối tượng
     }

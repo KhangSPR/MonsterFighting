@@ -50,111 +50,111 @@ public class SkillInfo : MonoBehaviour
     [SerializeField] TMP_Text _lvClick;
 
     //Cardcurrent
-    CardPlayer cardPlayer;
+    //CardPlayer cardPlayer;
 
     [SerializeField] float animationDuration = 0.5f; // Thời gian hiệu ứng
-    private void OnEnable()
-    {
-        PlayerManager.OnSkillLvBefore += OnSetupBeforeInfo;
-        PlayerManager.OnSkillLvAfter += OnSetupAfterInfo;
-    }
-    private void OnDisable()
-    {
-        PlayerManager.OnSkillLvBefore -= OnSetupBeforeInfo;
-        PlayerManager.OnSkillLvAfter -= OnSetupAfterInfo;
-    }
+    //private void OnEnable()
+    //{
+    //    PlayerManager.OnSkillLvBefore += OnSetupBeforeInfo;
+    //    PlayerManager.OnSkillLvAfter += OnSetupAfterInfo;
+    //}
+    //private void OnDisable()
+    //{
+    //    PlayerManager.OnSkillLvBefore -= OnSetupBeforeInfo;
+    //    PlayerManager.OnSkillLvAfter -= OnSetupAfterInfo;
+    //}
     private void Start()
     {
-        if(_btnDialogLabel != null)
-            _btnDialogLabel.onClick.AddListener(ShowNotification);
-        if(_btnOKLVUpLabel != null) 
-            _btnOKLVUpLabel.onClick.AddListener(ActiveFalse);
-        if (_btnOnClickAvatarLabel != null)
-            _btnOnClickAvatarLabel.onClick.AddListener(OnClickAvatar);
+        //if(_btnDialogLabel != null)
+        //    _btnDialogLabel.onClick.AddListener(ShowNotification);
+        //if(_btnOKLVUpLabel != null) 
+        //    _btnOKLVUpLabel.onClick.AddListener(ActiveFalse);
+        //if (_btnOnClickAvatarLabel != null)
+        //    _btnOnClickAvatarLabel.onClick.AddListener(OnClickAvatar);
     }
     #region Dialog
-    public void SetDiaLog(CardPlayer cardPlayer)
-    {
-        this.cardPlayer = cardPlayer;
+    //public void SetDiaLog(CardPlayer cardPlayer)
+    //{
+    //    this.cardPlayer = cardPlayer;
 
-        _levelLabel.text = "Level" + PlayerManager.Instance.LvPlayer;
-        _nameLabel.text = cardPlayer.nameCard.ToString();
+    //    _levelLabel.text = "Level" + PlayerManager.Instance.LvPlayer;
+    //    _nameLabel.text = cardPlayer.nameCard.ToString();
 
-        _hpLabel.text = "HP: " + cardPlayer.CharacterStats.Life;
-        _attackLabel.text = "Attack: " + cardPlayer.CharacterStats.Attack;
-        _deffLabel.text = "Deffend: " + cardPlayer.CharacterStats.Deff;
-        _speedAttackLabel.text = "SpeedAttack: " + cardPlayer.CharacterStats.AttackSpeed;
-        _manaLabel.text = "Mana: " + cardPlayer.CharacterStats.Mana;
-        _recoverLabel.text = "RecoverMana: " + cardPlayer.CharacterStats.RecoverMana;
+    //    _hpLabel.text = "HP: " + cardPlayer.CharacterStats.Life;
+    //    _attackLabel.text = "Attack: " + cardPlayer.CharacterStats.Attack;
+    //    _deffLabel.text = "Deffend: " + cardPlayer.CharacterStats.Deff;
+    //    _speedAttackLabel.text = "SpeedAttack: " + cardPlayer.CharacterStats.AttackSpeed;
+    //    _manaLabel.text = "Mana: " + cardPlayer.CharacterStats.Mana;
+    //    _recoverLabel.text = "RecoverMana: " + cardPlayer.CharacterStats.RecoverMana;
 
-        _skillLabel.text = "Skill: " + cardPlayer.skill1.skillName;
-        _specialLabel.text = "Special: " + cardPlayer.skill2.skillName;
-    }
-    private void ShowNotification()
-    {
-        notification.cardPlayer = cardPlayer;
+    //    _skillLabel.text = "Skill: " + cardPlayer.skill1.skillName;
+    //    _specialLabel.text = "Special: " + cardPlayer.skill2.skillName;
+    //}
+    //private void ShowNotification()
+    //{
+    //    notification.cardPlayer = cardPlayer;
 
-        notification.gameObject.SetActive(true);
-    }
+    //    notification.gameObject.SetActive(true);
+    //}
     #endregion
-    public void OnClickAvatar()
-    {
-        this.OnDootWAnimation();
-        this.UpdateIconClan();
-        this.ShowGameObject(false);
+    //public void OnClickAvatar()
+    //{
+    //    this.OnDootWAnimation();
+    //    this.UpdateIconClan();
+    //    this.ShowGameObject(false);
 
-        CardPlayer cardPlayer = PlayerManager.Instance.CardCurrentPlayer;
+    //    CardPlayer cardPlayer = PlayerManager.Instance.CardCurrentPlayer;
 
-        _lvClick.text = "Level" + PlayerManager.Instance.LvPlayer;
-        _nameLabel.text = cardPlayer.nameCard.ToString();
+    //    _lvClick.text = "Level" + PlayerManager.Instance.LvPlayer;
+    //    _nameLabel.text = cardPlayer.nameCard.ToString();
 
-        _hpLabel.text = "HP: " + cardPlayer.CharacterStats.Life;
-        _attackLabel.text = "Attack: " + cardPlayer.CharacterStats.Attack;
-        _deffLabel.text = "Deffend: " + cardPlayer.CharacterStats.Deff;
-        _speedAttackLabel.text = "SpeedAttack: " + cardPlayer.CharacterStats.AttackSpeed;
-        _manaLabel.text = "Mana: " + cardPlayer.CharacterStats.Mana;
-        _recoverLabel.text = "RecoverMana: " + cardPlayer.CharacterStats.RecoverMana;
+    //    _hpLabel.text = "HP: " + cardPlayer.CharacterStats.Life;
+    //    _attackLabel.text = "Attack: " + cardPlayer.CharacterStats.Attack;
+    //    _deffLabel.text = "Deffend: " + cardPlayer.CharacterStats.Deff;
+    //    _speedAttackLabel.text = "SpeedAttack: " + cardPlayer.CharacterStats.AttackSpeed;
+    //    _manaLabel.text = "Mana: " + cardPlayer.CharacterStats.Mana;
+    //    _recoverLabel.text = "RecoverMana: " + cardPlayer.CharacterStats.RecoverMana;
 
-        _skillLabel.text = "Skill: " + cardPlayer.skill1.skillName;
-        _specialLabel.text = "Special: " + cardPlayer.skill2.skillName;
-    }
-    private void OnSetupBeforeInfo(CardPlayer cardPlayer)
-    {
-        this.OnDootWAnimation();
-        this.UpdateIconClan();
-        this.ShowGameObject(true);
+    //    _skillLabel.text = "Skill: " + cardPlayer.skill1.skillName;
+    //    _specialLabel.text = "Special: " + cardPlayer.skill2.skillName;
+    //}
+    //private void OnSetupBeforeInfo(CardPlayer cardPlayer)
+    //{
+    //    this.OnDootWAnimation();
+    //    this.UpdateIconClan();
+    //    this.ShowGameObject(true);
 
-        this.cardPlayer = cardPlayer;
+    //    this.cardPlayer = cardPlayer;
 
-        _levelLabel.text = "Level" + (PlayerManager.Instance.LvPlayer - 1).ToString();
-        _nameLabel.text = cardPlayer.nameCard.ToString();
+    //    _levelLabel.text = "Level" + (PlayerManager.Instance.LvPlayer - 1).ToString();
+    //    _nameLabel.text = cardPlayer.nameCard.ToString();
 
-        _hpLabel.text = "HP: " + cardPlayer.CharacterStats.Life;
-        _attackLabel.text = "Attack: " + cardPlayer.CharacterStats.Attack;
-        _deffLabel.text = "Deffend: " + cardPlayer.CharacterStats.Deff;
-        _speedAttackLabel.text = "SpeedAttack: " + cardPlayer.CharacterStats.AttackSpeed;
-        _manaLabel.text = "Mana: " + cardPlayer.CharacterStats.Mana;
-        _recoverLabel.text = "RecoverMana: " + cardPlayer.CharacterStats.RecoverMana;
+    //    _hpLabel.text = "HP: " + cardPlayer.CharacterStats.Life;
+    //    _attackLabel.text = "Attack: " + cardPlayer.CharacterStats.Attack;
+    //    _deffLabel.text = "Deffend: " + cardPlayer.CharacterStats.Deff;
+    //    _speedAttackLabel.text = "SpeedAttack: " + cardPlayer.CharacterStats.AttackSpeed;
+    //    _manaLabel.text = "Mana: " + cardPlayer.CharacterStats.Mana;
+    //    _recoverLabel.text = "RecoverMana: " + cardPlayer.CharacterStats.RecoverMana;
 
-        _skillLabel.text = "Skill: " + cardPlayer.skill1.skillName;
-        _specialLabel.text = "Special: " + cardPlayer.skill2.skillName;
-    }
-    private void OnSetupAfterInfo(CardPlayer cardPlayer)
-    {
-        _levelUPLabel.text = "Level" + PlayerManager.Instance.LvPlayer;
+    //    _skillLabel.text = "Skill: " + cardPlayer.skill1.skillName;
+    //    _specialLabel.text = "Special: " + cardPlayer.skill2.skillName;
+    //}
+    //private void OnSetupAfterInfo(CardPlayer cardPlayer)
+    //{
+    //    _levelUPLabel.text = "Level" + PlayerManager.Instance.LvPlayer;
 
-        _nameLabel.text = cardPlayer.nameCard.ToString();
+    //    _nameLabel.text = cardPlayer.nameCard.ToString();
 
-        _hpLvUPLabel.text = "HP: " + cardPlayer.CharacterStats.Life;
-        _attackLvUPLabel.text = "Attack: " + cardPlayer.CharacterStats.Attack;
-        _deffLvUPLabel.text = "Deffend: " + cardPlayer.CharacterStats.Deff;
-        _speedAttackLvUPLabel.text = "SpeedAttack: " + cardPlayer.CharacterStats.AttackSpeed;
-        _manaLvUPLabel.text = "Mana: " + cardPlayer.CharacterStats.Mana;
-        _recoverLvUPLabel.text = "RecoverMana: " + cardPlayer.CharacterStats.RecoverMana;
+    //    _hpLvUPLabel.text = "HP: " + cardPlayer.CharacterStats.Life;
+    //    _attackLvUPLabel.text = "Attack: " + cardPlayer.CharacterStats.Attack;
+    //    _deffLvUPLabel.text = "Deffend: " + cardPlayer.CharacterStats.Deff;
+    //    _speedAttackLvUPLabel.text = "SpeedAttack: " + cardPlayer.CharacterStats.AttackSpeed;
+    //    _manaLvUPLabel.text = "Mana: " + cardPlayer.CharacterStats.Mana;
+    //    _recoverLvUPLabel.text = "RecoverMana: " + cardPlayer.CharacterStats.RecoverMana;
 
-        _skillLabel.text = "Skill: " + cardPlayer.skill1.skillName;
-        _specialLabel.text = "Special: " + cardPlayer.skill2.skillName;
-    }
+    //    _skillLabel.text = "Skill: " + cardPlayer.skill1.skillName;
+    //    _specialLabel.text = "Special: " + cardPlayer.skill2.skillName;
+    //}
     private void UpdateIconClan()
     {
         GuildSO guildSo = GuildManager.Instance.GuildJoined;

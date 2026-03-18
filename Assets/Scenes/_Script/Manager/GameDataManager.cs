@@ -344,7 +344,7 @@ namespace UIGameDataManager
                     m_GameData.ruby += (uint)resources.Count;
                     break;
                 case CurrencyType.XP:
-                    PlayerManager.Instance.AddXP((uint)resources.Count);
+                    //PlayerManager.Instance.AddXP((uint)resources.Count);
                     break;
                 case CurrencyType.Watch:
                     break;

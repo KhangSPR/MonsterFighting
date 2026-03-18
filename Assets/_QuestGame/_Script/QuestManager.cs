@@ -102,10 +102,10 @@ public class QuestManager : SaiMonoBehaviour
         {
             if(_quest is MainQuestSO mainQuestSO)
             {
-                if(mainQuestSO.requiredLevel <= PlayerManager.Instance.LvPlayer)
-                {
-                    _quest.isReceived = true;
-                }
+                //if(mainQuestSO.requiredLevel <= PlayerManager.Instance.LvPlayer)
+                //{
+                //    _quest.isReceived = true;
+                //}
             }
         }
     }

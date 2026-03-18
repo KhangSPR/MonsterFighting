@@ -162,14 +162,14 @@ namespace UIGameDataManager
                 Debug.Log("Card UI Machine");
             }
         }
-        public void UpdateRarityCardPlayer(CardPlayer cardPlayer)
+        public void UpdateRarityCardPlayer(CardCharacter cardPlayer)
         {
             foreach(CardUITower card in m_CardUITowerList)
             {
                 CharacterData characterData = card.transform.GetComponent<CharacterData>();
                 if(characterData != null)
                 {
-                    if(characterData.CharacterBaseData is CardPlayer)
+                    if(characterData.CharacterBaseData is CardCharacter)
                     {
                         card.SetCardInfo(cardPlayer);
                         return;

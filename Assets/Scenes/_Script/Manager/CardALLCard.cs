@@ -60,35 +60,35 @@ public class CardALLCard : ScriptableObject
     }
     public void LoadDataCardPlayer()
     {
-        cardCharacters.Insert(0, PlayerManager.Instance.CardCurrentPlayer);
-        this.AddCardPlayer();
+        //cardCharacters.Insert(0, PlayerManager.Instance.CardCurrentPlayer);
+        //this.AddCardPlayer();
     }
     //Add Card Player
-    private void AddCardPlayer() //Only 1 Guild
-    {
-        CardPlayer[] cardPlayers = Resources.LoadAll<CardPlayer>(resPathCardPlayer);
+    //private void AddCardPlayer() //Only 1 Guild
+    //{
+    //    CardPlayer[] cardPlayers = Resources.LoadAll<CardPlayer>(resPathCardPlayer);
 
-        foreach(CardPlayer cardPlayer in cardPlayers)
-        {
-            if(!HandleCardPlayer(cardPlayer))
-            {
-                continue;
-            }
-            cardCharacters.Insert(1, cardPlayer);
-        }
-    }
-    private bool HandleCardPlayer(CardPlayer cardPlayer)
-    {
-        if(PlayerManager.Instance.CardCurrentPlayer == null)
-        {
-            Debug.LogError("CardCurrentPlayer PlayerManager == null!");
-        }
-        if(cardPlayer == PlayerManager.Instance.CardCurrentPlayer)
-        {
-            return false;
-        }
-        return true;
-    }
+    //    foreach(CardPlayer cardPlayer in cardPlayers)
+    //    {
+    //        if(!HandleCardPlayer(cardPlayer))
+    //        {
+    //            continue;
+    //        }
+    //        cardCharacters.Insert(1, cardPlayer);
+    //    }
+    //}
+    //private bool HandleCardPlayer(CardPlayer cardPlayer)
+    //{
+    //    if(PlayerManager.Instance.CardCurrentPlayer == null)
+    //    {
+    //        Debug.LogError("CardCurrentPlayer PlayerManager == null!");
+    //    }
+    //    if(cardPlayer == PlayerManager.Instance.CardCurrentPlayer)
+    //    {
+    //        return false;
+    //    }
+    //    return true;
+    //}
 }
 
 
